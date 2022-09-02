@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import rimraf from 'rimraf';
-import { exitProcess, help, newErrorArgs, notes } from './process-utils';
-import { exist } from './unique-names';
+import { exitProcess, help, newErrorArgs, notes } from './utils/process-utils';
+import { exist } from './utils/unique-names';
 
 type StartArgs = {
     files: string[];
