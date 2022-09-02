@@ -1,0 +1,28 @@
+{
+    "name": "pmdc",
+    "version": "1.0.0",
+    "author": "Max Zakharzhevskiy",
+    "description": "Password manager domain credential switch utility",
+    "license": "MIT",
+    "main": "index.js",
+    "keywords": [
+        "utility",
+        "javascript",
+        "typescript"
+    ],
+    "scripts": {
+        "dev": "tsc",
+        "build": "rm -rf dist && tsc",
+        "makebin": "yarn build && pkg -t host -o pmdc dist/index.js"
+    },
+    "dependencies": {
+        "chalk": "5.0.1",
+        "minimist": "^1.2.5",
+        "rimraf": "^3.0.2"
+    },
+    "devDependencies": {
+        "@types/chalk": "2.2.0",
+        "@types/node": "18.7.14",
+        "@types/rimraf": "^3.0.0"
+    }
+}
