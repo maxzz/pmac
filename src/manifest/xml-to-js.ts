@@ -1,3 +1,5 @@
+import path from "path";
+/*
 import { FileUs } from '../store-types';
 import { XMLParser } from 'fast-xml-parser';
 import { J2xParser } from '@/utils/json2xml';
@@ -45,3 +47,9 @@ export function convertToXml(fileUs: FileUs): { error: string; xml?: undefined; 
 
     return { xml };
 }
+*/
+
+
+// export function convertToXml(fileUs: FileUs): { error: string; xml?: undefined; } | { xml: string; error?: undefined; } {
+//     return {xml: ''}
+// }

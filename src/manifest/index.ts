@@ -27,9 +27,9 @@ export {
     TransformValue,
 } from './mani-functions';
 
-export {
-    convertToXml,
-} from './xml-to-js';
+// export {
+//     convertToXml,
+// } from './xml-to-js';
 
 export type {
     References,
