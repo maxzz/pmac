@@ -8,25 +8,18 @@ import { help, notes } from './utils/help';
 import { osStuff } from './utils/utils-os';
 import { filterByExtension, getParentFolder } from './utils/utils-app';
 
-type StartArgs = {
+type Targets = {
     files: string[];
     dirs: string[];
-    singleTm?: boolean; // In this case run dir on parent of 'tm' folder.
 };
 
-function getAndCheckArg(): StartArgs {
+function getAndCheckTargets(): Targets {
     let args = require('minimist')(process.argv.slice(2), {
     });
 
-    // console.log(`args ${JSON.stringify(args, null, 4)}`);
-    // await exitProcess(0, '');
-
     let argTargets: string[] = args._ || [];
 
-    let rv: { files: string[], dirs: string[], } = {
-        files: [],
-        dirs: [],
-    };
+    let rv: Targets = { files: [], dirs: [], };
 
     for (let target of argTargets) {
         let current: string = path.resolve(target); // relative to the start up folder
@@ -45,16 +38,11 @@ function getAndCheckArg(): StartArgs {
     return rv;
 }
 
-async function checkArgs({ files, dirs }: StartArgs) {
+async function checkArgs({ files, dirs }: Targets) {
 
     //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);
     //help(); return;
     //await exitProcess(0, '');
-
-    if (files.length && dirs.length) {
-        throw newErrorArgs('Nothing done:\nSpecify the folder name or file names, but not both.');
-    }
-
 }
 
 function processFiles(fnames: string[]) {
@@ -63,9 +51,11 @@ function processFiles(fnames: string[]) {
 }
 
 async function main() {
-    let targets: StartArgs = getAndCheckArg();
+    let targets: Targets = getAndCheckTargets();
 
-    await checkArgs(targets);
+    if (targets.files.length && targets.dirs.length) {
+        throw newErrorArgs('Nothing done:\nSpecify the folder name or file names, but not both.');
+    }
 
     if (targets.files.length) {
         const ourFiles = filterByExtension(targets.files, '.dpm');
