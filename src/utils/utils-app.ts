@@ -3,7 +3,7 @@ import fs from "fs";
 import { buildManiMetaForms, Mani, Meta, parseXMLFile } from "../manifest";
 import { notes } from "./help";
 import chalk from "chalk";
-import { removeQuery, urlDomain } from "../manifest/url";
+import { removeQuery, tmurl, urlDomain } from "../manifest/url";
 
 export function filterByExtension(fnames: string[], ext: string): string[] {
     return fnames.filter((item) => path.extname(item).toLowerCase() === ext);
@@ -26,6 +26,7 @@ type FormUrls = {
     m?: string;
     oDomain?: string;
     oWoParms?: string;
+    oPath?: string;
 };
 
 export type FileMeta = {
@@ -47,8 +48,39 @@ function getFormUrls(form: Meta.Form | undefined): FormUrls {
         rv.o = detection.web_ourl;
         rv.m = detection.web_murl;
         if (rv.o) {
-            rv.oDomain = urlDomain(rv.o);
-            rv.oWoParms = removeQuery(rv.o);
+            const org = rv.o.toLowerCase();
+            const u = tmurl.url(org);
+            rv.oDomain = u.domain || u.hostname || u.path || '';
+            rv.oWoParms = (org || '').split('?')[0].split('#')[0].split('!')[0];
+            rv.oPath = u.path;
+
+            // separated by '!'
+            // https://clientconnect.checkfree.com/wps/portal/home/cc2login/!ut/p/z1/04_sj9cpykssy0xplmnmz0vmafijo8ziawitxd0sna18_aomza0cqwmnteitniwnlmz0wwkpiajkg-aajgza_vfyldgaoauzafubupsbyvwaykzbborbpqoiigcgieac/dz/d5/l2dbisevz0fbis9nqseh/
+            // https://www.parnorthamerica.biz/wps/portal/evipr/!ut/p/b0/04_sj9cpykssy0xplmnmz0vmafgjzoid_z2c3dzc_ai9hm2mdtxdjj3cwrwcdcz8dpqlsh0vauizkaa!/
+
+            //const a = '[\!\#\$\&\'\(\)\*\+\,\/\:\;\=\?\@\[\]]';
+
+            // !
+            // #
+            // $
+            // &
+            // '
+            // (
+            // )
+            // *
+            // +
+            // ,
+            // /
+            // :
+            // ;
+            // =
+            // ?
+            // @
+            // [
+            // ]
+
+            // rv.oDomain = urlDomain(rv.o).toLowerCase();
+            // rv.oWoParms = removeQuery(rv.o).toLowerCase();
         }
     }
     return rv;
@@ -79,10 +111,11 @@ export function loadManifests(fnames: string[]): LoadedManifests {
 export function printLoaded(loadedManifests: LoadedManifests) {
 
     loadedManifests.files.forEach((file) => {
-        if (file.urls[0]?.oWoParms || file.urls[1]?.oWoParms) {
+        const [a, b] = [file.urls[0]?.oWoParms, file.urls[1]?.oWoParms];
+        if (a || b) {
             notes.add('--------------------------------');
-            file.urls[0].oWoParms && notes.add(`    0: ${chalk.green(file.urls[0].oWoParms)}`);
-            file.urls[1].oWoParms && notes.add(`    1: ${chalk.green(file.urls[1].oWoParms)}`);
+            a && notes.add(`    0: ${chalk.green(a)}`);
+            b && notes.add(`    1: ${chalk.green(b)}`);
         }
     });
 
