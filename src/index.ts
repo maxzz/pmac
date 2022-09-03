@@ -5,26 +5,36 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
-import { buildManiMetaForms, parseXMLFile } from './manifest';
+import { buildManiMetaForms, Mani, Meta, parseXMLFile } from './manifest';
+import { loadManifests } from './utils/utils-app';
 
 function processFiles(fnames: string[]) {
 
     //console.log(`targets ${JSON.stringify(fnames, null, 4)}`);
 
-    for (const file of fnames) {
-        const cnt = fs.readFileSync(file).toString();
-        const { mani } = parseXMLFile(cnt);
+    const loadedManifests = loadManifests(fnames);
 
-        const forms = buildManiMetaForms(mani);
+    loadedManifests.files.forEach((file) => {
 
-        notes.add(
-            mani?.forms?.[0].detection?.web_ourl
-                ? chalk.green(mani?.forms?.[0].detection?.web_ourl)
-                : chalk.red(mani?.forms?.[0].detection?.web_ourl)
-        );
+        const detectionA = file?.mani?.forms?.[0]?.detection;
+        const detectionB = file?.mani?.forms?.[1]?.detection;
 
-        //console.log(`mani\n${JSON.stringify(mani, null, 4)}`);
-    }
+        if (detectionA?.web_ourl || detectionB?.web_ourl) {
+            notes.add('--------------------------------');
+            detectionA?.web_ourl && notes.add(`    0: ${chalk.green(detectionA?.web_ourl)}`);
+            detectionB?.web_ourl && notes.add(`    1: ${chalk.green(detectionB?.web_ourl)}`);
+        }
+    });
+
+    loadedManifests.empty.forEach((file) => {
+        notes.add(chalk.bgBlue.green(`empty --------------------------------${path.basename(file)}`));
+    });
+
+    loadedManifests.failed.forEach((file) => {
+        notes.add(chalk.bgBlue.green(`failed --------------------------------${path.basename(file)}`));
+    });
+
+    //console.log(`mani\n${JSON.stringify(mani, null, 4)}`);
 }
 
 async function main() {
