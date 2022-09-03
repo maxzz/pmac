@@ -3,7 +3,7 @@ import fs from "fs";
 import { buildManiMetaForms, Mani, Meta, parseXMLFile } from "../manifest";
 import { notes } from "./help";
 import chalk from "chalk";
-import { urlDomain } from "../manifest/url";
+import { removeQuery, urlDomain } from "../manifest/url";
 
 export function filterByExtension(fnames: string[], ext: string): string[] {
     return fnames.filter((item) => path.extname(item).toLowerCase() === ext);
@@ -21,9 +21,17 @@ export function getParentFolder(fnames: string[]): string | undefined {
     return keys.length === 1 ? keys[0] : undefined;
 }
 
+type FormUrls = {
+    o?: string;
+    m?: string;
+    oDomain?: string;
+    oWoParms?: string;
+};
+
 export type FileMeta = {
     mani: Mani.Manifest;
     forms: Meta.Form[];
+    urls: FormUrls[];
 };
 
 export type LoadedManifests = {
@@ -31,6 +39,20 @@ export type LoadedManifests = {
     empty: string[];
     failed: string[];
 };
+
+function getFormUrls(form: Meta.Form | undefined): FormUrls {
+    const rv: FormUrls = {};
+    const detection = form?.mani?.detection;
+    if (detection) {
+        rv.o = detection.web_ourl;
+        rv.m = detection.web_murl;
+        if (rv.o) {
+            rv.oDomain = urlDomain(rv.o);
+            rv.oWoParms = removeQuery(rv.o);
+        }
+    }
+    return rv;
+}
 
 export function loadManifests(fnames: string[]): LoadedManifests {
     const rv: LoadedManifests = { files: [], empty: [], failed: [], };
@@ -42,7 +64,7 @@ export function loadManifests(fnames: string[]): LoadedManifests {
             const forms = buildManiMetaForms(mani);
 
             if (mani && forms.length) {
-                rv.files.push({ mani, forms, });
+                rv.files.push({ mani, forms, urls: [getFormUrls(forms[0]), getFormUrls(forms[1])] });
             } else {
                 rv.empty.push(file);
             }
@@ -57,13 +79,10 @@ export function loadManifests(fnames: string[]): LoadedManifests {
 export function printLoaded(loadedManifests: LoadedManifests) {
 
     loadedManifests.files.forEach((file) => {
-        const detectionA = file?.mani?.forms?.[0]?.detection;
-        const detectionB = file?.mani?.forms?.[1]?.detection;
-
-        if (detectionA?.web_ourl || detectionB?.web_ourl) {
+        if (file.urls[0]?.oWoParms || file.urls[1]?.oWoParms) {
             notes.add('--------------------------------');
-            detectionA?.web_ourl && notes.add(`    0: ${chalk.green(urlDomain(detectionA.web_ourl))}`);
-            detectionB?.web_ourl && notes.add(`    1: ${chalk.green(urlDomain(detectionB.web_ourl))}`);
+            file.urls[0].oWoParms && notes.add(`    0: ${chalk.green(file.urls[0].oWoParms)}`);
+            file.urls[1].oWoParms && notes.add(`    1: ${chalk.green(file.urls[1].oWoParms)}`);
         }
     });
 

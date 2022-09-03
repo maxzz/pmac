@@ -14,6 +14,8 @@ function processFiles(fnames: string[]) {
 
     printLoaded(loadedManifests);
 
+    //loadedManifests.files.
+
 }
 
 async function main() {
