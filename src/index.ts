@@ -5,7 +5,7 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
-import { parseXMLFile } from './manifest';
+import { buildManiMetaForms, parseXMLFile } from './manifest';
 
 function processFiles(fnames: string[]) {
 
@@ -15,7 +15,15 @@ function processFiles(fnames: string[]) {
         const cnt = fs.readFileSync(file).toString();
         const { mani } = parseXMLFile(cnt);
 
-        console.log(`mani\n${JSON.stringify(mani, null, 4)}`);
+        const forms = buildManiMetaForms(mani);
+
+        notes.add(
+            mani?.forms?.[0].detection?.web_ourl
+                ? chalk.green(mani?.forms?.[0].detection?.web_ourl)
+                : chalk.red(mani?.forms?.[0].detection?.web_ourl)
+        );
+
+        //console.log(`mani\n${JSON.stringify(mani, null, 4)}`);
     }
 }
 

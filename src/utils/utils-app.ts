@@ -8,7 +8,7 @@ export function getParentFolder(fnames: string[]): string | undefined {
     // 0. returns fnames folder or undefined if fnames from a different folders.
 
     const res = fnames.reduce((acc, cur) => {
-        acc[path.basename(cur)] = true;
+        acc[path.dirname(cur)] = true;
         return acc;
     }, {} as Record<string, boolean>);
 
