@@ -38,11 +38,42 @@ function getAndCheckTargets(): Targets {
     return rv;
 }
 
-async function checkArgs({ files, dirs }: Targets) {
-
+function getVerifiedFolders({ files, dirs }: Targets): string[][] {
     //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);
     //help(); return;
     //await exitProcess(0, '');
+
+    const rv: string[][] = [];
+
+    if (files.length && dirs.length) {
+        throw newErrorArgs('Nothing done:\nSpecify the folder name or file names, but not both.');
+    }
+
+    if (files.length) {
+        const ourFiles = filterByExtension(files, '.dpm');
+        const parent = getParentFolder(ourFiles);
+        if (!ourFiles.length) {
+            throw newErrorArgs(`Nothing done:\nThe files must have a ".dpm" extension.`);
+        }
+        if (!parent) {
+            throw newErrorArgs('Nothing done:\nAll files must belong to the same folder.');
+        }
+        rv.push(ourFiles);
+    }
+    else if (dirs.length) {
+        for (let dir of dirs) {
+            const res = osStuff.collectDirItems(dir);
+            const files: string[] = res.files.map((item) => path.join(dir, item.short));
+            const ourFiles = filterByExtension(files, '.dpm');
+            if (ourFiles.length) {
+                rv.push(ourFiles);
+            }
+        }
+    } else {
+        throw newErrorArgs(`Nothing done:\nSpecify at leats one folder or files name to process.`);
+    }
+
+    return rv;
 }
 
 function processFiles(fnames: string[]) {
@@ -53,30 +84,10 @@ function processFiles(fnames: string[]) {
 async function main() {
     let targets: Targets = getAndCheckTargets();
 
-    if (targets.files.length && targets.dirs.length) {
-        throw newErrorArgs('Nothing done:\nSpecify the folder name or file names, but not both.');
-    }
+    const filesByFolders = getVerifiedFolders(targets);
 
-    if (targets.files.length) {
-        const ourFiles = filterByExtension(targets.files, '.dpm');
-        const parent = getParentFolder(ourFiles);
-        if (!ourFiles.length) {
-            throw newErrorArgs(`Nothing done:\nThe files must have a ".dpm" extension.`);
-        }
-        if (!parent) {
-            throw newErrorArgs('Nothing done:\nAll files must belong to the same folder.');
-        }
-        processFiles(ourFiles);
-    }
-    else if (targets.dirs.length) {
-        for (let dir of targets.dirs) {
-            const res = osStuff.collectDirItems(dir);
-            const files: string[] = res.files.map((item)=> path.join(dir, item.short));
-            const ourFiles = filterByExtension(files, '.dpm');
-            processFiles(ourFiles);
-        }
-    } else {
-        throw newErrorArgs(`Nothing done:\nSpecify at leats one folder or files name to process.`);
+    for (let files of filesByFolders) {
+        processFiles(files);
     }
 
     notes.show();
