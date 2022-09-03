@@ -6,6 +6,7 @@ import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { exist } from './utils/unique-names';
 import { help, notes } from './utils/help';
 import { osStuff } from './utils/utils-os';
+import { filterByExtension, getParentFolder } from './utils/utils-app';
 
 type StartArgs = {
     files: string[];
@@ -58,9 +59,7 @@ async function checkArgs({ files, dirs }: StartArgs) {
 
 function processFiles(fnames: string[]) {
 
-    const ourFiles = fnames.filter((item) => path.extname(item).toLowerCase() === '.dpm');
-
-    console.log(`targets ${JSON.stringify(ourFiles, null, 4)}`);
+    console.log(`targets ${JSON.stringify(fnames, null, 4)}`);
 }
 
 async function main() {
@@ -69,13 +68,22 @@ async function main() {
     await checkArgs(targets);
 
     if (targets.files.length) {
-        processFiles(targets.files);
+        const ourFiles = filterByExtension(targets.files, '.dpm');
+        const parent = getParentFolder(ourFiles);
+        if (!ourFiles.length) {
+            throw newErrorArgs(`Nothing done:\nThe files must have a ".dpm" extension.`);
+        }
+        if (!parent) {
+            throw newErrorArgs('Nothing done:\nAll files must belong to the same folder.');
+        }
+        processFiles(ourFiles);
     }
     else if (targets.dirs.length) {
         for (let dir of targets.dirs) {
             const res = osStuff.collectDirItems(dir);
-            const files: string[] = res.files.map((item)=> path.resolve(dir, item.short));
-            processFiles(files);
+            const files: string[] = res.files.map((item)=> path.join(dir, item.short));
+            const ourFiles = filterByExtension(files, '.dpm');
+            processFiles(ourFiles);
         }
     } else {
         throw newErrorArgs(`Nothing done:\nSpecify at leats one folder or files name to process.`);
