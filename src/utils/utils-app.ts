@@ -1,6 +1,9 @@
 import path from "path";
 import fs from "fs";
 import { buildManiMetaForms, Mani, Meta, parseXMLFile } from "../manifest";
+import { notes } from "./help";
+import chalk from "chalk";
+import { urlDomain } from "../manifest/url";
 
 export function filterByExtension(fnames: string[], ext: string): string[] {
     return fnames.filter((item) => path.extname(item).toLowerCase() === ext);
@@ -49,4 +52,26 @@ export function loadManifests(fnames: string[]): LoadedManifests {
     }
 
     return rv;
+}
+
+export function printLoaded(loadedManifests: LoadedManifests) {
+
+    loadedManifests.files.forEach((file) => {
+        const detectionA = file?.mani?.forms?.[0]?.detection;
+        const detectionB = file?.mani?.forms?.[1]?.detection;
+
+        if (detectionA?.web_ourl || detectionB?.web_ourl) {
+            notes.add('--------------------------------');
+            detectionA?.web_ourl && notes.add(`    0: ${chalk.green(urlDomain(detectionA.web_ourl))}`);
+            detectionB?.web_ourl && notes.add(`    1: ${chalk.green(urlDomain(detectionB.web_ourl))}`);
+        }
+    });
+
+    loadedManifests.empty.forEach((file) => {
+        notes.add(chalk.bgBlue.green(`empty --------------------------------${path.basename(file)}`));
+    });
+
+    loadedManifests.failed.forEach((file) => {
+        notes.add(chalk.bgBlue.green(`failed --------------------------------${path.basename(file)}`));
+    });
 }
