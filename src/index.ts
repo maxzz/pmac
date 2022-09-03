@@ -5,6 +5,7 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { exist } from './utils/unique-names';
 import { help, notes } from './utils/help';
+import { osStuff } from './utils/utils-os';
 
 type StartArgs = {
     files: string[];
@@ -21,10 +22,7 @@ function getAndCheckArg(): StartArgs {
 
     let argTargets: string[] = args._ || [];
 
-    let rv: {
-        files: string[],
-        dirs: string[],
-    } = {
+    let rv: { files: string[], dirs: string[], } = {
         files: [],
         dirs: [],
     };
@@ -46,49 +44,41 @@ function getAndCheckArg(): StartArgs {
     return rv;
 }
 
-async function checkArgs({files, dirs}: StartArgs) {
+async function checkArgs({ files, dirs }: StartArgs) {
+
+    //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);
+    //help(); return;
+    //await exitProcess(0, '');
 
     if (files.length && dirs.length) {
-        //await exitProcess(1, `${notes.buildMessage()}${chalk.yellow('\nSpecify the folder name or file names, but not both.')}`);
-        // throw newErrorArgs('\nSpecify the folder name or file names, but not both.');
-        throw newErrorArgs(chalk.green('\nSpecify the folder name or file names, but not both.', true));
+        throw newErrorArgs('Nothing done:\nSpecify the folder name or file names, but not both.');
     }
 
 }
 
-function processFiles(targets: StartArgs) {
+function processFiles(fnames: string[]) {
 
+    const ourFiles = fnames.filter((item) => path.extname(item).toLowerCase() === '.dpm');
+
+    console.log(`targets ${JSON.stringify(ourFiles, null, 4)}`);
 }
 
 async function main() {
     let targets: StartArgs = getAndCheckArg();
-    processFiles(targets);
-
-    //help(); return;
-
-    console.log(`targets ${JSON.stringify(targets, null, 4)}`);
-    //await exitProcess(0, '');
 
     await checkArgs(targets);
-    
-    // try {
-    //     await checkArgs(targets);
-    // } catch (error) {
-    //     throw error;
-    // }
 
     if (targets.files.length) {
-        // // 1. all mixed content goes to tm.rar (files and folders).
-        // const toRar = [...targets.files, ...targets.dirs]; // TOOO: Check: all files and folders should be inside the same folder (although it isn't possible with drag&drop).
-        // createTmRarFromDroppedItems(toRar, targets.singleTm);
+        processFiles(targets.files);
     }
     else if (targets.dirs.length) {
-        // // 2. treat each folder separately.
-        // for (let dir of targets.dirs) {
-        //     handleFolder(dir);
-        // }
+        for (let dir of targets.dirs) {
+            const res = osStuff.collectDirItems(dir);
+            const files: string[] = res.files.map((item)=> path.resolve(dir, item.short));
+            processFiles(files);
+        }
     } else {
-        throw newErrorArgs(`Specify at leats one folder or files name to process.`);
+        throw newErrorArgs(`Nothing done:\nSpecify at leats one folder or files name to process.`);
     }
 
     notes.show();
@@ -97,6 +87,6 @@ async function main() {
 main().catch(async (error) => {
     error.args && help(); // Show help if arguments are invalid
 
-    const msg = error.color ? `\n${error.message}` : chalk[error.args ? 'yellow' : 'red'](`\n${error.message}`);
+    const msg = chalk[error.args ? 'yellow' : 'red'](`\n${error.message}`);
     await exitProcess(1, `${notes.buildMessage()}${msg}`);
 });

@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 
-namespace osStuff {
+export namespace osStuff {
 
     export type FileItem = {
         short: string;      // filename wo/ path

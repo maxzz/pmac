@@ -22,8 +22,7 @@ located. Alternatively, you can specify the folder where the
 manifest files are located or filenames separated by space
 character. Specify the folder name or file names, but not both.`)}
 
-Version ${cfg.version}
-`;
+Version ${cfg.version}`;
     console.log(msg);
 }
 

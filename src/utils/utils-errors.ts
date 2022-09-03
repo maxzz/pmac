@@ -22,12 +22,10 @@ export async function exitProcess(exitCode: number, msg: string): Promise<void> 
 
 interface ErrorArgs extends Error {
     args: boolean;
-    color?: boolean; // true if message has color
 }
 
-export function newErrorArgs(msg: string, color: boolean = false): ErrorArgs {
+export function newErrorArgs(msg: string): ErrorArgs {
     let error = new Error(msg) as ErrorArgs;
     error.args = true;
-    error.color = color;
     return error;
 }
