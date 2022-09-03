@@ -2,8 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import rimraf from 'rimraf';
-import { exitProcess, help, newErrorArgs, notes } from './utils/utils-process';
+import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { exist } from './utils/unique-names';
+import { help, notes } from './utils/help';
 
 type StartArgs = {
     files: string[];
@@ -45,6 +46,16 @@ function getAndCheckArg(): StartArgs {
     return rv;
 }
 
+async function checkArgs({files, dirs}: StartArgs) {
+
+    if (files.length && dirs.length) {
+        //await exitProcess(1, `${notes.buildMessage()}${chalk.yellow('\nSpecify the folder name or file names, but not both.')}`);
+        // throw newErrorArgs('\nSpecify the folder name or file names, but not both.');
+        throw newErrorArgs(chalk.green('\nSpecify the folder name or file names, but not both.', true));
+    }
+
+}
+
 function processFiles(targets: StartArgs) {
 
 }
@@ -53,11 +64,18 @@ async function main() {
     let targets: StartArgs = getAndCheckArg();
     processFiles(targets);
 
-    help();
-    return;
+    //help(); return;
 
-    //console.log(`targets ${JSON.stringify(targets, null, 4)}`);
+    console.log(`targets ${JSON.stringify(targets, null, 4)}`);
     //await exitProcess(0, '');
+
+    await checkArgs(targets);
+    
+    // try {
+    //     await checkArgs(targets);
+    // } catch (error) {
+    //     throw error;
+    // }
 
     if (targets.files.length) {
         // // 1. all mixed content goes to tm.rar (files and folders).
@@ -77,6 +95,8 @@ async function main() {
 }
 
 main().catch(async (error) => {
-    error.args && help(); // Show help if args are invalid
-    await exitProcess(1, `${notes.buildMessage()}${chalk[error.args ? 'yellow' : 'red'](`\n${error.message}`)}`);
+    error.args && help(); // Show help if arguments are invalid
+
+    const msg = error.color ? `\n${error.message}` : chalk[error.args ? 'yellow' : 'red'](`\n${error.message}`);
+    await exitProcess(1, `${notes.buildMessage()}${msg}`);
 });

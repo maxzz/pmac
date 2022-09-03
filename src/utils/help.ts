@@ -1,39 +1,8 @@
 import chalk from 'chalk';
+import { exitProcess } from "./utils-errors";
 let cfg = require('../../package.json');
 
 const { name: programName } = cfg;
-
-export async function exitProcess(exitCode: number, msg: string): Promise<void> {
-    async function pressAnyKey(msg: string = '\nPress any key ...') {
-        return new Promise(resolve => {
-            if (process.stdin.isTTY) {
-                console.log(msg);
-
-                process.stdin.setRawMode(true);
-                process.stdin.resume();
-                process.stdin.on('data', resolve);
-            }
-            else {
-                console.log(' ');
-                resolve(void 0);
-            }
-        });
-    }
-
-    console.log(msg);
-    await pressAnyKey();
-    process.exit(exitCode);
-}
-
-interface ErrorArgs extends Error {
-    args: boolean;
-}
-
-export function newErrorArgs(msg: string): ErrorArgs {
-    let error = new Error(msg) as ErrorArgs;
-    error.args = true;
-    return error;
-}
 
 export function help() {
     let msg = `
@@ -84,6 +53,7 @@ export namespace notes {
             await exitProcess(0, final);
         }
     }
+    
 } //namespace notes
 
 //TODO: options: replace files i.e. don't create backup folder (unique backup name w/ date)
