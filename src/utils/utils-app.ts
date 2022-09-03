@@ -1,9 +1,9 @@
 import path from "path";
 import fs from "fs";
-import { buildManiMetaForms, Mani, Meta, parseXMLFile } from "../manifest";
+import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manifest";
 import { notes } from "./help";
 import chalk from "chalk";
-import { removeQuery, tmurl, urlDomain } from "../manifest/url";
+import { FormUrls, getFormUrls } from "./utils-mani-urls";
 
 export function filterByExtension(fnames: string[], ext: string): string[] {
     return fnames.filter((item) => path.extname(item).toLowerCase() === ext);
@@ -21,13 +21,7 @@ export function getParentFolder(fnames: string[]): string | undefined {
     return keys.length === 1 ? keys[0] : undefined;
 }
 
-type FormUrls = {
-    o?: string;
-    m?: string;
-    oDomain?: string;
-    oWoParms?: string;
-    oPath?: string;
-};
+// Manifest loading
 
 export type FileMeta = {
     mani: Mani.Manifest;
@@ -40,51 +34,6 @@ export type LoadedManifests = {
     empty: string[];
     failed: string[];
 };
-
-function getFormUrls(form: Meta.Form | undefined): FormUrls {
-    const rv: FormUrls = {};
-    const detection = form?.mani?.detection;
-    if (detection) {
-        rv.o = detection.web_ourl;
-        rv.m = detection.web_murl;
-        if (rv.o) {
-            const org = rv.o.toLowerCase();
-            const u = tmurl.url(org);
-            rv.oDomain = u.domain || u.hostname || u.path || '';
-            rv.oWoParms = (org || '').split('?')[0].split('#')[0].split('!')[0];
-            rv.oPath = u.path;
-
-            // separated by '!'
-            // https://clientconnect.checkfree.com/wps/portal/home/cc2login/!ut/p/z1/04_sj9cpykssy0xplmnmz0vmafijo8ziawitxd0sna18_aomza0cqwmnteitniwnlmz0wwkpiajkg-aajgza_vfyldgaoauzafubupsbyvwaykzbborbpqoiigcgieac/dz/d5/l2dbisevz0fbis9nqseh/
-            // https://www.parnorthamerica.biz/wps/portal/evipr/!ut/p/b0/04_sj9cpykssy0xplmnmz0vmafgjzoid_z2c3dzc_ai9hm2mdtxdjj3cwrwcdcz8dpqlsh0vauizkaa!/
-
-            //const a = '[\!\#\$\&\'\(\)\*\+\,\/\:\;\=\?\@\[\]]';
-
-            // !
-            // #
-            // $
-            // &
-            // '
-            // (
-            // )
-            // *
-            // +
-            // ,
-            // /
-            // :
-            // ;
-            // =
-            // ?
-            // @
-            // [
-            // ]
-
-            // rv.oDomain = urlDomain(rv.o).toLowerCase();
-            // rv.oWoParms = removeQuery(rv.o).toLowerCase();
-        }
-    }
-    return rv;
-}
 
 export function loadManifests(fnames: string[]): LoadedManifests {
     const rv: LoadedManifests = { files: [], empty: [], failed: [], };
@@ -111,7 +60,7 @@ export function loadManifests(fnames: string[]): LoadedManifests {
 export function printLoaded(loadedManifests: LoadedManifests) {
 
     loadedManifests.files.forEach((file) => {
-        const [a, b] = [file.urls[0]?.oWoParms, file.urls[1]?.oWoParms];
+        const [a, b] = [file.urls[0]?.oParts?.woParms, file.urls[1]?.oParts?.woParms];
         if (a || b) {
             notes.add('--------------------------------');
             a && notes.add(`    0: ${chalk.green(a)}`);
