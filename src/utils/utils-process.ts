@@ -1,5 +1,7 @@
 import chalk from 'chalk';
-let cfg = require('../package.json');
+let cfg = require('../../package.json');
+
+const { name: programName } = cfg;
 
 export async function exitProcess(exitCode: number, msg: string): Promise<void> {
     async function pressAnyKey(msg: string = '\nPress any key ...') {
@@ -34,16 +36,32 @@ export function newErrorArgs(msg: string): ErrorArgs {
 }
 
 export function help() {
-    let help = `
-${chalk.cyan('rardir')} utility will move a folder metadata to tm.rar file. Metadata are .mht and .url files.
+    let msg = `
+The ${chalk.cyan(`${programName}`)} utility converts PM manifests with domain credentials to
+manifests with credentials that apply only to a specific URL.
+
+Usage:
+
+${chalk.cyan(`${programName} [folder] | [<file(s)>]`)}
+
+where:
+    folder  - folder with the manifest files to process
+    file(s) - manifest filenames to process
+
+${chalk.gray(`Run this utility from the folder where the manifest files are
+located. Alternatively, you can specify the folder where the
+manifest files are located or filenames separated by space
+character. Specify the folder name or file names, but not both.`)}
+
 Version ${cfg.version}
-Usage: rardir <file> | <folder(s)>`;
-    console.log(help);
+`;
+    console.log(msg);
 }
 
 export namespace notes {
+
     let messages: string[] = []; // messages will be shown if any warnings happen.
-    let processed: string[] = []; // processed will be shown if rardir processed more then one folder.
+    let processed: string[] = []; // processed will be shown if ${programName} processed more then one folder.
 
     export function add(note: string): void {
         messages.push(note);
@@ -57,7 +75,7 @@ export namespace notes {
         let p = processed.length > 1 ? chalk.blueBright(`Processed:\n${processed.join('\n')}\n`) : '';
         let s = messages.length ? chalk.yellow(`\nNotes:\n${messages.join('\n')}\n`) : '';
         let f = `${p}${s}`;
-        return f ? `rardir finished\n\n${f}` : '';
+        return f ? `${programName} finished\n\n${f}` : '';
     }
 
     export async function show(): Promise<void> {
@@ -67,3 +85,6 @@ export namespace notes {
         }
     }
 } //namespace notes
+
+//TODO: options: replace files i.e. don't create backup folder (unique backup name w/ date)
+//TODO: options: interactive mode

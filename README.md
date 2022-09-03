@@ -1,3 +1,3 @@
 #### About
 
-Utility to convert PM domain credentials to credentials that only apply to the exact URL.
+The **pmdc** utility converts PM manifests with domain credentials to manifests with credentials that apply only to a specific URL.

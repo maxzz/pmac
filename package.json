@@ -1,6 +1,6 @@
 {
     "name": "pmdc",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "author": "Max Zakharzhevskiy",
     "description": "Password manager domain credential switch utility",
     "license": "MIT",

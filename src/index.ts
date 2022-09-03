@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import rimraf from 'rimraf';
-import { exitProcess, help, newErrorArgs, notes } from './utils/process-utils';
+import { exitProcess, help, newErrorArgs, notes } from './utils/utils-process';
 import { exist } from './utils/unique-names';
 
 type StartArgs = {
@@ -53,24 +53,27 @@ async function main() {
     let targets: StartArgs = getAndCheckArg();
     processFiles(targets);
 
-    // console.log(`targets ${JSON.stringify(targets, null, 4)}`);
-    // await exitProcess(0, '');
+    help();
+    return;
 
-    // if (targets.files.length) {
-    //     // 1. all mixed content goes to tm.rar (files and folders).
-    //     const toRar = [...targets.files, ...targets.dirs]; // TOOO: Check: all files and folders should be inside the same folder (although it isn't possible with drag&drop).
-    //     createTmRarFromDroppedItems(toRar, targets.singleTm);
-    // }
-    // else if (targets.dirs.length) {
-    //     // 2. treat each folder separately.
-    //     for (let dir of targets.dirs) {
-    //         handleFolder(dir);
-    //     }
-    // } else {
-    //     throw newErrorArgs(`Specify at leats one folder or files name to process.`);
-    // }
+    //console.log(`targets ${JSON.stringify(targets, null, 4)}`);
+    //await exitProcess(0, '');
 
-    // notes.show();
+    if (targets.files.length) {
+        // // 1. all mixed content goes to tm.rar (files and folders).
+        // const toRar = [...targets.files, ...targets.dirs]; // TOOO: Check: all files and folders should be inside the same folder (although it isn't possible with drag&drop).
+        // createTmRarFromDroppedItems(toRar, targets.singleTm);
+    }
+    else if (targets.dirs.length) {
+        // // 2. treat each folder separately.
+        // for (let dir of targets.dirs) {
+        //     handleFolder(dir);
+        // }
+    } else {
+        throw newErrorArgs(`Specify at leats one folder or files name to process.`);
+    }
+
+    notes.show();
 }
 
 main().catch(async (error) => {
