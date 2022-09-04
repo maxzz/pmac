@@ -1,9 +1,8 @@
 import { Mani } from "./mani";
-import { Transform } from "./mani-functions";
 import { parseOptionsRead } from "./mani-i";
+import { showError } from "./mani-show-error";
+import { Transform } from "./mani-functions";
 import { J2xParser } from "../utils/json2xml";
-
-import chalk from "chalk";
 
 export const parseOptionsWrite = {
     ...parseOptionsRead,
@@ -70,7 +69,7 @@ export function makeXML(mani: Mani.Manifest): string | undefined {
             const xml = j2xParser.parse(rv);
             return `<?xml version="1.0" encoding="UTF-8"?>\n${xml}`;
         } catch (error) {
-            console.log(chalk.red('tm-error:\n'), error);
+            showError(error);
         }
     }
 }
