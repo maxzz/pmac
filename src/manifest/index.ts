@@ -6,16 +6,14 @@ export type {
 } from './mani';
 
 export {
-    parseOptions,
-} from './mani-i';
-
-export {
+    parseOptionsRead,
     parseXMLFile,
     Matching,
 } from './mani-i';
 
 export {
-    manifestToJsonForXml,
+    parseOptionsWrite,
+    makeNewManifest4Xml,
 } from './mani-o';
 
 export {

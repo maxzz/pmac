@@ -5,14 +5,14 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
-import { Mani, manifestToJsonForXml, Meta, parseOptions, } from './manifest';
+import { makeNewManifest4Xml, parseOptionsWrite, } from './manifest';
 import { ByDomains, Duplicates, FileMeta, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
 import { J2xParser } from './utils/json2xml';
 
 function processFiles(fnames: string[]) {
 
     const loadedManifests = loadManifests(fnames);
-    printLoaded(loadedManifests);
+    //printLoaded(loadedManifests);
 
     const byDomains = splitByDomains(loadedManifests.files);
 
@@ -27,13 +27,18 @@ function processFiles(fnames: string[]) {
 
     const f = loadedManifests.files[0];
     if (f) {
-        let rv = f.mani && manifestToJsonForXml(f.mani) || '';
+        let rv = f.mani && makeNewManifest4Xml(f.mani) || '';
 
-        const j2xParser = new J2xParser({ ...parseOptions, format: true, indentBy: '    ', });
+        const j2xParser = new J2xParser(parseOptionsWrite);
         let xml = j2xParser.parse(rv);
         xml = `<?xml version="1.0" encoding="UTF-8"?>\n${xml}`;
-     
-        console.log('%c---------new xml from converted---------', 'color: green', `\n${xml}`);
+
+        const newFname = path.join(path.dirname(f.fname), path.basename(f.fname, path.extname(f.fname)) + '_new') + path.extname(f.fname);
+        fs.writeFileSync(newFname, xml);
+
+        //console.log(`${chalk.green('---------raw ---------')}\n${f.raw}`);
+        //console.log(`${chalk.green('---------names ---------')}\n${f.mani?.forms[0]?.detection?.names_ext}`);
+        //console.log(`${chalk.green('---------new xml from converted---------')}\n${xml}`);
     }
 
     //TODO: save manifests
