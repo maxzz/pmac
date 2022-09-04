@@ -1,6 +1,9 @@
 import { Mani } from "./mani";
 import { Transform } from "./mani-functions";
 import { parseOptionsRead } from "./mani-i";
+import { J2xParser } from "../utils/json2xml";
+
+import chalk from "chalk";
 
 export const parseOptionsWrite = {
     ...parseOptionsRead,
@@ -23,7 +26,7 @@ function hasKeys(obj?: object): boolean {
     return !!obj && !!Reflect.ownKeys(obj).length;
 }
 
-export function makeNewManifest4Xml(mani: Mani.Manifest) {
+function makeNewManifest4Xml(mani: Mani.Manifest): Mani.Manifest {
     const { options, descriptor, forms, ...rest } = mani;
 
     let rv: any = { manifest: {}, };
@@ -31,7 +34,7 @@ export function makeNewManifest4Xml(mani: Mani.Manifest) {
     // 1. Customization
     if (options) {
         const { processes, ...rest } = options;
-        const xmlProcesses = processes?.length && {processes: { process: processes.map((process) => ({ [attributes]: process })) }};
+        const xmlProcesses = processes?.length && { processes: { process: processes.map((process) => ({ [attributes]: process })) } };
         rv.manifest.options = { ...xmlProcesses, ...rest, };
     }
 
@@ -58,3 +61,18 @@ export function makeNewManifest4Xml(mani: Mani.Manifest) {
 
     return { ...rv, ...rest, };
 }
+
+export function makeXML(mani: Mani.Manifest): string | undefined {
+    let rv = mani && makeNewManifest4Xml(mani);
+    if (rv) {
+        try {
+            const j2xParser = new J2xParser(parseOptionsWrite);
+            const xml = j2xParser.parse(rv);
+            return `<?xml version="1.0" encoding="UTF-8"?>\n${xml}`;
+        } catch (error) {
+            console.log(chalk.red('tm-error:\n'), error);
+        }
+    }
+}
+
+//TODO: attrValueProcessor(): convert value life and skip '=== undefined'

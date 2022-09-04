@@ -5,7 +5,7 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
-import { makeNewManifest4Xml, parseOptionsWrite, } from './manifest';
+import { makeXML } from './manifest';
 import { ByDomains, Duplicates, FileMeta, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
 import { J2xParser } from './utils/json2xml';
 
@@ -27,14 +27,11 @@ function processFiles(fnames: string[]) {
 
     const f = loadedManifests.files[0];
     if (f) {
-        let rv = f.mani && makeNewManifest4Xml(f.mani) || '';
-
-        const j2xParser = new J2xParser(parseOptionsWrite);
-        let xml = j2xParser.parse(rv);
-        xml = `<?xml version="1.0" encoding="UTF-8"?>\n${xml}`;
-
-        const newFname = path.join(path.dirname(f.fname), path.basename(f.fname, path.extname(f.fname)) + '_new') + path.extname(f.fname);
-        fs.writeFileSync(newFname, xml);
+        const xml = makeXML(f.mani);
+        if (xml) {
+            const newFname = path.join(path.dirname(f.fname), path.basename(f.fname, path.extname(f.fname)) + '_new') + path.extname(f.fname);
+            fs.writeFileSync(newFname, xml);
+        }
 
         //console.log(`${chalk.green('---------raw ---------')}\n${f.raw}`);
         //console.log(`${chalk.green('---------names ---------')}\n${f.mani?.forms[0]?.detection?.names_ext}`);
