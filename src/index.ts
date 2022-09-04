@@ -6,19 +6,19 @@ import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
 import { Mani, Meta, } from './manifest';
-import { ByDomains, FileMeta, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
+import { ByDomains, Duplicates, FileMeta, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
 
 function processFiles(fnames: string[]) {
 
     const loadedManifests = loadManifests(fnames);
-
-    const byDomains: ByDomains = splitByDomains(loadedManifests.files);
-
-    printDuplicates(byDomains);
-
-    //console.log(JSON.stringify(entries, null, 2));
-
     //printLoaded(loadedManifests);
+
+    const byDomains = splitByDomains(loadedManifests.files);
+
+    const domainsArr: Duplicates = Object.entries(byDomains);
+    const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
+
+    printDuplicates(duplicates);
 
     //TODO: save manifests
     //TODO: backup by date

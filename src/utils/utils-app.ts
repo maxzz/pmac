@@ -97,10 +97,9 @@ export function printLoaded(loadedManifests: LoadedManifests) {
     });
 }
 
-export function printDuplicates(byDomains: ByDomains) {
-    const domainsArr = Object.entries(byDomains);
-    const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
+export type Duplicates = [domain: string, files: FileMeta[]][];
 
+export function printDuplicates(duplicates: Duplicates) {
     const entries = duplicates.map(([key, val]) => {
         const items = val.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join(''); // ${item.urls[0]?.oParts?.urlPath}
         return chalk.red(`${key} ${val.length}${items}`);
