@@ -5,7 +5,7 @@ export type {
     MPath,
 } from './mani';
 
-export type {
+export {
     parseOptions,
 } from './mani-i';
 
