@@ -23,7 +23,10 @@ function processFiles(fnames: string[]) {
         }
     });
 
-    const entries = Object.entries(byDomains).map(([key, val]) => val.length > 1 ? chalk.red(`${key} ${val.length}`) : `${key} ${val.length}`);
+    const domainsArr = Object.entries(byDomains);
+    const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
+
+    const entries = duplicates.map(([key, val]) => val.length > 1 ? chalk.red(`${key} ${val.length}`) : `${key} ${val.length}`);
 
     entries.forEach((item) => {
         console.log(item);
