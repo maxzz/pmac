@@ -57,6 +57,8 @@ export function loadManifests(fnames: string[]): LoadedManifests {
     return rv;
 }
 
+// Reports
+
 export function printLoaded(loadedManifests: LoadedManifests) {
 
     loadedManifests.files.forEach((file) => {

@@ -6,15 +6,27 @@ import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
 import { Mani, Meta, } from './manifest';
-import { LoadedManifests, loadManifests, printLoaded } from './utils/utils-app';
+import { FileMeta, LoadedManifests, loadManifests, printLoaded } from './utils/utils-app';
 
 function processFiles(fnames: string[]) {
 
     const loadedManifests = loadManifests(fnames);
 
-    printLoaded(loadedManifests);
+    const files = loadedManifests.files;
+    const byDomains: Record<string, FileMeta[]> = {};
 
-    //loadedManifests.files.
+    files.forEach((file) => {
+        const domain = file.urls[0]?.oParts?.domain;
+        if (domain) {
+            !byDomains[domain] && (byDomains[domain] = []);
+            byDomains[domain].push(file);
+        }
+    });
+
+    console.log(JSON.stringify(Object.keys(byDomains), null, 2));
+
+    //printLoaded(loadedManifests);
+
 
 }
 
