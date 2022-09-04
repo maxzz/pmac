@@ -23,7 +23,13 @@ function processFiles(fnames: string[]) {
         }
     });
 
-    console.log(JSON.stringify(Object.keys(byDomains), null, 2));
+    const entries = Object.entries(byDomains).map(([key, val]) => val.length > 1 ? chalk.red(`${key} ${val.length}`) : `${key} ${val.length}`);
+
+    entries.forEach((item) => {
+        console.log(item);
+    });
+
+    //console.log(JSON.stringify(entries, null, 2));
 
     //printLoaded(loadedManifests);
 
