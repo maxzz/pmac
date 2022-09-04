@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
+import mkdir from 'mkdir-p';
 
 export namespace osStuff {
 
@@ -93,4 +94,15 @@ export namespace osStuff {
             }
         });
     }
+
+    export function mkdirSync(dir: string): void {
+        dir = path.resolve(dir);
+        if (!fs.existsSync(dir)) {
+            mkdirSync(path.dirname(dir));
+            fs.mkdirSync(dir);
+        }
+        
+        //mkdir.sync(dir);
+    }
+
 } //namespace osStuff
