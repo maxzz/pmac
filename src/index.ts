@@ -6,37 +6,24 @@ import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
 import { Mani, Meta, } from './manifest';
-import { FileMeta, LoadedManifests, loadManifests, printLoaded } from './utils/utils-app';
+import { ByDomains, FileMeta, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
 
 function processFiles(fnames: string[]) {
 
     const loadedManifests = loadManifests(fnames);
 
-    const files = loadedManifests.files;
-    const byDomains: Record<string, FileMeta[]> = {};
+    const byDomains: ByDomains = splitByDomains(loadedManifests.files);
 
-    files.forEach((file) => {
-        const domain = file.urls[0]?.oParts?.domain;
-        if (domain) {
-            !byDomains[domain] && (byDomains[domain] = []);
-            byDomains[domain].push(file);
-        }
-    });
-
-    const domainsArr = Object.entries(byDomains);
-    const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
-
-    const entries = duplicates.map(([key, val]) => val.length > 1 ? chalk.red(`${key} ${val.length}`) : `${key} ${val.length}`);
-
-    entries.forEach((item) => {
-        console.log(item);
-    });
+    printDuplicates(byDomains);
 
     //console.log(JSON.stringify(entries, null, 2));
 
     //printLoaded(loadedManifests);
 
-
+    //TODO: save manifests
+    //TODO: backup by date
+    //TODO: HTML report
+    //TODO: show diff
 }
 
 async function main() {

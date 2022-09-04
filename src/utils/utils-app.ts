@@ -57,6 +57,24 @@ export function loadManifests(fnames: string[]): LoadedManifests {
     return rv;
 }
 
+// Manifest sorting
+
+export type ByDomains = Record<string, FileMeta[]>; // domain -> manifest files
+
+export function splitByDomains(files: FileMeta[]) {
+    const rv: ByDomains = {};
+
+    files.forEach((file) => {
+        const domain = file.urls[0]?.oParts?.domain;
+        if (domain) {
+            !rv[domain] && (rv[domain] = []);
+            rv[domain].push(file);
+        }
+    });
+
+    return rv;
+}
+
 // Reports
 
 export function printLoaded(loadedManifests: LoadedManifests) {
@@ -76,5 +94,19 @@ export function printLoaded(loadedManifests: LoadedManifests) {
 
     loadedManifests.failed.forEach((file) => {
         notes.add(chalk.bgBlue.green(`failed --------------------------------${path.basename(file)}`));
+    });
+}
+
+export function printDuplicates(byDomains: ByDomains) {
+    const domainsArr = Object.entries(byDomains);
+    const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
+
+    const entries = duplicates.map(([key, val]) => {
+        const items = val.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join(''); // ${item.urls[0]?.oParts?.urlPath}
+        return chalk.red(`${key} ${val.length}${items}`);
+    });
+
+    entries.forEach((item) => {
+        console.log(item);
     });
 }
