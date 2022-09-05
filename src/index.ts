@@ -5,7 +5,7 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
-import { ByDomains, Duplicates, FileMeta, getParentFolder, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
+import { ByDomains, Duplicates, FileMeta, getParentFolder, LoadedManifests, loadManifests, makeBackupCopy, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
 import { makeXML } from './manifest';
 import { osStuff } from './utils/utils-os';
 import { ensureNameUnique, nowDayTime } from './utils/unique-names';
@@ -27,6 +27,24 @@ function processFiles(fnames: string[]) {
     // }
 
     const parentFolder = loadedManifests.files.length ? getParentFolder(fnames) : '';
+    if (!parentFolder) {
+        throw newErrorArgs('Cannot get destination folder (files from multiple folders).');
+    }
+
+    //TODO: use 'duplicates' instead of 'loadedManifests.files'
+
+    try {
+        makeBackupCopy(loadedManifests.files, parentFolder);
+    } catch (error) {
+        throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.`);
+    }
+
+    notes.add('All done.');
+
+    return;
+
+    //TODO: place modified files into original folder
+
     const destFolder = ensureNameUnique(`${parentFolder}/new ${nowDayTime()}`, false);
     osStuff.mkdirSync(destFolder);
 
@@ -35,7 +53,7 @@ function processFiles(fnames: string[]) {
         if (xml) {
             const newFname = path.join(destFolder, path.basename(f.fname));
             fs.writeFileSync(newFname, xml);
-            
+
             //const newDir = path.join(path.dirname(f.fname), 'new');
             //const newFname = path.join(newDir, path.basename(f.fname));
             // const newFname = path.join(newDir, path.basename(f.fname, path.extname(f.fname)) + '_new') + path.extname(f.fname);

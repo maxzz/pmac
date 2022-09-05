@@ -4,6 +4,8 @@ import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manif
 import { notes } from "./help";
 import chalk from "chalk";
 import { FormUrls, getFormUrls } from "./utils-mani-urls";
+import { ensureNameUnique, nowDayTime } from "./unique-names";
+import { osStuff } from "./utils-os";
 
 export function filterByExtension(fnames: string[], ext: string): string[] {
     return fnames.filter((item) => path.extname(item).toLowerCase() === ext);
@@ -81,6 +83,20 @@ export function splitByDomains(files: FileMeta[]) {
     });
 
     return rv;
+}
+
+// Backup
+
+export function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
+    const backupFolder = ensureNameUnique(`${rootFolder}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
+    osStuff.mkdirSync(backupFolder);
+
+    files.forEach((f) => {
+        if (f.raw) {
+            const newFname = path.join(backupFolder, path.basename(f.fname));
+            fs.writeFileSync(newFname, f.raw);
+        }
+    });
 }
 
 // Reports
