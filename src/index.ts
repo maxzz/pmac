@@ -5,9 +5,9 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
-import { makeXML } from './manifest';
 import { ByDomains, Duplicates, FileMeta, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
-import { J2xParser } from './utils/json2xml';
+import { makeXML } from './manifest';
+import { osStuff } from './utils/utils-os';
 
 function processFiles(fnames: string[]) {
 
@@ -25,18 +25,17 @@ function processFiles(fnames: string[]) {
     //     notes.add(`\nNothing done:\nThere are no duplicates in ${loadedManifests.files.length} loaded file${loadedManifests.files.length === 1 ? '' : 's'}.`);
     // }
 
-    const f = loadedManifests.files[0];
-    if (f) {
+    loadedManifests.files.forEach((f) => {
         const xml = makeXML(f.mani);
         if (xml) {
-            const newFname = path.join(path.dirname(f.fname), path.basename(f.fname, path.extname(f.fname)) + '_new') + path.extname(f.fname);
+            const newDir = path.join(path.dirname(f.fname), 'new');
+            const newFname = path.join(newDir, path.basename(f.fname));
+            // const newFname = path.join(newDir, path.basename(f.fname, path.extname(f.fname)) + '_new') + path.extname(f.fname);
+
+            osStuff.mkdirSync(newDir);
             fs.writeFileSync(newFname, xml);
         }
-
-        //console.log(`${chalk.green('---------raw ---------')}\n${f.raw}`);
-        //console.log(`${chalk.green('---------names ---------')}\n${f.mani?.forms[0]?.detection?.names_ext}`);
-        //console.log(`${chalk.green('---------new xml from converted---------')}\n${xml}`);
-    }
+    });
 
     //TODO: save manifests
     //TODO: backup by date

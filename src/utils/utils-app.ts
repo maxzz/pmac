@@ -27,6 +27,8 @@ export type FileMeta = {
     mani: Mani.Manifest;
     forms: Meta.Form[];
     urls: FormUrls[];
+    raw: string;
+    fname: string;
 };
 
 export type LoadedManifests = {
@@ -45,7 +47,13 @@ export function loadManifests(fnames: string[]): LoadedManifests {
             const forms = buildManiMetaForms(mani);
 
             if (mani && forms.length) {
-                rv.files.push({ mani, forms, urls: [getFormUrls(forms[0]), getFormUrls(forms[1])] });
+                rv.files.push({
+                    mani,
+                    forms,
+                    urls: [getFormUrls(forms[0]), getFormUrls(forms[1])],
+                    raw: cnt,
+                    fname: file,
+                });
             } else {
                 rv.empty.push(file);
             }

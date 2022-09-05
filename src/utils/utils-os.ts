@@ -96,12 +96,6 @@ export namespace osStuff {
 
     export function mkdirSync(dir: string): void {
         fs.mkdirSync(dir, { recursive: true });
-
-        // dir = path.resolve(dir);
-        // if (!fs.existsSync(dir)) {
-        //     mkdirSync(path.dirname(dir));
-        //     fs.mkdirSync(dir);
-        // }
     }
 
 } //namespace osStuff
