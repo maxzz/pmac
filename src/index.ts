@@ -5,9 +5,10 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
-import { ByDomains, Duplicates, FileMeta, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
+import { ByDomains, Duplicates, FileMeta, getParentFolder, LoadedManifests, loadManifests, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
 import { makeXML } from './manifest';
 import { osStuff } from './utils/utils-os';
+import { ensureNameUnique, nowDayTime } from './utils/unique-names';
 
 function processFiles(fnames: string[]) {
 
@@ -25,19 +26,26 @@ function processFiles(fnames: string[]) {
     //     notes.add(`\nNothing done:\nThere are no duplicates in ${loadedManifests.files.length} loaded file${loadedManifests.files.length === 1 ? '' : 's'}.`);
     // }
 
+    const parentFolder = loadedManifests.files.length ? getParentFolder(fnames) : '';
+    const destFolder = ensureNameUnique(`${parentFolder}/new ${nowDayTime()}`, false);
+    osStuff.mkdirSync(destFolder);
+
     loadedManifests.files.forEach((f) => {
         const xml = makeXML(f.mani);
         if (xml) {
-            const newDir = path.join(path.dirname(f.fname), 'new');
-            const newFname = path.join(newDir, path.basename(f.fname));
+            const newFname = path.join(destFolder, path.basename(f.fname));
+            fs.writeFileSync(newFname, xml);
+            
+            //const newDir = path.join(path.dirname(f.fname), 'new');
+            //const newFname = path.join(newDir, path.basename(f.fname));
             // const newFname = path.join(newDir, path.basename(f.fname, path.extname(f.fname)) + '_new') + path.extname(f.fname);
 
-            osStuff.mkdirSync(newDir);
-            fs.writeFileSync(newFname, xml);
+            //osStuff.mkdirSync(newDir);
+            //fs.writeFileSync(newFname, xml);
         }
     });
 
-    //TODO: save manifests
+    //TODO: save manifests - done
     //TODO: backup by date
     //TODO: HTML report
     //TODO: show diff

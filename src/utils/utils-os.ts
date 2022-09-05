@@ -98,4 +98,17 @@ export namespace osStuff {
         fs.mkdirSync(dir, { recursive: true });
     }
 
+    export function fnameWoExt(fname: string): string {
+        return fname ? fname.substring(0, fname.lastIndexOf('.')) || fname : fname;
+    }
+
+    // it's better to use path.parse(path)
+    // export function replaceBasename(basename: string | undefined, cb: (v: string) => string = (v) => v): string | undefined {
+    //     // 0. It will replace basename; dir dropped and extension preserved.
+    //     if (basename) {
+    //         const ext = path.extname(basename);
+    //         return cb(path.basename(basename, ext)) + ext;
+    //     }
+    // }
+
 } //namespace osStuff

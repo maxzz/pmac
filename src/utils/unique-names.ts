@@ -29,7 +29,7 @@ function zeros(v: string | number, total: number): string {
     return v.length < total ? '0000000000'.slice(0, total - v.length) + v : v;
 }
 
-function getDesktopPath(): string {
+export function getDesktopPath(): string {
     if (!process.env.USERPROFILE) {
         throw Error('User HOME is undefined');
     }
@@ -44,12 +44,12 @@ function nowTime(d: Date): string {
     return `${zeros(d.getHours(), 2)}.${zeros(d.getMinutes(), 2)}.${zeros(d.getSeconds(), 2)}.${zeros(d.getMilliseconds(), 3)}`;
 }
 
-function nowDayTime(delimiter: string = ' at ') {
+export function nowDayTime(delimiter: string = ' at ') {
     let d: Date = new Date();
     return `${nowDay(d)}${delimiter}${nowTime(d)}`;
 }
 
-function ensureNameUnique(name: string, nameIsFname: boolean = true): string {
+export function ensureNameUnique(name: string, nameIsFname: boolean = true): string {
     // 0. Ensure that file/folder name is unique.
     let basename = '', ext = '', index: number = 0, initialized: boolean = false;
     while (1) {
