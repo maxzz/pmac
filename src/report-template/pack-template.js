@@ -13,7 +13,7 @@ function main() {
     const fnameDt = path.resolve(rootDir, './template-4-pmac.json'); // packed-html-for-pmac
     fs.writeFileSync(fnameDt, newCnt);
 
-    const distFolder = path.resolve(rootDir, '../../dist/reports');
+    const distFolder = path.resolve(rootDir, '../../dist/report-template');
     fs.mkdirSync(distFolder, { recursive: true });
     const fnameDist = path.resolve(distFolder, './template-4-pmac.json'); // packed-html-for-pmac
     // console.log('rootDir', rootDir);

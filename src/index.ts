@@ -9,15 +9,9 @@ import { ByDomains, Duplicates, FileMeta, getParentFolder, LoadedManifests, load
 import { makeXML } from './manifest';
 import { osStuff } from './utils/utils-os';
 import { ensureNameUnique, nowDayTime } from './utils/unique-names';
-
-const reportData = require('./reports/template-4-pmac.json');
+import { makeHtmlReport } from './utils/utils.report';
 
 function processFiles(fnames: string[]) {
-
-    //const template = atob(reportData.skeleton).toString();
-    const template = Buffer.from(reportData.skeleton, 'base64').toString();
-    console.log('reportData', template);
-    return;
 
     const loadedManifests = loadManifests(fnames);
     //printLoaded(loadedManifests);
@@ -84,6 +78,8 @@ async function main() {
     for (let files of filesByFolders) {
         processFiles(files);
     }
+
+    makeHtmlReport();
 
     notes.show();
 }
