@@ -6,6 +6,7 @@ import chalk from "chalk";
 import { FormUrls, getFormUrls } from "./utils-mani-urls";
 import { ensureNameUnique, nowDayTime } from "./unique-names";
 import { osStuff } from "./utils-os";
+import { TargetGroup } from "./arguments";
 
 export function filterByExtension(fnames: string[], ext: string): string[] {
     return fnames.filter((item) => path.extname(item).toLowerCase() === ext);
@@ -30,7 +31,9 @@ export type FileMeta = {
     forms: Meta.Form[];
     urls: FormUrls[];
     raw: string;
-    fname: string;
+    root: string;
+    short: string;
+    //fname: string;
 };
 
 export type LoadedManifests = {
@@ -39,12 +42,13 @@ export type LoadedManifests = {
     failed: string[];
 };
 
-export function loadManifests(fnames: string[]): LoadedManifests {
+export function loadManifests(targetGroup: TargetGroup): LoadedManifests {
     const rv: LoadedManifests = { files: [], empty: [], failed: [], };
 
-    for (const file of fnames) {
+    for (const file of targetGroup.fnames) {
+        const fname = path.join(targetGroup.root, file);
         try {
-            const cnt = fs.readFileSync(file).toString();
+            const cnt = fs.readFileSync(fname).toString();
             const { mani } = parseXMLFile(cnt);
             const forms = buildManiMetaForms(mani);
 
@@ -54,13 +58,14 @@ export function loadManifests(fnames: string[]): LoadedManifests {
                     forms,
                     urls: [getFormUrls(forms[0]), getFormUrls(forms[1])],
                     raw: cnt,
-                    fname: file,
+                    root: targetGroup.root,
+                    short: file,
                 });
             } else {
-                rv.empty.push(file);
+                rv.empty.push(fname);
             }
         } catch (error) {
-            rv.failed.push(file);
+            rv.failed.push(fname);
         }
     }
 
@@ -93,7 +98,11 @@ export function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
 
     files.forEach((f) => {
         if (f.raw) {
-            const newFname = path.join(backupFolder, path.basename(f.fname));
+            const fname = path.join(f.root, f.short);
+            const maybeSubFolder = path.dirname(fname);
+            osStuff.mkdirSync(maybeSubFolder);
+
+            const newFname = path.join(backupFolder, path.basename(fname));
             fs.writeFileSync(newFname, f.raw);
         }
     });

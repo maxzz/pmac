@@ -4,16 +4,16 @@ import chalk from 'chalk';
 import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
-import { getAndCheckTargets, getVerifiedFolders, Targets } from './utils/arguments';
+import { getAndCheckTargets, getVerifiedFolders, TargetGroup, Targets } from './utils/arguments';
 import { ByDomains, Duplicates, FileMeta, getParentFolder, LoadedManifests, loadManifests, makeBackupCopy, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
 import { makeXML } from './manifest';
 import { osStuff } from './utils/utils-os';
 import { ensureNameUnique, nowDayTime } from './utils/unique-names';
 import { makeHtmlReport } from './utils/utils.report';
 
-function processFiles(fnames: string[]) {
+function processFiles(targetGroup: TargetGroup) {
 
-    const loadedManifests = loadManifests(fnames);
+    const loadedManifests = loadManifests(targetGroup);
     //printLoaded(loadedManifests);
 
     const byDomains = splitByDomains(loadedManifests.files);
@@ -27,10 +27,7 @@ function processFiles(fnames: string[]) {
     //     notes.add(`\nNothing done:\nThere are no duplicates in ${loadedManifests.files.length} loaded file${loadedManifests.files.length === 1 ? '' : 's'}.`);
     // }
 
-    const parentFolder = loadedManifests.files.length ? getParentFolder(fnames) : '';
-    if (!parentFolder) {
-        throw newErrorArgs('Cannot get destination folder (files from multiple folders).');
-    }
+    const parentFolder = targetGroup.root;
 
     //TODO: use 'duplicates' instead of 'loadedManifests.files'
 
@@ -57,12 +54,12 @@ function processFiles(fnames: string[]) {
     loadedManifests.files.forEach((f) => {
         const xml = makeXML(f.mani);
         if (xml) {
-            const newFname = path.join(destFolder, path.basename(f.fname));
+            const newFname = path.join(destFolder, f.short);
             fs.writeFileSync(newFname, xml);
 
-            //const newDir = path.join(path.dirname(f.fname), 'new');
-            //const newFname = path.join(newDir, path.basename(f.fname));
-            // const newFname = path.join(newDir, path.basename(f.fname, path.extname(f.fname)) + '_new') + path.extname(f.fname);
+            //const newDir = path.join(f.short, 'new');
+            //const newFname = path.join(newDir, f.short);
+            // const newFname = path.join(newDir, path.basename(f.short, path.extname(f.fname)) + '_new') + path.extname(f.fname);
 
             //osStuff.mkdirSync(newDir);
             //fs.writeFileSync(newFname, xml);
@@ -80,8 +77,8 @@ async function main() {
 
     const filesByFolders = getVerifiedFolders(targets);
 
-    for (let files of filesByFolders) {
-        processFiles(files);
+    for (let targetGroup of filesByFolders) {
+        processFiles(targetGroup);
     }
 
     notes.show();

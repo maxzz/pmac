@@ -34,12 +34,17 @@ export function getAndCheckTargets(): Targets {
     return rv;
 }
 
-export function getVerifiedFolders({ files, dirs }: Targets): string[][] {
+export type TargetGroup = {
+    root: string;
+    fnames: string[]; // fnames from the root folder (i.e. wo/ the root) and possible sub-folders (w/ relative path to the root): A, B, and C.
+};
+
+export function getVerifiedFolders({ files, dirs }: Targets): TargetGroup[] {
     //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);
     //help(); return;
     //await exitProcess(0, '');
 
-    const rv: string[][] = [];
+    const rv: TargetGroup[] = [];
 
     if (files.length && dirs.length) {
         throw newErrorArgs('Nothing done:\nSpecify the folder name or file names, but not both.');
@@ -51,28 +56,29 @@ export function getVerifiedFolders({ files, dirs }: Targets): string[][] {
             throw newErrorArgs(`Nothing done:\nThe files must have a ".dpm" extension.`);
         }
 
-        const parent = getParentFolder(ourFiles);
-        if (!parent) {
-            throw newErrorArgs('Nothing done:\nAll files must belong to the same folder.');
+        const root = getParentFolder(ourFiles);
+        if (!root) {
+            throw newErrorArgs('Nothing done:\nAll files must belong to the same folder.'); // Cannot get destination folder (files from multiple folders)
         }
 
         const shortFnames = ourFiles.map((fname) => path.basename(fname));
-        rv.push(ourFiles);
+        rv.push({ root, fnames: shortFnames });
     }
     else if (dirs.length) {
-        for (let dir of dirs) {
-            const res = osStuff.collectDirItems(dir);
-            const files: string[] = res.files.map((item) => path.join(dir, item.short));
-            const ourFiles = filterByExtension(files, '.dpm');
-            if (ourFiles.length) {
-                rv.push(ourFiles);
+        for (let root of dirs) {
+            const res = osStuff.collectDirItems(root);
+            const fnames = filterByExtension(res.files.map((item) => item.short), '.dpm');
+            if (fnames.length) {
+                rv.push({ root, fnames });
             }
         }
     } else {
         throw newErrorArgs(`Nothing done:\nSpecify at leats one folder or files name to process.`);
     }
 
-    //throw 'not now'
+    //TODO: add A, B, and C to each TargetGroup
+
+    throw 'not now';
 
     return rv;
 }
