@@ -1,5 +1,5 @@
 {
-    "name": "pmdc",
+    "name": "pmac",
     "version": "0.1.4",
     "author": "Max Zakharzhevskiy",
     "description": "Password manager domain credential switch utility",
@@ -14,7 +14,8 @@
         "dev": "tsc",
         "build": "rm -rf dist && tsc",
         "makerep": "gluehtml ./src/reports/index.html",
-        "makebin": "yarn build && pkg -t host -o pmdc dist/index.js"
+        "makesk": "node ./src/reports/build-skeleton.js",
+        "makebin": "yarn build && pkg -t host -o pmac dist/index.js"
     },
     "dependencies": {
         "chalk": "4.1.2",
