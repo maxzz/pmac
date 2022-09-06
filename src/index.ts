@@ -40,6 +40,11 @@ function processFiles(fnames: string[]) {
         throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.`);
     }
 
+    const report = makeHtmlReport({here2: 'we go 7'});
+    if (report) {
+        //TODO: save it into the same folder
+    }
+
     notes.add(`All done in folder ${parentFolder}`);
 
     return;
@@ -78,8 +83,6 @@ async function main() {
     for (let files of filesByFolders) {
         processFiles(files);
     }
-
-    makeHtmlReport();
 
     notes.show();
 }

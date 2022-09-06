@@ -9,19 +9,17 @@ function main() {
 
     const b64 = cnt.toString('base64');
 
+    // a copy in working folder
     const newCnt = `{ "skeleton": "${b64}" }`;
-    const fnameDt = path.resolve(rootDir, './template-4-pmac.json'); // packed-html-for-pmac
+    const fnameDt = path.resolve(rootDir, './template-4-pmac.json');
     fs.writeFileSync(fnameDt, newCnt);
 
+    // copy into dist folder
     const distFolder = path.resolve(rootDir, '../../dist/report-template');
     fs.mkdirSync(distFolder, { recursive: true });
-    const fnameDist = path.resolve(distFolder, './template-4-pmac.json'); // packed-html-for-pmac
-    // console.log('rootDir', rootDir);
-    // console.log('fnameDist', fnameDist);
-    fs.writeFileSync(fnameDist, newCnt);
 
-    // const a = atob(b64);
-    // console.log('a', a);
+    const fnameDist = path.resolve(distFolder, './template-4-pmac.json');
+    fs.writeFileSync(fnameDist, newCnt);
 }
 
 main();
