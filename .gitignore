@@ -3,4 +3,5 @@ dist
 build
 tests
 yarn-error.log
+index--single.html
 

@@ -13,6 +13,7 @@
     "scripts": {
         "dev": "tsc",
         "build": "rm -rf dist && tsc",
+        "makerep": "gluehtml ./src/reports/index.html",
         "makebin": "yarn build && pkg -t host -o pmdc dist/index.js"
     },
     "dependencies": {

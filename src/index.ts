@@ -39,7 +39,7 @@ function processFiles(fnames: string[]) {
         throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.`);
     }
 
-    notes.add('All done.');
+    notes.add(`All done in folder ${parentFolder}`);
 
     return;
 
