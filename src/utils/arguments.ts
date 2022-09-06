@@ -47,13 +47,16 @@ export function getVerifiedFolders({ files, dirs }: Targets): string[][] {
 
     if (files.length) {
         const ourFiles = filterByExtension(files, '.dpm');
-        const parent = getParentFolder(ourFiles);
         if (!ourFiles.length) {
             throw newErrorArgs(`Nothing done:\nThe files must have a ".dpm" extension.`);
         }
+
+        const parent = getParentFolder(ourFiles);
         if (!parent) {
             throw newErrorArgs('Nothing done:\nAll files must belong to the same folder.');
         }
+
+        const shortFnames = ourFiles.map((fname) => path.basename(fname));
         rv.push(ourFiles);
     }
     else if (dirs.length) {
@@ -68,6 +71,8 @@ export function getVerifiedFolders({ files, dirs }: Targets): string[][] {
     } else {
         throw newErrorArgs(`Nothing done:\nSpecify at leats one folder or files name to process.`);
     }
+
+    //throw 'not now'
 
     return rv;
 }
