@@ -9,9 +9,16 @@ function main() {
 
     const b64 = cnt.toString('base64');
 
-    const newCnt = `var packed64 = { "skeleton": "${b64}" };`;
-    const fnameDt = path.resolve(rootDir, './template-4-pmac.js'); // packed-html-for-pmac
+    const newCnt = `{ "skeleton": "${b64}" }`;
+    const fnameDt = path.resolve(rootDir, './template-4-pmac.json'); // packed-html-for-pmac
     fs.writeFileSync(fnameDt, newCnt);
+
+    const distFolder = path.resolve(rootDir, '../../dist/reports');
+    fs.mkdirSync(distFolder, { recursive: true });
+    const fnameDist = path.resolve(distFolder, './template-4-pmac.json'); // packed-html-for-pmac
+    // console.log('rootDir', rootDir);
+    // console.log('fnameDist', fnameDist);
+    fs.writeFileSync(fnameDist, newCnt);
 
     // const a = atob(b64);
     // console.log('a', a);
