@@ -13,7 +13,7 @@
     "scripts": {
         "dev": "tsc",
         "build": "rm -rf dist && tsc",
-        "makerep": "gluehtml ./src/reports/index.html",
+        "makerep": "gluehtml --nofav ./src/reports/index.html",
         "makesk": "node ./src/reports/build-skeleton.js",
         "makebin": "yarn build && pkg -t host -o pmac dist/index.js"
     },

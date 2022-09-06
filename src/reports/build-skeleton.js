@@ -10,8 +10,8 @@ function main() {
     const b64 = cnt.toString('base64');
     //console.log('b64', b64);
 
-    const newCnt = `{ "skeleton": "${b64}" }`
-    const fnameDt = path.resolve(rootDir, './packed64-html.json');
+    const newCnt = `var packed64 = { "skeleton": "${b64}" };`;
+    const fnameDt = path.resolve(rootDir, './packed64-html.js');
     fs.writeFileSync(fnameDt, newCnt);
 
     // const a = atob(b64);
