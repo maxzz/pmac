@@ -8,10 +8,9 @@ function main() {
     const cnt = fs.readFileSync(fnameSk);
 
     const b64 = cnt.toString('base64');
-    //console.log('b64', b64);
 
     const newCnt = `var packed64 = { "skeleton": "${b64}" };`;
-    const fnameDt = path.resolve(rootDir, './packed64-html.js');
+    const fnameDt = path.resolve(rootDir, './template-4-pmac.js'); // packed-html-for-pmac
     fs.writeFileSync(fnameDt, newCnt);
 
     // const a = atob(b64);
