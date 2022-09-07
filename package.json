@@ -15,7 +15,7 @@
         "packages/*"
     ],
     "scripts": {
-        "dev": "tsc -w",
+        "dev": "tsc -w -p ./packages/utility/tsconfig.json",
         "build": "rm -rf dist && tsc",
         "makebin": "yarn build && pkg -t host -o pmac dist/index.js",
         "make-template": "gluehtml --nofav ./src/report-template/index.html",

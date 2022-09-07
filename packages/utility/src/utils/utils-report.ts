@@ -1,5 +1,5 @@
-const reportData = require('../report-template/template-4-pmac.json');
-const template = Buffer.from(reportData.skeleton, 'base64').toString();
+const reportData = require('@pmac/template');
+const template = Buffer.from(reportData.template.skeleton, 'base64').toString();
 
 export type RecordInputFiles = {
     input?: {

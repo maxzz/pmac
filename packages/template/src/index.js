@@ -1,1 +1,5 @@
-console.log('got it', reportData);
+const template = require('./template-4-pmac.json');
+
+module.exports = {
+    template,
+};
