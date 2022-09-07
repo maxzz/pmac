@@ -147,7 +147,11 @@ export function step_LoadManifests(targetGroup: TargetGroup): LoadedManifests {
     const loadedManifests = loadManifests(targetGroup);
     //printLoaded(loadedManifests);
 
-    //TODO: add to report
+    //TODO: add more to report
+
+    addToReport({ 
+        input: loadedManifests.files.map((f) => ({file: f.short})),
+    });
 
     return loadedManifests;
 }
@@ -203,10 +207,6 @@ export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): vo
     addToReport({ 
         duplicates: toReport,
     });
-
-    // addToReport({ 
-    //     input: [{file: 'a'}],
-    // });
 
     const report = makeHtmlReport(rootFolder);
 
