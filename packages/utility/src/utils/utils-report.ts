@@ -1,19 +1,19 @@
 const reportData = require('@pmac/template');
 const template = Buffer.from(reportData.template.skeleton, 'base64').toString();
 
-export type RecordInputFiles = {
+export type Report_InputFiles = {
     input?: {
         file: string;
     }[];
 };
 
-export type RecordDuplicates = {
+export type Report_Duplicates = {
     duplicates?: {
         file: string;
     }[];
 };
 
-export type ReportRecords = RecordInputFiles | RecordDuplicates;
+export type ReportRecords = Report_InputFiles | Report_Duplicates;
 
 const reports: ReportRecords = {};
 

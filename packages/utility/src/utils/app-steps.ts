@@ -1,12 +1,12 @@
 import path from "path";
 import fs from "fs";
 import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manifest";
-import { notes } from "./help";
+import { notes } from "./app-notes";
 import chalk from "chalk";
 import { FormUrls, getFormUrls } from "./utils-mani-urls";
 import { ensureNameUnique, nowDayTime } from "./unique-names";
 import { osStuff } from "./utils-os";
-import { TargetGroup } from "./arguments";
+import { TargetGroup } from "./app-arguments";
 import { addToReport, makeHtmlReport } from "./utils-report";
 
 // Manifest loading

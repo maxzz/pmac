@@ -1,9 +1,10 @@
 import chalk from 'chalk';
 import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
-import { help, notes } from './utils/help';
-import { getAndCheckTargets, getVerifiedFolders, TargetGroup, Targets } from './utils/arguments';
-import { step_GetDuplicates, step_LoadManifests, step_MakeBackupCopy, step_MakeReport, step_ModifyDuplicates } from './utils/utils-app';
+import { help } from './utils/app-help';
+import { getAndCheckTargets, getVerifiedFolders, TargetGroup, Targets } from './utils/app-arguments';
+import { step_GetDuplicates, step_LoadManifests, step_MakeBackupCopy, step_MakeReport, step_ModifyDuplicates } from './utils/app-steps';
+import { notes } from './utils/app-notes';
 
 function processFiles(targetGroup: TargetGroup) {
 
