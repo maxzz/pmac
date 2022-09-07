@@ -147,11 +147,12 @@ export function step_LoadManifests(targetGroup: TargetGroup): LoadedManifests {
     const loadedManifests = loadManifests(targetGroup);
     //printLoaded(loadedManifests);
 
-    //TODO: add more to report
-
-    addToReport({ 
-        input: loadedManifests.files.map((f) => ({file: f.short})),
-    });
+    const toReport = {
+        input: loadedManifests.files.map((f) => ({
+            file: f.short, //TODO: add more to report
+        })),
+    };
+    addToReport(toReport);
 
     return loadedManifests;
 }
@@ -200,13 +201,13 @@ export function step_ModifyDuplicates(duplicates: Duplicate[]): void {
 }
 
 export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): void {
-    const toReport = flatDuplicates(duplicates).map((file) => ({
-        file: file.short,
-    }));
 
-    addToReport({ 
-        duplicates: toReport,
-    });
+    const toReport = {
+        duplicates: flatDuplicates(duplicates).map((file) => ({
+            file: file.short, //TODO: add more to report
+        })),
+    };
+    addToReport(toReport);
 
     const report = makeHtmlReport(rootFolder);
 
