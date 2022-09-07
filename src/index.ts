@@ -1,15 +1,9 @@
-import fs from 'fs';
-import path from 'path';
 import chalk from 'chalk';
 import rimraf from 'rimraf';
-import { exitProcess, newErrorArgs } from './utils/utils-errors';
+import { exitProcess } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, TargetGroup, Targets } from './utils/arguments';
-import { ByDomains, Duplicate, FileMeta, getDuplicates, LoadedManifests, printDuplicates, printLoaded, step_GetDuplicates, step_LoadManifests, step_MakeBackupCopy, step_MakeReport, step_ModifyDuplicates } from './utils/utils-app';
-import { makeXML } from './manifest';
-import { osStuff } from './utils/utils-os';
-import { ensureNameUnique, nowDayTime } from './utils/unique-names';
-import { makeHtmlReport } from './utils/utils-report';
+import { step_GetDuplicates, step_LoadManifests, step_MakeBackupCopy, step_MakeReport, step_ModifyDuplicates } from './utils/utils-app';
 
 function processFiles(targetGroup: TargetGroup) {
 
@@ -19,16 +13,9 @@ function processFiles(targetGroup: TargetGroup) {
         return;
     }
 
-    const rootFolder = targetGroup.root;
-
-    //TODO: use 'duplicates' instead of 'loadedManifests.files'
-
-    step_MakeBackupCopy(loadedManifests.files, rootFolder);
-
-    //TODO: place modified files into original folder
+    step_MakeBackupCopy(duplicates, targetGroup.root);
     step_ModifyDuplicates(duplicates);
-
-    step_MakeReport(rootFolder);
+    step_MakeReport(targetGroup.root);
 }
 
 async function main() {

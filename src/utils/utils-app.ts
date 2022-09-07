@@ -85,6 +85,11 @@ export function getDuplicates(files: FileMeta[]): Duplicate[] {
     return duplicates;
 }
 
+function flatDuplicates(duplicates: Duplicate[]): FileMeta[] {
+    const files: FileMeta[] = duplicates.map(([domain, files]) => files).flat();
+    return files;
+}
+
 // Backup
 
 function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
@@ -161,11 +166,11 @@ export function step_GetDuplicates(files: FileMeta[]): Duplicate[] | undefined {
     return duplicates.length ? duplicates : undefined;
 }
 
-export function step_MakeBackupCopy(files: FileMeta[], rootFolder: string): void {
+export function step_MakeBackupCopy(duplicates: Duplicate[], rootFolder: string): void {
     try {
-        makeBackupCopy(files, rootFolder);
+        makeBackupCopy(flatDuplicates(duplicates), rootFolder);
     } catch (error) {
-        throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.`);
+        throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${rootFolder}`);
     }
 }
 
@@ -186,10 +191,12 @@ export function step_ModifyDuplicates(duplicates: Duplicate[]): void {
     //     }
     // });
 
+    //TODO: place modified files into original folder
+
 }
 
 export function step_MakeReport(folderName: string): void {
-    const report = makeHtmlReport({here2: 'we go 7'});
+    const report = makeHtmlReport({ here2: 'we go 7' });
     if (report) {
         //TODO: save it into the same folder
     }
