@@ -18,11 +18,11 @@
             "args": [
                 // ".",
                 // "C:/Y/w/2-web/0-dp/utils/pm-domain-credentials-switch/tests/01",
-                //"tests/01",
+                "tests/01",
 
-                "tests/01/{0a60444f-1a89-4b1d-8a7f-c3b87c3b7f80}.dpm",
-                "tests/01/{2de7d301-a9cb-4b81-8541-44d483f326fe}.dpm",
-                "tests/01/{0a58d2be-9441-4860-ae5b-cb3cb09de112}.dpm",
+                // "tests/01/{0a60444f-1a89-4b1d-8a7f-c3b87c3b7f80}.dpm",
+                // "tests/01/{2de7d301-a9cb-4b81-8541-44d483f326fe}.dpm",
+                // "tests/01/{0a58d2be-9441-4860-ae5b-cb3cb09de112}.dpm",
 
                 // "C:/Users/maxzz/Desktop/HID bugs/89863/temp-for-max/DigitalPersona Templates Edge",
                 //"C:/Users/maxzz/Desktop/HID bugs/90785, fiserv/_dp_ots_tmp",

@@ -7,6 +7,7 @@ import { FormUrls, getFormUrls } from "./utils-mani-urls";
 import { ensureNameUnique, nowDayTime } from "./unique-names";
 import { osStuff } from "./utils-os";
 import { TargetGroup } from "./arguments";
+import { makeHtmlReport } from "./utils-report";
 
 // Manifest loading
 
@@ -26,7 +27,7 @@ export type LoadedManifests = {
     failed: string[];
 };
 
-export function loadManifests(targetGroup: TargetGroup): LoadedManifests {
+function loadManifests(targetGroup: TargetGroup): LoadedManifests {
     const rv: LoadedManifests = { files: [], empty: [], failed: [], };
 
     for (const file of targetGroup.fnames) {
@@ -59,8 +60,9 @@ export function loadManifests(targetGroup: TargetGroup): LoadedManifests {
 // Manifest sorting
 
 export type ByDomains = Record<string, FileMeta[]>; // domain -> manifest files
+export type Duplicate = [domain: string, files: FileMeta[]];
 
-export function splitByDomains(files: FileMeta[]) {
+function splitByDomains(files: FileMeta[]): ByDomains {
     const rv: ByDomains = {};
 
     files.forEach((file) => {
@@ -74,9 +76,18 @@ export function splitByDomains(files: FileMeta[]) {
     return rv;
 }
 
+export function getDuplicates(files: FileMeta[]): Duplicate[] {
+    const byDomains = splitByDomains(files);
+
+    const domainsArr: Duplicate[] = Object.entries(byDomains);
+    const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
+
+    return duplicates;
+}
+
 // Backup
 
-export function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
+function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
     const backupFolder = ensureNameUnique(`${rootFolder}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
     osStuff.mkdirSync(backupFolder);
 
@@ -92,7 +103,7 @@ export function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
     });
 }
 
-// Reports
+// Local console log reports
 
 export function printLoaded(loadedManifests: LoadedManifests) {
 
@@ -114,9 +125,7 @@ export function printLoaded(loadedManifests: LoadedManifests) {
     });
 }
 
-export type Duplicates = [domain: string, files: FileMeta[]][];
-
-export function printDuplicates(duplicates: Duplicates) {
+export function printDuplicates(duplicates: Duplicate[]) {
     const entries = duplicates.map(([key, val]) => {
         const items = val.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
         return chalk.red(`${key} ${val.length}${items}`);
@@ -125,4 +134,65 @@ export function printDuplicates(duplicates: Duplicates) {
     entries.forEach((item) => {
         console.log(item);
     });
+}
+
+// Steps
+
+export function step_LoadManifests(targetGroup: TargetGroup): LoadedManifests {
+    const loadedManifests = loadManifests(targetGroup);
+    //printLoaded(loadedManifests);
+
+    //TODO: add to report
+
+    return loadedManifests;
+}
+
+export function step_GetDuplicates(files: FileMeta[]): Duplicate[] | undefined {
+    const duplicates = getDuplicates(files);
+
+    //TODO: add to report
+
+    if (duplicates.length) {
+        printDuplicates(duplicates);
+    } else {
+        notes.add(`\nNothing done:\nThere are no duplicates in ${files.length} loaded file${files.length === 1 ? '' : 's'}.`);
+    }
+
+    return duplicates.length ? duplicates : undefined;
+}
+
+export function step_MakeBackupCopy(files: FileMeta[], rootFolder: string): void {
+    try {
+        makeBackupCopy(files, rootFolder);
+    } catch (error) {
+        throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.`);
+    }
+}
+
+export function step_ModifyDuplicates(duplicates: Duplicate[]): void {
+
+    // const destFolder = ensureNameUnique(`${targetGroup.root}/new ${nowDayTime()}`, false);
+    // osStuff.mkdirSync(destFolder);
+    // loadedManifests.files.forEach((f) => {
+    //     const xml = makeXML(f.mani);
+    //     if (xml) {
+    //         const newFname = path.join(destFolder, f.short);
+    //         fs.writeFileSync(newFname, xml);
+    //         //const newDir = path.join(f.short, 'new');
+    //         //const newFname = path.join(newDir, f.short);
+    //         // const newFname = path.join(newDir, path.basename(f.short, path.extname(f.fname)) + '_new') + path.extname(f.fname);
+    //         //osStuff.mkdirSync(newDir);
+    //         //fs.writeFileSync(newFname, xml);
+    //     }
+    // });
+
+}
+
+export function step_MakeReport(folderName: string): void {
+    const report = makeHtmlReport({here2: 'we go 7'});
+    if (report) {
+        //TODO: save it into the same folder
+    }
+
+    notes.add(`All done in folder ${folderName}`);
 }
