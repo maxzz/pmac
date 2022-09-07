@@ -195,11 +195,19 @@ export function step_ModifyDuplicates(duplicates: Duplicate[]): void {
 
 }
 
-export function step_MakeReport(folderName: string): void {
-    const report = makeHtmlReport({ here2: 'we go 7' });
+export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): void {
+    const toReport = flatDuplicates(duplicates).map((file) => ({
+        file: file.short,
+    }));
+
+    const report = makeHtmlReport({ 
+        duplicate: toReport,
+    });
+
     if (report) {
         //TODO: save it into the same folder
+        console.log('newTemplate', report);
     }
 
-    notes.add(`All done in folder ${folderName}`);
+    notes.add(`All done in folder ${rootFolder}`);
 }

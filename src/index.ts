@@ -15,7 +15,7 @@ function processFiles(targetGroup: TargetGroup) {
 
     step_MakeBackupCopy(duplicates, targetGroup.root);
     step_ModifyDuplicates(duplicates);
-    step_MakeReport(targetGroup.root);
+    step_MakeReport(duplicates, targetGroup.root);
 }
 
 async function main() {
