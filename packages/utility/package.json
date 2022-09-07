@@ -1,0 +1,19 @@
+{
+    "name": "@pmac/utility",
+    "version": "1.0.0",
+    "author": "Max Zakharzhevskiy",
+    "description": "Password manager domain credential switch utility",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "chalk": "4.1.2",
+        "fast-xml-parser": "^4.0.9",
+        "minimist": "^1.2.5",
+        "rimraf": "^3.0.2",
+        "@pmac/template": "1.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "18.7.14",
+        "@types/rimraf": "^3.0.0"
+    }
+}

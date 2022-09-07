@@ -3,6 +3,7 @@
     "version": "0.1.8",
     "author": "Max Zakharzhevskiy",
     "description": "Password manager domain credential switch utility",
+    "private": true,
     "license": "MIT",
     "main": "index.js",
     "keywords": [
@@ -10,23 +11,15 @@
         "javascript",
         "typescript"
     ],
+    "workspaces": [
+        "packages/*"
+    ],
     "scripts": {
         "dev": "tsc -w",
         "build": "rm -rf dist && tsc",
         "makebin": "yarn build && pkg -t host -o pmac dist/index.js",
-        
         "make-template": "gluehtml --nofav ./src/report-template/index.html",
         "pack-template": "node ./src/report-template/pack-template.js",
         "template": "yarn make-template && yarn pack-template"
-    },
-    "dependencies": {
-        "chalk": "4.1.2",
-        "fast-xml-parser": "^4.0.9",
-        "minimist": "^1.2.5",
-        "rimraf": "^3.0.2"
-    },
-    "devDependencies": {
-        "@types/node": "18.7.14",
-        "@types/rimraf": "^3.0.0"
     }
 }

@@ -1,0 +1,8 @@
+{
+    "name": "@pmac/template",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "author": "Max Zakharzhevskiy",
+    "description": "Password manager domain credential switch report template"
+}
