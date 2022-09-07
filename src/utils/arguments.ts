@@ -1,6 +1,5 @@
 import path from 'path';
 import { exist } from './unique-names';
-import { filterByExtension, getParentFolder } from './utils-app';
 import { newErrorArgs } from './utils-errors';
 import { osStuff } from './utils-os';
 
@@ -36,7 +35,7 @@ export function getAndCheckTargets(): Targets {
 
 export type TargetGroup = {
     root: string;
-    fnames: string[]; // fnames from the root folder (i.e. wo/ the root) and possible sub-folders (w/ relative path to the root): A, B, and C.
+    fnames: string[]; // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
 };
 
 export function getVerifiedFolders({ files, dirs }: Targets): TargetGroup[] {
@@ -51,12 +50,12 @@ export function getVerifiedFolders({ files, dirs }: Targets): TargetGroup[] {
     }
 
     if (files.length) {
-        const ourFiles = filterByExtension(files, '.dpm');
+        const ourFiles = osStuff.filterByExtension(files, '.dpm');
         if (!ourFiles.length) {
-            throw newErrorArgs(`Nothing done:\nThe files must have a ".dpm" extension.`);
+            throw newErrorArgs(`Nothing done:\nThere is no files with ".dpm" extension.`);
         }
 
-        const root = getParentFolder(ourFiles);
+        const root = osStuff.getParentFolder(ourFiles);
         if (!root) {
             throw newErrorArgs('Nothing done:\nAll files must belong to the same folder.'); // Cannot get destination folder (files from multiple folders)
         }
@@ -67,7 +66,7 @@ export function getVerifiedFolders({ files, dirs }: Targets): TargetGroup[] {
     else if (dirs.length) {
         for (let root of dirs) {
             const res = osStuff.collectDirItems(root);
-            const fnames = filterByExtension(res.files.map((item) => item.short), '.dpm');
+            const fnames = osStuff.filterByExtension(res.files.map((item) => item.short), '.dpm');
             if (fnames.length) {
                 rv.push({ root, fnames });
             }
@@ -76,9 +75,9 @@ export function getVerifiedFolders({ files, dirs }: Targets): TargetGroup[] {
         throw newErrorArgs(`Nothing done:\nSpecify at leats one folder or files name to process.`);
     }
 
-    //TODO: add A, B, and C to each TargetGroup
+    //TODO: add A(InUse), B(NotInUse), and C(NotInUseTest) to each TargetGroup
 
-    throw 'not now';
+    //throw 'not now';
 
     return rv;
 }

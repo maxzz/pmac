@@ -5,11 +5,11 @@ import rimraf from 'rimraf';
 import { exitProcess, newErrorArgs } from './utils/utils-errors';
 import { help, notes } from './utils/help';
 import { getAndCheckTargets, getVerifiedFolders, TargetGroup, Targets } from './utils/arguments';
-import { ByDomains, Duplicates, FileMeta, getParentFolder, LoadedManifests, loadManifests, makeBackupCopy, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
+import { ByDomains, Duplicates, FileMeta, LoadedManifests, loadManifests, makeBackupCopy, printDuplicates, printLoaded, splitByDomains } from './utils/utils-app';
 import { makeXML } from './manifest';
 import { osStuff } from './utils/utils-os';
 import { ensureNameUnique, nowDayTime } from './utils/unique-names';
-import { makeHtmlReport } from './utils/utils.report';
+import { makeHtmlReport } from './utils/utils-report';
 
 function processFiles(targetGroup: TargetGroup) {
 

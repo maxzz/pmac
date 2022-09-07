@@ -8,22 +8,6 @@ import { ensureNameUnique, nowDayTime } from "./unique-names";
 import { osStuff } from "./utils-os";
 import { TargetGroup } from "./arguments";
 
-export function filterByExtension(fnames: string[], ext: string): string[] {
-    return fnames.filter((item) => path.extname(item).toLowerCase() === ext);
-}
-
-export function getParentFolder(fnames: string[]): string | undefined {
-    // 0. Returns fnames paretn folder or undefined if fnames from a different folders.
-
-    const res = fnames.reduce((acc, cur) => {
-        acc[path.dirname(cur)] = true;
-        return acc;
-    }, {} as Record<string, boolean>);
-
-    const keys = Object.keys(res);
-    return keys.length === 1 ? keys[0] : undefined;
-}
-
 // Manifest loading
 
 export type FileMeta = {
@@ -134,7 +118,7 @@ export type Duplicates = [domain: string, files: FileMeta[]][];
 
 export function printDuplicates(duplicates: Duplicates) {
     const entries = duplicates.map(([key, val]) => {
-        const items = val.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join(''); // ${item.urls[0]?.oParts?.urlPath}
+        const items = val.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
         return chalk.red(`${key} ${val.length}${items}`);
     });
 

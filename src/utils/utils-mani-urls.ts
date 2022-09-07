@@ -4,7 +4,7 @@ import { tmurl } from "../manifest/url";
 export type FormUrlParts = {
     domain?: string;    // original url domain
     woParms?: string;   // original url wo/ params
-    urlPath?: string;   // original url path
+    urlPath?: string;   // original url path part wo/ domain and params
 };
 
 export type FormUrls = {

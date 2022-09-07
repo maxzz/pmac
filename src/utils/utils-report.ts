@@ -1,6 +1,10 @@
 const reportData = require('../report-template/template-4-pmac.json');
+const template = Buffer.from(reportData.skeleton, 'base64').toString();
 
-export function makeHtmlReport(moreData?: any): string | undefined {
+export function addToReport(moreData?: object) {
+}
+
+export function makeHtmlReport(moreData?: object): string | undefined {
     if (!moreData) {
         return;
     }
@@ -9,10 +13,7 @@ export function makeHtmlReport(moreData?: any): string | undefined {
         here: 'we go 5',
         ...moreData,
     };
-
     const dataStr = JSON.stringify(data);
-
-    const template = Buffer.from(reportData.skeleton, 'base64').toString();
 
     const newTemplate = template.replace('"__INJECTED__DATA__"', dataStr);
 
