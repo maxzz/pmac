@@ -7,7 +7,7 @@ import { FormUrls, getFormUrls } from "./utils-mani-urls";
 import { ensureNameUnique, nowDayTime } from "./unique-names";
 import { osStuff } from "./utils-os";
 import { TargetGroup } from "./arguments";
-import { makeHtmlReport } from "./utils-report";
+import { addToReport, makeHtmlReport } from "./utils-report";
 
 // Manifest loading
 
@@ -200,9 +200,11 @@ export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): vo
         file: file.short,
     }));
 
-    const report = makeHtmlReport({ 
-        duplicate: toReport,
+    addToReport({ 
+        duplicates: toReport,
     });
+
+    const report = makeHtmlReport(rootFolder);
 
     if (report) {
         //TODO: save it into the same folder
