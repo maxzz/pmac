@@ -204,6 +204,10 @@ export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): vo
         duplicates: toReport,
     });
 
+    // addToReport({ 
+    //     input: [{file: 'a'}],
+    // });
+
     const report = makeHtmlReport(rootFolder);
 
     if (report) {
