@@ -1,14 +1,14 @@
 {
     "name": "@pmac/template",
     "version": "1.0.0",
-    "main": "./src/index.js",
+    "main": "./index.js",
     "license": "MIT",
     "author": "Max Zakharzhevskiy",
     "description": "Password manager domain credential switch report template",
     "scripts": {
         "dev": "tsc -w",
         "build": "rm -rf dist && tsc",
-        "make-template": "gluehtml --nofav ./src/index.html --output ../dist",
+        "make-template": "gluehtml ./src/index.html --output ../dist",
         "pack-template": "node ./scripts/pack-template.js",
         "template": "yarn make-template && yarn pack-template"
     }

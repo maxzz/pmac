@@ -18,8 +18,7 @@
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
         "build": "rm -rf dist && tsc",
         "makebin": "yarn build && pkg -t host -o pmac dist/index.js",
-        "make-template": "gluehtml --nofav ./src/report-template/index.html",
-        "pack-template": "node ./src/report-template/pack-template.js",
-        "template": "yarn make-template && yarn pack-template"
+        
+        "template": "yarn workspace @pmac/template template"
     }
 }
