@@ -1,9 +1,8 @@
 import '../index.css';
 import { setupCounter } from './counter';
-import { Report, Report_InputFiles } from '@pmac/shared-types';
-import { invokeModule, report } from './test-data';
-
-invokeModule();
+import { setupHeader } from './header';
+//import { Report, Report_InputFiles } from '@pmac/shared-types';
+import { report } from './test-data';
 
 const typescriptLogo = '';
 
@@ -11,7 +10,8 @@ const app = document.querySelector<HTMLDivElement>('#app')!;
 
 app.innerHTML =
     `
-  <div class="flex-1 bg-gradient-to-t from-blue-500 to-blue-400">
+  <div class="flex-1 bg-gradient-to-t from-primary-50 to-[#036eb3] text-primary-900">
+    <header id="header"></header>
 
     <a href="https://vitejs.dev" target="_blank">
       <!-- <img src="/vite.svg" class="logo" alt="Vite logo" /> -->
@@ -33,6 +33,8 @@ app.innerHTML =
 
   </div>
 `;
+
+setupHeader(document.querySelector<HTMLButtonElement>('#header')!)
 
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
