@@ -4,6 +4,10 @@ import { Report_InputFiles } from '@pmac/shared-types';
 
 const typescriptLogo = '';
 
+if (process.env.NODE_ENV !== 'production') {
+    console.log('only dev');
+}
+
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
 app.innerHTML =
@@ -35,4 +39,5 @@ setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
 const reportData = (window as any)['reportData'] as Report_InputFiles;
 
-console.log('got it', reportData);
+console.log('got it 1', reportData);
+//console.log('got it 2', reportData2);
