@@ -9,3 +9,8 @@ export type Report_Duplicates = {
         file: string;
     }[];
 };
+
+export type Report = {
+    inputs?: Report_InputFiles;
+    duplicates?: Report_Duplicates;
+};
