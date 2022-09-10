@@ -11,7 +11,7 @@
         "preview": "vite preview",
         "make-template": "gluehtml ./dist/index.html --nofav",
         "pack-template": "node ./scripts/pack-template.js",
-        "template": "yarn make-template && yarn pack-template"
+        "template": "yarn build && yarn make-template && yarn pack-template"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.3",
