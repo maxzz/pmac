@@ -13,6 +13,12 @@
         "pack-template": "node ./scripts/pack-template.js",
         "template": "yarn build && yarn make-template && yarn pack-template"
     },
+    "resolutions": {
+        "postcss": "^8.4.16"
+    },
+    "dependencies": {
+        "@pmac/shared-types": "1.0.0"
+    },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.3",
         "autoprefixer": "^10.4.8",

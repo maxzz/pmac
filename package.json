@@ -20,9 +20,6 @@
         "makebin": "yarn build && pkg -t host -o pmac dist/index.js",
         "template": "yarn workspace @pmac/template template"
     },
-    "resolutions": {
-        "**/postcss": "link:./postcss"
-    },
     "devDependencies": {
         "typescript": "^4.8.3"
     }

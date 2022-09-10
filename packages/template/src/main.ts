@@ -1,12 +1,13 @@
 import '../index.css';
 import { setupCounter } from './counter';
+import { AllFiles } from '@pmac/shared-types';
 
 const typescriptLogo = '';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
-app.innerHTML = 
-`
+app.innerHTML =
+    `
   <div class="flex-1 bg-gradient-to-t from-blue-500 to-blue-400">
 
     <a href="https://vitejs.dev" target="_blank">
@@ -32,6 +33,6 @@ app.innerHTML =
 
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
-const reportData = (window as any)['reportData'] as string;
+const reportData = (window as any)['reportData'] as AllFiles;
 
 console.log('got it', reportData);
