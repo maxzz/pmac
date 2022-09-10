@@ -1,7 +1,3 @@
-export type AllFiles = {
-    one: string;
-}
-
 export type Report_InputFiles = {
     input?: {
         file: string;

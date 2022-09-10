@@ -1,6 +1,6 @@
 import '../index.css';
 import { setupCounter } from './counter';
-import { AllFiles } from '@pmac/shared-types';
+import { Report_InputFiles } from '@pmac/shared-types';
 
 const typescriptLogo = '';
 
@@ -33,6 +33,6 @@ app.innerHTML =
 
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
-const reportData = (window as any)['reportData'] as AllFiles;
+const reportData = (window as any)['reportData'] as Report_InputFiles;
 
 console.log('got it', reportData);
