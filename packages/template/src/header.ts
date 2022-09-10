@@ -8,9 +8,9 @@ function IconHIDLogo() {
 export const textShadow = "text-shadow: 1px 1px 2px #000";
 export const elevation4Shadow = "box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%)";
 
-export function setupHeader(element: HTMLElement) {
-    element.innerHTML = `
-    <div class="px-6 py-4 flex items-center justify-between bg-title3 shadow-sm cursor-default">
+export function PageHeader() {
+    return (`
+    <div class="px-6 py-4 flex items-center justify-between bg-title3 shadow-sm cursor-default select-none">
         <div class="flex items-center space-x-4">
             <a class="cursor-default" target="_blank" href="https://www.hidglobal.com">
                 <div class="w-20 py-2 flex items-center justify-center bg-white rounded-md">
@@ -24,5 +24,5 @@ export function setupHeader(element: HTMLElement) {
         </div>
     </div>
     <div class="h-1 bg-title5" style="${elevation4Shadow}"></div>
-    `;
+    `);
 }
