@@ -4,14 +4,25 @@ import { PageHeader } from './header';
 //import { Report, Report_InputFiles } from '@pmac/shared-types';
 import { report } from './test-data';
 
-const app = document.querySelector<HTMLDivElement>('#app')!;
-
-function H1(label: string) {
+function H1(text: string) {
     return (`
-    <h1 class="text-lg font-semibold" title="List of all files">${label}</h1>
-    `)
+    <h1 class="text-lg font-semibold" title="List of all files">${text}</h1>
+    `);
 }
 
+function Button(id: string, text?: string) {
+    return (`
+    <button class="px-3 pt-1 pb-2 bg-primary-300/30 border-primary-700 hover:bg-primary-300/70 hover:shadow active:scale-[.97] border rounded transition-all" id="${id}" type="button">${text || ''}</button>
+    `);
+}
+
+function Para(text: string) {
+    return (`
+    <p class="">${text}</p>
+    `);
+}
+
+const app = document.querySelector<HTMLDivElement>('#app')!;
 app.innerHTML =
     `
   <div class="flex-1 bg-gradient-to-t from-primary-50 to-[#036eb3] text-primary-900">
@@ -20,13 +31,9 @@ app.innerHTML =
     <div class="px-4 p-2">
         ${H1("All files")}
 
-        <div class="card">
-        <button class="px-3 pt-1 pb-2 border-primary-700 border rounded" id="counter" type="button"></button>
-        </div>
+        ${Button("counter")}        
 
-        <p class="read-the-docs">
-        Click on the Vite and TypeScript logos to learn more
-        </p>
+        ${Para("Click on the Vite and TypeScript logos to learn more")}
     </div>
   </div>
 `;

@@ -56,10 +56,10 @@ module.exports = {
         }),
         require('./tailwind/tailwnid-plugin-debug-styles'),
         require('./tailwind/tailwind-plugin-debug-screens'),
-        require('./tailwind/tailwind-plugin-colors-bridge')([
-            { prefix: '--tm-', groupName: 'primary' },
-            { prefix: '--tm-', groupName: 'ui', groupNameOut: 'ui' },
-        ]),
+        // require('./tailwind/tailwind-plugin-colors-bridge')([
+        //     { prefix: '--tm-', groupName: 'primary' },
+        //     { prefix: '--tm-', groupName: 'ui', groupNameOut: 'ui' },
+        // ]),
         require('./tailwind/tailwind-plugin-overflow-overlay'),
         require('./tailwind/tailwind-plugin-data-state'),
         require('@tailwindcss/forms')({ strategy: 'class' }),
