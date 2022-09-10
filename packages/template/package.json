@@ -6,10 +6,21 @@
     "author": "Max Zakharzhevskiy",
     "description": "Password manager domain credential switch report template",
     "scripts": {
-        "dev": "tsc -w",
-        "build": "rm -rf dist && tsc",
-        "make-template": "gluehtml ./src/index.html --output ../dist",
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+    
+        "_dev": "tsc -w",
+        "_build": "rm -rf dist && tsc",
+
+        "make-template": "gluehtml ./dist/index.html",
+
+        "_make-template": "gluehtml ./src/index.html --output ../dist",
         "pack-template": "node ./scripts/pack-template.js",
         "template": "yarn make-template && yarn pack-template"
+    },
+    "devDependencies": {
+        "typescript": "^4.8.3",
+        "vite": "^3.1.0"
     }
 }
