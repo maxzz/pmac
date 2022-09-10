@@ -14,6 +14,10 @@
         "template": "yarn make-template && yarn pack-template"
     },
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.3",
+        "autoprefixer": "^10.4.8",
+        "postcss": "^8.4.16",
+        "tailwindcss": "^3.1.8",
         "typescript": "^4.8.3",
         "vite": "^3.1.0"
     }

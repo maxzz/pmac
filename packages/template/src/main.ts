@@ -6,7 +6,7 @@ import '../index.css';
 const typescriptLogo = '';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
+  <div class="bg-red-200">
     <a href="https://vitejs.dev" target="_blank">
       <!-- <img src="/vite.svg" class="logo" alt="Vite logo" /> -->
     </a>
@@ -25,6 +25,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 //setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
 
-const reportData = window['reportData'];
+const reportData = (window as any)['reportData'] as string;
 
 console.log('got it', reportData);
