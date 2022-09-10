@@ -9,13 +9,7 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
-    
-        "_dev": "tsc -w",
-        "_build": "rm -rf dist && tsc",
-
         "make-template": "gluehtml ./dist/index.html --nofav",
-
-        "_make-template": "gluehtml ./src/index.html --output ../dist",
         "pack-template": "node ./scripts/pack-template.js",
         "template": "yarn make-template && yarn pack-template"
     },
