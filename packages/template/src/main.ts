@@ -14,8 +14,10 @@ function App() {
 
                     ${report.inputs ? TableAllInputs(report.inputs) : ''}
 
+                    <!--
                     <br />
                     ${Button({ id: "counter" })}
+                    -->
 
                     <!-- ${Para("Click on the Vite and TypeScript logos to learn more")} -->
                 </div>
@@ -27,7 +29,7 @@ function App() {
 const app = document.querySelector<HTMLDivElement>('#app')!;
 app.innerHTML = App();
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
+//setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
 console.log('report', report);
 
