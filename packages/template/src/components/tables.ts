@@ -21,12 +21,13 @@ export function TableAllInputs(inputs?: Report_InputFiles) {
     return (`
         ${H1("All files")}
         <div class="grid grid-cols-[auto_auto_minmax(0,1fr)] text-sm selection:bg-fuchsia-300 selection:text-fuchsia-900">
-            ${items.map((input, idx) => TableRow(input, !idx, idx === items.length - 1)).join('')}
+            ${Row('Name', 'Filename', true, false)}
+            ${items.map((input, idx) => TableRow(input, false, idx === items.length - 1)).join('')}
         </div>
     `);
 }
 
-//TODO: add column tiles
+//TODO: add column titles
 //TODO: add collapsible details
 //TODO: limit max-w and center - done
 //TODO: truncate with ... and tooltips - no need
