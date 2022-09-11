@@ -6,7 +6,7 @@ import chalk from "chalk";
 import { FormUrls, getFormUrls } from "./utils-mani-urls";
 import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
 import { osStuff } from "./utils-os";
-import { TargetGroup } from "./app-arguments";
+import { TargetSourceGroup } from "./app-arguments";
 import { addToReport, makeHtmlReport } from "./utils-report";
 import { Report_Duplicates, Report_InputFiles } from "@pmac/shared-types";
 
@@ -17,19 +17,25 @@ export type FileMeta = {
     forms: Meta.Form[];     // Each form meta data
     urls: FormUrls[];       // Each form urls
     raw: string;            // Loaded file content
-    root: string;           // Group folder
+    //root: string;           // Group folder
     short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
     //fname: string;
 };
 
+export type TargetGroup = {
+    root: string;           // this group root source folder
+    backupFolder?: string;  // folder for backup
+    files: FileMeta[];      // loaded meaninfull files, i.e. wo/ empty and failed
+};
+
 export type LoadedManifests = {
-    files: FileMeta[];
+    group: TargetGroup;
     empty: string[];
     failed: string[];
 };
 
-function loadManifests(targetGroup: TargetGroup): LoadedManifests {
-    const rv: LoadedManifests = { files: [], empty: [], failed: [], };
+function loadManifests(targetGroup: TargetSourceGroup): LoadedManifests {
+    const rv: LoadedManifests = { group: {root: targetGroup.root, files: [] }, empty: [], failed: [], };
 
     for (const file of targetGroup.fnames) {
         const fname = path.join(targetGroup.root, file);
@@ -39,12 +45,11 @@ function loadManifests(targetGroup: TargetGroup): LoadedManifests {
             const forms = buildManiMetaForms(mani);
 
             if (mani && forms.length) {
-                rv.files.push({
+                rv.group.files.push({
                     mani,
                     forms,
                     urls: [getFormUrls(forms[0]), getFormUrls(forms[1])],
                     raw: cnt,
-                    root: targetGroup.root,
                     short: file,
                 });
             } else {
@@ -99,7 +104,7 @@ function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
 
     files.forEach((f) => {
         if (f.raw) {
-            const fname = path.join(f.root, f.short);
+            const fname = path.join(rootFolder, f.short);
             const maybeSubFolder = path.dirname(fname);
             osStuff.mkdirSync(maybeSubFolder);
 
@@ -113,7 +118,7 @@ function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
 
 export function printLoaded(loadedManifests: LoadedManifests) {
 
-    loadedManifests.files.forEach((file) => {
+    loadedManifests.group.files.forEach((file) => {
         const [a, b] = [file.urls[0]?.oParts?.woParms, file.urls[1]?.oParts?.woParms];
         if (a || b) {
             notes.add('--------------------------------');
@@ -144,14 +149,14 @@ export function printDuplicates(duplicates: Duplicate[]) {
 
 // Steps
 
-export function step_LoadManifests(targetGroup: TargetGroup): LoadedManifests {
+export function step_LoadManifests(targetGroup: TargetSourceGroup): LoadedManifests {
     const loadedManifests = loadManifests(targetGroup);
     //printLoaded(loadedManifests);
 
     const toReport: Report_InputFiles = {
-        input: loadedManifests.files.map((f) => ({
+        input: loadedManifests.group.files.map((f) => ({
             title: f.forms[0]?.mani?.options?.choosename || '',
-            root: toUnix(f.root),
+            root: toUnix(loadedManifests.group.root),
             short: toUnix(f.short),
         })),
     };
