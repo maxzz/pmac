@@ -1,7 +1,7 @@
 import { Button, H1, PageHeader, Para, setupCounter } from './components';
 import { report } from './utils/test-data';
+import { TableAllInputs } from './components';
 import '../index.css';
-import { TableAllInputs } from './components/tables';
 
 function App() {
     const isEmpty = !report.inputs?.input?.length && !report.domcreds?.multiple?.length;

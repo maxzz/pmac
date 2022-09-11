@@ -34,8 +34,8 @@ export function getAndCheckTargets(): Targets {
 }
 
 export type TargetGroup = {
-    root: string;
-    fnames: string[]; // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
+    root: string;       // this group root folder
+    fnames: string[];   // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
 };
 
 export function getVerifiedFolders({ files, dirs }: Targets): TargetGroup[] {

@@ -8,7 +8,7 @@ import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
 import { osStuff } from "./utils-os";
 import { TargetGroup } from "./app-arguments";
 import { addToReport, makeHtmlReport } from "./utils-report";
-import { Report, Report_Duplicates, Report_InputFiles } from "@pmac/shared-types";
+import { Report_Duplicates, Report_InputFiles } from "@pmac/shared-types";
 
 // Manifest loading
 
@@ -155,9 +155,7 @@ export function step_LoadManifests(targetGroup: TargetGroup): LoadedManifests {
             short: toUnix(f.short),
         })),
     };
-    addToReport({
-        inputs: toReport,
-    });
+    addToReport({ inputs: toReport, });
 
     return loadedManifests;
 }
@@ -212,9 +210,7 @@ export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): vo
             file: file.short, //TODO: add more to report
         })),
     };
-    addToReport({
-        domcreds: toReport,
-    });
+    addToReport({ domcreds: toReport, });
 
     const report = makeHtmlReport(rootFolder);
 

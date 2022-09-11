@@ -1,7 +1,7 @@
 import { ItemInputFile, Report_InputFiles } from "@pmac/shared-types";
 import { H1 } from "./components";
 
-export function HeaderRow(col1: string, col2: string, isFirst: boolean, isLast: boolean) {
+function HeaderRow(col1: string, col2: string, isFirst: boolean, isLast: boolean) {
     return (`
     <div class="my-px px-2 text-xs rounded-tl">${col1}</div>
     <div class="border-transparent border"></div>
@@ -9,7 +9,7 @@ export function HeaderRow(col1: string, col2: string, isFirst: boolean, isLast: 
     `);
 }
 
-export function Row(col1: string, col2: string, isFirst: boolean, isLast: boolean) {
+function Row(col1: string, col2: string, isFirst: boolean, isLast: boolean) {
     return (`
     <div class="my-px px-2 py-1 bg-primary-100/50 ${isFirst ? 'rounded-tl' : isLast ? 'rounded-bl' : ''}">${col1}</div>
     <div class="border-transparent border"></div>
@@ -17,7 +17,7 @@ export function Row(col1: string, col2: string, isFirst: boolean, isLast: boolea
     `);
 }
 
-export function TableRow(input: ItemInputFile, isFirst: boolean, isLast: boolean) {
+function TableRow(input: ItemInputFile, isFirst: boolean, isLast: boolean) {
     return Row(input.title || 'No login title', input.short, isFirst, isLast);
 }
 
