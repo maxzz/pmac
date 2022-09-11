@@ -148,8 +148,6 @@ export function step_LoadManifests(targetGroup: TargetGroup): LoadedManifests {
     const loadedManifests = loadManifests(targetGroup);
     //printLoaded(loadedManifests);
 
-    //stats.title || 'No login title'
-
     const toReport: Report_InputFiles = {
         input: loadedManifests.files.map((f) => ({
             title: f.forms[0]?.mani?.options?.choosename || '',

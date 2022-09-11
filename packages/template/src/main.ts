@@ -1,6 +1,7 @@
 import { Button, H1, PageHeader, Para, setupCounter } from './components';
 import { report } from './utils/test-data';
 import '../index.css';
+import { TableAllInputs } from './components/tables';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 app.innerHTML =
@@ -11,9 +12,11 @@ app.innerHTML =
     <div class="px-4 p-2">
         ${H1("All files")}
 
+        ${report.inputs ? TableAllInputs(report.inputs) : ''}
+
         ${Button("counter")}        
 
-        ${Para("Click on the Vite and TypeScript logos to learn more")}
+        <!-- ${Para("Click on the Vite and TypeScript logos to learn more")} -->
     </div>
   </div>
 `;
