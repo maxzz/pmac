@@ -1,16 +1,24 @@
+
+export type ItemInputFile = {
+    root: string;           // Group folder
+    short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
+};
+
+export type ItemDuplicate = {
+    file: string;
+};
+
 export type Report_InputFiles = {
-    input?: {
-        file: string;
-    }[];
+    input?: ItemInputFile[];
 };
 
 export type Report_Duplicates = {
-    duplicates?: {
-        file: string;
-    }[];
+    duplicates?: ItemDuplicate[];
 };
 
 export type Report = {
-    inputs?: Report_InputFiles;
-    duplicates?: Report_Duplicates;
+    inputs?: ItemInputFile[];
+    duplicates?: ItemDuplicate[];
 };
+
+export type ReportRecords = Report_InputFiles | Report_Duplicates;

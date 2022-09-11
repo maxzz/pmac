@@ -1,9 +1,7 @@
-import { Report_Duplicates, Report_InputFiles } from '@pmac/shared-types';
+import { ReportRecords, Report_Duplicates, Report_InputFiles } from '@pmac/shared-types';
 
 const reportData = require('@pmac/template');
 const template = Buffer.from(reportData.template.skeleton, 'base64').toString();
-
-export type ReportRecords = Report_InputFiles | Report_Duplicates;
 
 const reports: ReportRecords = {};
 

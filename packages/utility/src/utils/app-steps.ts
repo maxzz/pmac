@@ -4,7 +4,7 @@ import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manif
 import { notes } from "./app-notes";
 import chalk from "chalk";
 import { FormUrls, getFormUrls } from "./utils-mani-urls";
-import { ensureNameUnique, nowDayTime } from "./unique-names";
+import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
 import { osStuff } from "./utils-os";
 import { TargetGroup } from "./app-arguments";
 import { addToReport, makeHtmlReport } from "./utils-report";
@@ -12,12 +12,12 @@ import { addToReport, makeHtmlReport } from "./utils-report";
 // Manifest loading
 
 export type FileMeta = {
-    mani: Mani.Manifest;
-    forms: Meta.Form[];
-    urls: FormUrls[];
-    raw: string;
-    root: string;
-    short: string;
+    mani: Mani.Manifest;    // Parsed manifest
+    forms: Meta.Form[];     // Each form meta data
+    urls: FormUrls[];       // Each form urls
+    raw: string;            // Loaded file content
+    root: string;           // Group folder
+    short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
     //fname: string;
 };
 
@@ -149,7 +149,8 @@ export function step_LoadManifests(targetGroup: TargetGroup): LoadedManifests {
 
     const toReport = {
         input: loadedManifests.files.map((f) => ({
-            file: f.short, //TODO: add more to report
+            root: toUnix(f.root),
+            short: toUnix(f.short),
         })),
     };
     addToReport(toReport);
