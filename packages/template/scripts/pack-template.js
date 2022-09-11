@@ -4,7 +4,7 @@ const path = require('path');
 function main() {
     const rootDir = path.dirname(process.argv[1]); // get this script folder
 
-    const fnameSkeleton = path.resolve(rootDir, '../dist/index.html'); // relative to this script folder
+    const fnameSkeleton = path.resolve(rootDir, '../dist/index--single.html'); // relative to this script folder
     
     if (!fs.existsSync(fnameSkeleton)) {
         console.log(`\nFirst create \n      ${fnameSkeleton} \n      by running 'yarn make-template' and then run this script.`);
