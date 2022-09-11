@@ -10,7 +10,7 @@ export function TableRow(input: ItemInputFile) {
 export function TableAllInputs(inputs: Report_InputFiles) {
     return (`
     <div class="grid grid-cols-2">
-        ${inputs?.input?.map((input) => TableRow(input))}
+        ${inputs?.input?.map((input) => TableRow(input)).join('')}
     </div>
     `);
 }
