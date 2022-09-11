@@ -1,12 +1,16 @@
 import { ItemInputFile, Report_InputFiles } from "@pmac/shared-types";
 import { H1 } from "./components";
 
-export function TableRow(input: ItemInputFile, isFirst: boolean, isLast: boolean) {
+export function Row(col1: string, col2: string, isFirst: boolean, isLast: boolean) {
     return (`
-    <div class="my-px px-2 py-1 bg-primary-200/20 ${isFirst ? 'rounded-tl' : isLast ? 'rounded-bl' : ''}">${input.title || 'No login title'}</div>
-    <div class="border-primary-300/10 border"></div>
-    <div class="my-px px-2 py-1 bg-primary-200/20 ${isFirst ? 'rounded-tr' : isLast ? 'rounded-br' : ''}">${input.short}</div>
+    <div class="my-px px-2 py-1 bg-primary-100/50 ${isFirst ? 'rounded-tl' : isLast ? 'rounded-bl' : ''}">${col1}</div>
+    <div class="border-transparent border"></div>
+    <div class="my-px px-2 py-1 bg-primary-100/50 ${isFirst ? 'rounded-tr' : isLast ? 'rounded-br' : ''}">${col2}</div>
     `);
+}
+
+export function TableRow(input: ItemInputFile, isFirst: boolean, isLast: boolean) {
+    return Row(input.title || 'No login title', input.short, isFirst, isLast);
 }
 
 export function TableAllInputs(inputs?: Report_InputFiles) {
@@ -24,4 +28,5 @@ export function TableAllInputs(inputs?: Report_InputFiles) {
 
 //TODO: add column tiles
 //TODO: add collapsible details
-//TODO: limit max-w and center; truncate with ... and tooltips
+//TODO: limit max-w and center - done
+//TODO: truncate with ... and tooltips - no need
