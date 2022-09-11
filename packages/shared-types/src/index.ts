@@ -1,5 +1,10 @@
+export type FormData = {
+    ourl: string;
+    murl?: string;
+};
 
 export type ItemInputFile = {
+    title: string;          // Login form title
     root: string;           // Group folder
     short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
 };
@@ -13,12 +18,11 @@ export type Report_InputFiles = {
 };
 
 export type Report_Duplicates = {
-    duplicates?: ItemDuplicate[];
+    multiple?: ItemDuplicate[];
 };
 
 export type Report = {
-    inputs?: ItemInputFile[];
-    duplicates?: ItemDuplicate[];
+    inputs?: Report_InputFiles;
+    domcreds?: Report_Duplicates;
 };
 
-export type ReportRecords = Report_InputFiles | Report_Duplicates;

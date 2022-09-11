@@ -1,20 +1,17 @@
-import { ReportRecords, Report_Duplicates, Report_InputFiles } from '@pmac/shared-types';
+import { Report } from '@pmac/shared-types';
 
 const reportData = require('@pmac/template');
 const template = Buffer.from(reportData.template.skeleton, 'base64').toString();
 
-const reports: ReportRecords = {};
+const reports: Report = {};
 
-export function addToReport(moreData: ReportRecords) {
+export function addToReport(moreData: Report) {
     Object.entries(moreData).forEach(([key, val]) => (reports as any)[key] = val);
 }
 
 export function makeHtmlReport(rootFolder: string): string | undefined {
-    const dataStr = JSON.stringify(reports, null, 4);
-
-    if (!Object.keys(reports).length) {
-        return;
+    if (Object.keys(reports).length) {
+        const dataStr = JSON.stringify(reports, null, 4);
+        return template.replace('"__INJECTED__DATA__"', dataStr);
     }
-
-    return template.replace('"__INJECTED__DATA__"', dataStr);
 }

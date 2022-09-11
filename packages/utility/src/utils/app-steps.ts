@@ -8,6 +8,7 @@ import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
 import { osStuff } from "./utils-os";
 import { TargetGroup } from "./app-arguments";
 import { addToReport, makeHtmlReport } from "./utils-report";
+import { Report, Report_Duplicates, Report_InputFiles } from "@pmac/shared-types";
 
 // Manifest loading
 
@@ -147,13 +148,18 @@ export function step_LoadManifests(targetGroup: TargetGroup): LoadedManifests {
     const loadedManifests = loadManifests(targetGroup);
     //printLoaded(loadedManifests);
 
-    const toReport = {
+    //stats.title || 'No login title'
+
+    const toReport: Report_InputFiles = {
         input: loadedManifests.files.map((f) => ({
+            title: f.forms[0]?.mani?.options?.choosename || '',
             root: toUnix(f.root),
             short: toUnix(f.short),
         })),
     };
-    addToReport(toReport);
+    addToReport({
+        inputs: toReport,
+    });
 
     return loadedManifests;
 }
@@ -203,18 +209,20 @@ export function step_ModifyDuplicates(duplicates: Duplicate[]): void {
 
 export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): void {
 
-    const toReport = {
-        duplicates: flatDuplicates(duplicates).map((file) => ({
+    const toReport: Report_Duplicates = {
+        multiple: flatDuplicates(duplicates).map((file) => ({
             file: file.short, //TODO: add more to report
         })),
     };
-    addToReport(toReport);
+    addToReport({
+        domcreds: toReport,
+    });
 
     const report = makeHtmlReport(rootFolder);
 
     if (report) {
         //TODO: save it into the same folder
-        console.log('newTemplate', report);
+        console.log('newTemplate\n', report);
     }
 
     notes.add(`All done in folder ${rootFolder}`);
