@@ -26,16 +26,12 @@ export type TargetGroup = {
     root: string;           // this group root source folder
     backupFolder?: string;  // folder for backup
     files: FileMeta[];      // loaded meaninfull files, i.e. wo/ empty and failed
+    empty: string[];        // empty files
+    failed: string[];       // failed files
 };
 
-export type LoadedManifests = {
-    group: TargetGroup;
-    empty: string[];
-    failed: string[];
-};
-
-function loadManifests(targetGroup: TargetSourceGroup): LoadedManifests {
-    const rv: LoadedManifests = { group: {root: targetGroup.root, files: [] }, empty: [], failed: [], };
+function loadManifests(targetGroup: TargetSourceGroup): TargetGroup {
+    const rv: TargetGroup = { root: targetGroup.root, files: [], empty: [], failed: [], };
 
     for (const file of targetGroup.fnames) {
         const fname = path.join(targetGroup.root, file);
@@ -45,7 +41,7 @@ function loadManifests(targetGroup: TargetSourceGroup): LoadedManifests {
             const forms = buildManiMetaForms(mani);
 
             if (mani && forms.length) {
-                rv.group.files.push({
+                rv.files.push({
                     mani,
                     forms,
                     urls: [getFormUrls(forms[0]), getFormUrls(forms[1])],
@@ -116,9 +112,9 @@ function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
 
 // Local console log reports
 
-export function printLoaded(loadedManifests: LoadedManifests) {
+export function printLoaded(targetGroup: TargetGroup) {
 
-    loadedManifests.group.files.forEach((file) => {
+    targetGroup.files.forEach((file) => {
         const [a, b] = [file.urls[0]?.oParts?.woParms, file.urls[1]?.oParts?.woParms];
         if (a || b) {
             notes.add('--------------------------------');
@@ -127,11 +123,11 @@ export function printLoaded(loadedManifests: LoadedManifests) {
         }
     });
 
-    loadedManifests.empty.forEach((file) => {
+    targetGroup.empty.forEach((file) => {
         notes.add(chalk.bgBlue.green(`empty --------------------------------${path.basename(file)}`));
     });
 
-    loadedManifests.failed.forEach((file) => {
+    targetGroup.failed.forEach((file) => {
         notes.add(chalk.bgBlue.green(`failed --------------------------------${path.basename(file)}`));
     });
 }
@@ -149,14 +145,14 @@ export function printDuplicates(duplicates: Duplicate[]) {
 
 // Steps
 
-export function step_LoadManifests(targetGroup: TargetSourceGroup): LoadedManifests {
+export function step_LoadManifests(targetGroup: TargetSourceGroup): TargetGroup {
     const loadedManifests = loadManifests(targetGroup);
     //printLoaded(loadedManifests);
 
     const toReport: Report_InputFiles = {
-        input: loadedManifests.group.files.map((f) => ({
+        input: loadedManifests.files.map((f) => ({
             title: f.forms[0]?.mani?.options?.choosename || '',
-            root: toUnix(loadedManifests.group.root),
+            root: toUnix(loadedManifests.root),
             short: toUnix(f.short),
         })),
     };
