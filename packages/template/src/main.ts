@@ -14,7 +14,8 @@ app.innerHTML =
 
         ${report.inputs ? TableAllInputs(report.inputs) : ''}
 
-        ${Button("counter")}        
+        <br />
+        ${Button("counter")}
 
         <!-- ${Para("Click on the Vite and TypeScript logos to learn more")} -->
     </div>
