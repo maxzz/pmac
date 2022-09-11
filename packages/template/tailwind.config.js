@@ -19,6 +19,7 @@ module.exports = {
                 title3: '#003165',
                 title4: '#003f82',
                 title5: '#002f87',
+                textovergrad: '#244b72',
                 url: colors.blue['500'],
             },
             ...require('./tailwind/tailwind-extra-animations').extraAnimations,
