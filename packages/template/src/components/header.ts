@@ -13,7 +13,7 @@ export function PageHeader() {
     <header class="px-6 py-4 flex items-center justify-between bg-title3 shadow-sm cursor-default select-none">
         <div class="flex items-center space-x-4">
             <a class="cursor-default" target="_blank" href="https://www.hidglobal.com" tabIndex="-1">
-                <div class="flex items-center justify-center bg-white/70 rounded-md">
+                <div class="flex items-center justify-center bg-primary-300 rounded-md">
                     ${IconHIDLogo()}
                 </div>
             </a>

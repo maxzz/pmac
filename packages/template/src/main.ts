@@ -4,22 +4,15 @@ import '../index.css';
 import { TableAllInputs } from './components/tables';
 
 function App() {
+    const isEmpty = !report.inputs?.input?.length && !report.domcreds?.multiple?.length;
     return (`
         <div class="flex-1 bg-gradient-to-t from-primary-50 to-[#036eb3] text-primary-900">
             ${PageHeader()}
 
             <div class="px-4 p-2 grid grid-cols-[1fr_minmax(100px,auto)_1fr]">
                 <div class="col-start-2">
-                    ${H1("All files")}
-
-                    ${report.inputs ? TableAllInputs(report.inputs) : ''}
-
-                    <!--
-                    <br />
-                    ${Button({ id: "counter" })}
-                    -->
-
-                    <!-- ${Para("Click on the Vite and TypeScript logos to learn more")} -->
+                    ${TableAllInputs(report.inputs)}
+                    ${isEmpty ? Para('There are no manifest files using domain credentials. Nothing changed') : ''}
                 </div>
             </div>
         </div>
@@ -33,4 +26,5 @@ app.innerHTML = App();
 
 console.log('report', report);
 
-//<div class=""></div>
+// <!-- <br /> ${Button({ id: "counter" })} -->
+// <!-- ${Para("Click on the Vite and TypeScript logos to learn more")} -->
