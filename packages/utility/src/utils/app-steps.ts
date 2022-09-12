@@ -6,35 +6,39 @@ import chalk from "chalk";
 import { FormUrls, getFormUrls } from "./utils-mani-urls";
 import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
 import { osStuff } from "./utils-os";
-import { TargetSourceGroup } from "./app-arguments";
+import { SourceGroup } from "./app-arguments";
 import { addToReport, makeHtmlReport } from "./utils-report";
 import { Report_Duplicates, Report_InputFiles } from "@pmac/shared-types";
 
 // Manifest loading
 
 export type FileMeta = {
-    mani: Mani.Manifest;    // Parsed manifest
-    forms: Meta.Form[];     // Each form meta data
-    urls: FormUrls[];       // Each form urls
-    raw: string;            // Loaded file content
-    //root: string;           // Group folder
-    short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
-    //fname: string;
+    mani: Mani.Manifest;        // Parsed manifest
+    forms: Meta.Form[];         // Each form meta data
+    urls: FormUrls[];           // Each form urls
+    raw: string;                // Loaded file content
+    short: string;              // Filename relative to TargetGroup.root; const fname = path.join(f.root, f.short)
+};
+
+export type DcActive = {        // Domain Credentials Duplicates
+    domain: string;
+    files: FileMeta[];
 };
 
 export type TargetGroup = {
-    root: string;           // this group root source folder
-    backupFolder?: string;  // folder for backup
-    files: FileMeta[];      // loaded meaninfull files, i.e. wo/ empty and failed
-    empty: string[];        // empty files
-    failed: string[];       // failed files
+    root: string;               // this group root source folder
+    backupFolder?: string;      // folder for backup
+    files: FileMeta[];          // loaded meaninfull files, i.e. wo/ empty and failed
+    dcActive: DcActive[];       // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
+    empty: string[];            // filename list of empty files
+    failed: string[];           // filename list of failed to load files
 };
 
-function loadManifests(targetGroup: TargetSourceGroup): TargetGroup {
-    const rv: TargetGroup = { root: targetGroup.root, files: [], empty: [], failed: [], };
+function loadManifests(sourceGroup: SourceGroup): TargetGroup {
+    const rv: TargetGroup = { root: sourceGroup.root, files: [], dcActive: [], empty: [], failed: [] };
 
-    for (const file of targetGroup.fnames) {
-        const fname = path.join(targetGroup.root, file);
+    for (const file of sourceGroup.fnames) {
+        const fname = path.join(sourceGroup.root, file);
         try {
             const cnt = fs.readFileSync(fname).toString();
             const { mani } = parseXMLFile(cnt);
@@ -78,13 +82,14 @@ function splitByDomains(files: FileMeta[]): ByDomains {
     return rv;
 }
 
-export function getDuplicates(files: FileMeta[]): Duplicate[] {
+export function getDcActive(files: FileMeta[]): DcActive[] {
     const byDomains = splitByDomains(files);
 
     const domainsArr: Duplicate[] = Object.entries(byDomains);
     const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
 
-    return duplicates;
+    const dcActive = duplicates.map(([domain, files]) => ({ domain, files }));
+    return dcActive;
 }
 
 function flatDuplicates(duplicates: Duplicate[]): FileMeta[] {
@@ -132,10 +137,10 @@ export function printLoaded(targetGroup: TargetGroup) {
     });
 }
 
-export function printDuplicates(duplicates: Duplicate[]) {
-    const entries = duplicates.map(([key, val]) => {
-        const items = val.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
-        return chalk.red(`${key} ${val.length}${items}`);
+export function printDcActive(dcActive: DcActive[]) {
+    const entries = dcActive.map(({ domain, files }) => {
+        const items = files.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
+        return chalk.red(`${domain} ${files.length}${items}`);
     });
 
     entries.forEach((item) => {
@@ -145,45 +150,54 @@ export function printDuplicates(duplicates: Duplicate[]) {
 
 // Steps
 
-export function step_LoadManifests(targetGroup: TargetSourceGroup): TargetGroup {
-    const loadedManifests = loadManifests(targetGroup);
-    //printLoaded(loadedManifests);
+export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
+    const targetGroup = loadManifests(sourceGroup);
+    //printLoaded(targetGroup);
 
     const toReport: Report_InputFiles = {
-        input: loadedManifests.files.map((f) => ({
+        input: targetGroup.files.map((f) => ({
             title: f.forms[0]?.mani?.options?.choosename || '',
-            root: toUnix(loadedManifests.root),
+            root: toUnix(targetGroup.root),
             short: toUnix(f.short),
         })),
     };
     addToReport({ inputs: toReport, });
 
-    return loadedManifests;
+    return targetGroup;
 }
 
-export function step_GetDuplicates(files: FileMeta[]): Duplicate[] | undefined {
-    const duplicates = getDuplicates(files);
+export function step_SetDcActive(targetGroup: TargetGroup) {
+    targetGroup.dcActive = getDcActive(targetGroup.files);
 
-    //TODO: add to report
 
-    if (duplicates.length) {
-        printDuplicates(duplicates);
+    //TODO: move away from here
+    //TODO: and add to report
+    if (targetGroup.dcActive.length) {
+        printDcActive(targetGroup.dcActive);
     } else {
-        notes.add(`\nNothing done:\nThere are no duplicates in ${files.length} loaded file${files.length === 1 ? '' : 's'}.`);
+        notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
     }
-
-    return duplicates.length ? duplicates : undefined;
 }
 
-export function step_MakeBackupCopy(duplicates: Duplicate[], rootFolder: string): void {
+export function step_MakeBackupCopy(targetGroup: TargetGroup): void {
     try {
-        makeBackupCopy(flatDuplicates(duplicates), rootFolder);
+        const duplicates: FileMeta[] = [];
+        //TODO: fill it = flatDuplicates(duplicates)
+
+
+
+        makeBackupCopy(duplicates, targetGroup.root);
     } catch (error) {
-        throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${rootFolder}`);
+
+
+        //TODO: move away from here
+        throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${targetGroup.root}`);
     }
 }
 
-export function step_ModifyDuplicates(duplicates: Duplicate[]): void {
+export function step_ModifyDuplicates(targetGroup: TargetGroup): void {
+
+    //was: (duplicates: Duplicate[])
 
     // const destFolder = ensureNameUnique(`${targetGroup.root}/new ${nowDayTime()}`, false);
     // osStuff.mkdirSync(destFolder);
@@ -204,7 +218,9 @@ export function step_ModifyDuplicates(duplicates: Duplicate[]): void {
 
 }
 
-export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): void {
+export function step_MakeReport(targetGroup: TargetGroup): void {
+
+    const duplicates: Duplicate[] = [];
 
     const toReport: Report_Duplicates = {
         multiple: flatDuplicates(duplicates).map((file) => ({
@@ -213,12 +229,12 @@ export function step_MakeReport(duplicates: Duplicate[], rootFolder: string): vo
     };
     addToReport({ domcreds: toReport, });
 
-    const report = makeHtmlReport(rootFolder);
+    const report = makeHtmlReport(targetGroup.root);
 
     if (report) {
         //TODO: save it into the same folder
         console.log('newTemplate\n', report);
     }
 
-    notes.add(`All done in folder ${rootFolder}`);
+    notes.add(`All done in folder ${targetGroup.root}`);
 }

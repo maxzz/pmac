@@ -2,30 +2,28 @@ import chalk from 'chalk';
 import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
 import { help } from './utils/app-help';
-import { getAndCheckTargets, getVerifiedFolders, TargetSourceGroup, Targets } from './utils/app-arguments';
-import { step_GetDuplicates, step_LoadManifests, step_MakeBackupCopy, step_MakeReport, step_ModifyDuplicates } from './utils/app-steps';
+import { getAndCheckTargets, getVerifiedFolders, SourceGroup, Targets } from './utils/app-arguments';
+import { step_SetDcActive, step_LoadManifests, step_MakeBackupCopy, step_MakeReport, step_ModifyDuplicates } from './utils/app-steps';
 import { notes } from './utils/app-notes';
 
-function processFiles(targetGroup: TargetSourceGroup) {
-
-    const loadedManifests = step_LoadManifests(targetGroup);
-    const duplicates = step_GetDuplicates(loadedManifests.group.files);
-    if (!duplicates) {
+function processFiles(sourceGroup: SourceGroup) {
+    const targetGroup = step_LoadManifests(sourceGroup);
+    step_SetDcActive(targetGroup);
+    if (!targetGroup.dcActive.length) {
         return;
     }
 
-    step_MakeBackupCopy(duplicates, targetGroup.root);
-    step_ModifyDuplicates(duplicates);
-    step_MakeReport(duplicates, targetGroup.root);
+    step_MakeBackupCopy(targetGroup);
+    step_ModifyDuplicates(targetGroup);
+    step_MakeReport(targetGroup);
 }
 
 async function main() {
     let targets: Targets = getAndCheckTargets();
+    const sourceGroups = getVerifiedFolders(targets);
 
-    const filesByFolders = getVerifiedFolders(targets);
-
-    for (let targetGroup of filesByFolders) {
-        processFiles(targetGroup);
+    for (let sourceGroup of sourceGroups) {
+        processFiles(sourceGroup);
     }
 
     notes.show();

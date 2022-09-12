@@ -33,17 +33,17 @@ export function getAndCheckTargets(): Targets {
     return rv;
 }
 
-export type TargetSourceGroup = {
+export type SourceGroup = {
     root: string;       // this group root folder
     fnames: string[];   // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
 };
 
-export function getVerifiedFolders({ files, dirs }: Targets): TargetSourceGroup[] {
+export function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
     //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);
     //help(); return;
     //await exitProcess(0, '');
 
-    const rv: TargetSourceGroup[] = [];
+    const rv: SourceGroup[] = [];
 
     if (files.length && dirs.length) {
         throw newErrorArgs('Nothing done:\nSpecify the folder name or file names, but not both.');
