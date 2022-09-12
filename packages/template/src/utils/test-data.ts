@@ -1,4 +1,4 @@
-import { ItemInputFile, ReportRecords, Report_InputFiles } from '@pmac/shared-types';
+import { ReportRecords } from '@pmac/shared-types';
 
 if (process.env.NODE_ENV !== 'production') {
     console.log('only dev');
