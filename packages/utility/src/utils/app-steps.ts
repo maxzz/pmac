@@ -65,24 +65,24 @@ function loadManifests(sourceGroup: SourceGroup): TargetGroup {
 
 // Manifest sorting
 
-export type ByDomains = Record<string, FileMeta[]>; // domain -> manifest files
-export type Duplicate = [domain: string, files: FileMeta[]];
-
-function splitByDomains(files: FileMeta[]): ByDomains {
-    const rv: ByDomains = {};
-
-    files.forEach((file) => {
-        const domain = file.urls[0]?.oParts?.domain;
-        if (domain) {
-            !rv[domain] && (rv[domain] = []);
-            rv[domain].push(file);
-        }
-    });
-
-    return rv;
-}
-
 export function getDcActive(files: FileMeta[]): DcActive[] {
+    type ByDomains = Record<string, FileMeta[]>; // domain -> manifest files
+    type Duplicate = [domain: string, files: FileMeta[]];
+
+    function splitByDomains(files: FileMeta[]): ByDomains {
+        const rv: ByDomains = {};
+    
+        files.forEach((file) => {
+            const domain = file.urls[0]?.oParts?.domain;
+            if (domain) {
+                !rv[domain] && (rv[domain] = []);
+                rv[domain].push(file);
+            }
+        });
+    
+        return rv;
+    }
+        
     const byDomains = splitByDomains(files);
 
     const domainsArr: Duplicate[] = Object.entries(byDomains);
@@ -92,8 +92,8 @@ export function getDcActive(files: FileMeta[]): DcActive[] {
     return dcActive;
 }
 
-function flatDuplicates(duplicates: Duplicate[]): FileMeta[] {
-    const files: FileMeta[] = duplicates.map(([domain, files]) => files).flat();
+function flatDcActive(dcActive: DcActive[]): FileMeta[] {
+    const files: FileMeta[] = dcActive.map(({domain, files}) => files).flat();
     return files;
 }
 
@@ -181,12 +181,8 @@ export function step_SetDcActive(targetGroup: TargetGroup) {
 
 export function step_MakeBackupCopy(targetGroup: TargetGroup): void {
     try {
-        const duplicates: FileMeta[] = [];
-        //TODO: fill it = flatDuplicates(duplicates)
-
-
-
-        makeBackupCopy(duplicates, targetGroup.root);
+        const dcActive: FileMeta[] = flatDcActive(targetGroup.dcActive);
+        makeBackupCopy(dcActive, targetGroup.root);
     } catch (error) {
 
 
@@ -220,10 +216,8 @@ export function step_ModifyDuplicates(targetGroup: TargetGroup): void {
 
 export function step_MakeReport(targetGroup: TargetGroup): void {
 
-    const duplicates: Duplicate[] = [];
-
     const toReport: Report_Duplicates = {
-        multiple: flatDuplicates(duplicates).map((file) => ({
+        multiple: flatDcActive(targetGroup.dcActive).map((file) => ({
             file: file.short, //TODO: add more to report
         })),
     };
