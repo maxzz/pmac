@@ -8,7 +8,7 @@ import { osStuff } from "./utils-os";
 import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
 import { SourceGroup } from "./app-arguments";
 import { templateStr } from "./utils-report";
-import { ItemError, Report } from "@pmac/shared-types";
+import { ItemError, Report, ReportRecords } from "@pmac/shared-types";
 
 // Manifest loading
 
@@ -36,7 +36,7 @@ export type TargetGroup = {
 };
 
 function loadManifests(sourceGroup: SourceGroup): TargetGroup {
-    const rv: TargetGroup = { root: sourceGroup.root, files: [], sameDc: [], empty: [], failed: [], report: {} };
+    const rv: TargetGroup = { root: sourceGroup.root, files: [], sameDc: [], empty: [], failed: [], report: { root: '' } };
 
     for (const file of sourceGroup.fnames) {
         const fname = path.join(sourceGroup.root, file);
@@ -238,7 +238,7 @@ export function step_FinalMakeReport(targetGroups: TargetGroup[]): void {
         }
     }
 
-    const report = Object.fromEntries(targetGroups.map((targetGroup) => ([toUnix(targetGroup.root), targetGroup.report])));
+    const report: ReportRecords = targetGroups.map((targetGroup) => ({ ...targetGroup.report, root: toUnix(targetGroup.root) }));
     const dataStr = JSON.stringify(report, null, 4);
     console.log('dataStr:\n', dataStr);
     templateStr.replace('"__INJECTED__DATA__"', dataStr);

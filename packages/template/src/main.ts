@@ -1,8 +1,8 @@
 import { Button, H1, PageHeader, Para, setupCounter } from './components';
-import { report } from './utils/test-data';
+import { Report } from '@pmac/shared-types';
+import { reports } from './utils/test-data';
 import { TableAllInputs } from './components';
 import '../index.css';
-import { Report } from '@pmac/shared-types';
 
 function singleReport(single: Report) {
     const isEmpty = !Object.keys(single).length; //TODO: !report.inputs?.input?.length && !report.domcreds?.multiple?.length;
@@ -17,14 +17,10 @@ function singleReport(single: Report) {
 }
 
 function App() {
-    const allRecords = Object.entries(report);
-    const isEmpty = !allRecords.length; //TODO: !report.inputs?.input?.length && !report.domcreds?.multiple?.length;
-    const [_, reportFirst] = allRecords[0];
-    const r = singleReport(report);
     return (`
         <div class="flex-1 bg-gradient-to-t from-primary-50 to-[#036eb3] text-primary-900">
             ${PageHeader()}
-            ${singleReport(report)}
+            ${reports.map((report) => singleReport(report)).join('')}
         </div>
     `);
 }
@@ -34,7 +30,7 @@ app.innerHTML = App();
 
 //setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
-console.log('report', report);
+console.log('report', reports);
 
 // <!-- <br /> ${Button({ id: "counter" })} -->
 // <!-- ${Para("Click on the Vite and TypeScript logos to learn more")} -->

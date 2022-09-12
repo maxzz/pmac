@@ -3,9 +3,9 @@ import { ReportRecords } from '@pmac/shared-types';
 if (process.env.NODE_ENV !== 'production') {
     console.log('only dev');
 
-    const report: ReportRecords = 
-    {
-        "c:/Y/w/2-web/0-dp/utils/pm-domain-credentials-switch/packages/utility/tests/01": {
+    const testReports: ReportRecords = 
+    [
+        {
             "inputs": {
                 "input": [
                     {
@@ -89,12 +89,13 @@ if (process.env.NODE_ENV !== 'production') {
                         "file": "fiserv.com.{c857ed8e-5e08-48c2-ac5e-be1495b7b5a3}.dpm"
                     }
                 ]
-            }
+            },
+            "root": "c:/Y/w/2-web/0-dp/utils/pm-domain-credentials-switch/packages/utility/tests/01"
         }
-    }
+    ]
     ;
 
-    (window as any)['tmReport'] = report;
+    (window as any)['tmReport'] = testReports;
 }
 
-export const report: ReportRecords = (window as any)['tmReport'];
+export const reports: ReportRecords = (window as any)['tmReport'];

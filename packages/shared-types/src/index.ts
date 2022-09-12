@@ -30,9 +30,10 @@ export type Report_Duplicates = {
 export type ReportAddParams = Report_InputFiles | Report_Duplicates;
 
 export type Report = {
+    root: string;
     inputs?: Report_InputFiles;
     domcreds?: Report_Duplicates;
     errors?: ItemError[];
 };
 
-export type ReportRecords = Record<string, Report>; // root folder -> ReportRecord
+export type ReportRecords = Report[]; // root folder -> ReportRecord
