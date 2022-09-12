@@ -5,7 +5,6 @@ export type FormData = {
 
 export type ItemInputFile = {
     title: string;          // Login form title
-    root: string;           // Group folder
     short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
 };
 

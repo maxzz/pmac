@@ -163,7 +163,6 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     targetGroup.report.inputs = {
         input: targetGroup.files.map((f) => ({
             title: f.forms[0]?.mani?.options?.choosename || '',
-            root: toUnix(targetGroup.root),
             short: toUnix(f.short),
         })),
     };
@@ -189,7 +188,7 @@ function step_MakeBackupCopy(targetGroup: TargetGroup): void {
         addError(targetGroup, {
             text: `Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${targetGroup.root}`,
             isError: true,
-        })
+        });
         throw error;
     }
 }
@@ -239,22 +238,28 @@ export function step_FinalMakeReport(targetGroups: TargetGroup[]): void {
         }
     }
 
-    targetGroups.forEach((targetGroup) => {
-        const report = makeHtmlReport(targetGroup);
+    const report = Object.fromEntries(targetGroups.map((targetGroup) => ([toUnix(targetGroup.root), targetGroup.report])));
+    const dataStr = JSON.stringify(report, null, 4);
+    console.log('dataStr:\n', dataStr);
+    templateStr.replace('"__INJECTED__DATA__"', dataStr);
 
-        if (targetGroup.sameDc.length) {
-            printDcActive(targetGroup.sameDc);
-        } else {
-            notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
-        }
+    // targetGroups.forEach((targetGroup) => {
+    //     const report = makeHtmlReport(targetGroup);
 
-        if (report) {
-            //TODO: save it into the same folder
-            //console.log('newTemplate\n', report);
-            console.log(chalk.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
-        }
+    //     if (targetGroup.sameDc.length) {
+    //         printDcActive(targetGroup.sameDc);
+    //     } else {
+    //         notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
+    //     }
 
-        notes.add(`All done in folder ${targetGroup.root}`);
-    });
+    //     if (report) {
+    //         //TODO: save it into the same folder
+    //         //console.log('newTemplate\n', report);
+    //         console.log(chalk.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
+    //     }
 
+    //     notes.add(`All done in folder ${targetGroup.root}`);
+    // });
+
+    notes.add(`All done`);
 }
