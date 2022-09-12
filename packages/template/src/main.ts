@@ -4,14 +4,16 @@ import { TableAllInputs } from './components';
 import '../index.css';
 
 function App() {
-    const isEmpty = !report.inputs?.input?.length && !report.domcreds?.multiple?.length;
+    const allRecords = Object.entries(report);
+    const isEmpty = !allRecords.length; //TODO: !report.inputs?.input?.length && !report.domcreds?.multiple?.length;
+    const [_, reportFirst] = allRecords[0];
     return (`
         <div class="flex-1 bg-gradient-to-t from-primary-50 to-[#036eb3] text-primary-900">
             ${PageHeader()}
 
             <div class="px-4 p-2 grid grid-cols-[1fr_minmax(100px,auto)_1fr]">
                 <div class="col-start-2">
-                    ${TableAllInputs(report.inputs)}
+                    ${TableAllInputs(reportFirst?.inputs)}
                     ${isEmpty ? Para('There are no manifest files using domain credentials. Nothing changed') : ''}
                 </div>
             </div>

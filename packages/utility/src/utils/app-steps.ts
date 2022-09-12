@@ -161,7 +161,7 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
             short: toUnix(f.short),
         })),
     };
-    addToReport({ inputs: toReport, });
+    addToReport(targetGroup.root, { inputs: toReport, });
 
     return targetGroup;
 }
@@ -221,7 +221,7 @@ export function step_MakeReport(targetGroup: TargetGroup): void {
             file: file.short, //TODO: add more to report
         })),
     };
-    addToReport({ domcreds: toReport, });
+    addToReport(targetGroup.root, { domcreds: toReport, });
 
     const report = makeHtmlReport(targetGroup.root);
 
