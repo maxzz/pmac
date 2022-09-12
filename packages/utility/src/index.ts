@@ -3,16 +3,13 @@ import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
 import { help } from './utils/app-help';
 import { getAndCheckTargets, getVerifiedFolders, SourceGroup, Targets } from './utils/app-arguments';
-import { step_FindSameDc, step_LoadManifests, step_MakeBackupCopy, step_FinalMakeReport, step_ModifyDuplicates, TargetGroup } from './utils/app-steps';
+import { step_FindSameDc, step_LoadManifests, step_FinalMakeReport, TargetGroup, step_SaveResult } from './utils/app-steps';
 import { notes } from './utils/app-notes';
 
 function processFiles(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = step_LoadManifests(sourceGroup);
     step_FindSameDc(targetGroup);
-    if (targetGroup.sameDc.length) {
-        step_MakeBackupCopy(targetGroup);
-        step_ModifyDuplicates(targetGroup);
-    }
+    step_SaveResult(targetGroup);
     return targetGroup;
 }
 

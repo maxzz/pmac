@@ -28,16 +28,12 @@ export type Report_Duplicates = {
     multiple?: ItemDuplicate[];
 };
 
-export type Report_Errors = {
-    errors?: ItemError[];
-};
-
-export type ReportAddParams = Report_InputFiles | Report_Duplicates | Report_Errors;
+export type ReportAddParams = Report_InputFiles | Report_Duplicates;
 
 export type Report = {
     inputs?: Report_InputFiles;
     domcreds?: Report_Duplicates;
-    errors?: Report_Errors;
+    errors?: ItemError[];
 };
 
 export type ReportRecords = Record<string, Report>; // root folder -> ReportRecord

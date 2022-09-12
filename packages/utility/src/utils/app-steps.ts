@@ -8,7 +8,7 @@ import { osStuff } from "./utils-os";
 import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
 import { SourceGroup } from "./app-arguments";
 import { templateStr } from "./utils-report";
-import { Report } from "@pmac/shared-types";
+import { ItemError, Report } from "@pmac/shared-types";
 
 // Manifest loading
 
@@ -98,7 +98,12 @@ function flatDcActive(sameDC: SameDc[]): FileMeta[] {
     return files;
 }
 
-// Backup
+// Errors and Backup
+
+function addError(targetGroup: TargetGroup, msg: ItemError | string) {
+    const errors = targetGroup.report.errors || (targetGroup.report.errors = []);
+    errors.push(typeof msg === 'string' ? { text: msg } : msg);
+}
 
 function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
     const backupFolder = ensureNameUnique(`${rootFolder}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
@@ -176,20 +181,20 @@ export function step_FindSameDc(targetGroup: TargetGroup) {
     };
 }
 
-export function step_MakeBackupCopy(targetGroup: TargetGroup): void {
-
+function step_MakeBackupCopy(targetGroup: TargetGroup): void {
     try {
         const sameDC: FileMeta[] = flatDcActive(targetGroup.sameDc);
         makeBackupCopy(sameDC, targetGroup.root);
     } catch (error) {
-
-
-        //TODO: move away from here
-        throw new Error(`Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${targetGroup.root}`);
+        addError(targetGroup, {
+            text: `Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${targetGroup.root}`,
+            isError: true,
+        })
+        throw error;
     }
 }
 
-export function step_ModifyDuplicates(targetGroup: TargetGroup): void {
+function step_ModifyAandSave(targetGroup: TargetGroup): void {
 
     //was: (duplicates: Duplicate[])
 
@@ -212,18 +217,28 @@ export function step_ModifyDuplicates(targetGroup: TargetGroup): void {
 
 }
 
+export function step_SaveResult(targetGroup: TargetGroup): void {
+    if (targetGroup.sameDc.length) {
+        try {
+            step_MakeBackupCopy(targetGroup);
+            step_ModifyAandSave(targetGroup);
+        } catch (error) {
+        }
+    }
+}
+
 export function step_FinalMakeReport(targetGroups: TargetGroup[]): void {
 
     function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
         if (Object.keys(targetGroup.report).length) {
             const dataStr = JSON.stringify(targetGroup.report, null, 4);
-    
+
             console.log('dataStr:\n', dataStr);
-    
+
             return templateStr.replace('"__INJECTED__DATA__"', dataStr);
         }
     }
-    
+
     targetGroups.forEach((targetGroup) => {
         const report = makeHtmlReport(targetGroup);
 
