@@ -1,8 +1,7 @@
 import chalk from 'chalk';
-import { exitProcess } from "./utils-errors";
-let cfg = require('../../package.json');
+let config = require('../../package.json');
 
-export const { name: programName } = cfg;
+export const programName = config.name.split('/')[0].substring(1);
 
 export function help() {
     let msg = `
@@ -22,7 +21,7 @@ located. Alternatively, you can specify the folder where the
 manifest files are located or filenames separated by space
 character. Specify the folder name or file names, but not both.`)}
 
-Version ${cfg.version}`;
+Version ${config.version}`;
     console.log(msg);
 }
 
