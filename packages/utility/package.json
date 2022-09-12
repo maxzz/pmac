@@ -5,6 +5,9 @@
     "description": "Password manager domain credential switch utility",
     "main": "index.js",
     "license": "MIT",
+    "scripts": {
+        "dev": "tsc -w"
+    },
     "dependencies": {
         "@pmac/shared-types": "1.0.0",
         "chalk": "4.1.2",

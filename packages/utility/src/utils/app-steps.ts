@@ -20,22 +20,22 @@ export type FileMeta = {
     short: string;              // Filename relative to TargetGroup.root; const fname = path.join(f.root, f.short)
 };
 
-export type DcActive = {        // Domain Credentials Duplicates
+export type SameDc = {          // Domain Credentials Duplicates; use the same creadential for the whole domain
     domain: string;
     files: FileMeta[];
 };
 
 export type TargetGroup = {
     root: string;               // this group root source folder
-    backupFolder?: string;      // folder for backup
+    backup?: string;            // folder for backup
+    sameDc: SameDc[];           // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
     files: FileMeta[];          // loaded meaninfull files, i.e. wo/ empty and failed
-    dcActive: DcActive[];       // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
     empty: string[];            // filename list of empty files
     failed: string[];           // filename list of failed to load files
 };
 
 function loadManifests(sourceGroup: SourceGroup): TargetGroup {
-    const rv: TargetGroup = { root: sourceGroup.root, files: [], dcActive: [], empty: [], failed: [] };
+    const rv: TargetGroup = { root: sourceGroup.root, files: [], sameDc: [], empty: [], failed: [] };
 
     for (const file of sourceGroup.fnames) {
         const fname = path.join(sourceGroup.root, file);
@@ -65,7 +65,7 @@ function loadManifests(sourceGroup: SourceGroup): TargetGroup {
 
 // Manifest sorting
 
-export function getDcActive(files: FileMeta[]): DcActive[] {
+export function getSameDc(files: FileMeta[]): SameDc[] {
     type ByDomains = Record<string, FileMeta[]>; // domain -> manifest files
     type Duplicate = [domain: string, files: FileMeta[]];
 
@@ -88,12 +88,12 @@ export function getDcActive(files: FileMeta[]): DcActive[] {
     const domainsArr: Duplicate[] = Object.entries(byDomains);
     const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
 
-    const dcActive = duplicates.map(([domain, files]) => ({ domain, files }));
-    return dcActive;
+    const sameDC = duplicates.map(([domain, files]) => ({ domain, files }));
+    return sameDC;
 }
 
-function flatDcActive(dcActive: DcActive[]): FileMeta[] {
-    const files: FileMeta[] = dcActive.map(({domain, files}) => files).flat();
+function flatDcActive(sameDC: SameDc[]): FileMeta[] {
+    const files: FileMeta[] = sameDC.map(({domain, files}) => files).flat();
     return files;
 }
 
@@ -137,8 +137,8 @@ export function printLoaded(targetGroup: TargetGroup) {
     });
 }
 
-export function printDcActive(dcActive: DcActive[]) {
-    const entries = dcActive.map(({ domain, files }) => {
+export function printDcActive(sameDC: SameDc[]) {
+    const entries = sameDC.map(({ domain, files }) => {
         const items = files.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
         return chalk.red(`${domain} ${files.length}${items}`);
     });
@@ -166,14 +166,14 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     return targetGroup;
 }
 
-export function step_SetDcActive(targetGroup: TargetGroup) {
-    targetGroup.dcActive = getDcActive(targetGroup.files);
+export function step_FindSameDc(targetGroup: TargetGroup) {
+    targetGroup.sameDc = getSameDc(targetGroup.files);
 
 
     //TODO: move away from here
     //TODO: and add to report
-    if (targetGroup.dcActive.length) {
-        printDcActive(targetGroup.dcActive);
+    if (targetGroup.sameDc.length) {
+        printDcActive(targetGroup.sameDc);
     } else {
         notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
     }
@@ -181,8 +181,8 @@ export function step_SetDcActive(targetGroup: TargetGroup) {
 
 export function step_MakeBackupCopy(targetGroup: TargetGroup): void {
     try {
-        const dcActive: FileMeta[] = flatDcActive(targetGroup.dcActive);
-        makeBackupCopy(dcActive, targetGroup.root);
+        const sameDC: FileMeta[] = flatDcActive(targetGroup.sameDc);
+        makeBackupCopy(sameDC, targetGroup.root);
     } catch (error) {
 
 
@@ -217,7 +217,7 @@ export function step_ModifyDuplicates(targetGroup: TargetGroup): void {
 export function step_MakeReport(targetGroup: TargetGroup): void {
 
     const toReport: Report_Duplicates = {
-        multiple: flatDcActive(targetGroup.dcActive).map((file) => ({
+        multiple: flatDcActive(targetGroup.sameDc).map((file) => ({
             file: file.short, //TODO: add more to report
         })),
     };
@@ -227,7 +227,8 @@ export function step_MakeReport(targetGroup: TargetGroup): void {
 
     if (report) {
         //TODO: save it into the same folder
-        console.log('newTemplate\n', report);
+        //console.log('newTemplate\n', report);
+        console.log(chalk.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
     }
 
     notes.add(`All done in folder ${targetGroup.root}`);
