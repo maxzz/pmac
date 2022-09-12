@@ -34,10 +34,10 @@ export type Report_Errors = {
 
 export type ReportAddParams = Report_InputFiles | Report_Duplicates | Report_Errors;
 
-export type ReportRecord = {
+export type Report = {
     inputs?: Report_InputFiles;
     domcreds?: Report_Duplicates;
     errors?: Report_Errors;
 };
 
-export type Report = Record<string, ReportRecord>; // root folder -> ReportRecord
+export type ReportRecords = Record<string, Report>; // root folder -> ReportRecord

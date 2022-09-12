@@ -1,14 +1,14 @@
 import path from "path";
 import fs from "fs";
-import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manifest";
-import { notes } from "./app-notes";
 import chalk from "chalk";
+import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manifest";
 import { FormUrls, getFormUrls } from "./utils-mani-urls";
-import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
+import { notes } from "./app-notes";
 import { osStuff } from "./utils-os";
+import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
 import { SourceGroup } from "./app-arguments";
-import { addToReport, makeHtmlReport } from "./utils-report";
-import { Report_Duplicates, Report_InputFiles } from "@pmac/shared-types";
+import { templateStr } from "./utils-report";
+import { Report } from "@pmac/shared-types";
 
 // Manifest loading
 
@@ -32,10 +32,11 @@ export type TargetGroup = {
     files: FileMeta[];          // loaded meaninfull files, i.e. wo/ empty and failed
     empty: string[];            // filename list of empty files
     failed: string[];           // filename list of failed to load files
+    report: Report;             // report for this group
 };
 
 function loadManifests(sourceGroup: SourceGroup): TargetGroup {
-    const rv: TargetGroup = { root: sourceGroup.root, files: [], sameDc: [], empty: [], failed: [] };
+    const rv: TargetGroup = { root: sourceGroup.root, files: [], sameDc: [], empty: [], failed: [], report: {} };
 
     for (const file of sourceGroup.fnames) {
         const fname = path.join(sourceGroup.root, file);
@@ -71,7 +72,7 @@ export function getSameDc(files: FileMeta[]): SameDc[] {
 
     function splitByDomains(files: FileMeta[]): ByDomains {
         const rv: ByDomains = {};
-    
+
         files.forEach((file) => {
             const domain = file.urls[0]?.oParts?.domain;
             if (domain) {
@@ -79,10 +80,10 @@ export function getSameDc(files: FileMeta[]): SameDc[] {
                 rv[domain].push(file);
             }
         });
-    
+
         return rv;
     }
-        
+
     const byDomains = splitByDomains(files);
 
     const domainsArr: Duplicate[] = Object.entries(byDomains);
@@ -93,7 +94,7 @@ export function getSameDc(files: FileMeta[]): SameDc[] {
 }
 
 function flatDcActive(sameDC: SameDc[]): FileMeta[] {
-    const files: FileMeta[] = sameDC.map(({domain, files}) => files).flat();
+    const files: FileMeta[] = sameDC.map(({ domain, files }) => files).flat();
     return files;
 }
 
@@ -154,14 +155,13 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = loadManifests(sourceGroup);
     //printLoaded(targetGroup);
 
-    const toReport: Report_InputFiles = {
+    targetGroup.report.inputs = {
         input: targetGroup.files.map((f) => ({
             title: f.forms[0]?.mani?.options?.choosename || '',
             root: toUnix(targetGroup.root),
             short: toUnix(f.short),
         })),
     };
-    addToReport(targetGroup.root, { inputs: toReport, });
 
     return targetGroup;
 }
@@ -169,17 +169,15 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
 export function step_FindSameDc(targetGroup: TargetGroup) {
     targetGroup.sameDc = getSameDc(targetGroup.files);
 
-
-    //TODO: move away from here
-    //TODO: and add to report
-    if (targetGroup.sameDc.length) {
-        printDcActive(targetGroup.sameDc);
-    } else {
-        notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
-    }
+    targetGroup.report.domcreds = {
+        multiple: flatDcActive(targetGroup.sameDc).map((file) => ({
+            file: file.short, //TODO: add more to report
+        })),
+    };
 }
 
 export function step_MakeBackupCopy(targetGroup: TargetGroup): void {
+
     try {
         const sameDC: FileMeta[] = flatDcActive(targetGroup.sameDc);
         makeBackupCopy(sameDC, targetGroup.root);
@@ -214,22 +212,34 @@ export function step_ModifyDuplicates(targetGroup: TargetGroup): void {
 
 }
 
-export function step_MakeReport(targetGroup: TargetGroup): void {
+export function step_FinalMakeReport(targetGroups: TargetGroup[]): void {
 
-    const toReport: Report_Duplicates = {
-        multiple: flatDcActive(targetGroup.sameDc).map((file) => ({
-            file: file.short, //TODO: add more to report
-        })),
-    };
-    addToReport(targetGroup.root, { domcreds: toReport, });
-
-    const report = makeHtmlReport(targetGroup.root);
-
-    if (report) {
-        //TODO: save it into the same folder
-        //console.log('newTemplate\n', report);
-        console.log(chalk.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
+    function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
+        if (Object.keys(targetGroup.report).length) {
+            const dataStr = JSON.stringify(targetGroup.report, null, 4);
+    
+            console.log('dataStr:\n', dataStr);
+    
+            return templateStr.replace('"__INJECTED__DATA__"', dataStr);
+        }
     }
+    
+    targetGroups.forEach((targetGroup) => {
+        const report = makeHtmlReport(targetGroup);
 
-    notes.add(`All done in folder ${targetGroup.root}`);
+        if (targetGroup.sameDc.length) {
+            printDcActive(targetGroup.sameDc);
+        } else {
+            notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
+        }
+
+        if (report) {
+            //TODO: save it into the same folder
+            //console.log('newTemplate\n', report);
+            console.log(chalk.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
+        }
+
+        notes.add(`All done in folder ${targetGroup.root}`);
+    });
+
 }

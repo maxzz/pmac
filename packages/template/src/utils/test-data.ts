@@ -1,9 +1,9 @@
-import { ItemInputFile, Report, Report_InputFiles } from '@pmac/shared-types';
+import { ItemInputFile, ReportRecords, Report_InputFiles } from '@pmac/shared-types';
 
 if (process.env.NODE_ENV !== 'production') {
     console.log('only dev');
 
-    const report: Report = {
+    const report: ReportRecords = {
         'folder': { // TODO: real folder
             "inputs": {
                 "input": [
@@ -55,4 +55,4 @@ if (process.env.NODE_ENV !== 'production') {
     (window as any)['tmReport'] = report;
 }
 
-export const report: Report = (window as any)['tmReport'];
+export const report: ReportRecords = (window as any)['tmReport'];
