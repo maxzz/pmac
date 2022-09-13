@@ -9,20 +9,23 @@ export const textShadow = "text-shadow: 1px 1px 2px #000";
 export const elevation4Shadow = "box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%)";
 
 export function PageHeader() {
-    return (`
-    <header class="px-6 py-4 flex items-center justify-between bg-title3 shadow-sm cursor-default select-none">
-        <div class="flex items-center space-x-4">
-            <a class="cursor-default" target="_blank" href="https://www.hidglobal.com" tabIndex="-1">
-                <div class="flex items-center justify-center bg-primary-300 rounded-md">
-                    ${IconHIDLogo()}
-                </div>
-            </a>
-            <h1 class="flex items-center text-sm md:text-xl tracking-tighter font-light text-slate-100 whitespace-normal sm:whitespace-nowrap" style="${textShadow}" >
-                <div class="inline-block">DigitalPersona</div><div class="-mt-1 mr-1 text-sm">&#174;</div>
-                <div>Password Manager Administrator Command Report</div>
-            </h1>
-        </div>
-    </header>
-    <div class="h-1 bg-title5" style="${elevation4Shadow}"></div>
-    `);
+    return (
+`
+<header class="px-6 py-4 flex items-center justify-between bg-title3 shadow-sm cursor-default select-none">
+    <div class="flex items-center space-x-4">
+        <a target="_blank" href="https://www.hidglobal.com" tabIndex="-1">
+            <div class="flex items-center justify-center bg-primary-300 rounded-md">
+                ${IconHIDLogo()}
+            </div>
+        </a>
+        <h1 class="flex items-center text-sm md:text-xl tracking-tighter font-light text-slate-100 whitespace-normal sm:whitespace-nowrap" title="Password Manager Administrator Command Report" style="${textShadow}" >
+            <div class="inline-block">DigitalPersona</div><div class="-mt-1 mr-1 text-sm">&#174;</div>
+            <div class="block md:hidden">PMAC</div>
+            <div class="hidden md:block">Password Manager Administrator Command</div>
+            <div class="ml-1">Report</div>
+        </h1>
+    </div>
+</header>
+<div class="h-1 bg-title5" style="${elevation4Shadow}"></div>
+`);
 }
