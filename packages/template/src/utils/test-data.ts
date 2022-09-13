@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
     const testReports: ReportRecords = 
     [
         {
+            "root": "c:/Y/w/2-web/0-dp/utils/pm-domain-credentials-switch/packages/utility/tests/01",
             "inputs": {
                 "input": [
                     {
@@ -89,8 +90,44 @@ if (process.env.NODE_ENV !== 'production') {
                         "file": "fiserv.com.{c857ed8e-5e08-48c2-ac5e-be1495b7b5a3}.dpm"
                     }
                 ]
+            }
+        },
+        {
+            "root": "c:/Y/w/2-web/0-dp/utils/pm-domain-credentials-switch/packages/utility/tests/02",
+            "inputs": {
+                "input": [
+                    {
+                        "title": "FIS Managed Risk and Security Services",
+                        "short": "{0a58d2be-9441-4860-ae5b-cb3cb09de112}.dpm"
+                    },
+                    {
+                        "title": "FIS Managed Risk and Security Services",
+                        "short": "{0a58d2be-9441-4860-ae5b-cb3cb09de112}_new.dpm"
+                    },
+                    {
+                        "title": "Bright Horizons Secure Message PW",
+                        "short": "{0a60444f-1a89-4b1d-8a7f-c3b87c3b7f80}.dpm"
+                    },
+                    {
+                        "title": "BeyondTrust - ERPM",
+                        "short": "{2de7d301-a9cb-4b81-8541-44d483f326fe}.dpm"
+                    },
+                    {
+                        "title": "3D Secure Signon Organization",
+                        "short": "{2f8fd1e2-2db4-400e-943c-a1b8d13f9e09}.dpm"
+                    }
+                ]
             },
-            "root": "c:/Y/w/2-web/0-dp/utils/pm-domain-credentials-switch/packages/utility/tests/01"
+            "domcreds": {
+                "multiple": [
+                    {
+                        "file": "{0a58d2be-9441-4860-ae5b-cb3cb09de112}.dpm"
+                    },
+                    {
+                        "file": "{0a58d2be-9441-4860-ae5b-cb3cb09de112}_new.dpm"
+                    }
+                ]
+            }
         }
     ]
     ;
