@@ -1,7 +1,7 @@
 import { ItemInputFile, Report_InputFiles } from "@pmac/shared-types";
 import { H1 } from "./components";
 
-function HeaderRow(col1: string, col2: string, isFirst: boolean, isLast: boolean) {
+function HeaderRow({ col1, col2 }: { col1: string, col2: string; }) {
     return (`
     <div class="my-px px-2 text-xs rounded-tl">${col1}</div>
     <div class="border-transparent border"></div>
@@ -9,7 +9,7 @@ function HeaderRow(col1: string, col2: string, isFirst: boolean, isLast: boolean
     `);
 }
 
-function Row(col1: string, col2: string, isFirst: boolean, isLast: boolean) {
+function Row({ col1, col2, isFirst, isLast }: { col1: string, col2: string, isFirst: boolean, isLast: boolean; }) {
     return (`
     <div class="my-px px-2 py-1 bg-primary-100/50 ${isFirst ? 'rounded-tl' : isLast ? 'rounded-bl' : ''}">${col1}</div>
     <div class="border-transparent border"></div>
@@ -18,7 +18,7 @@ function Row(col1: string, col2: string, isFirst: boolean, isLast: boolean) {
 }
 
 function TableRow(input: ItemInputFile, isFirst: boolean, isLast: boolean) {
-    return Row(input.title || 'No login title', input.short, isFirst, isLast);
+    return Row({ col1: input.title || 'No login title', col2: input.short, isFirst, isLast });
 }
 
 export function TableAllInputs(inputs?: Report_InputFiles) {
@@ -27,9 +27,9 @@ export function TableAllInputs(inputs?: Report_InputFiles) {
     }
     const items = inputs?.input || [];
     return (`
-        ${H1("All files")}
+        ${H1({ text: "All files" })}
         <div class="grid grid-cols-[auto_auto_minmax(0,1fr)] text-sm text-textovergrad selection:bg-fuchsia-300 selection:text-fuchsia-900">
-            ${HeaderRow('Login name', 'File name', true, false)}
+            ${HeaderRow({ col1: 'Login name', col2: 'File name' })}
 
             ${items.map((input, idx) => TableRow(input, !idx, idx === items.length - 1)).join('')}
         </div>

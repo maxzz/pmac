@@ -10,7 +10,7 @@ function singleReport(single: Report) {
 <div class="px-4 p-2 grid grid-cols-[1fr_minmax(100px,auto)_1fr]">
     <div class="col-start-2">
         ${TableAllInputs(single?.inputs)}
-        ${isEmpty ? Para('There are no manifest files using domain credentials. Nothing changed') : ''}
+        ${isEmpty ? Para({text: 'There are no manifest files using domain credentials. Nothing changed'}) : ''}
     </div>
 </div>
 `;
@@ -33,4 +33,4 @@ app.innerHTML = App();
 console.log('report', reports);
 
 // <!-- <br /> ${Button({ id: "counter" })} -->
-// <!-- ${Para("Click on the Vite and TypeScript logos to learn more")} -->
+
