@@ -11,6 +11,6 @@ function getInputs(report: Report): Record<string, ItemInputFile> {
 }
 
 export function getSameDc(report: Report): ItemInputFile[] {
-    const inputs =getInputs(report);
+    const inputs = getInputs(report);
     return report.domcreds?.multiple?.map((item) => inputs[item.id]) || [];
 }

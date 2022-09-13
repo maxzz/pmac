@@ -9,7 +9,7 @@ import { ensureNameUnique, nowDayTime, toUnix } from "../utils/unique-names";
 import { notes } from "./app-notes";
 import { SourceGroup } from "./app-arguments";
 import { templateStr } from "../utils/utils-report-template";
-import { ItemError, Report, ReportRecords } from "@pmac/shared-types";
+import { ItemError, FormData, Report, ReportRecords } from "@pmac/shared-types";
 
 // Manifest loading
 
@@ -163,10 +163,20 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = loadManifests(sourceGroup);
     //printLoaded(targetGroup);
 
+    function formUrls(f: FileMeta, idx: number): FormData {
+        const noMurl = f.urls[idx]?.o || f.urls[idx]?.o === f.urls[idx]?.m;
+        return {
+            domain: f.urls[idx]?.oParts?.domain,
+            ourl: f.urls[idx]?.o,
+            ...(!noMurl && { murl: f.urls[idx]?.m }),
+        };
+    }
+
     targetGroup.report.inputs = {
         input: targetGroup.files.map((f, idx) => ({
             id: f.id,
-            idx, 
+            idx,
+            urls: [formUrls(f, 0), formUrls(f, 1)],
             title: f.forms[0]?.mani?.options?.choosename || '',
             short: toUnix(f.short),
         })),

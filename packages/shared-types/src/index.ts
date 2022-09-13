@@ -1,12 +1,14 @@
 export type FormData = {
-    ourl: string;
-    murl?: string;
+    domain?: string;        // domain
+    ourl?: string;          // original url
+    murl?: string;          // match url; it will be undefined if ourl === murl or ourl === undefined
 };
 
 export type ItemInputFile = {
     id: string;             // file this run unique ID
     idx: number,            // file index from all loaded files
     title: string;          // Login form title
+    urls: FormData[];       // manifest form urls
     short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
 };
 
