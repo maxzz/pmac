@@ -198,9 +198,13 @@ export function step_FindSameDc(targetGroup: TargetGroup) {
     targetGroup.sameDc = getSameDc(targetGroup.files);
 
     targetGroup.report.domcreds = {
-        multiple: flatDcActive(targetGroup.sameDc).map((file) => ({
-            id: file.id, //TODO: add more to report
-        })),
+        multiple: flatDcActive(targetGroup.sameDc).map((file) => {
+            const newUrls = [file.urls?.[0].m, file.urls?.[1].m].filter(Boolean);
+            return {
+                id: file.id, //TODO: add more to report
+                urls: newUrls,
+            };
+        }),
     };
 }
 

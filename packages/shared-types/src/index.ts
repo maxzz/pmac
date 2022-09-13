@@ -15,6 +15,7 @@ export type ItemInputFile = {
 
 export type ItemDuplicate = {
     id: string;             // ItemInputFile ID
+    urls: string[];         // manifest form new modified urls
 };
 
 export type ItemError = {

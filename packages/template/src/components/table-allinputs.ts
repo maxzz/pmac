@@ -42,8 +42,8 @@ export function TableAllInputs(inputs?: Report_InputFiles) {
     }
     const items = inputs?.input || [];
     return (`
-        <details class="md:min-w-[85ch]">
-        <summary>All files</summary>
+        <details class="md:min-w-[85ch]" open>
+        <summary class="text-lg font-semibold">All manifest files</summary>
         <div class="grid grid-cols-[auto_auto_minmax(0,1fr)] md:grid-cols-[minmax(270px,auto)_auto_minmax(0,1fr)] text-sm text-textovergrad selection:bg-fuchsia-300 selection:text-fuchsia-900">
             ${HeaderRow({ col1: 'Login name', col2: 'File name' })}
 
