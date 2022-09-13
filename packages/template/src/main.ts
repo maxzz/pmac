@@ -1,6 +1,6 @@
 import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { Report } from '@pmac/shared-types';
-import { reports } from './utils/test-data';
+import { reportData } from './utils/report-data';
 import '../index.css';
 
 function singleReport(single: Report) {
@@ -18,7 +18,7 @@ function App() {
     return `
         <div class="flex-1 bg-gradient-to-t from-primary-50 to-[#036eb3] text-primary-900">
             ${PageHeader()}
-            ${reports.map((report) => singleReport(report)).join('')}
+            ${reportData.map((report) => singleReport(report)).join('')}
         </div>`;
 }
 
@@ -27,7 +27,7 @@ app.innerHTML = App();
 
 //setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
-console.log('report', reports);
+console.log('report', reportData);
 
 // <!-- <br /> ${Button({ id: "counter" })} -->
 
