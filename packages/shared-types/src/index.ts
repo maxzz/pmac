@@ -15,7 +15,7 @@ export type ItemInputFile = {
 
 export type ItemDuplicate = {
     id: string;             // ItemInputFile ID
-    urls: string[];         // manifest form new modified urls
+    urls: string[];         // manifest form new modified urls //TODO: change to object vs. [undefined, url] -> filter(Boolean)
 };
 
 export type ItemError = {

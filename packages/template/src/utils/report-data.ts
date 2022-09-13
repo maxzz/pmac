@@ -25,7 +25,7 @@ function getSameDc(report: Report): InputSameDcItem[] {
     return report.domcreds?.multiple?.map((item) => ({ dup: item, src: inputs[item.id], } as InputSameDcItem)) || [];
 }
 
-export function FolderInputSameDcItem(reportRecords: ReportRecords): FolderInputSameDcItem[] {
+export function folderInputSameDcItem(reportRecords: ReportRecords): FolderInputSameDcItem[] {
     return reportRecords.map((report) => {
         const sameDcItems = getSameDc(report);
         return {

@@ -2,6 +2,7 @@ import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './co
 import { Report } from '@pmac/shared-types';
 import { reportData } from './utils/report-data';
 import '../index.css';
+import { TableModified } from './components/table-modified';
 
 function singleReport(single: Report) {
     const isEmpty = !Object.keys(single).length; //TODO: !report.inputs?.input?.length && !report.domcreds?.multiple?.length;
@@ -16,9 +17,10 @@ function singleReport(single: Report) {
 
 function App() {
     return `
-        <div class="flex-1 bg-gradient-to-t from-primary-50 to-[#036eb3] text-primary-900 debug-screens">
+        <div class="flex-1 bg-gradient-to-t from-primary-50 to-[#036eb3] text-primary-900 selection:bg-fuchsia-300 selection:text-fuchsia-900 debug-screens">
             ${PageHeader()}
             ${reportData.map((report) => singleReport(report)).join('')}
+            ${TableModified(reportData)}
         </div>`;
 }
 

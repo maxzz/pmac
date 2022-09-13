@@ -8,6 +8,6 @@
     }
 
     #app {
-        @apply min-h-full bg-red-500 flex flex-col;
+        @apply min-h-full bg-green-500 flex flex-col;
     }
 }
