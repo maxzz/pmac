@@ -179,7 +179,7 @@ export function step_FindSameDc(targetGroup: TargetGroup) {
 
     targetGroup.report.domcreds = {
         multiple: flatDcActive(targetGroup.sameDc).map((file) => ({
-            file: file.short, //TODO: add more to report
+            id: file.id, //TODO: add more to report
         })),
     };
 }

@@ -10,7 +10,7 @@ export type ItemInputFile = {
 };
 
 export type ItemDuplicate = {
-    file: string;
+    id: string;             // ItemInputFile ID
 };
 
 export type ItemError = {
