@@ -21,18 +21,35 @@ function TableRow(input: ItemInputFile, isFirst: boolean, isLast: boolean) {
     return Row({ col1: input.title || 'No login title', col2: input.short, isFirst, isLast });
 }
 
+// export function TableAllInputs(inputs?: Report_InputFiles) {
+//     if (!inputs?.input) {
+//         return '';
+//     }
+//     const items = inputs?.input || [];
+//     return (`
+//         ${H1({ text: "All files" })}
+//         <div class="grid grid-cols-[auto_auto_minmax(0,1fr)] text-sm text-textovergrad selection:bg-fuchsia-300 selection:text-fuchsia-900">
+//             ${HeaderRow({ col1: 'Login name', col2: 'File name' })}
+
+//             ${items.map((input, idx) => TableRow(input, !idx, idx === items.length - 1)).join('')}
+//         </div>
+//     `);
+// }
+
 export function TableAllInputs(inputs?: Report_InputFiles) {
     if (!inputs?.input) {
         return '';
     }
     const items = inputs?.input || [];
     return (`
-        ${H1({ text: "All files" })}
-        <div class="grid grid-cols-[auto_auto_minmax(0,1fr)] text-sm text-textovergrad selection:bg-fuchsia-300 selection:text-fuchsia-900">
+        <details class="md:min-w-[85ch]">
+        <summary>All files</summary>
+        <div class="grid grid-cols-[auto_auto_minmax(0,1fr)] md:grid-cols-[minmax(270px,auto)_auto_minmax(0,1fr)] text-sm text-textovergrad selection:bg-fuchsia-300 selection:text-fuchsia-900">
             ${HeaderRow({ col1: 'Login name', col2: 'File name' })}
 
             ${items.map((input, idx) => TableRow(input, !idx, idx === items.length - 1)).join('')}
         </div>
+        </details>
     `);
 }
 
