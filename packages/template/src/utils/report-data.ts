@@ -1,4 +1,4 @@
-import { ItemInputFile, Report } from '@pmac/shared-types';
+import { ItemDuplicate, ItemInputFile, Report, ReportRecords } from '@pmac/shared-types';
 
 export { reports as reportData } from './test-data';
 
@@ -10,7 +10,27 @@ function getInputs(report: Report): Record<string, ItemInputFile> {
     return inputs || {};
 }
 
-export function getSameDc(report: Report): ItemInputFile[] {
+export type InputSameDcItem = {
+    dup: ItemDuplicate;
+    src: ItemInputFile;
+};
+
+export type FolderInputSameDcItem = {
+    root: string;
+    dcs: InputSameDcItem[];
+};
+
+function getSameDc(report: Report): InputSameDcItem[] {
     const inputs = getInputs(report);
-    return report.domcreds?.multiple?.map((item) => inputs[item.id]) || [];
+    return report.domcreds?.multiple?.map((item) => ({ dup: item, src: inputs[item.id], } as InputSameDcItem)) || [];
+}
+
+export function FolderInputSameDcItem(reportRecords: ReportRecords): FolderInputSameDcItem[] {
+    return reportRecords.map((report) => {
+        const sameDcItems = getSameDc(report);
+        return {
+            root: report.root,
+            dcs: sameDcItems,
+        };
+    });
 }
