@@ -1,7 +1,6 @@
-import { Button, H1, PageHeader, Para, setupCounter } from './components';
+import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { Report } from '@pmac/shared-types';
 import { reports } from './utils/test-data';
-import { TableAllInputs } from './components';
 import '../index.css';
 
 function singleReport(single: Report) {

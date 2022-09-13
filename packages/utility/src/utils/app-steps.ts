@@ -3,9 +3,10 @@ import fs from "fs";
 import chalk from "chalk";
 import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manifest";
 import { FormUrls, getFormUrls } from "./utils-mani-urls";
-import { notes } from "./app-notes";
+import { uuid } from "./uuid";
 import { osStuff } from "./utils-os";
 import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
+import { notes } from "./app-notes";
 import { SourceGroup } from "./app-arguments";
 import { templateStr } from "./utils-report";
 import { ItemError, Report, ReportRecords } from "@pmac/shared-types";
@@ -13,6 +14,7 @@ import { ItemError, Report, ReportRecords } from "@pmac/shared-types";
 // Manifest loading
 
 export type FileMeta = {
+    id: string;                 // file this run unique ID
     mani: Mani.Manifest;        // Parsed manifest
     forms: Meta.Form[];         // Each form meta data
     urls: FormUrls[];           // Each form urls
@@ -47,6 +49,7 @@ function loadManifests(sourceGroup: SourceGroup): TargetGroup {
 
             if (mani && forms.length) {
                 rv.files.push({
+                    id: uuid(),
                     mani,
                     forms,
                     urls: [getFormUrls(forms[0]), getFormUrls(forms[1])],
@@ -162,6 +165,7 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
 
     targetGroup.report.inputs = {
         input: targetGroup.files.map((f) => ({
+            id: f.id,
             title: f.forms[0]?.mani?.options?.choosename || '',
             short: toUnix(f.short),
         })),
