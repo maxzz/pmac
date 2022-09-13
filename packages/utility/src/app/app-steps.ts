@@ -164,8 +164,9 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     //printLoaded(targetGroup);
 
     targetGroup.report.inputs = {
-        input: targetGroup.files.map((f) => ({
+        input: targetGroup.files.map((f, idx) => ({
             id: f.id,
+            idx, 
             title: f.forms[0]?.mani?.options?.choosename || '',
             short: toUnix(f.short),
         })),

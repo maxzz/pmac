@@ -5,6 +5,7 @@ export type FormData = {
 
 export type ItemInputFile = {
     id: string;             // file this run unique ID
+    idx: number,            // file index from all loaded files
     title: string;          // Login form title
     short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
 };
