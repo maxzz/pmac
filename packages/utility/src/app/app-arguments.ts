@@ -1,7 +1,7 @@
 import path from 'path';
-import { exist } from './unique-names';
-import { newErrorArgs } from './utils-errors';
-import { osStuff } from './utils-os';
+import { exist } from '../utils/unique-names';
+import { newErrorArgs } from '../utils/utils-errors';
+import { osStuff } from '../utils/utils-os';
 
 export type Targets = {
     files: string[];

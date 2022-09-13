@@ -2,13 +2,13 @@ import path from "path";
 import fs from "fs";
 import chalk from "chalk";
 import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manifest";
-import { FormUrls, getFormUrls } from "./utils-mani-urls";
-import { uuid } from "./uuid";
-import { osStuff } from "./utils-os";
-import { ensureNameUnique, nowDayTime, toUnix } from "./unique-names";
+import { FormUrls, getFormUrls } from "../utils/utils-mani-urls";
+import { uuid } from "../utils/uuid";
+import { osStuff } from "../utils/utils-os";
+import { ensureNameUnique, nowDayTime, toUnix } from "../utils/unique-names";
 import { notes } from "./app-notes";
 import { SourceGroup } from "./app-arguments";
-import { templateStr } from "./utils-report";
+import { templateStr } from "../utils/utils-report-template";
 import { ItemError, Report, ReportRecords } from "@pmac/shared-types";
 
 // Manifest loading

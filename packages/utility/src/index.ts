@@ -1,10 +1,10 @@
 import chalk from 'chalk';
 import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
-import { help } from './utils/app-help';
-import { getAndCheckTargets, getVerifiedFolders, SourceGroup, Targets } from './utils/app-arguments';
-import { step_FindSameDc, step_LoadManifests, step_FinalMakeReport, TargetGroup, step_SaveResult } from './utils/app-steps';
-import { notes } from './utils/app-notes';
+import { help } from './app/app-help';
+import { getAndCheckTargets, getVerifiedFolders, SourceGroup, Targets } from './app/app-arguments';
+import { step_FindSameDc, step_LoadManifests, step_FinalMakeReport, TargetGroup, step_SaveResult } from './app/app-steps';
+import { notes } from './app/app-notes';
 
 function processFiles(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = step_LoadManifests(sourceGroup);
