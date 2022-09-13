@@ -163,23 +163,32 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = loadManifests(sourceGroup);
     //printLoaded(targetGroup);
 
-    function formUrls(f: FileMeta, idx: number): FormData {
-        const noMurl = f.urls[idx]?.o || f.urls[idx]?.o === f.urls[idx]?.m;
-        return {
-            domain: f.urls[idx]?.oParts?.domain,
-            ourl: f.urls[idx]?.o,
-            ...(!noMurl && { murl: f.urls[idx]?.m }),
-        };
+    function formUrls(f: FileMeta, idx: number): FormData | undefined {
+        const parts = f.urls[idx];
+        const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
+        if (oWoP) {
+            console.log('ourl', parts?.o);
+            console.log('oWoP', oWoP);
+        }
+        return parts?.o ? {
+            domain: parts?.oParts?.domain,
+            ourl: parts?.o,
+            ...(oWoP && { oWoP }),
+            ...(parts?.o !== parts?.m && { murl: parts?.m }),
+        } : undefined;
     }
 
     targetGroup.report.inputs = {
-        input: targetGroup.files.map((f, idx) => ({
-            id: f.id,
-            idx,
-            urls: [formUrls(f, 0), formUrls(f, 1)],
-            title: f.forms[0]?.mani?.options?.choosename || '',
-            short: toUnix(f.short),
-        })),
+        input: targetGroup.files.map((f, idx) => {
+            const urls = [formUrls(f, 0), formUrls(f, 1)].filter(Boolean);
+            return {
+                id: f.id,
+                idx,
+                urls,
+                title: f.forms[0]?.mani?.options?.choosename || '',
+                short: toUnix(f.short),
+            };
+        }),
     };
 
     return targetGroup;
@@ -234,8 +243,8 @@ function step_ModifyAandSave(targetGroup: TargetGroup): void {
 export function step_SaveResult(targetGroup: TargetGroup): void {
     if (targetGroup.sameDc.length) {
         try {
-            step_MakeBackupCopy(targetGroup);
-            step_ModifyAandSave(targetGroup);
+            // step_MakeBackupCopy(targetGroup);
+            // step_ModifyAandSave(targetGroup);
         } catch (error) {
         }
     }

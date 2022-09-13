@@ -2,6 +2,7 @@ export type FormData = {
     domain?: string;        // domain
     ourl?: string;          // original url
     murl?: string;          // match url; it will be undefined if ourl === murl or ourl === undefined
+    oWoP?: string;          // original url wo/ params if ourl !== oWoP
 };
 
 export type ItemInputFile = {
