@@ -10,7 +10,7 @@ import { notes } from "./app-notes";
 import { SourceGroup } from "./app-arguments";
 import { templateStr } from "../utils/utils-report-template";
 import { ItemError, FormData, Report, ReportRecords } from "@pmac/shared-types";
-import { splitByKey } from "../../../template/src/utils/utils";
+import { splitByKey } from "../utils/utils";
 
 // Manifest loading
 
