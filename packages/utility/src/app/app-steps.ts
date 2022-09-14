@@ -71,7 +71,12 @@ function loadManifests(sourceGroup: SourceGroup): TargetGroup {
 // Manifest sorting
 
 export function getSameDc(files: FileMeta[]): SameDc[] {
-    const byDomains = splitByKey(files, (item) => item.urls[0]?.oParts?.domain); // domain -> manifest files
+    const byDomains = splitByKey(files, (item) => {
+        const loginForm = item.urls[0];
+        const loginStyle = loginForm?.mData?.style;
+        const makeSenseToProcces = loginStyle === Matching.Style.undef || loginStyle === Matching.Style.makeDomainMatch;
+        return makeSenseToProcces ? loginForm?.oParts?.domain : undefined;
+    });
 
     const haveSameDc = Object.entries(byDomains).filter(([domain, files]) => files.length > 1);
 
