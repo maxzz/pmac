@@ -184,16 +184,6 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
 
 export function step_FindSameDc(targetGroup: TargetGroup) {
     targetGroup.sameDc = getSameDc(targetGroup.files);
-
-    targetGroup.report.domcreds = {
-        multiple: flatDcActive(targetGroup.sameDc).map((file) => {
-            const newUrls = [file.urls?.[0].m, file.urls?.[1].m].filter(Boolean);
-            return {
-                id: file.id, //TODO: add more to report
-                urls: newUrls,
-            };
-        }),
-    };
 }
 
 function step_MakeBackupCopy(targetGroup: TargetGroup): void {
@@ -209,7 +199,27 @@ function step_MakeBackupCopy(targetGroup: TargetGroup): void {
     }
 }
 
-function step_ModifyAandSave(targetGroup: TargetGroup): void {
+function step_Modify(targetGroup: TargetGroup): void {
+    
+    function modifyUrl(url: string | undefined): string | undefined {
+        return url && Matching.makeRawMatchData({style: Matching.Style.regex, opt: Matching.Options.pmacSet, url}, '');
+    }
+
+    targetGroup.report.domcreds = {
+        multiple: flatDcActive(targetGroup.sameDc).map((file) => {
+            const newUrls = [
+                modifyUrl(file.urls?.[0].m),
+                modifyUrl(file.urls?.[1].m),
+            ].filter(Boolean);
+            return {
+                id: file.id, //TODO: add more to report
+                urls: newUrls,
+            };
+        }),
+    };
+}
+
+function step_Save(targetGroup: TargetGroup): void {
 
     //was: (duplicates: Duplicate[])
 
@@ -236,7 +246,8 @@ export function step_SaveResult(targetGroup: TargetGroup): void {
     if (targetGroup.sameDc.length) {
         try {
             // step_MakeBackupCopy(targetGroup);
-            // step_ModifyAandSave(targetGroup);
+            step_Modify(targetGroup);
+            // step_Save(targetGroup);
         } catch (error) {
         }
     }
