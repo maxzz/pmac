@@ -2,36 +2,17 @@ import { ItemInputFile, ReportRecords, Report_InputFiles } from "@pmac/shared-ty
 import { FolderInputSameDcItem, folderInputSameDcItem, InputSameDcItem, splitByDomains } from "../utils/report-data";
 import { H1 } from "./components";
 
-function HeaderRow({ col1, col2 }: { col1: string, col2: string; }) {
-    return (`
-    <div class="my-px px-2 text-xs rounded-tl">${col1}</div>
-    <div class="border-transparent border"></div>
-    <div class="my-px px-2 text-xs rounded-tr">${col2}</div>
-    `);
-}
-
-function Row({ col1, col2, isFirst, isLast }: { col1: string, col2: string, isFirst: boolean, isLast: boolean; }) {
-    return (`
-    <div class="my-px px-2 py-1 bg-primary-100/50 ${isFirst ? 'rounded-tl' : isLast ? 'rounded-bl' : ''}">${col1}</div>
-    <div class="border-transparent border"></div>
-    <div class="my-px px-2 py-1 bg-primary-100/50 ${isFirst ? 'rounded-tr' : isLast ? 'rounded-br' : ''}">${col2}</div>
-    `);
-}
-
-function TableRow(input: ItemInputFile, isFirst: boolean, isLast: boolean) {
-    return Row({ col1: input.title || 'No login title', col2: input.short, isFirst, isLast });
-}
-
-function ManiForm({ idx }: { idx: number; }) {
-    const name = !idx ? 'Login' : 'Password change';
+function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
+    const formName = !idx ? 'Login' : 'Password change';
+    const org = item.src?.urls?.[idx]?.ourl || '';
+    const mod = item.dup.urls?.[idx] || '';
+    if (!org && !mod) { return ''; }
     return `
-        <div class="ml-4">
-            Form ${name}
-            <div class="ml-4">
-                Old URL
-            </div>
-            <div class="ml-4">
-                New URL
+        <div class="py-2 text-xs">
+            <div class="">${formName}</div>
+            <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
+                <div class="text-xs">Prev URL:</div> <div class="">${org}</div>
+                <div class="text-xs">New URL:</div> <div class="">${mod}</div>
             </div>
         </div>
     `;
@@ -44,13 +25,9 @@ function NNN({ idx }: { idx: number; }) {
 
 function ManiTitle({ file }: { file: ItemInputFile; }) {
     return `
-        <div class="py-2 bg-[#4592dc80]">
-            <div class="ml-8">
-                ${file.title}
-            </div>
-            <div class="ml-8">
-                ${file.short}
-            </div>
+        <div class="px-2 py-2 bg-[#4592dc80] grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
+            <div>Manifet name:</div> <div class="">${file.title}</div>
+            <div>Manifet filename:</div> <div class="">${file.short}</div>
         </div>
     `;
 }
@@ -58,13 +35,12 @@ function ManiTitle({ file }: { file: ItemInputFile; }) {
 function Mani({ item }: { item: InputSameDcItem; }) {
     return `
         <div>
-            <div class="">Manifest</div>
-            <div class="bg-primary-100/10 rounded shadow">
-                ${ManiTitle({file: item.src})}
+            <div class="bg-primary-100/50 rounded shadow">
+                ${ManiTitle({ file: item.src })}
 
                 <div class="ml-4">
-                    ${ManiForm({ idx: 0 })}
-                    ${ManiForm({ idx: 1 })}
+                    ${ManiForm({ item, idx: 0 })}
+                    ${ManiForm({ item, idx: 1 })}
                 </div>
             </div>
         </div>
@@ -95,7 +71,7 @@ export function TableModified(reportRecords: ReportRecords) {
     return (`
         ${H1({ text: "Modified manifest files" })}
         <div class="mx-4">
-            <div class="ml-4">
+            <div class="ml-4 text-sm">
                 ${Folders}
             </div>
         </div>
