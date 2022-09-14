@@ -17,7 +17,7 @@ function singleReport(single: Report) {
 
 function App() {
     return `
-        <div class="flex-1 bg-gradient-to-t from-[#45b6ff] to-[#036eb3] text-primary-900 selection:bg-fuchsia-300 selection:text-fuchsia-900 debug-screens">
+        <div class="flex-1 bg-gradient-to-t from-[#036eb3] to-[#1162b3] text-primary-900 selection:bg-fuchsia-300 selection:text-fuchsia-900 debug-screens">
             ${PageHeader()}
             ${reportData.map((report) => singleReport(report)).join('')}
             ${TableModified(reportData)}
