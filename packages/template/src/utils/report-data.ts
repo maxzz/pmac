@@ -34,3 +34,19 @@ export function folderInputSameDcItem(reportRecords: ReportRecords): FolderInput
         };
     });
 }
+
+export type InputSameDcItemByDomains = Record<string, InputSameDcItem[]>; // domain -> manifest files
+
+export function splitByDomains(items: InputSameDcItem[]): InputSameDcItemByDomains {
+    const rv: InputSameDcItemByDomains = {};
+
+    items.forEach((item) => {
+        const domain = item.src.urls[0]?.domain;
+        if (domain) {
+            !rv[domain] && (rv[domain] = []);
+            rv[domain].push(item);
+        }
+    });
+
+    return rv;
+}

@@ -1,4 +1,5 @@
 import { ItemInputFile, ReportRecords, Report_InputFiles } from "@pmac/shared-types";
+import { FolderInputSameDcItem, folderInputSameDcItem, InputSameDcItem, splitByDomains } from "../utils/report-data";
 import { H1 } from "./components";
 
 function HeaderRow({ col1, col2 }: { col1: string, col2: string; }) {
@@ -21,50 +22,80 @@ function TableRow(input: ItemInputFile, isFirst: boolean, isLast: boolean) {
     return Row({ col1: input.title || 'No login title', col2: input.short, isFirst, isLast });
 }
 
-export function TableModified(report: ReportRecords) {
+function ManiForm({ idx }: { idx: number; }) {
+    const name = !idx ? 'Login' : 'Password change';
+    return `
+        <div class="ml-4">
+            Form ${name}
+            <div class="ml-4">
+                Old URL
+            </div>
+            <div class="ml-4">
+                New URL
+            </div>
+        </div>
+    `;
+}
+
+function NNN({ idx }: { idx: number; }) {
+    return `
+    `;
+}
+
+function ManiTitle({ file }: { file: ItemInputFile; }) {
+    return `
+        <div class="ml-8">
+            ${file.title}
+        </div>
+        <div class="ml-8">
+            ${file.short}
+        </div>
+    `;
+}
+
+function Mani({ item }: { item: InputSameDcItem; }) {
+    return `
+        <div>
+            <div class="">Manifest</div>
+            <div class="border-primary-700 border rounded bg-red-500">
+                ${ManiTitle({file: item.src})}
+
+                <div class="ml-4">
+                    ${ManiForm({ idx: 0 })}
+                    ${ManiForm({ idx: 1 })}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function Domain({ domain, items }: { domain: string; items: InputSameDcItem[]; }) {
+    const manis = items.map((item) => Mani({ item })).join('');
+    return `
+        <div class="">${domain}</div>
+        <div class="ml-4 flex flex-col space-y-4">${manis}</div>
+    `;
+}
+
+function Folder({ sameDcs }: { sameDcs: FolderInputSameDcItem; }) {
+    const byDomains = Object.entries(splitByDomains(sameDcs.dcs));
+    return byDomains.map(([domain, dcs]) => {
+        return `
+        ${H1({ text: `Folder ${sameDcs.root}` })}
+        ${Domain({ domain, items: dcs })}
+        `;
+    }).join('');
+}
+
+export function TableModified(reportRecords: ReportRecords) {
+    const sameDcs = folderInputSameDcItem(reportRecords);
+    const Folders = sameDcs.map((folder) => Folder({ sameDcs: folder })).join('');
     return (`
         ${H1({ text: "Modified manifest files" })}
         <div class="">
             <div class="ml-4">
-                ${H1({text: "Folder"})}
-
-                <div class="">Domain</div>
-                <div class="border-primary-700 border rounded bg-red-500">
-                    
-                    <div class="ml-4">
-                        Manifest
-                        <div class="ml-8">
-                            Username
-                        </div>
-                        <div class="ml-8">
-                            Filename
-                        </div>
-
-                        <div class="ml-4">
-                            Form Login
-                            <div class="ml-4">
-                                Old URL
-                            </div>
-                            <div class="ml-4">
-                                New URL
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            Form Password Change
-                            <div class="ml-4">
-                                Old URL
-                            </div>
-                            <div class="ml-4">
-                                New URL
-                            </div>
-                        </div>
-                    </div>
-    
-                </div>
-
+                ${Folders}
             </div>
-
-            
         </div>
     `);
 }
