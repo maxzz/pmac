@@ -71,28 +71,21 @@ function loadManifests(sourceGroup: SourceGroup): TargetGroup {
 
 export function getSameDc(files: FileMeta[]): SameDc[] {
     type ByDomains = Record<string, FileMeta[]>; // domain -> manifest files
-    type Duplicate = [domain: string, files: FileMeta[]];
 
     function splitByDomains(files: FileMeta[]): ByDomains {
         const rv: ByDomains = {};
-
         files.forEach((file) => {
             const domain = file.urls[0]?.oParts?.domain;
-            if (domain) {
-                !rv[domain] && (rv[domain] = []);
-                rv[domain].push(file);
-            }
+            domain && (rv[domain] || (rv[domain] = [])).push(file);
         });
-
         return rv;
     }
 
     const byDomains = splitByDomains(files);
 
-    const domainsArr: Duplicate[] = Object.entries(byDomains);
-    const duplicates = domainsArr.filter(([key, val]) => val.length > 1);
+    const haveSameDc = Object.entries(byDomains).filter(([domain, files]) => files.length > 1);
 
-    const sameDC = duplicates.map(([domain, files]) => ({ domain, files }));
+    const sameDC = haveSameDc.map(([domain, files]) => ({ domain, files }));
     return sameDC;
 }
 

@@ -42,10 +42,7 @@ export function splitByDomains(items: InputSameDcItem[]): InputSameDcItemByDomai
 
     items.forEach((item) => {
         const domain = item.src.urls[0]?.domain;
-        if (domain) {
-            !rv[domain] && (rv[domain] = []);
-            rv[domain].push(item);
-        }
+        domain && (rv[domain] || (rv[domain] = [])).push(item);
     });
 
     return rv;
