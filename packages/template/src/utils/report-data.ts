@@ -1,4 +1,5 @@
 import { ItemDuplicate, ItemInputFile, Report, ReportRecords } from '@pmac/shared-types';
+import { splitByKey } from './utils';
 
 export { reports as reportData } from './test-data';
 
@@ -33,17 +34,4 @@ export function folderInputSameDcItem(reportRecords: ReportRecords): FolderInput
             dcs: sameDcItems,
         };
     });
-}
-
-export type InputSameDcItemByDomains = Record<string, InputSameDcItem[]>; // domain -> manifest files
-
-export function splitByDomains(items: InputSameDcItem[]): InputSameDcItemByDomains {
-    const rv: InputSameDcItemByDomains = {};
-
-    items.forEach((item) => {
-        const domain = item.src.urls[0]?.domain;
-        domain && (rv[domain] || (rv[domain] = [])).push(item);
-    });
-
-    return rv;
 }

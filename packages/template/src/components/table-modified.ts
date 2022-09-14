@@ -1,5 +1,6 @@
 import { ItemInputFile, ReportRecords, Report_InputFiles } from "@pmac/shared-types";
-import { FolderInputSameDcItem, folderInputSameDcItem, InputSameDcItem, splitByDomains } from "../utils/report-data";
+import { FolderInputSameDcItem, folderInputSameDcItem, InputSameDcItem } from "../utils/report-data";
+import { splitByKey } from "../utils/utils";
 import { H1 } from "./components";
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
@@ -56,7 +57,7 @@ function Domain({ domain, items }: { domain: string; items: InputSameDcItem[]; }
 }
 
 function Folder({ sameDcs }: { sameDcs: FolderInputSameDcItem; }) {
-    const byDomains = Object.entries(splitByDomains(sameDcs.dcs));
+    const byDomains = Object.entries(splitByKey(sameDcs.dcs, (item) => item.src.urls[0]?.domain));
     return byDomains.map(([domain, dcs]) => {
         return `
         ${H1({ text: `Folder ${sameDcs.root}` })}

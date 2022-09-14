@@ -10,6 +10,7 @@ import { notes } from "./app-notes";
 import { SourceGroup } from "./app-arguments";
 import { templateStr } from "../utils/utils-report-template";
 import { ItemError, FormData, Report, ReportRecords } from "@pmac/shared-types";
+import { splitByKey } from "../../../template/src/utils/utils";
 
 // Manifest loading
 
@@ -70,18 +71,7 @@ function loadManifests(sourceGroup: SourceGroup): TargetGroup {
 // Manifest sorting
 
 export function getSameDc(files: FileMeta[]): SameDc[] {
-    type ByDomains = Record<string, FileMeta[]>; // domain -> manifest files
-
-    function splitByDomains(files: FileMeta[]): ByDomains {
-        const rv: ByDomains = {};
-        files.forEach((file) => {
-            const domain = file.urls[0]?.oParts?.domain;
-            domain && (rv[domain] || (rv[domain] = [])).push(file);
-        });
-        return rv;
-    }
-
-    const byDomains = splitByDomains(files);
+    const byDomains = splitByKey(files, (item) => item.urls[0]?.oParts?.domain); // domain -> manifest files
 
     const haveSameDc = Object.entries(byDomains).filter(([domain, files]) => files.length > 1);
 
