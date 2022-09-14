@@ -11,8 +11,8 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
         <div class="py-2 text-xs">
             <div class="">${formName}</div>
             <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
-                <div class="text-xs">Prev URL:</div> <div class="">${org}</div>
-                <div class="text-xs">New URL:</div> <div class="">${mod}</div>
+                <div class="text-xs">Prev URL:</div> <div class="text-red-700">${org}</div>
+                <div class="text-xs">New URL:</div> <div class="text-green-700">${mod}</div>
             </div>
         </div>
     `;
@@ -35,7 +35,7 @@ function ManiTitle({ file }: { file: ItemInputFile; }) {
 function Mani({ item }: { item: InputSameDcItem; }) {
     return `
         <div>
-            <div class="bg-primary-100/50 rounded shadow">
+            <div class="bg-[#a4c9ee] rounded shadow">
                 ${ManiTitle({ file: item.src })}
 
                 <div class="ml-4">
@@ -70,7 +70,7 @@ export function TableModified(reportRecords: ReportRecords) {
     const Folders = sameDcs.map((folder) => Folder({ sameDcs: folder })).join('');
     return (`
         ${H1({ text: "Modified manifest files" })}
-        <div class="mx-4">
+        <div class="mx-4 mb-12">
             <div class="ml-4 text-sm">
                 ${Folders}
             </div>
