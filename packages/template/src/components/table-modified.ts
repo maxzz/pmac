@@ -44,11 +44,13 @@ function NNN({ idx }: { idx: number; }) {
 
 function ManiTitle({ file }: { file: ItemInputFile; }) {
     return `
-        <div class="ml-8">
-            ${file.title}
-        </div>
-        <div class="ml-8">
-            ${file.short}
+        <div class="py-2 bg-[#4592dc80]">
+            <div class="ml-8">
+                ${file.title}
+            </div>
+            <div class="ml-8">
+                ${file.short}
+            </div>
         </div>
     `;
 }
@@ -57,7 +59,7 @@ function Mani({ item }: { item: InputSameDcItem; }) {
     return `
         <div>
             <div class="">Manifest</div>
-            <div class="border-primary-700 border rounded bg-red-500">
+            <div class="bg-primary-100/10 rounded shadow">
                 ${ManiTitle({file: item.src})}
 
                 <div class="ml-4">
@@ -92,7 +94,7 @@ export function TableModified(reportRecords: ReportRecords) {
     const Folders = sameDcs.map((folder) => Folder({ sameDcs: folder })).join('');
     return (`
         ${H1({ text: "Modified manifest files" })}
-        <div class="">
+        <div class="mx-4">
             <div class="ml-4">
                 ${Folders}
             </div>
