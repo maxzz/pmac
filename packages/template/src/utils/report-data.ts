@@ -14,6 +14,7 @@ function getInputs(report: Report): Record<string, ItemInputFile> {
 export type InputSameDcItem = {
     dup: ItemDuplicate;
     src: ItemInputFile;
+    open?: boolean;
 };
 
 export type FolderInputSameDcItem = {
