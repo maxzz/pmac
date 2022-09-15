@@ -17,7 +17,7 @@ function singleReport(single: Report) {
 
 function App() {
     return `
-        <div class="flex-1 bg-gradient-to-t from-[#036eb3] to-[#1162b3] text-primary-900 selection:bg-fuchsia-300 selection:text-fuchsia-900 debug-screens">
+        <div class="flex-1 from-[#d6efff] to-[#d3e9ff] text-primary-900 selection:bg-fuchsia-300 selection:text-fuchsia-900 debug-screens">
             ${PageHeader()}
             ${reportData.map((report) => singleReport(report)).join('')}
             ${TableModified(reportData)}
@@ -33,3 +33,6 @@ console.log('report', reportData);
 
 // <!-- <br /> ${Button({ id: "counter" })} -->
 
+// <div class="flex-1 bg-gradient-to-t from-[#d6efff] to-[#d3e9ff] text-primary-900 selection:bg-fuchsia-300 selection:text-fuchsia-900 debug-screens">
+// <div class="flex-1 bg-gradient-to-t from-[#036eb3] to-[#1162b3] text-primary-900 selection:bg-fuchsia-300 selection:text-fuchsia-900 debug-screens">
+// <div class="flex-1 bg-gradient-to-t from-[#002d66] to-[#002d66] text-primary-900 selection:bg-fuchsia-300 selection:text-fuchsia-900 debug-screens">
