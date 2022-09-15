@@ -6,3 +6,5 @@ Find all manifests that belong to the same domain and for them look for login fo
 Then set each of these login forms to be used only for exact matching URLs. 
 
 This utility will not take into account password change forms.
+
+You can click the list item to check the details.

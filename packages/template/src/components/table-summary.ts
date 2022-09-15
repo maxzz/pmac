@@ -52,11 +52,28 @@ export function createTable(element: HTMLElement) {
 
     const fragment = document.createDocumentFragment();
 
-    flatItems.forEach((dcItem, idx) => {
-        const el = document.createElement('div')
-        el.innerHTML = `me ${idx}`;
-        fragment.append(el);
-    });
+    const rootEl = document.createElement('div');
+    rootEl.innerHTML = `
+        <div>login-name</div>
+        <div>modified-text</div>
+
+        <div class="info-toggle" data-id="777">folder</div>
+        <div>filename</div>
+    `;
+    fragment.append(rootEl);
+
+    [...fragment.querySelectorAll<HTMLElement>('.info-toggle')].forEach((el) => {
+        el.addEventListener('click', () => {
+            console.log('el', el, el.dataset.id);
+        })
+    })
+
+    // flatItems.forEach((dcItem, idx) => {
+    //     const el = document.createElement('div')
+    //     el.innerHTML = `me ${idx}`;
+    //     el.className = "text-red-500";
+    //     fragment.append(el);
+    // });
 
     element.append(fragment);
 }
