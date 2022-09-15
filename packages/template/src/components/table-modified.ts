@@ -1,12 +1,12 @@
-import { ItemInputFile, ReportRecords, Report_InputFiles } from "@pmac/shared-types";
-import { FolderInputSameDcItem, folderInputSameDcItem, InputSameDcItem } from "../utils/report-data";
+import { ItemInputFile, ReportRecords } from "@pmac/shared-types";
+import { FolderInputSameDcItem, InputSameDcItem, ReportData } from "../utils/report-data";
 import { splitByKey } from "../utils/utils";
 import { H1 } from "./components";
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const formName = !idx ? 'Login' : 'Password change';
     const org = item.src?.urls?.[idx]?.ourl || '';
-    const mod = item.dup.urls?.[idx] || '';
+    const mod = item.dup?.urls?.[idx] || '';
     if (!org && !mod) { return ''; }
     return `
         <div class="py-2 text-xs">
@@ -67,7 +67,7 @@ function Folder({ sameDcs }: { sameDcs: FolderInputSameDcItem; }) {
 }
 
 export function TableModified(reportRecords: ReportRecords) {
-    const sameDcs = folderInputSameDcItem(reportRecords);
+    const sameDcs = ReportData.folderInputSameDcItems;
     const Folders = sameDcs.map((folder) => Folder({ sameDcs: folder })).join('');
     return (`
         ${H1({ text: "Modified manifest files" })}

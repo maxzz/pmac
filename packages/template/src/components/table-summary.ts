@@ -1,10 +1,10 @@
 import { ItemInputFile } from "@pmac/shared-types";
-import { folderInputSameDcItem, InputSameDcItem, ReportData } from "../utils/report-data";
+import { InputSameDcItem, ReportData } from "../utils/report-data";
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const formName = !idx ? 'Login' : 'Password change';
     const org = item.src?.urls?.[idx]?.ourl || '';
-    const mod = item.dup.urls?.[idx] || '';
+    const mod = item.dup?.urls?.[idx] || '';
     if (!org && !mod) { return ''; }
     return `
         <div class="py-2 text-xs">
@@ -57,7 +57,7 @@ function Mani({ item }: { item: InputSameDcItem; }) {
 }
 
 export function createTable(parent: HTMLElement) {
-    const sameDcItems = folderInputSameDcItem(ReportData.reportData);
+    const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
     const fragment = document.createDocumentFragment();
@@ -91,7 +91,8 @@ export function createTable(parent: HTMLElement) {
                 next.remove();
             } else {
                 const newEl = document.createElement('div');
-                newEl.classList.add('more-info');
+                newEl.classList.add('more-info', 'col-span-2');
+                newEl.innerHTML = `<div class="">aa</div>`;
                 el.parentElement?.insertBefore(newEl, el.nextElementSibling);
             }
         });
