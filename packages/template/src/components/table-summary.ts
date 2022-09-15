@@ -1,5 +1,5 @@
 import { ItemInputFile } from "@pmac/shared-types";
-import { folderInputSameDcItem, InputSameDcItem, reportData } from "../utils/report-data";
+import { folderInputSameDcItem, InputSameDcItem, ReportData } from "../utils/report-data";
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const formName = !idx ? 'Login' : 'Password change';
@@ -42,7 +42,7 @@ function Mani({ item }: { item: InputSameDcItem; }) {
 }
 
 export function createTable(parent: HTMLElement) {
-    const sameDcItems = folderInputSameDcItem(reportData);
+    const sameDcItems = folderInputSameDcItem(ReportData.reportData);
     const flatItems = sameDcItems.map(({root, dcs}) => dcs).flat();
 
     const fragment = document.createDocumentFragment();

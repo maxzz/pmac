@@ -1,6 +1,6 @@
 import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { Report } from '@pmac/shared-types';
-import { reportData } from './utils/report-data';
+import { ReportData } from './utils/report-data';
 import '../index.css';
 import { TableModified } from './components/table-modified';
 import { createTable } from './components/table-summary';
@@ -31,7 +31,7 @@ createTable(document.querySelector('#report-table')!);
 
 //setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
-console.log('report', reportData);
+console.log('report', ReportData.reportData);
 
 // <!-- <br /> ${Button({ id: "counter" })} -->
 

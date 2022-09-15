@@ -1,7 +1,6 @@
 import { ItemDuplicate, ItemInputFile, Report, ReportRecords } from '@pmac/shared-types';
+import { reports } from './test-data';
 import { splitByKey } from './utils';
-
-export { reports as reportData } from './test-data';
 
 function getInputs(report: Report): Record<string, ItemInputFile> {
     const inputs = report.inputs?.input?.reduce<Record<string, ItemInputFile>>((acc, val) => {
@@ -35,4 +34,10 @@ export function folderInputSameDcItem(reportRecords: ReportRecords): FolderInput
             dcs: sameDcItems,
         };
     });
+}
+
+export namespace ReportData {
+    export const reportData = reports;
+
+    export const folderInputSameDcItems: FolderInputSameDcItem[] = folderInputSameDcItem(reports);
 }
