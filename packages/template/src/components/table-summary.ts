@@ -51,8 +51,8 @@ function ManiTitle({ file }: { file: ItemInputFile; }) {
 
 function Mani({ item }: { item: InputSameDcItem; }) {
     return `
-    <div class="">${item.src.title}</div>
-    <div class="info-toggle select-none cursor-pointer" data-id="${item.src.id}">Updated</div>
+    <div class="">V ${item.src.title}</div>
+    <div class="info-toggle my-px border-primary-400 border rounded select-none cursor-pointer" data-id="${item.src.id}">Updated</div>
     `;
 }
 
