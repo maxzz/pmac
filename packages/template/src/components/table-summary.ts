@@ -1,4 +1,3 @@
-import { ItemInputFile } from "@pmac/shared-types";
 import { InputSameDcItem, ReportData } from "../utils/report-data";
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
@@ -16,38 +15,6 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
         </div>
     `;
 }
-
-function ManiTitle({ file }: { file: ItemInputFile; }) {
-    return `
-        <div class="px-2 py-2 bg-[#4592dc80] grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
-            
-        </div>
-    `;
-}
-
-// function ManiTitle({ file }: { file: ItemInputFile; }) {
-//     return `
-//         <div class="px-2 py-2 bg-[#4592dc80] grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
-//             <div>Manifet name:</div> <div class="">${file.title}</div>
-//             <div>Manifet filename:</div> <div class="">${file.short}</div>
-//         </div>
-//     `;
-// }
-
-// function Mani({ item }: { item: InputSameDcItem; }) {
-//     return `
-//         <div>
-//             <div class="bg-[#a4c9ee] rounded shadow">
-//                 ${ManiTitle({ file: item.src })}
-
-//                 <div class="ml-4">
-//                     ${ManiForm({ item, idx: 0 })}
-//                     ${ManiForm({ item, idx: 1 })}
-//                 </div>
-//             </div>
-//         </div>
-//     `;
-// }
 
 function Mani({ item }: { item: InputSameDcItem; }) {
     return `
