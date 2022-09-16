@@ -27,8 +27,8 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
 
 function Mani({ item }: { item: InputSameDcItem; }) {
     return `
-    <div class="flex items-center">
-        <div class="">${IconArrow(true)} ${item.src.title}</div>
+    <div class="info-toggle flex items-center cursor-pointer" data-id="${item.src.id}">
+        <div class="flex-none">${IconArrow(true)}</div>
         <div class="">${item.src.title}</div>
     </div>
     
