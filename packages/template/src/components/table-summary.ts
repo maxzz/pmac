@@ -1,5 +1,14 @@
 import { InputSameDcItem, ReportData } from "../utils/report-data";
 
+
+
+function IconArrow(right: boolean) {
+    const righrOrDown = right ? 'M 50 13 L 80 43 L 50 72' : 'M 80 35 L 50 65 L 20 35';
+    return `
+    <svg class="w-6 h-6 p-1 stroke-current stroke-[.6rem] fill-transparent" viewBox="0 0 100 100"><path d="${righrOrDown}"></path></svg>
+    `
+}
+
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const formName = !idx ? 'Login' : 'Password change';
     const org = item.src?.urls?.[idx]?.ourl || '';
@@ -18,7 +27,11 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
 
 function Mani({ item }: { item: InputSameDcItem; }) {
     return `
-    <div class="">V ${item.src.title}</div>
+    <div class="flex items-center">
+        <div class="">${IconArrow(true)} ${item.src.title}</div>
+        <div class="">${item.src.title}</div>
+    </div>
+    
     <div class="info-toggle my-px border-primary-400 border rounded select-none cursor-pointer" data-id="${item.src.id}">Updated</div>
     `;
 }
