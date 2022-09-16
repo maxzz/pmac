@@ -52,7 +52,7 @@ function ManiTitle({ file }: { file: ItemInputFile; }) {
 function Mani({ item }: { item: InputSameDcItem; }) {
     return `
     <div class="">${item.src.title}</div>
-    <div class="info-toggle" data-id="${item.src.id}">Updated</div>
+    <div class="info-toggle select-none cursor-pointer" data-id="${item.src.id}">Updated</div>
     `;
 }
 
@@ -60,25 +60,15 @@ export function createTable(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
-    const fragment = document.createDocumentFragment();
-
-    const rootEl = document.createElement('div');
-
     const itemsText = `
-        <div class="px-4 grid grid-cols-[minmax(0,1fr)_auto] gap-x-2">
+        <div class="max-w-xl px-4 grid grid-cols-[minmax(0,1fr)_auto] gap-x-2">
         ${flatItems.map((item) => Mani({ item })).join('')}
         </div>
     `;
 
-    rootEl.innerHTML = `
-        ${itemsText}
-        <div>login-name</div>
-        <div>modified-text</div>
-
-        <div class="info-toggle" data-id="777">folder</div>
-        <div>filename</div>
-    `;
-
+    const fragment = document.createDocumentFragment();
+    const rootEl = document.createElement('div');
+    rootEl.innerHTML = itemsText;
     fragment.append(rootEl);
 
     [...fragment.querySelectorAll<HTMLElement>('.info-toggle')].forEach((el) => {
@@ -87,13 +77,19 @@ export function createTable(parent: HTMLElement) {
 
             const next = el.nextElementSibling;
             if (next?.classList.contains('more-info')) {
-                console.log('remove');
                 next.remove();
             } else {
-                const newEl = document.createElement('div');
-                newEl.classList.add('more-info', 'col-span-2');
-                newEl.innerHTML = `<div class="">aa</div>`;
-                el.parentElement?.insertBefore(newEl, el.nextElementSibling);
+                const elId = el.dataset.id;
+
+                const inputItem = elId && ReportData.allItemsById[elId];
+                if (inputItem) {
+                    const newText = ManiForm({ item: inputItem, idx: 0 });
+
+                    const newEl = document.createElement('div');
+                    newEl.classList.add('more-info', 'col-span-2');
+                    newEl.innerHTML = `<div class="">${newText}</div>`;
+                    el.parentElement?.insertBefore(newEl, el.nextElementSibling);
+                }
             }
         });
     });
