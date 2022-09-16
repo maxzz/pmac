@@ -31,8 +31,6 @@ function Mani({ item }: { item: InputSameDcItem; }) {
         <div class="flex-none">${IconArrow(true)}</div>
         <div class="">${item.src.title}</div>
     </div>
-    
-    <div class="info-toggle my-px border-primary-400 border rounded select-none cursor-pointer" data-id="${item.src.id}">Updated</div>
     `;
 }
 
@@ -41,7 +39,7 @@ export function createTable(parent: HTMLElement) {
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
     const itemsText = `
-        <div class="max-w-xl px-4 grid grid-cols-[minmax(0,1fr)_auto] gap-x-2">
+        <div class="max-w-xl px-4">
         ${flatItems.map((item) => Mani({ item })).join('')}
         </div>
     `;
