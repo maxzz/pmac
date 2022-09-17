@@ -25,10 +25,10 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     `;
 }
 
-function Mani({ item }: { item: InputSameDcItem; }) {
+function ManiRow({ item }: { item: InputSameDcItem; }) {
     return `
-    <div class="info-toggle flex items-center select-none cursor-pointer" data-id="${item.src.id}">
-        <div class="flex-none">${IconArrow(true)}</div>
+    <div class="mani-row flex items-center select-none cursor-pointer" data-id="${item.src.id}">
+        <div class="flex-none text-primary-600">${IconArrow(true)}</div>
         <div class="">${item.src.title}</div>
     </div>
     `;
@@ -38,24 +38,28 @@ export function createTable(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
-    const itemsText = `
-        <div class="max-w-3xl px-4 pb-8">
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-        ${flatItems.map((item) => Mani({ item })).join('')}
+    const maniRows = `
+    <div>
+        <div class="mt-4 mb-2 px-4 font-semibold text-primary-700">
+            Updated manifests
         </div>
+        <div class="px-4 pb-8 max-w-3xl">
+            ${flatItems.map((item) => ManiRow({ item })).join('')}
+        </div>
+    </div>
     `;
 
     const fragment = document.createDocumentFragment();
     const rootEl = document.createElement('div');
-    rootEl.innerHTML = itemsText;
+    rootEl.innerHTML = maniRows;
     fragment.append(rootEl);
 
-    [...fragment.querySelectorAll<HTMLElement>('.info-toggle')].forEach((el) => {
+    [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach((el) => {
         el.addEventListener('click', () => {
             const marker = el.firstElementChild?.firstElementChild as HTMLElement;
             const cardOrNext = el.nextElementSibling as HTMLElement;
 
-            if (cardOrNext?.classList.contains('info-card')) {
+            if (cardOrNext?.classList.contains('mani-info')) {
                 marker && delete marker.dataset.state;
                 cardOrNext.remove();
             } else {
@@ -65,7 +69,7 @@ export function createTable(parent: HTMLElement) {
                 const maniItem = elId && ReportData.allItemsById[elId];
                 if (maniItem) {
                     const newEl = document.createElement('div');
-                    newEl.classList.add('info-card', 'col-span-2');
+                    newEl.classList.add('mani-info', 'col-span-2');
                     newEl.innerHTML = `<div class="">${ManiForm({ item: maniItem, idx: 0 })}</div>`;
                     el.parentElement?.insertBefore(newEl, el.nextElementSibling);
                 }

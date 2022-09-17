@@ -18,8 +18,13 @@ function singleReport(single: Report) {
 
 function App() {
     return `
-        <div class="flex-1 h-full grid grid-rows-[auto_minmax(0_1fr)] text-primary-900 debug-screens">
+        <div class="flex-1 h-full grid grid-rows-[auto_auto_minmax(0,1fr)] text-primary-900 debug-screens">
             ${PageHeader()}
+            <div class="px-4 max-w-[85ch]">
+                <div class="mt-4 mb-2 font-semibold text-primary-700">General info</div>
+                Find all manifests that belong to the same domain and for them look for login forms with domain credentials. 
+                Then set each of these login forms to be used only for exact matching URLs. 
+            </div>
             <div id="report-table" class="overflow-y-auto"></div>
         </div>`;
 }
