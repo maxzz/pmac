@@ -38,13 +38,12 @@ export function createTable(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
+    //<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     const maniRows = `
-    <div>
         <div class="px-4 pb-8 max-w-3xl">
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            
             ${flatItems.map((item) => ManiRow({ item })).join('')}
         </div>
-    </div>
     `;
 
     const fragment = document.createDocumentFragment();
@@ -67,7 +66,7 @@ export function createTable(parent: HTMLElement) {
                 const maniItem = elId && ReportData.allItemsById[elId];
                 if (maniItem) {
                     const newEl = document.createElement('div');
-                    newEl.classList.add('mani-info', 'col-span-2');
+                    newEl.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
                     newEl.innerHTML = `<div class="">${ManiForm({ item: maniItem, idx: 0 })}</div>`;
                     el.parentElement?.insertBefore(newEl, el.nextElementSibling);
                 }
