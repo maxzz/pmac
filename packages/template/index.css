@@ -13,7 +13,7 @@
         /* background-color: #0077ff; */
         background-blend-mode: hard-light;
 
-        @apply min-h-full bg-sky-500 flex flex-col;
+        @apply h-full bg-sky-500 flex flex-col selection:bg-fuchsia-300 selection:text-fuchsia-900;
         /* bg-green-500 */
     }
 }

@@ -15,7 +15,7 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const mod = item.dup?.urls?.[idx] || '';
     if (!org && !mod) { return ''; }
     return `
-        <div class="ml-12 px-3 py-2 bg-primary-50 border-primary-300 border rounded text-xs">
+        <div class="ml-12 mt-2 mb-4 px-3 py-2 bg-primary-50 border-primary-300 border rounded text-xs">
             <div class="">${formName}</div>
             <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
                 <div class="text-xs">Prev URL:</div> <div class="text-red-700">${org}</div>
@@ -39,13 +39,15 @@ export function createTable(parent: HTMLElement) {
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
     const itemsText = `
-        <div class="max-w-3xl px-4">
+        <div class="max-w-3xl px-4 pb-8">
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         ${flatItems.map((item) => Mani({ item })).join('')}
         </div>
     `;
 
     const fragment = document.createDocumentFragment();
     const rootEl = document.createElement('div');
+    rootEl.className = 'overflow-y-auto';
     rootEl.innerHTML = itemsText;
     fragment.append(rootEl);
 
