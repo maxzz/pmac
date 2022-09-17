@@ -52,14 +52,14 @@ export function createTable(parent: HTMLElement) {
     [...fragment.querySelectorAll<HTMLElement>('.info-toggle')].forEach((el) => {
         el.addEventListener('click', () => {
             console.log('el', el, el.dataset.id);
-            const marker = el.firstElementChild;
+            const marker = el.firstElementChild as HTMLElement;
 
             const next = el.nextElementSibling;
             if (next?.classList.contains('more-info')) {
-                marker?.classList.remove('more-info-open');
+                marker && delete marker.dataset.state;
                 next.remove();
             } else {
-                marker?.classList.add('more-info-open');
+                marker && (marker.dataset.state = 'open');
 
                 const elId = el.dataset.id;
 
