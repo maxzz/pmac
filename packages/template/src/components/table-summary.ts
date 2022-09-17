@@ -34,6 +34,12 @@ function ManiRow({ item }: { item: InputSameDcItem; }) {
     `;
 }
 
+export function toggleItems({setToOpen}:{setToOpen: boolean}) {
+    [...document.querySelectorAll<HTMLElement>('.mani-row')].forEach((el) => {
+        el.click();
+    });
+}
+
 export function createTable(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();

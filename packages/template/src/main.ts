@@ -1,6 +1,6 @@
 import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { TableModified } from './components/table-modified';
-import { createTable } from './components/table-summary';
+import { createTable, toggleItems } from './components/table-summary';
 import '../index.css';
 
 function App() {
@@ -9,8 +9,12 @@ function App() {
             ${PageHeader()}
             <div class="px-4 max-w-[85ch]">
                 <div class="mt-4 mb-2 font-semibold text-primary-700">General info</div>
+                <p>
                 Find all manifests that belong to the same domain and for them look for login forms with domain credentials. 
-                Then set each of these login forms to be used only for exact matching URLs. 
+                Then set each of these login forms to be used only for exact matching URLs.
+                </p>
+                <button id="toggle" class="my-2 px-2 py-1 border-primary-300 border rounded">Expand all</button>
+                
                 <div class="mt-4 mb-2 font-semibold text-primary-700">
                     Updated manifests
                 </div>
@@ -30,6 +34,11 @@ function main() {
     fragment.append(appNew);
 
     createTable(fragment.querySelector('#report-table')!);
+
+    const toggleBtn = fragment.querySelector('#toggle')!
+    toggleBtn.addEventListener('click', () => {
+        toggleItems({setToOpen: true});
+    });
 
     if (process.env.NODE_ENV !== 'production') {
         appNew.classList.add('debug-screens');
