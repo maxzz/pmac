@@ -47,7 +47,6 @@ export function createTable(parent: HTMLElement) {
 
     const fragment = document.createDocumentFragment();
     const rootEl = document.createElement('div');
-    rootEl.className = 'overflow-y-auto';
     rootEl.innerHTML = itemsText;
     fragment.append(rootEl);
 

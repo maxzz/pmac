@@ -10,8 +10,8 @@ export const elevation4Shadow = "box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 
 
 export function PageHeader() {
     return `
-    <div>
-        <header class="px-6 py-4 flex items-center justify-between bg-title3 shadow-sm cursor-default select-none">
+    <header class="shadow">
+        <div class="px-6 py-4 flex items-center justify-between bg-title3/50 cursor-default select-none">
             <div class="flex items-center space-x-4">
                 <a target="_blank" href="https://www.hidglobal.com" tabIndex="-1">
                     <div class="flex items-center justify-center bg-primary-300 rounded-md">
@@ -25,8 +25,8 @@ export function PageHeader() {
                     <div class="ml-1">Report</div>
                 </h1>
             </div>
-        </header>
-        <div class="h-1 bg-title5" style="${elevation4Shadow}"></div>
-    </div>
+        </div>
+        <div class="h-0.5 bg-title/50" style="${elevation4Shadow}"></div>
+    </header>
         `;
 }
