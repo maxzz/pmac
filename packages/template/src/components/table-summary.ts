@@ -5,7 +5,7 @@ import { InputSameDcItem, ReportData } from "../utils/report-data";
 function IconArrow(right: boolean) {
     const righrOrDown = right ? 'M 50 13 L 80 43 L 50 72' : 'M 80 35 L 50 65 L 20 35';
     return `
-    <svg class="w-6 h-6 p-1 stroke-current stroke-[.6rem] fill-transparent" viewBox="0 0 100 100"><path d="${righrOrDown}"></path></svg>
+    <svg class="w-6 h-6 p-1 stroke-current stroke-[.6rem] fill-transparent data-state-open:rotate-90 transition-transform" viewBox="0 0 100 100"><path d="${righrOrDown}"></path></svg>
     `
 }
 
@@ -52,7 +52,7 @@ export function createTable(parent: HTMLElement) {
     [...fragment.querySelectorAll<HTMLElement>('.info-toggle')].forEach((el) => {
         el.addEventListener('click', () => {
             console.log('el', el, el.dataset.id);
-            const marker = el.firstElementChild as HTMLElement;
+            const marker = el.firstElementChild?.firstElementChild as HTMLElement;
 
             const next = el.nextElementSibling;
             if (next?.classList.contains('more-info')) {
