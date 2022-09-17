@@ -15,7 +15,7 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const mod = item.dup?.urls?.[idx] || '';
     if (!org && !mod) { return ''; }
     return `
-        <div class="ml-12 py-2 text-xs">
+        <div class="ml-12 px-3 py-2 bg-primary-50 border-primary-300 border rounded text-xs">
             <div class="">${formName}</div>
             <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
                 <div class="text-xs">Prev URL:</div> <div class="text-red-700">${org}</div>
@@ -51,13 +51,22 @@ export function createTable(parent: HTMLElement) {
 
     [...fragment.querySelectorAll<HTMLElement>('.info-toggle')].forEach((el) => {
         el.addEventListener('click', () => {
-            console.log('el', el, el.dataset.id);
             const marker = el.firstElementChild?.firstElementChild as HTMLElement;
+            const cardOrNext = el.nextElementSibling as HTMLElement;
 
-            const next = el.nextElementSibling;
-            if (next?.classList.contains('more-info')) {
-                marker && delete marker.dataset.state;
-                next.remove();
+            function cardClick(event: MouseEvent) {
+                console.log('cardClick currentTarget', ((event.currentTarget as HTMLElement)));
+                console.log('cardClick', ((event.currentTarget as HTMLElement)?.previousElementSibling as HTMLElement));
+                ((event.target as HTMLElement)?.previousElementSibling as HTMLElement)?.click();
+            }
+
+            if (cardOrNext?.classList.contains('info-card')) {
+                if (marker) {
+                    delete marker.dataset.state;
+                    console.log('remove info-card', cardOrNext);
+                    cardOrNext.removeEventListener('click', cardClick);
+                }
+                cardOrNext.remove();
             } else {
                 marker && (marker.dataset.state = 'open');
 
@@ -68,8 +77,10 @@ export function createTable(parent: HTMLElement) {
                     const newText = ManiForm({ item: inputItem, idx: 0 });
 
                     const newEl = document.createElement('div');
-                    newEl.classList.add('more-info', 'col-span-2');
+                    newEl.classList.add('info-card', 'col-span-2');
                     newEl.innerHTML = `<div class="">${newText}</div>`;
+                    newEl.addEventListener('click', cardClick);
+                    console.log('add info-card', newEl);
                     el.parentElement?.insertBefore(newEl, el.nextElementSibling);
                 }
             }
