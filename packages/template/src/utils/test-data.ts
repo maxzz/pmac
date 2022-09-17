@@ -1,7 +1,6 @@
 import { ReportRecords } from '@pmac/shared-types';
 
 if (process.env.NODE_ENV !== 'production') {
-    console.log('only dev');
 
     const testReports: ReportRecords = 
     [
@@ -322,6 +321,7 @@ if (process.env.NODE_ENV !== 'production') {
         }
     ]
     ;
+    console.log('only dev report', testReports);
 
     (window as any)['tmReport'] = testReports;
 }
