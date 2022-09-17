@@ -15,7 +15,7 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const mod = item.dup?.urls?.[idx] || '';
     if (!org && !mod) { return ''; }
     return `
-        <div class="py-2 text-xs">
+        <div class="ml-12 py-2 text-xs">
             <div class="">${formName}</div>
             <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
                 <div class="text-xs">Prev URL:</div> <div class="text-red-700">${org}</div>
@@ -27,7 +27,7 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
 
 function Mani({ item }: { item: InputSameDcItem; }) {
     return `
-    <div class="info-toggle flex items-center cursor-pointer" data-id="${item.src.id}">
+    <div class="info-toggle flex items-center select-none cursor-pointer" data-id="${item.src.id}">
         <div class="flex-none">${IconArrow(true)}</div>
         <div class="">${item.src.title}</div>
     </div>
@@ -39,7 +39,7 @@ export function createTable(parent: HTMLElement) {
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
     const itemsText = `
-        <div class="max-w-xl px-4">
+        <div class="max-w-3xl px-4">
         ${flatItems.map((item) => Mani({ item })).join('')}
         </div>
     `;
