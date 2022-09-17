@@ -6,7 +6,7 @@ function IconArrow(right: boolean) {
     const righrOrDown = right ? 'M 50 13 L 80 43 L 50 72' : 'M 80 35 L 50 65 L 20 35';
     return `
     <svg class="w-6 h-6 p-1 stroke-current stroke-[.6rem] fill-transparent data-state-open:rotate-90 transition-transform" viewBox="0 0 100 100"><path d="${righrOrDown}"></path></svg>
-    `
+    `;
 }
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
@@ -54,33 +54,18 @@ export function createTable(parent: HTMLElement) {
             const marker = el.firstElementChild?.firstElementChild as HTMLElement;
             const cardOrNext = el.nextElementSibling as HTMLElement;
 
-            function cardClick(event: MouseEvent) {
-                console.log('cardClick currentTarget', ((event.currentTarget as HTMLElement)));
-                console.log('cardClick', ((event.currentTarget as HTMLElement)?.previousElementSibling as HTMLElement));
-                ((event.target as HTMLElement)?.previousElementSibling as HTMLElement)?.click();
-            }
-
             if (cardOrNext?.classList.contains('info-card')) {
-                if (marker) {
-                    delete marker.dataset.state;
-                    console.log('remove info-card', cardOrNext);
-                    cardOrNext.removeEventListener('click', cardClick);
-                }
+                marker && delete marker.dataset.state;
                 cardOrNext.remove();
             } else {
                 marker && (marker.dataset.state = 'open');
 
                 const elId = el.dataset.id;
-
-                const inputItem = elId && ReportData.allItemsById[elId];
-                if (inputItem) {
-                    const newText = ManiForm({ item: inputItem, idx: 0 });
-
+                const maniItem = elId && ReportData.allItemsById[elId];
+                if (maniItem) {
                     const newEl = document.createElement('div');
                     newEl.classList.add('info-card', 'col-span-2');
-                    newEl.innerHTML = `<div class="">${newText}</div>`;
-                    newEl.addEventListener('click', cardClick);
-                    console.log('add info-card', newEl);
+                    newEl.innerHTML = `<div class="">${ManiForm({ item: maniItem, idx: 0 })}</div>`;
                     el.parentElement?.insertBefore(newEl, el.nextElementSibling);
                 }
             }
