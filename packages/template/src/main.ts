@@ -5,12 +5,15 @@ import '../index.css';
 
 function App() {
     return `
-        <div class="flex-1 h-full grid grid-rows-[auto_auto_minmax(0,1fr)] text-primary-900">
+        <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)] text-primary-900">
             ${PageHeader()}
             <div class="px-4 max-w-[85ch]">
                 <div class="mt-4 mb-2 font-semibold text-primary-700">General info</div>
                 Find all manifests that belong to the same domain and for them look for login forms with domain credentials. 
                 Then set each of these login forms to be used only for exact matching URLs. 
+                <div class="mt-4 mb-2 font-semibold text-primary-700">
+                    Updated manifests
+                </div>
             </div>
             <main id="report-table" class="overflow-y-auto"></main>
         </div>`;

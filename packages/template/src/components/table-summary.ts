@@ -40,10 +40,8 @@ export function createTable(parent: HTMLElement) {
 
     const maniRows = `
     <div>
-        <div class="mt-4 mb-2 px-4 font-semibold text-primary-700">
-            Updated manifests
-        </div>
         <div class="px-4 pb-8 max-w-3xl">
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             ${flatItems.map((item) => ManiRow({ item })).join('')}
         </div>
     </div>
