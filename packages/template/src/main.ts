@@ -63,9 +63,5 @@ main();
 //         </div>`;
 // }
 
-// <div class="flex-1 bg-gradient-to-t from-[#d6efff] to-[#d3e9ff] text-primary-900 debug-screens">
-// <div class="flex-1 bg-gradient-to-t from-[#036eb3] to-[#1162b3] text-primary-900 debug-screens">
-// <div class="flex-1 bg-gradient-to-t from-[#002d66] to-[#002d66] text-primary-900 debug-screens">
-
 //TODO: new CLI swithces: add and remove domain file prefix
 //TODO: sort by login name

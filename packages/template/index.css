@@ -7,21 +7,15 @@
         @apply h-screen;
     }
 
+    /* https://heropatterns.com/?ref=tiny-helpers */ /* Diagonal Lines */
     #app {
-        /* background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAACpJREFUGFdj/PHjx38GKDh37hwDI0wAxDEyMoIIwDgghYzHjh37D5KBAQC7pRgLFhcqvwAAAABJRU5ErkJggg=="); */
-
-        background-color: #dfdbe5;
-        /* background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"); */
-
-        background-color: transparent;
-        background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' linecap='square' %3E%3Cpath fill='none' stroke='currentColor' stroke-width='1' d='M 6 0 L 0 6 z'/%3E%3C/g%3E%3C/svg%3E");
-        /* https://heropatterns.com/?ref=tiny-helpers */
-
-        /* background-color: #0077ff; */
-        /* background-blend-mode: hard-light; */
+        background-color: #f3faff;
+        background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23e5631c' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
 
         @apply h-full selection:bg-fuchsia-300 selection:text-fuchsia-900;
-        /* @apply h-full bg-sky-500 selection:bg-fuchsia-300 selection:text-fuchsia-900; */
-        /* bg-green-500 */
     }
 }
+
+/* <div class="flex-1 bg-gradient-to-t from-[#d6efff] to-[#d3e9ff] text-primary-900 debug-screens"> */
+/* <div class="flex-1 bg-gradient-to-t from-[#036eb3] to-[#1162b3] text-primary-900 debug-screens"> */
+/* <div class="flex-1 bg-gradient-to-t from-[#002d66] to-[#002d66] text-primary-900 debug-screens"> */
