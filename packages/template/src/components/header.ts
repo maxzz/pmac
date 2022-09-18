@@ -30,3 +30,12 @@ export function PageHeader() {
     </header>
         `;
 }
+
+export function PageFooter() {
+    return `
+        <div>
+        Footer
+        <button id="toggle" class="my-2 px-2 py-1 border-primary-300 border rounded">Expand all</button>
+        </div>
+    `;
+}
