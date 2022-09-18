@@ -76,7 +76,7 @@ export function createTable(parent: HTMLElement) {
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
     const maniRows = `
-        <div class="px-4 pb-8 max-w-3xl">
+        <div class="px-2 pb-8 max-w-3xl">
             ${flatItems.map((item) => ManiRow({ item })).join('')}
         </div>
     `;
