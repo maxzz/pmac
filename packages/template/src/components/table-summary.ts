@@ -1,12 +1,10 @@
 import { InputSameDcItem, ReportData } from "../utils/report-data";
 
-
-
-function IconArrow(right: boolean) {
-    const righrOrDown = right ? 'M 50 13 L 80 43 L 50 72' : 'M 80 35 L 50 65 L 20 35';
+function IconArrow() {
     return `
-    <svg class="w-6 h-6 p-1 stroke-current stroke-[.6rem] fill-transparent data-state-open:rotate-90 transition-transform" viewBox="0 0 100 100"><path d="${righrOrDown}"></path></svg>
-    `;
+        <svg class="w-6 h-6 p-1 stroke-current stroke-[.6rem] fill-transparent data-state-open:rotate-90 transition-transform" viewBox="0 0 100 100">
+            <path d="M 50 13 L 80 43 L 50 72"></path>
+        </svg>`;
 }
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
@@ -25,19 +23,26 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     `;
 }
 
+function ManiInfo(maniItem: InputSameDcItem) {
+    return `
+        <div class="">
+            ${ManiForm({ item: maniItem, idx: 0 })}
+            ${ManiForm({ item: maniItem, idx: 1 })}
+        </div>
+    `;
+}
+
 function ManiRow({ item }: { item: InputSameDcItem; }) {
     return `
     <div class="mani-row flex items-center select-none cursor-pointer" data-id="${item.src.id}">
-        <div class="flex-none text-primary-600">${IconArrow(true)}</div>
+        <div class="flex-none text-primary-600">${IconArrow()}</div>
         <div class="">${item.src.title}</div>
     </div>
     `;
 }
 
-export function toggleItems({setToOpen}:{setToOpen: boolean}) {
-    [...document.querySelectorAll<HTMLElement>('.mani-row')].forEach((el) => {
-        el.click();
-    });
+export function toggleItems({ setToOpen }: { setToOpen: boolean; }) {
+    [...document.querySelectorAll<HTMLElement>('.mani-row')].forEach((el) => el.click());
 }
 
 function addRowClick(el: HTMLElement) {
@@ -56,7 +61,7 @@ function addRowClick(el: HTMLElement) {
             if (maniItem) {
                 const newEl = document.createElement('div');
                 newEl.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
-                newEl.innerHTML = `<div class="">${ManiForm({ item: maniItem, idx: 0 })}</div>`;
+                newEl.innerHTML = ManiInfo(maniItem);
                 el.parentElement?.insertBefore(newEl, el.nextElementSibling);
             }
         }
