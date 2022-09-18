@@ -13,19 +13,20 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const mod = item.dup?.urls?.[idx] || '';
     if (!org && !mod) { return ''; }
     return `
-        <div class="ml-12 mt-2 mb-4 px-3 py-2 bg-primary-50 border-primary-300 border rounded text-xs">
-            <div class="">${formName}</div>
-            <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
-                <div class="text-xs">Prev URL:</div> <div class="text-red-700">${org}</div>
-                <div class="text-xs">New URL:</div> <div class="text-green-700">${mod}</div>
-            </div>
-        </div>
-    `;
+        <div class="">${formName}</div>
+        <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
+            <div class="text-xs">Prev URL:</div> <div class="text-red-700">${org}</div>
+            <div class="text-xs">New URL:</div> <div class="text-green-700">${mod}</div>
+        </div>`;
 }
 
 function ManiInfo(maniItem: InputSameDcItem) {
     return `
-        <div class="">
+        <div class="ml-12 mt-2 mb-4 px-3 py-2 bg-primary-50 border-primary-300 border rounded text-xs">
+            <div class="pb-2">
+                <div class="">Domain: ${maniItem.src.urls?.[0]?.domain || ''}</div>
+                <div class="">Filename: ${maniItem.src.short}</div>
+            </div>
             ${ManiForm({ item: maniItem, idx: 0 })}
             ${ManiForm({ item: maniItem, idx: 1 })}
         </div>
@@ -44,6 +45,8 @@ function ManiRow({ item }: { item: InputSameDcItem; }) {
 export function toggleItems({ setToOpen }: { setToOpen: boolean; }) {
     [...document.querySelectorAll<HTMLElement>('.mani-row')].forEach((el) => el.click());
 }
+
+//TODO: now this is toggle, not set state
 
 function addRowClick(el: HTMLElement) {
     el.addEventListener('click', () => {
