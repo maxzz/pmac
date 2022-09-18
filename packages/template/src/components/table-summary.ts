@@ -40,14 +40,35 @@ export function toggleItems({setToOpen}:{setToOpen: boolean}) {
     });
 }
 
+function addRowClick(el: HTMLElement) {
+    el.addEventListener('click', () => {
+        const marker = el.firstElementChild?.firstElementChild as HTMLElement;
+        const cardOrNext = el.nextElementSibling as HTMLElement;
+
+        if (cardOrNext?.classList.contains('mani-info')) {
+            marker && delete marker.dataset.state;
+            cardOrNext.remove();
+        } else {
+            marker && (marker.dataset.state = 'open');
+
+            const elId = el.dataset.id;
+            const maniItem = elId && ReportData.allItemsById[elId];
+            if (maniItem) {
+                const newEl = document.createElement('div');
+                newEl.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
+                newEl.innerHTML = `<div class="">${ManiForm({ item: maniItem, idx: 0 })}</div>`;
+                el.parentElement?.insertBefore(newEl, el.nextElementSibling);
+            }
+        }
+    });
+}
+
 export function createTable(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
-    //<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     const maniRows = `
         <div class="px-4 pb-8 max-w-3xl">
-            
             ${flatItems.map((item) => ManiRow({ item })).join('')}
         </div>
     `;
@@ -57,28 +78,7 @@ export function createTable(parent: HTMLElement) {
     rootEl.innerHTML = maniRows;
     fragment.append(rootEl);
 
-    [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach((el) => {
-        el.addEventListener('click', () => {
-            const marker = el.firstElementChild?.firstElementChild as HTMLElement;
-            const cardOrNext = el.nextElementSibling as HTMLElement;
-
-            if (cardOrNext?.classList.contains('mani-info')) {
-                marker && delete marker.dataset.state;
-                cardOrNext.remove();
-            } else {
-                marker && (marker.dataset.state = 'open');
-
-                const elId = el.dataset.id;
-                const maniItem = elId && ReportData.allItemsById[elId];
-                if (maniItem) {
-                    const newEl = document.createElement('div');
-                    newEl.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
-                    newEl.innerHTML = `<div class="">${ManiForm({ item: maniItem, idx: 0 })}</div>`;
-                    el.parentElement?.insertBefore(newEl, el.nextElementSibling);
-                }
-            }
-        });
-    });
+    [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach(addRowClick);
 
     parent.append(fragment);
 }
