@@ -37,10 +37,7 @@ function main() {
 
     createTable(fragment.querySelector('#report-table')!);
 
-    const toggleBtn = fragment.querySelector('#toggle')!
-    toggleBtn.addEventListener('click', () => {
-        toggleItems({setToOpen: true});
-    });
+    fragment.querySelector('#toggle')!.addEventListener('click', () => toggleItems({setToOpen: true}));
 
     // if (process.env.NODE_ENV !== 'production') {
     //     appNew.classList.add('debug-screens');

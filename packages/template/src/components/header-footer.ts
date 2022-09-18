@@ -11,15 +11,15 @@ export const elevation4Shadow = "box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 
 export function PageHeader() {
     return `
     <header class="shadow">
-        <div class="px-6 py-4 flex items-center justify-between bg-title3/50 cursor-default select-none">
-            <div class="flex items-center space-x-4">
+        <div class="p-4 flex items-center justify-between bg-title3/50 cursor-default select-none">
+            <div class="flex items-center space-x-3">
                 <a target="_blank" href="https://www.hidglobal.com" tabIndex="-1">
                     <div class="flex items-center justify-center bg-primary-100/50 rounded-md shadow">
                         ${IconHIDLogo()}
                     </div>
                 </a>
                 <h1 class="flex items-center text-sm md:text-xl tracking-tighter font-light text-slate-100 whitespace-normal sm:whitespace-nowrap" title="Password Manager Administrator Command Report" style="${textShadow}">
-                    <div class="inline-block">DigitalPersona</div><div class="-mt-1 mr-1 text-sm">&#174;</div>
+                    <div class="inline-block">DigitalPersona</div><div class="mr-1 -mt-1 text-sm">&#174;</div>
                     <div class="block md:hidden">PMAC</div>
                     <div class="hidden md:block">Password Manager Administrator Command</div>
                     <div class="ml-1">Report</div>
