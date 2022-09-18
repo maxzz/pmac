@@ -33,9 +33,9 @@ export function PageHeader() {
 
 export function PageFooter() {
     return `
-        <div>
-        Footer
-        <button id="toggle" class="my-2 px-2 py-1 border-primary-300 border rounded">Expand all</button>
-        </div>
+        <footer class="px-4 text-primary-200 bg-title3/50 cursor-default select-none flex items-center justify-between">
+        <div class="text-xs">© 2022 HID Global Corporation, part of ASSA ABLOY. All rights reserved.</div>
+        <button id="toggle" class="my-2 px-2 pt-1 pb-1.5 hover:bg-primary-600 border-primary-300 border rounded shadow active:scale-[.97]">Expand all</button>
+        </footer>
     `;
 }

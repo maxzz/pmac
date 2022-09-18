@@ -2,7 +2,7 @@ import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './co
 import { TableModified } from './components/table-modified';
 import { createTable, toggleItems } from './components/table-summary';
 import '../index.css';
-import { PageFooter } from './components/header';
+import { PageFooter } from './components/header-footer';
 
 function App() {
     return `
