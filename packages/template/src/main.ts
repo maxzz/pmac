@@ -9,12 +9,13 @@ function App() {
         <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)_auto] text-primary-900">
             ${PageHeader()}
             <div class="px-4 max-w-[85ch]">
-                <div class="mt-4 mb-2 font-semibold text-primary-700">General info</div>
+                <div class="mt-4 mb-2 font-semibold text-primary-700">
+                    General info
+                </div>
                 <p>
-                Find all manifests that belong to the same domain and for them look for login forms with domain credentials. 
-                Then set each of these login forms to be used only for exact matching URLs.
+                    Find all manifests that belong to the same domain and for them look for login forms with domain credentials. 
+                    Then set each of these login forms to be used only for exact matching URLs.
                 </p>
-                
                 <div class="mt-4 mb-2 font-semibold text-primary-700">
                     Updated manifests
                 </div>
@@ -41,9 +42,9 @@ function main() {
         toggleItems({setToOpen: true});
     });
 
-    if (process.env.NODE_ENV !== 'production') {
-        appNew.classList.add('debug-screens');
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //     appNew.classList.add('debug-screens');
+    // }
 
     appOrg.replaceWith(fragment);
 }
