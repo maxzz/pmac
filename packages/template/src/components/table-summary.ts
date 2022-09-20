@@ -113,13 +113,19 @@ export function createTable(parent: HTMLElement) {
                 </div>
             `).join('')}
         </div>
+
         <div class="pb-4 px-4 max-w-[80ch]">
             <div class="mt-4 mb-2 text-lg font-semibold">
                 General info
             </div>
-            <p>
-                <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"> <div class="mb-2 underline">URL scheme format</div>${urlScheme()}</a>
-            </p>
+            <div>
+                <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"> 
+                <div class="w-min flex flex-col">
+                    ${urlScheme()}
+                    <div class="self-center text-sm text-sky-700 underline">URL scheme format</div>
+                </div>
+                </a>
+            </div>
         </div>
         `;
 
