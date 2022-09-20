@@ -36,8 +36,8 @@ export function PageFooter() {
         <div class="text-xs">
             © 2022 HID Global Corporation, part of ASSA ABLOY. All rights reserved.
         </div>
-        <button id="toggle" class="my-2 px-2 pt-1 pb-1.5 text-xs hover:bg-primary-600 border-primary-300 border rounded shadow active:scale-[.97]"
-            title="Toggle additional information about all items"
+        <button id="toggle-all" class="my-2 px-2 pt-1 pb-1.5 text-xs hover:bg-primary-600 border-primary-300 border rounded shadow active:scale-[.97]"
+            title="Expand/Collapse additional information about all items\nCtrl + Click to toggle open/closed items"
         >
             Toggle All
         </button>

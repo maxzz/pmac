@@ -43,8 +43,29 @@ function ManiRow({ item }: { item: InputSameDcItem; }) {
     `;
 }
 
-export function toggleItems({ setToOpen }: { setToOpen: boolean; }) {
-    [...document.querySelectorAll<HTMLElement>('.mani-row')].forEach((el) => el.click());
+export function toggleItems({ setOpen, justToggle }: { setOpen: boolean; justToggle: boolean; }) {
+    const allRows = [...document.querySelectorAll<HTMLElement>('.mani-row')];
+    allRows.forEach((el) => {
+        if (justToggle) {
+            el.click();
+        } else {
+            const maniInfoEl = getManiInfoEl(el);
+            if (setOpen) {
+                if (!maniInfoEl) {
+                    el.click();
+                }
+            } else {
+                if (maniInfoEl) {
+                    el.click();
+                }
+            }
+        }
+    });
+}
+
+function getManiInfoEl(el: HTMLElement): HTMLElement | undefined {
+    const cardOrNext = el.nextElementSibling as HTMLElement;
+    return cardOrNext?.classList.contains('mani-info') ? cardOrNext : undefined;
 }
 
 //TODO: now this is toggle, not set state
@@ -52,11 +73,11 @@ export function toggleItems({ setToOpen }: { setToOpen: boolean; }) {
 function addRowClick(el: HTMLElement) {
     el.addEventListener('click', () => {
         const marker = el.firstElementChild?.firstElementChild as HTMLElement;
-        const cardOrNext = el.nextElementSibling as HTMLElement;
+        const maniInfoEl = getManiInfoEl(el);
 
-        if (cardOrNext?.classList.contains('mani-info')) {
+        if (maniInfoEl) {
             marker && delete marker.dataset.state;
-            cardOrNext.remove();
+            maniInfoEl.remove();
         } else {
             marker && (marker.dataset.state = 'open');
 
