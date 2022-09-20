@@ -8,12 +8,12 @@ function App() {
     return `
         <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)_auto] text-sky-800">
             ${PageHeader()}
-            <div class="px-4 max-w-[85ch]">
+            <div class="px-4 max-w-[80ch]">
                 <div class="mt-4 mb-2 text-lg font-semibold">
-                    General info
+                    About
                 </div>
                 <p>
-                    Find all manifests that belong to the same domain and for them look for login forms with domain credentials. 
+                    This utility checked all manifests belonging to the same domain and for each of them looked for login forms with domain credentials. 
                     Then set each of these login forms to be used only for exact matching URLs.
                 </p>
                 <div class="mt-4 mb-2 text-lg font-semibold">
@@ -47,7 +47,7 @@ function main() {
 
     if (process.env.NODE_ENV !== 'production') {
         appNew.classList.add('debug-screens');
-        toggleItems({ setOpen: true });
+        //toggleItems({ setOpen: true });
     }
 }
 main();

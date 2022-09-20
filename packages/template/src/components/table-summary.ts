@@ -90,7 +90,7 @@ export function createTable(parent: HTMLElement) {
 
     const byDomain = Object.entries(splitByKey(flatItems, (item) => item.src.urls[0].domain || ''));
     const maniRows = `
-        <div class="pb-4 cursor-default">
+        <div class="cursor-default">
             ${byDomain.map(([domain, items]) => `
                 <div class="px-4 pb-2 font-semibold">
                     <div class="">${domain}</div>
@@ -99,7 +99,16 @@ export function createTable(parent: HTMLElement) {
                     </div>
                 </div>
             `).join('')}
-        </div>`;
+        </div>
+        <div class="pb-4 px-4 max-w-[80ch]">
+            <div class="mt-4 mb-2 text-lg font-semibold">
+                General info
+            </div>
+            <p>
+                URL schema
+            </p>
+        </div>
+        `;
 
     const fragment = document.createDocumentFragment();
     const rootEl = document.createElement('div');
