@@ -6,17 +6,17 @@ import { PageFooter } from './components/header-footer';
 
 function App() {
     return `
-        <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)_auto] text-primary-900">
+        <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)_auto] text-sky-800">
             ${PageHeader()}
             <div class="px-4 max-w-[85ch]">
-                <div class="mt-4 mb-2 text-lg font-semibold text-primary-700">
+                <div class="mt-4 mb-2 text-lg font-semibold">
                     General info
                 </div>
                 <p>
                     Find all manifests that belong to the same domain and for them look for login forms with domain credentials. 
                     Then set each of these login forms to be used only for exact matching URLs.
                 </p>
-                <div class="mt-4 mb-2 text-lg font-semibold text-primary-700">
+                <div class="mt-4 mb-2 text-lg font-semibold">
                     Updated manifests
                 </div>
             </div>
