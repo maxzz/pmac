@@ -84,6 +84,19 @@ function addRowClick(el: HTMLElement) {
     });
 }
 
+function urlScheme() {
+    return `
+        <div class="px-2 w-min whitespace-pre font-mono text-xs bg-primary-200/50 shadow border-primary-300 border rounded">
+                       host                         
+                 ┌──────┴──────┐                    
+        userinfo │     domain  │ port
+        ┌──┴───┐ │   ┌────┴────┐ ┌┴┐
+https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
+└─┬─┘   └───────────┬──────────────┘└───────┬───────┘ └───────────┬─────────────┘ └┬┘
+scheme          authority                  path                 query           fragment
+        </div>`
+}
+
 export function createTable(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
@@ -105,24 +118,7 @@ export function createTable(parent: HTMLElement) {
                 General info
             </div>
             <p>
-                <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">URL schema</a>
-
-                <div class="whitespace-pre font-mono text-xs">
-                userinfo       host      port
-                ┌──┴───┐ ┌──────┴──────┐ ┌┴┐
-        https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
-        └─┬─┘   └───────────┬──────────────┘└───────┬───────┘ └───────────┬─────────────┘ └┬┘
-        scheme          authority                  path                 query           fragment
-
-                                             
-                               host                         
-                         ┌──────┴──────┐                    
-                userinfo │     domain  │ port
-                ┌──┴───┐ │   ┌────┴────┐ ┌┴┐
-        https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
-        └─┬─┘   └───────────┬──────────────┘└───────┬───────┘ └───────────┬─────────────┘ └┬┘
-        scheme          authority                  path                 query           fragment
-                </div>
+                <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"> <div class="mb-2 underline">URL scheme format</div>${urlScheme()}</a>
             </p>
         </div>
         `;
