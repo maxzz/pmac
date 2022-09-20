@@ -4,6 +4,8 @@ import { createTable, toggleItems } from './components/table-summary';
 import '../index.css';
 import { PageFooter } from './components/header-footer';
 
+//TODO: mx-auto
+
 function App() {
     return `
         <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)_auto] text-sky-800">
@@ -37,7 +39,7 @@ function main() {
 
     createTable(fragment.querySelector('#report-table')!);
 
-    let expanded = true;
+    let expanded = false;
     fragment.querySelector<HTMLButtonElement>('#toggle-all')!.addEventListener('click', (event: MouseEvent) => {
         expanded = !expanded;
         toggleItems({ setOpen: expanded, justToggle: event.ctrlKey });
@@ -47,7 +49,8 @@ function main() {
 
     if (process.env.NODE_ENV !== 'production') {
         appNew.classList.add('debug-screens');
-        //toggleItems({ setOpen: true });
+        expanded = true;
+        toggleItems({ setOpen: true });
     }
 }
 main();
