@@ -105,7 +105,24 @@ export function createTable(parent: HTMLElement) {
                 General info
             </div>
             <p>
-                URL schema
+                <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">URL schema</a>
+
+                <div class="whitespace-pre font-mono text-xs">
+                userinfo       host      port
+                ┌──┴───┐ ┌──────┴──────┐ ┌┴┐
+        https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
+        └─┬─┘   └───────────┬──────────────┘└───────┬───────┘ └───────────┬─────────────┘ └┬┘
+        scheme          authority                  path                 query           fragment
+
+                                             
+                               host                         
+                         ┌──────┴──────┐                    
+                userinfo │     domain  │ port
+                ┌──┴───┐ │   ┌────┴────┐ ┌┴┐
+        https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
+        └─┬─┘   └───────────┬──────────────┘└───────┬───────┘ └───────────┬─────────────┘ └┬┘
+        scheme          authority                  path                 query           fragment
+                </div>
             </p>
         </div>
         `;
