@@ -1,4 +1,5 @@
 import { InputSameDcItem, ReportData } from "../utils/report-data";
+import { splitByKey } from "../utils/utils";
 
 function IconArrow() {
     return `
@@ -37,7 +38,7 @@ function ManiRow({ item }: { item: InputSameDcItem; }) {
     return `
     <div class="mani-row flex items-center select-none cursor-pointer" data-id="${item.src.id}">
         <div class="flex-none text-primary-600">${IconArrow()}</div>
-        <div class="">${item.src.title}</div>
+        <div class="text-sm">${item.src.title}</div>
     </div>
     `;
 }
@@ -75,11 +76,24 @@ export function createTable(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 
+    const byDomain = Object.entries(splitByKey(flatItems, (item) => item.src.urls[0].domain || ''));
     const maniRows = `
-        <div class="px-2 pb-8 max-w-3xl">
-            ${flatItems.map((item) => ManiRow({ item })).join('')}
-        </div>
-    `;
+        <div class="pb-4 cursor-default">
+            ${byDomain.map(([domain, items]) => `
+                <div class="px-4 pb-2 font-semibold">
+                    <div class="">${domain}</div>
+                    <div class="px-2 text-sm max-w-3xl">
+                        ${items.map((item) => ManiRow({ item })).join('')}
+                    </div>
+                </div>
+            `).join('')}
+        </div>`;
+
+    // const maniRows = `
+    //     <div class="px-2 pb-8 max-w-3xl">
+    //         ${flatItems.map((item) => ManiRow({ item })).join('')}
+    //     </div>
+    // `;
 
     const fragment = document.createDocumentFragment();
     const rootEl = document.createElement('div');
