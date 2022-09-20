@@ -86,7 +86,7 @@ function addRowClick(el: HTMLElement) {
 
 function urlScheme() {
     return `
-        <div class="px-2 w-min whitespace-pre font-mono text-xs bg-primary-100/50 shadow border-primary-300 border rounded">
+        <div class="px-2 w-min whitespace-pre font-mono text-xs bg-primary-100/50 shadow border-primary-300 border rounded cursor-default">
                        host                         
                  ┌──────┴──────┐                    
         userinfo │     domain  │ port
@@ -99,18 +99,26 @@ scheme          authority                  path                 query           
 
 function generalInfo() {
     return `
-        <div class="mt-4 mb-4 text-lg font-semibold">
+        <div class="mt-4 mb-2 text-lg font-semibold">
             General info
         </div>
         <div>
-            <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"> 
+            <p class="mb-4">
+            A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
+            its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
+            although many people use the two terms interchangeably.            
+            </p>
             <div class="w-min flex flex-col">
                 ${urlScheme()}
-                <div class="self-center text-sm text-sky-700 underline">URL scheme format</div>
+                <div class="self-center text-sm text-sky-700 underline">
+                <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"> URL scheme format</a></div>
+                
             </div>
-            </a>
         </div>`;
 }
+
+//TODO: make generalInfo expandable and initially collapsed.
+//TODO: add refs to wildcard and regex
 
 export function createTable(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
@@ -130,8 +138,7 @@ export function createTable(parent: HTMLElement) {
         </div>
         <div class="pb-4 px-4 max-w-[80ch]">
             ${generalInfo()}
-        </div>
-        `;
+        </div>`;
 
     const fragment = document.createDocumentFragment();
     const rootEl = document.createElement('div');
