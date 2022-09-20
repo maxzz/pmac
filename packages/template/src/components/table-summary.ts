@@ -86,7 +86,7 @@ function addRowClick(el: HTMLElement) {
 
 function urlScheme() {
     return `
-        <div class="px-2 w-min whitespace-pre font-mono text-xs bg-primary-200/50 shadow border-primary-300 border rounded">
+        <div class="px-2 w-min whitespace-pre font-mono text-xs bg-primary-100/50 shadow border-primary-300 border rounded">
                        host                         
                  ┌──────┴──────┐                    
         userinfo │     domain  │ port
@@ -94,7 +94,22 @@ function urlScheme() {
 https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top
 └─┬─┘   └───────────┬──────────────┘└───────┬───────┘ └───────────┬─────────────┘ └┬┘
 scheme          authority                  path                 query           fragment
-        </div>`
+        </div>`;
+}
+
+function generalInfo() {
+    return `
+        <div class="mt-4 mb-4 text-lg font-semibold">
+            General info
+        </div>
+        <div>
+            <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"> 
+            <div class="w-min flex flex-col">
+                ${urlScheme()}
+                <div class="self-center text-sm text-sky-700 underline">URL scheme format</div>
+            </div>
+            </a>
+        </div>`;
 }
 
 export function createTable(parent: HTMLElement) {
@@ -113,19 +128,8 @@ export function createTable(parent: HTMLElement) {
                 </div>
             `).join('')}
         </div>
-
         <div class="pb-4 px-4 max-w-[80ch]">
-            <div class="mt-4 mb-2 text-lg font-semibold">
-                General info
-            </div>
-            <div>
-                <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"> 
-                <div class="w-min flex flex-col">
-                    ${urlScheme()}
-                    <div class="self-center text-sm text-sky-700 underline">URL scheme format</div>
-                </div>
-                </a>
-            </div>
+            ${generalInfo()}
         </div>
         `;
 
