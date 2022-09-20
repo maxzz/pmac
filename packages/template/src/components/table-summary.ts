@@ -43,21 +43,15 @@ function ManiRow({ item }: { item: InputSameDcItem; }) {
     `;
 }
 
-export function toggleItems({ setOpen, justToggle }: { setOpen: boolean; justToggle: boolean; }) {
+export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean; justToggle?: boolean; }) {
     const allRows = [...document.querySelectorAll<HTMLElement>('.mani-row')];
     allRows.forEach((el) => {
         if (justToggle) {
             el.click();
         } else {
             const maniInfoEl = getManiInfoEl(el);
-            if (setOpen) {
-                if (!maniInfoEl) {
-                    el.click();
-                }
-            } else {
-                if (maniInfoEl) {
-                    el.click();
-                }
+            if ((setOpen && !maniInfoEl) || (!setOpen && maniInfoEl)) {
+                el.click();
             }
         }
     });
@@ -67,8 +61,6 @@ function getManiInfoEl(el: HTMLElement): HTMLElement | undefined {
     const cardOrNext = el.nextElementSibling as HTMLElement;
     return cardOrNext?.classList.contains('mani-info') ? cardOrNext : undefined;
 }
-
-//TODO: now this is toggle, not set state
 
 function addRowClick(el: HTMLElement) {
     el.addEventListener('click', () => {
@@ -80,7 +72,6 @@ function addRowClick(el: HTMLElement) {
             maniInfoEl.remove();
         } else {
             marker && (marker.dataset.state = 'open');
-
             const elId = el.dataset.id;
             const maniItem = elId && ReportData.allItemsById[elId];
             if (maniItem) {
@@ -109,12 +100,6 @@ export function createTable(parent: HTMLElement) {
                 </div>
             `).join('')}
         </div>`;
-
-    // const maniRows = `
-    //     <div class="px-2 pb-8 max-w-3xl">
-    //         ${flatItems.map((item) => ManiRow({ item })).join('')}
-    //     </div>
-    // `;
 
     const fragment = document.createDocumentFragment();
     const rootEl = document.createElement('div');
