@@ -1,6 +1,6 @@
 import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { TableModified } from './components/table-modified';
-import { createTable, toggleItems } from './components/table-summary';
+import { createTable, generalInfoClick, toggleItems } from './components/table-summary';
 import '../index.css';
 import { PageFooter } from './components/header-footer';
 
@@ -44,6 +44,8 @@ function main() {
         expanded = !expanded;
         toggleItems({ setOpen: expanded, justToggle: event.ctrlKey });
     });
+
+    generalInfoClick(fragment.querySelector<HTMLButtonElement>('#toggle-general-info')!);
 
     appOrg.replaceWith(fragment);
 

@@ -43,20 +43,6 @@ function ManiRow({ item }: { item: InputSameDcItem; }) {
     `;
 }
 
-export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean; justToggle?: boolean; }) {
-    const allRows = [...document.querySelectorAll<HTMLElement>('.mani-row')];
-    allRows.forEach((el) => {
-        if (justToggle) {
-            el.click();
-        } else {
-            const maniInfoEl = getManiInfoEl(el);
-            if ((setOpen && !maniInfoEl) || (!setOpen && maniInfoEl)) {
-                el.click();
-            }
-        }
-    });
-}
-
 function getManiInfoEl(el: HTMLElement): HTMLElement | undefined {
     const cardOrNext = el.nextElementSibling as HTMLElement;
     return cardOrNext?.classList.contains('mani-info') ? cardOrNext : undefined;
@@ -99,11 +85,10 @@ scheme          authority                  path                 query           
 
 function generalInfo() {
     return `
-        <div class="mt-2 mb-2 text-lg font-semibold flex items-center cursor-pointer select-none" id="general-info">
-            <div class="">General info</div>
-            <div class="-ml-1 pt-0.5 flex-none text-primary-600">${IconArrow()}</div>
+        <div class="mt-2 mb-2 text-lg font-semibold">
+            General info
         </div>
-        <div class="hidden">
+        <div>
             <p class="mb-4">
             A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
             its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
@@ -118,7 +103,26 @@ function generalInfo() {
         </div>`;
 }
 
-//TODO: make generalInfo expandable and initially collapsed.
+export function generalInfoClick(el: HTMLElement) {
+    el.addEventListener('click', () => {
+        document.getElementById('general-info')?.classList.toggle('hidden');
+    });
+}
+
+export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean; justToggle?: boolean; }) {
+    const allRows = [...document.querySelectorAll<HTMLElement>('.mani-row')];
+    allRows.forEach((el) => {
+        if (justToggle) {
+            el.click();
+        } else {
+            const maniInfoEl = getManiInfoEl(el);
+            if ((setOpen && !maniInfoEl) || (!setOpen && maniInfoEl)) {
+                el.click();
+            }
+        }
+    });
+}
+
 //TODO: add refs to wildcard and regex
 
 export function createTable(parent: HTMLElement) {
@@ -137,7 +141,7 @@ export function createTable(parent: HTMLElement) {
                 </div>
             `).join('')}
         </div>
-        <div class="pb-4 px-4 max-w-[80ch]">
+        <div class="pb-4 px-4 max-w-[80ch] hidden" id="general-info">
             ${generalInfo()}
         </div>`;
 
@@ -148,10 +152,10 @@ export function createTable(parent: HTMLElement) {
 
     [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach(addRowClick);
 
-    fragment.querySelector<HTMLDivElement>('#general-info')!.addEventListener('click', (event) => {
-        const el = (event.currentTarget as HTMLDivElement).nextElementSibling;
-        el!.classList.toggle('hidden');
-    });
+    // fragment.querySelector<HTMLDivElement>('#general-info')!.addEventListener('click', (event) => {
+    //     const el = (event.currentTarget as HTMLDivElement).nextElementSibling;
+    //     el!.classList.toggle('hidden');
+    // });
 
     parent.append(fragment);
 }
