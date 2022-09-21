@@ -110,7 +110,15 @@ export function generalInfoClick(el: HTMLElement) {
         if (!info?.classList.contains('hidden')) {
             info?.scrollIntoView();
         }
+        updateGneralInfoText();
     });
+}
+
+function updateGneralInfoText() {
+    const info = document.getElementById('general-info');
+    const toggle = document.getElementById('toggle-general-info');
+    const text = `${info?.classList.contains('hidden') ? 'Show' : 'Hide'} General Info`;
+    toggle && (toggle.innerText = text);
 }
 
 export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean; justToggle?: boolean; }) {
