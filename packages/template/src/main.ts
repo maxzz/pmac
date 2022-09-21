@@ -49,8 +49,7 @@ function main() {
 
     if (process.env.NODE_ENV !== 'production') {
         appNew.classList.add('debug-screens');
-        expanded = true;
-        toggleItems({ setOpen: true });
+        //expanded = true, toggleItems({ setOpen: true });
     }
 }
 main();

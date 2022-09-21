@@ -3,7 +3,7 @@ import { splitByKey } from "../utils/utils";
 
 function IconArrow() {
     return `
-        <svg class="w-6 h-6 p-1 stroke-current stroke-[.6rem] fill-transparent data-state-open:rotate-90 transition-transform" viewBox="0 0 100 100">
+        <svg class="p-1 pb-0 w-6 h-6 stroke-current stroke-[.6rem] fill-transparent data-state-open:rotate-90 transition-transform" viewBox="0 0 100 100">
             <path d="M 50 13 L 80 43 L 50 72"></path>
         </svg>`;
 }
@@ -99,8 +99,9 @@ scheme          authority                  path                 query           
 
 function generalInfo() {
     return `
-        <div class="mt-4 mb-2 text-lg font-semibold">
-            General info
+        <div class="-ml-2 mt-4 mb-2 text-lg font-semibold flex items-center cursor-pointer select-none" id="general-info">
+            <div class="flex-none text-primary-600">${IconArrow()}</div>
+            <div class="">General info</div>
         </div>
         <div>
             <p class="mb-4">
@@ -146,6 +147,12 @@ export function createTable(parent: HTMLElement) {
     fragment.append(rootEl);
 
     [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach(addRowClick);
+
+    fragment.querySelector<HTMLDivElement>('#general-info')!.addEventListener('click', (event) => {
+        console.log('event.target', event.currentTarget);
+        const el = (event.currentTarget as HTMLDivElement).nextElementSibling;
+        el!.classList.toggle('hidden');
+    });
 
     parent.append(fragment);
 }
