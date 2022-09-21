@@ -38,7 +38,7 @@ export function PageFooter() {
         </div>
         <div>
         <button id="toggle-general-info" class="my-2 px-2 pt-1 pb-1.5 text-xs hover:bg-primary-600 border-primary-300 border rounded shadow active:scale-[.97]"
-            title="Expand/Collapse additional information about all items\nCtrl + Click to toggle open/closed items"
+            title="Show/Hide general information"
         >
             General info
         </button>

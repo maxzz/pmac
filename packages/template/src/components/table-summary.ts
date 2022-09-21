@@ -105,7 +105,11 @@ function generalInfo() {
 
 export function generalInfoClick(el: HTMLElement) {
     el.addEventListener('click', () => {
-        document.getElementById('general-info')?.classList.toggle('hidden');
+        const info = document.getElementById('general-info');
+        info?.classList.toggle('hidden');
+        if (!info?.classList.contains('hidden')) {
+            info?.scrollIntoView();
+        }
     });
 }
 
@@ -141,7 +145,7 @@ export function createTable(parent: HTMLElement) {
                 </div>
             `).join('')}
         </div>
-        <div class="pb-4 px-4 max-w-[80ch] hidden" id="general-info">
+        <div class="pb-4 px-4 max-w-[80ch] animate-slide-down hidden" id="general-info">
             ${generalInfo()}
         </div>`;
 
