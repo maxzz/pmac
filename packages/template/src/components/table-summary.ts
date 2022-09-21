@@ -88,18 +88,23 @@ function generalInfo() {
         <div class="mt-2 mb-2 text-lg font-semibold">
             General info
         </div>
-        <div>
-            <p class="mb-4">
-            A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
-            its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
-            although many people use the two terms interchangeably.            
+        <div class="mb-4">
+            <p class="first-letter:text-3xl first-letter:font-bold">
+                URL. A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
+                its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
+                although many people use the two terms interchangeably.            
             </p>
-            <div class="w-min flex flex-col">
+            <div class="mt-4 w-min flex flex-col">
                 ${urlScheme()}
                 <div class="self-center text-sm text-sky-700 underline">
-                <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"> URL scheme format</a></div>
+                    <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URL scheme format</a>
+                </div>
                 
             </div>
+            <p class="first-letter:text-3xl first-letter:font-bold">
+                A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
+                <a class="underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a></div>
+            </p>
         </div>`;
 }
 
