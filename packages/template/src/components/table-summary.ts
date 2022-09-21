@@ -99,11 +99,11 @@ scheme          authority                  path                 query           
 
 function generalInfo() {
     return `
-        <div class="-ml-2 mt-4 mb-2 text-lg font-semibold flex items-center cursor-pointer select-none" id="general-info">
-            <div class="flex-none text-primary-600">${IconArrow()}</div>
+        <div class="mt-2 mb-2 text-lg font-semibold flex items-center cursor-pointer select-none" id="general-info">
             <div class="">General info</div>
+            <div class="-ml-1 pt-0.5 flex-none text-primary-600">${IconArrow()}</div>
         </div>
-        <div>
+        <div class="hidden">
             <p class="mb-4">
             A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
             its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
@@ -149,7 +149,6 @@ export function createTable(parent: HTMLElement) {
     [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach(addRowClick);
 
     fragment.querySelector<HTMLDivElement>('#general-info')!.addEventListener('click', (event) => {
-        console.log('event.target', event.currentTarget);
         const el = (event.currentTarget as HTMLDivElement).nextElementSibling;
         el!.classList.toggle('hidden');
     });
