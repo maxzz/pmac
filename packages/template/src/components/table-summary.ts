@@ -158,6 +158,7 @@ export function createTable(parent: HTMLElement) {
                 </div>
             `).join('')}
         </div>
+        <input id="keys-test" value="123">
         <div class="pb-4 px-4 max-w-[80ch] animate-slide-down hidden" id="general-info">
             ${generalInfo()}
         </div>`;
@@ -168,6 +169,20 @@ export function createTable(parent: HTMLElement) {
     fragment.append(rootEl);
 
     [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach(addRowClick);
+
+    function test() {
+        const inp = fragment.querySelector<HTMLInputElement>('#keys-test')!;
+        inp.addEventListener('keydown', (event: KeyboardEvent) => {
+            console.log('keydown', event);
+        });
+        inp.addEventListener('keypress', (event: KeyboardEvent) => {
+            console.log('keypress', event);
+        });
+        inp.addEventListener('keyup', (event: KeyboardEvent) => {
+            console.log('keyup', event);
+        });
+    }
+    test();
 
     // fragment.querySelector<HTMLDivElement>('#general-info')!.addEventListener('click', (event) => {
     //     const el = (event.currentTarget as HTMLDivElement).nextElementSibling;
