@@ -54,26 +54,51 @@ function main() {
         //expanded = true, toggleItems({ setOpen: true });
 
         function test() {
+            function fireEvs(el: HTMLInputElement): void {
+                // Fire events is critical for linkedin.com; view=window (or unsafeWindow) does not work for firefox, but null is accepted by Ff and Ch.
+                // For www.americanexpress.com select element does not show the value change without events.
+                el.dispatchEvent(new UIEvent('input', { view: null, bubbles: true, cancelable: true }));
+                el.dispatchEvent(new UIEvent('change', { view: null, bubbles: true, cancelable: true }));
+            }
+            function fireKeyEvs(el: HTMLElement): void {
+        
+                console.log('fireKeyEvs active', document.activeElement);
+        
+                const kevD = new KeyboardEvent('keydown', {key: '1', code: 'Digit1'});
+                const kevP = new KeyboardEvent('keypress', {key: '1', code: 'Digit1'});
+                const kevU = new KeyboardEvent('keyup', {key: '1', code: 'Digit1'});
+                el.dispatchEvent(kevD);
+                el.dispatchEvent(kevP);
+                el.dispatchEvent(kevU);
+        
+                // const kevBkspD = new KeyboardEvent('keydown', {key: 'Backspace', code: 'Backspace'});
+                // const kevBkspU = new KeyboardEvent('keyup', {key: 'Backspace', code: 'Backspace'});
+                // el.dispatchEvent(kevBkspD);
+                // el.dispatchEvent(kevBkspU);
+        
+                console.log('fireKeyEvs', el);
+            }
+        
             const inp = document.querySelector<HTMLInputElement>('#keys-test')!;
-            ['keydown', 'keypress', 'keyup'].forEach((name) => {
+
+            ['keydown', 'keypress', 'keyup', 'input', 'change'].forEach((name) => {
                 inp.addEventListener(name, (event: Event) => {
                     console.log(event.type, event);
                 });
             });
     
-            console.log('active 1', document.activeElement);
-            inp.focus();
-            console.log('active 2', document.activeElement);
-    
             setTimeout(() => {
-                console.log('active 3', document.activeElement);
+                console.log('active 1', document.activeElement);
                 inp.focus();
-                console.log('active 4', document.activeElement);
+                console.log('active 2', document.activeElement);
             }, 10);
     
             setTimeout(() => {
-                console.log('active after 200ms', document.activeElement);
-            }, 200);
+                console.log('active 3', document.activeElement);
+                fireKeyEvs(document.body);
+            }, 20);
+
+
         }
         test();
     }
