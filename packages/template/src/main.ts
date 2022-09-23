@@ -52,6 +52,30 @@ function main() {
     if (process.env.NODE_ENV !== 'production') {
         appNew.classList.add('debug-screens');
         //expanded = true, toggleItems({ setOpen: true });
+
+        function test() {
+            const inp = document.querySelector<HTMLInputElement>('#keys-test')!;
+            ['keydown', 'keypress', 'keyup'].forEach((name) => {
+                inp.addEventListener(name, (event: Event) => {
+                    console.log(event.type, event);
+                });
+            });
+    
+            console.log('active 1', document.activeElement);
+            inp.focus();
+            console.log('active 2', document.activeElement);
+    
+            setTimeout(() => {
+                console.log('active 3', document.activeElement);
+                inp.focus();
+                console.log('active 4', document.activeElement);
+            }, 10);
+    
+            setTimeout(() => {
+                console.log('active after 200ms', document.activeElement);
+            }, 200);
+        }
+        test();
     }
 }
 main();
