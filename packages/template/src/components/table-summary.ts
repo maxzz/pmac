@@ -14,7 +14,7 @@ function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const mod = item.dup?.urls?.[idx] || '';
     if (!org && !mod) { return ''; }
     return `
-        <div class="">${formName}</div>
+        <div>${formName}</div>
         <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2">
             <div class="text-xs">Prev URL:</div> <div class="text-red-700">${org}</div>
             <div class="text-xs">New URL:</div> <div class="text-green-700">${mod}</div>
@@ -25,8 +25,8 @@ function ManiInfo(maniItem: InputSameDcItem) {
     return `
         <div class="ml-12 mt-2 mb-4 px-3 py-2 bg-primary-50 border-primary-300 border rounded text-xs">
             <div class="pb-2">
-                <div class="">Domain: ${maniItem.src.urls?.[0]?.domain || ''}</div>
-                <div class="">Filename: ${maniItem.src.short}</div>
+                <div>Domain: ${maniItem.src.urls?.[0]?.domain || ''}</div>
+                <div>Filename: ${maniItem.src.short}</div>
             </div>
             ${ManiForm({ item: maniItem, idx: 0 })}
             ${ManiForm({ item: maniItem, idx: 1 })}
@@ -151,7 +151,7 @@ export function createTable(parent: HTMLElement) {
         <div class="cursor-default">
             ${byDomain.map(([domain, items]) => `
                 <div class="px-4 pb-2 font-semibold">
-                    <div class="">${domain}</div>
+                    <div>${domain}</div>
                     <div class="px-2 text-sm max-w-3xl">
                         ${items.map((item) => ManiRow({ item })).join('')}
                     </div>
