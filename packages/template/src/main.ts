@@ -6,22 +6,27 @@ import { PageFooter } from './components/header-footer';
 
 //TODO: mx-auto
 
+function AboutSection() {
+    return `
+        <div class="px-4 max-w-[80ch]">
+            <div class="mt-4 mb-2 text-lg font-semibold">
+                About
+            </div>
+            <p>
+                This utility checked all manifests belonging to the same domain and for each of them looked for login forms with domain credentials. 
+                Then set each of these login forms to be used only for exact matching URLs.
+            </p>
+            <div class="mt-4 mb-2 text-lg font-semibold">
+                Updated manifests
+            </div>
+        </div>`
+}
+
 function App() {
     return `
         <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)_auto] text-sky-800">
             ${PageHeader()}
-            <div class="px-4 max-w-[80ch]">
-                <div class="mt-4 mb-2 text-lg font-semibold">
-                    About
-                </div>
-                <p>
-                    This utility checked all manifests belonging to the same domain and for each of them looked for login forms with domain credentials. 
-                    Then set each of these login forms to be used only for exact matching URLs.
-                </p>
-                <div class="mt-4 mb-2 text-lg font-semibold">
-                    Updated manifests
-                </div>
-            </div>
+            ${AboutSection()}
             <main id="report-table" class="overflow-y-auto"></main>
             ${PageFooter()}
         </div>`;
