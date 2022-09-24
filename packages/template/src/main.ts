@@ -1,7 +1,7 @@
 import { Section1_Header } from './components/section1-header';
 import { Section2_About } from './components/section2-about';
 import { Section3_UpdatedFiles, toggleItems } from './components/section3-updated-files';
-import { generalInfoClick } from './components/section4-general-info';
+import { Section4_GeneralInfo, generalInfoClick } from './components/section4-general-info';
 import { Section5_Footer } from './components/section5-footer';
 import '../index.css';
 
@@ -9,9 +9,14 @@ function App() {
     return `
         <div class="h-full grid grid-rows-[auto_minmax(0,1fr)_auto] text-sky-800">
             ${Section1_Header()}
-            <div class="mx-auto h-full grid grid-rows-[auto_minmax(0,1fr)] overflow-y-auto">
+            <div class="mx-auto h-full grid grid-rows-[auto_1fr] overflow-y-auto">
                 ${Section2_About()}
-                <main id="report-table"></main>
+                <div>
+                    <main id="report-table"></main>
+                    <div class="pb-4 px-4 max-w-[80ch] animate-slide-down hidden" id="general-info">
+                        ${Section4_GeneralInfo()}
+                    </div>
+                </div>
             </div>
             ${Section5_Footer()}
         </div>`;
@@ -26,7 +31,7 @@ function createAppFragment() {
     fragment.append(appNew);
 
     Section3_UpdatedFiles(fragment.querySelector('#report-table')!);
-    
+
     return fragment;
 }
 

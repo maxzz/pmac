@@ -1,6 +1,5 @@
 import { InputSameDcItem, ReportData } from "../utils/report-data";
 import { splitByKey } from "../utils/utils";
-import { Section4_GeneralInfo } from "./section4-general-info";
 
 function IconArrow() {
     return `
@@ -103,9 +102,7 @@ export function Section3_UpdatedFiles(parent: HTMLElement) {
                 </div>
             `).join('')}
         </div>
-        <div class="pb-4 px-4 max-w-[80ch] animate-slide-down hidden" id="general-info">
-            ${Section4_GeneralInfo()}
-        </div>`;
+        `;
 
     const fragment = document.createDocumentFragment();
     const rootEl = document.createElement('div');

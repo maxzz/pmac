@@ -27,11 +27,10 @@ export function Section4_GeneralInfo() {
                 <div class="self-center text-sm text-sky-700 underline">
                     <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URL scheme format</a>
                 </div>
-                
             </div>
             <p class="first-letter:text-3xl first-letter:font-bold">
                 A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
-                <a class="underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a></div>
+                <a class="underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a>
             </p>
         </div>`;
 }
