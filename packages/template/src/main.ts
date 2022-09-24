@@ -1,9 +1,9 @@
 import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { TableModified } from './components/nun/table-modified';
 import { createTable, toggleItems } from './components/table-summary';
-import { PageFooter } from './components/header-footer';
 import { Section2_About } from './components/section2-about';
 import { generalInfoClick } from './components/section4-general-info';
+import { Section5_Footer } from './components/section5-footer';
 import '../index.css';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
                 ${Section2_About()}
                 <main id="report-table"></main>
             </div>
-            ${PageFooter()}
+            ${Section5_Footer()}
         </div>`;
 }
 
