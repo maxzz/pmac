@@ -24,13 +24,25 @@ function AboutSection() {
 
 function App() {
     return `
-        <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)_auto] text-sky-800">
+        <div class="h-full grid grid-rows-[auto_minmax(0,1fr)_auto] text-sky-800">
             ${PageHeader()}
-            ${AboutSection()}
-            <main id="report-table" class="overflow-y-auto"></main>
+            <div class="h-full grid grid-rows-[auto_minmax(0,1fr)]">
+                ${AboutSection()}
+                <main id="report-table" class="overflow-y-auto"></main>
+            </div>
             ${PageFooter()}
         </div>`;
 }
+
+// function App() {
+//     return `
+//         <div class="h-full grid grid-rows-[auto_auto_minmax(0,1fr)_auto] text-sky-800">
+//             ${PageHeader()}
+//             ${AboutSection()}
+//             <main id="report-table" class="overflow-y-auto"></main>
+//             ${PageFooter()}
+//         </div>`;
+// }
 
 function createAppFragment() {
     const fragment = document.createDocumentFragment();
