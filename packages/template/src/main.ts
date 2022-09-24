@@ -32,9 +32,7 @@ function App() {
         </div>`;
 }
 
-function main() {
-    const appOrg = document.querySelector<HTMLDivElement>('#app')!;
-
+function createAppFragment() {
     const fragment = document.createDocumentFragment();
 
     const appNew = document.createElement('div');
@@ -43,6 +41,12 @@ function main() {
     fragment.append(appNew);
 
     createTable(fragment.querySelector('#report-table')!);
+    
+    return fragment;
+}
+
+function main() {
+    const fragment = createAppFragment();
 
     let expanded = false;
     fragment.querySelector<HTMLButtonElement>('#toggle-all')!.addEventListener('click', (event: MouseEvent) => {
@@ -52,10 +56,11 @@ function main() {
 
     generalInfoClick(fragment.querySelector<HTMLButtonElement>('#toggle-general-info')!);
 
+    const appOrg = document.querySelector<HTMLDivElement>('#app')!;
     appOrg.replaceWith(fragment);
 
     if (process.env.NODE_ENV !== 'production') {
-        appNew.classList.add('debug-screens');
+        document.querySelector<HTMLDivElement>('#app')!.classList.add('debug-screens');
         //expanded = true, toggleItems({ setOpen: true });
     }
 }
