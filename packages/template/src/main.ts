@@ -1,8 +1,9 @@
 import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { TableModified } from './components/table-modified';
-import { createTable, generalInfoClick, toggleItems } from './components/table-summary';
+import { createTable, toggleItems } from './components/table-summary';
 import '../index.css';
 import { PageFooter } from './components/header-footer';
+import { generalInfoClick } from './components/section4-general-info';
 
 function AboutSection() {
     return `
