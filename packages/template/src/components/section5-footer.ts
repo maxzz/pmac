@@ -5,7 +5,7 @@ export function Section5_Footer() {
             <div class="text-xs flex-1">
                 © 2022 HID Global Corporation, part of ASSA ABLOY. All rights reserved.
             </div>
-            <div>
+            <div class="mr-0 lg:-mr-6 pr-0 md:pr-4 lg:pr-0">
                 <button id="toggle-general-info" class="my-2 px-2 pt-1 pb-1.5 text-xs hover:bg-primary-600 border-primary-300 border rounded shadow active:scale-[.97]"
                     title="Show/Hide general information"
                 >Show General Info</button>
