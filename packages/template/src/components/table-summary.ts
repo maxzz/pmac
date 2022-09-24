@@ -1,6 +1,6 @@
 import { InputSameDcItem, ReportData } from "../utils/report-data";
 import { splitByKey } from "../utils/utils";
-import { generalInfo } from "./section4-general-info";
+import { Section4_GeneralInfo } from "./section4-general-info";
 
 function IconArrow() {
     return `
@@ -104,7 +104,7 @@ export function createTable(parent: HTMLElement) {
             `).join('')}
         </div>
         <div class="pb-4 px-4 max-w-[80ch] animate-slide-down hidden" id="general-info">
-            ${generalInfo()}
+            ${Section4_GeneralInfo()}
         </div>`;
 
     const fragment = document.createDocumentFragment();

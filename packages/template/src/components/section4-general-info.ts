@@ -11,7 +11,7 @@ scheme          authority                  path                 query           
         </div>`;
 }
 
-export function generalInfo() {
+export function Section4_GeneralInfo() {
     return `
         <div class="mt-2 mb-2 text-lg font-semibold">
             General info
@@ -36,6 +36,13 @@ export function generalInfo() {
         </div>`;
 }
 
+function updateGeneralInfoBtnText() {
+    const info = document.getElementById('general-info');
+    const toggle = document.getElementById('toggle-general-info');
+    const text = `${info?.classList.contains('hidden') ? 'Show' : 'Hide'} General Info`;
+    toggle && (toggle.innerText = text);
+}
+
 export function generalInfoClick(el: HTMLElement) {
     el.addEventListener('click', () => {
         const info = document.getElementById('general-info');
@@ -43,13 +50,6 @@ export function generalInfoClick(el: HTMLElement) {
         if (!info?.classList.contains('hidden')) {
             info?.scrollIntoView();
         }
-        updateGeneralInfoText();
+        updateGeneralInfoBtnText();
     });
-}
-
-function updateGeneralInfoText() {
-    const info = document.getElementById('general-info');
-    const toggle = document.getElementById('toggle-general-info');
-    const text = `${info?.classList.contains('hidden') ? 'Show' : 'Hide'} General Info`;
-    toggle && (toggle.innerText = text);
 }

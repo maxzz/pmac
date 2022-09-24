@@ -1,4 +1,4 @@
-export function AboutSection() {
+export function Section2_About() {
     return `
         <div class="px-4 max-w-[80ch]">
             <div class="mt-4 mb-2 text-lg font-semibold">
