@@ -8,7 +8,7 @@ function IconHIDLogo() {
 export const textShadow = "text-shadow: 1px 1px 2px #000";
 export const elevation4Shadow = "box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%)";
 
-export function PageHeader() {
+export function Section1_Header() {
     return `
     <header class="shadow">
         <div class="p-4 flex items-center justify-between bg-title3/50 cursor-default select-none">

@@ -87,7 +87,7 @@ export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean;
 
 //TODO: add refs to wildcard and regex
 
-export function createTable(parent: HTMLElement) {
+export function Section3_UpdatedFiles(parent: HTMLElement) {
     const sameDcItems = ReportData.folderInputSameDcItems;
     const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
 

@@ -1,7 +1,6 @@
-import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
-import { TableModified } from './components/nun/table-modified';
+import { Section1_Header } from './components/section1-header';
 import { Section2_About } from './components/section2-about';
-import { createTable, toggleItems } from './components/section3_updated-files';
+import { Section3_UpdatedFiles, toggleItems } from './components/section3-updated-files';
 import { generalInfoClick } from './components/section4-general-info';
 import { Section5_Footer } from './components/section5-footer';
 import '../index.css';
@@ -9,7 +8,7 @@ import '../index.css';
 function App() {
     return `
         <div class="h-full grid grid-rows-[auto_minmax(0,1fr)_auto] text-sky-800">
-            ${PageHeader()}
+            ${Section1_Header()}
             <div class="mx-auto h-full grid grid-rows-[auto_minmax(0,1fr)] overflow-y-auto">
                 ${Section2_About()}
                 <main id="report-table"></main>
@@ -26,7 +25,7 @@ function createAppFragment() {
     appNew.innerHTML = App();
     fragment.append(appNew);
 
-    createTable(fragment.querySelector('#report-table')!);
+    Section3_UpdatedFiles(fragment.querySelector('#report-table')!);
     
     return fragment;
 }
