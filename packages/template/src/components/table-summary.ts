@@ -158,7 +158,6 @@ export function createTable(parent: HTMLElement) {
                 </div>
             `).join('')}
         </div>
-        <input id="keys-test" value="123">
         <div class="pb-4 px-4 max-w-[80ch] animate-slide-down hidden" id="general-info">
             ${generalInfo()}
         </div>`;
