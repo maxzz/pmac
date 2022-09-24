@@ -45,24 +45,30 @@ function createAppFragment() {
     return fragment;
 }
 
-function addEventListeners(fragment: DocumentFragment) {
-    let expanded = false;
+function addEventListeners(fragment: DocumentFragment, appState: AppState) {
     fragment.querySelector<HTMLButtonElement>('#toggle-all')!.addEventListener('click', (event: MouseEvent) => {
-        expanded = !expanded;
-        toggleItems({ setOpen: expanded, justToggle: event.ctrlKey });
+        appState.expanded = !appState.expanded;
+        toggleItems({ setOpen: appState.expanded, justToggle: event.ctrlKey });
     });
 
     generalInfoClick(fragment.querySelector<HTMLButtonElement>('#toggle-general-info')!);
 }
 
+type AppState = {
+    expanded: boolean;
+}
+
 function main() {
+    const appState: AppState = {
+        expanded: false,
+    };
     const fragment = createAppFragment();
-    addEventListeners(fragment);
+    addEventListeners(fragment, appState);
     document.querySelector<HTMLDivElement>('#app')!.replaceWith(fragment);
 
     if (process.env.NODE_ENV !== 'production') {
         document.querySelector<HTMLDivElement>('#app')!.classList.add('debug-screens');
-        //expanded = true, toggleItems({ setOpen: true });
+        appState.expanded = true, toggleItems({ setOpen: true });
     }
 }
 main();
