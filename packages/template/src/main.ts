@@ -4,8 +4,6 @@ import { createTable, generalInfoClick, toggleItems } from './components/table-s
 import '../index.css';
 import { PageFooter } from './components/header-footer';
 
-//TODO: mx-auto
-
 function AboutSection() {
     return `
         <div class="px-4 max-w-[80ch]">
@@ -26,9 +24,9 @@ function App() {
     return `
         <div class="h-full grid grid-rows-[auto_minmax(0,1fr)_auto] text-sky-800">
             ${PageHeader()}
-            <div class="mx-auto h-full grid grid-rows-[auto_minmax(0,1fr)]">
+            <div class="mx-auto h-full grid grid-rows-[auto_minmax(0,1fr)] overflow-y-auto">
                 ${AboutSection()}
-                <main id="report-table" class="overflow-y-auto"></main>
+                <main id="report-table"></main>
             </div>
             ${PageFooter()}
         </div>`;
