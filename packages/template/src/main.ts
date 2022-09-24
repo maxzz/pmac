@@ -1,7 +1,7 @@
 import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { TableModified } from './components/nun/table-modified';
-import { createTable, toggleItems } from './components/table-summary';
 import { Section2_About } from './components/section2-about';
+import { createTable, toggleItems } from './components/section3_updated-files';
 import { generalInfoClick } from './components/section4-general-info';
 import { Section5_Footer } from './components/section5-footer';
 import '../index.css';
