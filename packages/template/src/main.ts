@@ -21,7 +21,6 @@ function App() {
                 <div class="mt-4 mb-2 text-lg font-semibold">
                     Updated manifests
                 </div>
-                <input class="px-8 py-12 rounded" id="keys-test" value="123">
             </div>
             <main id="report-table" class="overflow-y-auto"></main>
             ${PageFooter()}
@@ -53,62 +52,6 @@ function main() {
     if (process.env.NODE_ENV !== 'production') {
         appNew.classList.add('debug-screens');
         //expanded = true, toggleItems({ setOpen: true });
-
-        function test() {
-            function fireEvs(el: HTMLInputElement): void {
-                // Fire events is critical for linkedin.com; view=window (or unsafeWindow) does not work for firefox, but null is accepted by Ff and Ch.
-                // For www.americanexpress.com select element does not show the value change without events.
-                el.dispatchEvent(new UIEvent('input', { view: null, bubbles: true, cancelable: true }));
-                el.dispatchEvent(new UIEvent('change', { view: null, bubbles: true, cancelable: true }));
-            }
-            function fireKeyEvs(el: HTMLElement): void {
-
-                console.log('%cfireKeyEvs active', 'color: royalblue', document.activeElement);
-
-                const keyboardEvent = (type: 'keydown' | 'keypress' | 'keyup', key: string, code: string) => new KeyboardEvent(type, { key, code, bubbles: true, cancelable: true });
-
-                let InputEvent = el.ownerDocument.defaultView?.InputEvent || window.InputEvent;
-
-                const kevD = keyboardEvent('keydown', '5', 'Digit5');
-                const kevP = keyboardEvent('keypress', '5', 'Digit5');
-                const kevU = keyboardEvent('keyup', '5', 'Digit5');
-                el.dispatchEvent(kevD);
-                el.dispatchEvent(kevP);
-                el.dispatchEvent(new InputEvent('input', { data: '5', inputType: 'insertText', view: null, bubbles: true, composed: true }));
-                el.dispatchEvent(kevU);
-
-                // const kevBkspD = new KeyboardEvent('keydown', {key: 'Backspace', code: 'Backspace'});
-                // const kevBkspU = new KeyboardEvent('keyup', {key: 'Backspace', code: 'Backspace'});
-                // el.dispatchEvent(kevBkspD);
-                // el.dispatchEvent(kevBkspU);
-
-                console.log('%cfireKeyEvs', 'color: royalblue', el);
-            }
-
-            const inp = document.querySelector<HTMLInputElement>('#keys-test')!;
-
-            ['keydown', 'keypress', 'keyup', 'input', 'change'].forEach((name) => {
-                inp.addEventListener(name, (event: Event) => {
-                    console.log(event.type.padStart(8, ' '), { val: inp.value, ev: event });
-                });
-            });
-
-            inp.value = 'about';
-
-            setTimeout(() => {
-                console.log('active 1', document.activeElement);
-                inp.focus();
-                console.log('active 2', document.activeElement);
-            }, 100);
-
-            setTimeout(() => {
-                console.log('active 3', document.activeElement);
-                fireKeyEvs(inp);
-            }, 200);
-
-
-        }
-        test();
     }
 }
 main();
