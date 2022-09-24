@@ -1,25 +1,10 @@
 import { Button, H1, PageHeader, Para, setupCounter, TableAllInputs } from './components';
 import { TableModified } from './components/table-modified';
 import { createTable, toggleItems } from './components/table-summary';
-import '../index.css';
 import { PageFooter } from './components/header-footer';
+import { AboutSection } from './components/section2-about';
 import { generalInfoClick } from './components/section4-general-info';
-
-function AboutSection() {
-    return `
-        <div class="px-4 max-w-[80ch]">
-            <div class="mt-4 mb-2 text-lg font-semibold">
-                About
-            </div>
-            <p>
-                This utility checked all manifests belonging to the same domain and for each of them looked for login forms with domain credentials. 
-                Then set each of these login forms to be used only for exact matching URLs.
-            </p>
-            <div class="mt-4 mb-2 text-lg font-semibold">
-                Updated manifests
-            </div>
-        </div>`
-}
+import '../index.css';
 
 function App() {
     return `
