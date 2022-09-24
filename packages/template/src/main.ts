@@ -45,9 +45,7 @@ function createAppFragment() {
     return fragment;
 }
 
-function main() {
-    const fragment = createAppFragment();
-
+function addEventListeners(fragment: DocumentFragment) {
     let expanded = false;
     fragment.querySelector<HTMLButtonElement>('#toggle-all')!.addEventListener('click', (event: MouseEvent) => {
         expanded = !expanded;
@@ -55,9 +53,12 @@ function main() {
     });
 
     generalInfoClick(fragment.querySelector<HTMLButtonElement>('#toggle-general-info')!);
+}
 
-    const appOrg = document.querySelector<HTMLDivElement>('#app')!;
-    appOrg.replaceWith(fragment);
+function main() {
+    const fragment = createAppFragment();
+    addEventListeners(fragment);
+    document.querySelector<HTMLDivElement>('#app')!.replaceWith(fragment);
 
     if (process.env.NODE_ENV !== 'production') {
         document.querySelector<HTMLDivElement>('#app')!.classList.add('debug-screens');
@@ -65,7 +66,6 @@ function main() {
     }
 }
 main();
-
 
 // <!-- <br /> ${Button({ id: "counter" })} -->
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
