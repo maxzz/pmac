@@ -9,41 +9,49 @@ https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newes
 └─┬─┘   └───────────┬──────────────┘└───────┬───────┘ └───────────┬─────────────┘ └┬┘
 scheme          authority                  path                 query           fragment
         </div>`;
-}
+} //first-letter:text-3xl first-letter:font-bold
 
 export function Section4_GeneralInfo() {
     return `
-        <div class="mt-2 mb-2 text-lg font-semibold">
+        <div class="mt-3 text-lg font-semibold">
             General info
         </div>
         <div class="mb-4">
-            <p class="first-letter:text-3xl first-letter:font-bold">
-                URL. A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
+            <h2 class="mt-2 text-base font-semibold">
+                URL
+            </h2>
+            <p>
+                A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
                 its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
                 although many people use the two terms interchangeably.            
             </p>
             <div class="mt-4 w-min flex flex-col">
                 ${urlScheme()}
-                <div class="self-center text-sm text-sky-700 underline">
-                    <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URL scheme format</a>
+                <div class="self-center text-sm text-blue-500 hover:underline">
+                    <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URL scheme format.</a>
                 </div>
             </div>
-            <p class="first-letter:text-3xl first-letter:font-bold">
-                A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
-                <a class="underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a>
-            </p>
-            <p class="first-letter:text-3xl first-letter:font-bold">
-                Wildcard pattern matching.
+
+            <h2 class="mt-4 text-base font-semibold">
+                Wildcard pattern
+            </h2>
+            <p>
+                Wildcard pattern matching supports '?' as well as '*' where:
                 <ul>
-                    <li>
-                    '?' Matches any single character.
-                    </li>
-                    <li>
-                    '*' Matches any sequence of characters (including the empty sequence).
-                    </li>
+                    <li><span class="px-1 font-semibold bg-primary-200/50 rounded">'?'</span> Matches any single character.</li>
+                    <li><span class="px-1 font-semibold bg-primary-200/50 rounded">'*'</span> Matches any sequence of characters (including the empty sequence).</li>
                 </ul>
-                <!-- <a class="underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a> -->
+                <!-- <a class="text-blue-500 hover:underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a> -->
             </p>
+
+            <h2 class="mt-4 text-base font-semibold">
+                Regular expression
+            </h2>
+            <p>
+                A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
+                <a class="text-blue-500 hover:underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a>
+            </p>
+
         </div>`;
 }
 
