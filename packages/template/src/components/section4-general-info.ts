@@ -48,6 +48,14 @@ export function Section4_GeneralInfo() {
                     <li>${Marker('?')} Matches any single character.</li>
                     <li>${Marker('*')} Matches any sequence of characters (including the empty sequence).</li>
                 </ul>
+
+                <p>You can use the asterisk (*) in any URL segment to match certain patterns. For example, <span class="text-xs">example.com/t*st</span> would match:</p>
+                <ul class="mt-1 text-xs space-y-0.5">
+                    <li>example.com/test</li>
+                    <li>example.com/toast</li>
+                    <li>example.com/trust</li>
+                </ul>
+                <p>example.com/foo/* does not match example.com/foo but example.com/foo* does match.</p>
             </p>
             ${SubHeader('Regular expression')}
             <p>
@@ -57,6 +65,8 @@ export function Section4_GeneralInfo() {
 
         </div>`;
 }
+//Wildcard patterns use special characters. //https://docs.oracle.com/cd/E19857-01/817-6252/npgwldcrd.html
+//https://developers.cloudflare.com/cache/reference/wildcard-matching
 
 function updateGeneralInfoBtnText() {
     const info = document.getElementById('general-info');
