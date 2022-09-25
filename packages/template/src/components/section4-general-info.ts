@@ -36,10 +36,10 @@ export function Section4_GeneralInfo() {
                 Wildcard pattern
             </h2>
             <p>
-                Wildcard pattern matching supports '?' as well as '*' where:
+                Wildcard pattern matching supports <span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">?</span> as well as <span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">*</span> where:
                 <ul>
-                    <li><span class="px-1 font-semibold bg-primary-200/50 rounded">'?'</span> Matches any single character.</li>
-                    <li><span class="px-1 font-semibold bg-primary-200/50 rounded">'*'</span> Matches any sequence of characters (including the empty sequence).</li>
+                    <li><span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">?</span> Matches any single character.</li>
+                    <li><span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">*</span> Matches any sequence of characters (including the empty sequence).</li>
                 </ul>
                 <!-- <a class="text-blue-500 hover:underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a> -->
             </p>
