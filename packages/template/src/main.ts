@@ -60,7 +60,7 @@ function main() {
 
     if (process.env.NODE_ENV !== 'production') {
         document.querySelector<HTMLDivElement>('#app')!.classList.add('debug-screens');
-        document.getElementById('toggle-general-info')?.click();
+        //document.getElementById('toggle-general-info')?.click();
         //appState.expanded = true, toggleItems({ setOpen: true });
     }
 }

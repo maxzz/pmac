@@ -16,7 +16,7 @@ function SubHeader(txt: string) {
 }
 
 function Marker(ch: string) {
-    return `<span class="px-1 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">${ch}</span>`;
+    return `<span class="px-1 font-semibold border-primary-300 border bg-primary-100/50 rounded shadow-sm">${ch}</span>`;
 }
 
 function Example(txt: string) {

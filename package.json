@@ -18,7 +18,9 @@
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
         "build": "rm -rf dist && tsc",
         "makebin": "yarn build && pkg -t host -o pmac dist/index.js",
-        "template": "yarn workspace @pmac/template template"
+        "template": "yarn workspace @pmac/template template",
+        "predeploy": "yarn workspace @pmac/template predeploy",
+        "deploy": "gh-pages -d ./packages/template/dist-gh"
     },
     "resolutions": {
         "postcss": "^8.4.16"
