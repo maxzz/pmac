@@ -16,7 +16,7 @@ function SubHeader(txt: string) {
 }
 
 function Marker(ch: string) {
-    return `<span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">${ch}</span>`;
+    return `<span class="px-1 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">${ch}</span>`;
 }
 
 function Example(txt: string) {
@@ -53,11 +53,11 @@ export function Section4_GeneralInfo() {
                     <li>${Marker('*')} Matches any sequence of characters (including the empty sequence).</li>
                 </ul>
 
-                <p class="mt-1">You can use the asterisk (*) in any URL segment to match certain patterns. For example, ${Example('example.com/t*st')} would match:</p>
+                <p class="mt-1">You can use the asterisk ${Marker('*')} in any URL segment to match certain patterns. For example, ${Example('example.com/t*st')} would match:</p>
                 <ul class="mt-1 text-xs space-y-0.5">
-                    <li>${Example('example.com/test')}</li>
-                    <li>${Example('example.com/toast')}</li>
-                    <li>${Example('example.com/trust')}</li>
+                    <li class="ml-6">${Example('example.com/test')}</li>
+                    <li class="ml-6">${Example('example.com/toast')}</li>
+                    <li class="ml-6">${Example('example.com/trust')}</li>
                 </ul>
                 <p>${Example('example.com/foo/*')} does not match ${Example('example.com/foo')} but ${Example('example.com/foo*')} does match.</p>
             </p>
@@ -68,8 +68,6 @@ export function Section4_GeneralInfo() {
             </p>
         </div>`;
 }
-//Wildcard patterns use special characters. //https://docs.oracle.com/cd/E19857-01/817-6252/npgwldcrd.html
-//https://developers.cloudflare.com/cache/reference/wildcard-matching
 
 function updateGeneralInfoBtnText() {
     const info = document.getElementById('general-info');
