@@ -11,6 +11,10 @@ scheme          authority                  path                 query           
         </div>`;
 } //first-letter:text-3xl first-letter:font-bold
 
+function SubHeader(txt: string) {
+    return `<h2 class="mt-2 text-base font-semibold">${txt}</h2>`;
+}
+
 function Marker(ch: string) {
     return `<span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">${ch}</span>`;
 }
@@ -21,9 +25,7 @@ export function Section4_GeneralInfo() {
             General info
         </div>
         <div class="mb-4">
-            <h2 class="mt-2 text-base font-semibold">
-                URL
-            </h2>
+            ${SubHeader('URL')}
             <p>
                 A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
                 its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
@@ -31,14 +33,12 @@ export function Section4_GeneralInfo() {
             </p>
             <div class="mt-4 w-min flex flex-col">
                 ${urlScheme()}
-                <div class="self-center text-sm text-blue-500 hover:underline">
-                    <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URL scheme format.</a>
+                <div class="self-center text-sm">
+                    <a class="text-blue-500 hover:underline" href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URL scheme format.</a>
                 </div>
             </div>
 
-            <h2 class="mt-4 text-base font-semibold">
-                Wildcard pattern
-            </h2>
+            ${SubHeader('Wildcard pattern')}
             <p>
                 Wildcard pattern matching supports ${Marker('?')} as well as ${Marker('*')} where:
                 <ul class="mt-1 space-y-0.5">
@@ -47,9 +47,7 @@ export function Section4_GeneralInfo() {
                 </ul>
             </p>
 
-            <h2 class="mt-4 text-base font-semibold">
-                Regular expression
-            </h2>
+            ${SubHeader('Regular expression')}
             <p>
                 A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
                 <a class="text-blue-500 hover:underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a>
