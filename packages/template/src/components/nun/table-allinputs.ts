@@ -1,5 +1,5 @@
 import { ItemInputFile, Report_InputFiles } from "@pmac/shared-types";
-import { H1 } from "../components";
+import { H1 } from "./components";
 
 function HeaderRow({ col1, col2 }: { col1: string, col2: string; }) {
     return (`

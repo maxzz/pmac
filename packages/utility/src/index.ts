@@ -30,3 +30,5 @@ main().catch(async (error) => {
 //TODO: backup by date - done
 //TODO: HTML report
 //TODO: show diff
+
+//TODO: new CLI swithces: add and remove domain file prefix

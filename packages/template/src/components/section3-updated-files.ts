@@ -63,23 +63,12 @@ export function Section3_UpdatedFiles() {
     return maniRows;
 }
 
-export function Section3_UpdatedFilesOld(parent: HTMLElement) {
-    const maniRows = Section3_UpdatedFiles();
-
-    const fragment = document.createDocumentFragment();
-    const rootEl = document.createElement('div');
-    rootEl.innerHTML = maniRows;
-    fragment.append(rootEl);
-
-    parent.append(fragment);
-}
-
 function getManiInfoEl(el: HTMLElement): HTMLElement | undefined {
     const cardOrNext = el.nextElementSibling as HTMLElement;
     return cardOrNext?.classList.contains('mani-info') ? cardOrNext : undefined;
 }
 
-export function addUpdatedFilesEventListeners(fragment: DocumentFragment) {
+export function Section3_UpdatedFiles_Events(fragment: DocumentFragment) {
     function addRowClick(el: HTMLElement) {
         el.addEventListener('click', () => {
             const marker = el.firstElementChild?.firstElementChild as HTMLElement;

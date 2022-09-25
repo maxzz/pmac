@@ -1,3 +1,6 @@
+import { AppState } from "../main";
+import { toggleItems } from "./section3-updated-files";
+
 export function Section5_Footer() {
     return `
     <footer class="px-4 text-primary-200 bg-title3/50 cursor-default select-none">
@@ -15,4 +18,29 @@ export function Section5_Footer() {
             </div>
         </div">
     </footer>`; // Expand all
+}
+
+export function Section5_Footer_Events(fragment: DocumentFragment, appState: AppState) {
+    function updateGeneralInfoBtnText() {
+        const info = document.getElementById('general-info');
+        const toggle = document.getElementById('toggle-general-info');
+        const text = `${info?.classList.contains('hidden') ? 'Show' : 'Hide'} General Info`;
+        toggle && (toggle.innerText = text);
+    }
+
+    fragment.querySelector<HTMLButtonElement>('#toggle-all')!
+        .addEventListener('click', (event: MouseEvent) => {
+            appState.expanded = !appState.expanded;
+            toggleItems({ setOpen: appState.expanded, justToggle: event.ctrlKey });
+        });
+
+    fragment.querySelector<HTMLButtonElement>('#toggle-general-info')!
+        .addEventListener('click', () => {
+            const info = document.getElementById('general-info')!;
+            info.classList.toggle('hidden');
+            if (!info.classList.contains('hidden')) {
+                info.scrollIntoView();
+            }
+            updateGeneralInfoBtnText();
+        });
 }

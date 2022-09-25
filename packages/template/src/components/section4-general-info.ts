@@ -29,60 +29,42 @@ function Link(href: string, txt: string) {
 
 export function Section4_GeneralInfo() {
     return `
-        <div class="mt-3 text-lg font-semibold">
-            General info
-        </div>
-        <div class="mb-4">
-            ${SubHeader('URL')}
-            <p>
-                A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
-                its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
-                although many people use the two terms interchangeably.            
-            </p>
-            <div class="mt-4 w-min flex flex-col">
-                ${urlScheme()}
-                <div class="self-center text-sm">
-                    ${Link('https://en.wikipedia.org/wiki/Uniform_Resource_Identifier', 'URL scheme format.')}
-                </div>
+    <div class="mt-3 text-lg font-semibold">
+        General info
+    </div>
+    <div class="mb-4">
+        ${SubHeader('URL')}
+        <p>
+            A Uniform Resource Locator (URL), colloquially termed a web address, is a reference to a web resource that specifies
+            its location on a computer network and a mechanism for retrieving it. A URL is a specific type of Uniform Resource Identifier (URI),
+            although many people use the two terms interchangeably.            
+        </p>
+        <div class="mt-4 w-min flex flex-col">
+            ${urlScheme()}
+            <div class="self-center text-sm">
+                ${Link('https://en.wikipedia.org/wiki/Uniform_Resource_Identifier', 'URL scheme format.')}
             </div>
-            ${SubHeader('Wildcard pattern')}
-            <p>
-                Wildcard pattern matching supports ${Marker('?')} as well as ${Marker('*')} where:
-                <ul class="mt-1 space-y-0.5">
-                    <li>${Marker('?')} Matches any single character.</li>
-                    <li>${Marker('*')} Matches any sequence of characters (including the empty sequence).</li>
-                </ul>
+        </div>
+        ${SubHeader('Wildcard pattern')}
+        <p>
+            Wildcard pattern matching supports ${Marker('?')} as well as ${Marker('*')} where:
+            <ul class="mt-1 space-y-0.5">
+                <li>${Marker('?')} Matches any single character.</li>
+                <li>${Marker('*')} Matches any sequence of characters (including the empty sequence).</li>
+            </ul>
 
-                <p class="mt-1">You can use the asterisk ${Marker('*')} in any URL segment to match certain patterns. For example, ${Example('example.com/t*st')} would match:</p>
-                <ul class="mt-1 text-xs space-y-0.5">
-                    <li class="ml-6">${Example('example.com/test')}</li>
-                    <li class="ml-6">${Example('example.com/toast')}</li>
-                    <li class="ml-6">${Example('example.com/trust')}</li>
-                </ul>
-                <p>${Example('example.com/foo/*')} does not match ${Example('example.com/foo')} but ${Example('example.com/foo*')} does match.</p>
-            </p>
-            ${SubHeader('Regular expression')}
-            <p>
-                A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
-                ${Link('https://en.wikipedia.org/wiki/Regular_expression', 'More information on wikipedia.')}
-            </p>
-        </div>`;
-}
-
-function updateGeneralInfoBtnText() {
-    const info = document.getElementById('general-info');
-    const toggle = document.getElementById('toggle-general-info');
-    const text = `${info?.classList.contains('hidden') ? 'Show' : 'Hide'} General Info`;
-    toggle && (toggle.innerText = text);
-}
-
-export function generalInfoClick(el: HTMLElement) {
-    el.addEventListener('click', () => {
-        const info = document.getElementById('general-info');
-        info?.classList.toggle('hidden');
-        if (!info?.classList.contains('hidden')) {
-            info?.scrollIntoView();
-        }
-        updateGeneralInfoBtnText();
-    });
+            <p class="mt-1">You can use the asterisk ${Marker('*')} in any URL segment to match certain patterns. For example, ${Example('example.com/t*st')} would match:</p>
+            <ul class="mt-1 text-xs space-y-0.5">
+                <li class="ml-6">${Example('example.com/test')}</li>
+                <li class="ml-6">${Example('example.com/toast')}</li>
+                <li class="ml-6">${Example('example.com/trust')}</li>
+            </ul>
+            <p>${Example('example.com/foo/*')} does not match ${Example('example.com/foo')} but ${Example('example.com/foo*')} does match.</p>
+        </p>
+        ${SubHeader('Regular expression')}
+        <p>
+            A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
+            ${Link('https://en.wikipedia.org/wiki/Regular_expression', 'More information on wikipedia.')}
+        </p>
+    </div>`;
 }
