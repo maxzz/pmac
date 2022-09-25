@@ -1,6 +1,6 @@
 import { Section1_Header } from './components/section1-header';
 import { Section2_About } from './components/section2-about';
-import { Section3_UpdatedFiles, toggleItems } from './components/section3-updated-files';
+import { addUpdatedFilesEventListeners, Section3_UpdatedFiles, Section3_UpdatedFilesOld, toggleItems } from './components/section3-updated-files';
 import { Section4_GeneralInfo, generalInfoClick } from './components/section4-general-info';
 import { Section5_Footer } from './components/section5-footer';
 import '../index.css';
@@ -13,7 +13,9 @@ function App() {
                 <div class="mx-auto md:w-max h-full grid grid-rows-[auto_1fr]">
                     ${Section2_About()}
                     <div>
-                        <main id="report-table"></main>
+                        <main id="report-table">
+                            ${Section3_UpdatedFiles()}
+                        </main>
                         <div class="pb-4 px-4 max-w-[80ch] animate-slide-down hidden" id="general-info">
                             ${Section4_GeneralInfo()}
                         </div>
@@ -32,7 +34,7 @@ function createAppFragment() {
     appNew.innerHTML = App();
     fragment.append(appNew);
 
-    Section3_UpdatedFiles(fragment.querySelector('#report-table')!);
+    //Section3_UpdatedFilesOld(fragment.querySelector('#report-table')!);
 
     return fragment;
 }
@@ -48,13 +50,14 @@ function addFooterEventListeners(fragment: DocumentFragment, appState: AppState)
 
 type AppState = {
     expanded: boolean;
-}
+};
 
 function main() {
     const appState: AppState = {
         expanded: false,
     };
     const fragment = createAppFragment();
+    addUpdatedFilesEventListeners(fragment);
     addFooterEventListeners(fragment, appState);
     document.querySelector<HTMLDivElement>('#app')!.replaceWith(fragment);
 

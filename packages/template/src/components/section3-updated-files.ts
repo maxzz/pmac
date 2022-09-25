@@ -43,31 +43,66 @@ function ManiRow({ item }: { item: InputSameDcItem; }) {
     `;
 }
 
+export function Section3_UpdatedFiles() {
+    const sameDcItems = ReportData.folderInputSameDcItems;
+    const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
+
+    const byDomain = Object.entries(splitByKey(flatItems, (item) => item.src.urls[0].domain || ''));
+    const maniRows = !byDomain.length
+        ? `<div class="px-4">Nothing has been updated. There are no logins using shared domain credentials.</div>`
+        : `<div class="cursor-default">
+                ${byDomain.map(([domain, items]) => `
+                    <div class="px-4 pb-2 font-semibold">
+                        <div>${domain}</div>
+                        <div class="px-2 text-sm max-w-3xl">
+                            ${items.map((item) => ManiRow({ item })).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>`;
+    return maniRows;
+}
+
+export function Section3_UpdatedFilesOld(parent: HTMLElement) {
+    const maniRows = Section3_UpdatedFiles();
+
+    const fragment = document.createDocumentFragment();
+    const rootEl = document.createElement('div');
+    rootEl.innerHTML = maniRows;
+    fragment.append(rootEl);
+
+    parent.append(fragment);
+}
+
 function getManiInfoEl(el: HTMLElement): HTMLElement | undefined {
     const cardOrNext = el.nextElementSibling as HTMLElement;
     return cardOrNext?.classList.contains('mani-info') ? cardOrNext : undefined;
 }
 
-function addRowClick(el: HTMLElement) {
-    el.addEventListener('click', () => {
-        const marker = el.firstElementChild?.firstElementChild as HTMLElement;
-        const maniInfoEl = getManiInfoEl(el);
+export function addUpdatedFilesEventListeners(fragment: DocumentFragment) {
+    function addRowClick(el: HTMLElement) {
+        el.addEventListener('click', () => {
+            const marker = el.firstElementChild?.firstElementChild as HTMLElement;
+            const maniInfoEl = getManiInfoEl(el);
 
-        if (maniInfoEl) {
-            marker && delete marker.dataset.state;
-            maniInfoEl.remove();
-        } else {
-            marker && (marker.dataset.state = 'open');
-            const elId = el.dataset.id;
-            const maniItem = elId && ReportData.allItemsById[elId];
-            if (maniItem) {
-                const newEl = document.createElement('div');
-                newEl.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
-                newEl.innerHTML = ManiInfo(maniItem);
-                el.parentElement?.insertBefore(newEl, el.nextElementSibling);
+            if (maniInfoEl) {
+                marker && delete marker.dataset.state;
+                maniInfoEl.remove();
+            } else {
+                marker && (marker.dataset.state = 'open');
+                const elId = el.dataset.id;
+                const maniItem = elId && ReportData.allItemsById[elId];
+                if (maniItem) {
+                    const newEl = document.createElement('div');
+                    newEl.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
+                    newEl.innerHTML = ManiInfo(maniItem);
+                    el.parentElement?.insertBefore(newEl, el.nextElementSibling);
+                }
             }
-        }
-    });
+        });
+    }
+
+    [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach(addRowClick);
 }
 
 export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean; justToggle?: boolean; }) {
@@ -82,39 +117,4 @@ export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean;
             }
         }
     });
-}
-
-//TODO: add refs to wildcard and regex
-
-export function Section3_UpdatedFiles(parent: HTMLElement) {
-    const sameDcItems = ReportData.folderInputSameDcItems;
-    const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
-
-    const byDomain = Object.entries(splitByKey(flatItems, (item) => item.src.urls[0].domain || ''));
-    const maniRows = `
-        <div class="cursor-default">
-            ${byDomain.map(([domain, items]) => `
-                <div class="px-4 pb-2 font-semibold">
-                    <div>${domain}</div>
-                    <div class="px-2 text-sm max-w-3xl">
-                        ${items.map((item) => ManiRow({ item })).join('')}
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-        `;
-
-    const fragment = document.createDocumentFragment();
-    const rootEl = document.createElement('div');
-    rootEl.innerHTML = maniRows;
-    fragment.append(rootEl);
-
-    [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach(addRowClick);
-
-    // fragment.querySelector<HTMLDivElement>('#general-info')!.addEventListener('click', (event) => {
-    //     const el = (event.currentTarget as HTMLDivElement).nextElementSibling;
-    //     el!.classList.toggle('hidden');
-    // });
-
-    parent.append(fragment);
 }
