@@ -37,7 +37,7 @@ export function Section4_GeneralInfo() {
             </h2>
             <p>
                 Wildcard pattern matching supports <span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">?</span> as well as <span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">*</span> where:
-                <ul>
+                <ul class="mt-1 space-y-0.5">
                     <li><span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">?</span> Matches any single character.</li>
                     <li><span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">*</span> Matches any sequence of characters (including the empty sequence).</li>
                 </ul>
