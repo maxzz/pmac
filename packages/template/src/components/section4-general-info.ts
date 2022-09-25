@@ -11,6 +11,10 @@ scheme          authority                  path                 query           
         </div>`;
 } //first-letter:text-3xl first-letter:font-bold
 
+function Marker(ch: string) {
+    return `<span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">${ch}</span>`;
+}
+
 export function Section4_GeneralInfo() {
     return `
         <div class="mt-3 text-lg font-semibold">
@@ -36,12 +40,11 @@ export function Section4_GeneralInfo() {
                 Wildcard pattern
             </h2>
             <p>
-                Wildcard pattern matching supports <span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">?</span> as well as <span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">*</span> where:
+                Wildcard pattern matching supports ${Marker('?')} as well as ${Marker('*')} where:
                 <ul class="mt-1 space-y-0.5">
-                    <li><span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">?</span> Matches any single character.</li>
-                    <li><span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">*</span> Matches any sequence of characters (including the empty sequence).</li>
+                    <li>${Marker('?')} Matches any single character.</li>
+                    <li>${Marker('*')} Matches any sequence of characters (including the empty sequence).</li>
                 </ul>
-                <!-- <a class="text-blue-500 hover:underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a> -->
             </p>
 
             <h2 class="mt-4 text-base font-semibold">
