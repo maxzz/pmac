@@ -37,7 +37,7 @@ function createAppFragment() {
     return fragment;
 }
 
-function addEventListeners(fragment: DocumentFragment, appState: AppState) {
+function addFooterEventListeners(fragment: DocumentFragment, appState: AppState) {
     fragment.querySelector<HTMLButtonElement>('#toggle-all')!.addEventListener('click', (event: MouseEvent) => {
         appState.expanded = !appState.expanded;
         toggleItems({ setOpen: appState.expanded, justToggle: event.ctrlKey });
@@ -55,7 +55,7 @@ function main() {
         expanded: false,
     };
     const fragment = createAppFragment();
-    addEventListeners(fragment, appState);
+    addFooterEventListeners(fragment, appState);
     document.querySelector<HTMLDivElement>('#app')!.replaceWith(fragment);
 
     if (process.env.NODE_ENV !== 'production') {
@@ -66,28 +66,5 @@ function main() {
 }
 main();
 
-// <!-- <br /> ${Button({ id: "counter" })} -->
-// setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
-
-// function singleReport(single: Report) {
-//     const isEmpty = !Object.keys(single).length; //TODO: !report.inputs?.input?.length && !report.domcreds?.multiple?.length;
-//     return `
-//         <div class="px-4 p-2 grid grid-cols-[1fr_minmax(100px,auto)_1fr]">
-//             <div class="col-start-2">
-//                 ${TableAllInputs(single?.inputs)}
-//                 ${isEmpty ? Para({ text: 'There are no manifest files using domain credentials. Nothing changed' }) : ''}
-//             </div>
-//         </div>`;
-// }
-//
-// function App() {
-//     return `
-//         <div class="flex-1 from-[#d6efff] to-[#d3e9ff] text-primary-900 debug-screens">
-//             ${PageHeader()}
-//             ${reportData.map((report) => singleReport(report)).join('')}
-//             ${TableModified(reportData)}
-//         </div>`;
-// }
-
+//TODO: sort by login name - no need
 //TODO: new CLI swithces: add and remove domain file prefix
-//TODO: sort by login name
