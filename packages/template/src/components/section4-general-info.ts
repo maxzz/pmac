@@ -19,6 +19,10 @@ function Marker(ch: string) {
     return `<span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">${ch}</span>`;
 }
 
+function Example(txt: string) {
+    return `<span class="text-xs">${txt}</span>`;
+}
+
 function Link(href: string, txt: string) {
     return `<a class="text-blue-500 hover:underline" href="${href}" target="_blank">${txt}</a>`;
 }
@@ -49,20 +53,19 @@ export function Section4_GeneralInfo() {
                     <li>${Marker('*')} Matches any sequence of characters (including the empty sequence).</li>
                 </ul>
 
-                <p>You can use the asterisk (*) in any URL segment to match certain patterns. For example, <span class="text-xs">example.com/t*st</span> would match:</p>
+                <p class="mt-1">You can use the asterisk (*) in any URL segment to match certain patterns. For example, ${Example('example.com/t*st')} would match:</p>
                 <ul class="mt-1 text-xs space-y-0.5">
-                    <li>example.com/test</li>
-                    <li>example.com/toast</li>
-                    <li>example.com/trust</li>
+                    <li>${Example('example.com/test')}</li>
+                    <li>${Example('example.com/toast')}</li>
+                    <li>${Example('example.com/trust')}</li>
                 </ul>
-                <p>example.com/foo/* does not match example.com/foo but example.com/foo* does match.</p>
+                <p>${Example('example.com/foo/*')} does not match ${Example('example.com/foo')} but ${Example('example.com/foo*')} does match.</p>
             </p>
             ${SubHeader('Regular expression')}
             <p>
                 A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
                 ${Link('https://en.wikipedia.org/wiki/Regular_expression', 'More information on wikipedia.')}
             </p>
-
         </div>`;
 }
 //Wildcard patterns use special characters. //https://docs.oracle.com/cd/E19857-01/817-6252/npgwldcrd.html
