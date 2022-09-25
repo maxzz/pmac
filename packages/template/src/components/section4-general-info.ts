@@ -19,6 +19,10 @@ function Marker(ch: string) {
     return `<span class="px-2 font-semibold border-primary-300 border bg-primary-200/50 rounded shadow-sm">${ch}</span>`;
 }
 
+function Link(href: string, txt: string) {
+    return `<a class="text-blue-500 hover:underline" href="${href}" target="_blank">${txt}</a>`;
+}
+
 export function Section4_GeneralInfo() {
     return `
         <div class="mt-3 text-lg font-semibold">
@@ -34,10 +38,9 @@ export function Section4_GeneralInfo() {
             <div class="mt-4 w-min flex flex-col">
                 ${urlScheme()}
                 <div class="self-center text-sm">
-                    <a class="text-blue-500 hover:underline" href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URL scheme format.</a>
+                    ${Link('https://en.wikipedia.org/wiki/Uniform_Resource_Identifier', 'URL scheme format.')}
                 </div>
             </div>
-
             ${SubHeader('Wildcard pattern')}
             <p>
                 Wildcard pattern matching supports ${Marker('?')} as well as ${Marker('*')} where:
@@ -46,11 +49,10 @@ export function Section4_GeneralInfo() {
                     <li>${Marker('*')} Matches any sequence of characters (including the empty sequence).</li>
                 </ul>
             </p>
-
             ${SubHeader('Regular expression')}
             <p>
                 A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
-                <a class="text-blue-500 hover:underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a>
+                ${Link('https://en.wikipedia.org/wiki/Regular_expression', 'More information on wikipedia.')}
             </p>
 
         </div>`;
