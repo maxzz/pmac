@@ -32,6 +32,18 @@ export function Section4_GeneralInfo() {
                 A regular expression (shortened as regex or regexp) is a sequence of characters that specifies a search pattern in text.
                 <a class="underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a>
             </p>
+            <p class="first-letter:text-3xl first-letter:font-bold">
+                Wildcard pattern matching.
+                <ul>
+                    <li>
+                    '?' Matches any single character.
+                    </li>
+                    <li>
+                    '*' Matches any sequence of characters (including the empty sequence).
+                    </li>
+                </ul>
+                <!-- <a class="underline" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">More information on wikipedia.</a> -->
+            </p>
         </div>`;
 }
 

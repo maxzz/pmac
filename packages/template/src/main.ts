@@ -58,7 +58,7 @@ function main() {
 
     if (process.env.NODE_ENV !== 'production') {
         document.querySelector<HTMLDivElement>('#app')!.classList.add('debug-screens');
-        appState.expanded = true, toggleItems({ setOpen: true });
+        //appState.expanded = true, toggleItems({ setOpen: true });
     }
 }
 main();
