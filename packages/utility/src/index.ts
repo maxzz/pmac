@@ -6,7 +6,7 @@ import { getAndCheckTargets, getVerifiedFolders, SourceGroup, Targets } from './
 import { step2_FindSameDc, step1_LoadManifests, step_FinalMakeReport, TargetGroup, step3_SaveResult } from './app/app-steps';
 import { notes } from './app/app-notes';
 
-function processFiles(sourceGroup: SourceGroup): TargetGroup {
+function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = step1_LoadManifests(sourceGroup);
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);
@@ -16,7 +16,7 @@ function processFiles(sourceGroup: SourceGroup): TargetGroup {
 async function main() {
     let targets: Targets = getAndCheckTargets();
     const sourceGroups = getVerifiedFolders(targets);
-    const targetGroups = sourceGroups.map(processFiles);
+    const targetGroups = sourceGroups.map(processSourceGroup);
     step_FinalMakeReport(targetGroups);
     notes.show();
 }

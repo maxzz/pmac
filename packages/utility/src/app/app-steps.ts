@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import chalk from "chalk";
-import { buildManiMetaForms, Mani, Matching, Meta, parseXMLFile } from "../manifest";
+import { buildManiMetaForms, makeXML, Mani, Matching, Meta, parseXMLFile } from "../manifest";
 import { FormUrls, getFormUrls } from "../utils/utils-mani-urls";
 import { uuid } from "../utils/uuid";
 import { osStuff } from "../utils/utils-os";
@@ -96,22 +96,6 @@ function addError(targetGroup: TargetGroup, msg: ItemError | string) {
     errors.push(typeof msg === 'string' ? { text: msg } : msg);
 }
 
-function makeBackupCopy(files: FileMeta[], rootFolder: string): void {
-    const backupFolder = ensureNameUnique(`${rootFolder}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
-    osStuff.mkdirSync(backupFolder);
-
-    files.forEach((f) => {
-        if (f.raw) {
-            const fname = path.join(rootFolder, f.short);
-            const maybeSubFolder = path.dirname(fname);
-            osStuff.mkdirSync(maybeSubFolder);
-
-            const newFname = path.join(backupFolder, path.basename(fname));
-            fs.writeFileSync(newFname, f.raw);
-        }
-    });
-}
-
 // Local console log reports
 
 export function printLoaded(targetGroup: TargetGroup) {
@@ -187,9 +171,29 @@ export function step2_FindSameDc(targetGroup: TargetGroup) {
 }
 
 function step_MakeBackupCopy(targetGroup: TargetGroup): void {
+    if (!targetGroup.backup) {
+        throw new Error(`No backup folder for ${targetGroup.root}`); // this dev time only error
+    }
+
+    function makeBackupCopy(files: FileMeta[], rootFolder: string, backupFolder: string): void {
+
+        osStuff.mkdirSync(backupFolder);
+
+        files.forEach((f) => {
+            if (f.raw) {
+                const fname = path.join(rootFolder, f.short); //TODO: check it for sub-folders
+                const maybeSubFolder = path.dirname(fname);
+                osStuff.mkdirSync(maybeSubFolder);
+
+                const newFname = path.join(backupFolder, path.basename(fname));
+                fs.writeFileSync(newFname, f.raw);
+            }
+        });
+    }
+
     try {
         const sameDC: FileMeta[] = flatDcActive(targetGroup.sameDc);
-        makeBackupCopy(sameDC, targetGroup.root);
+        makeBackupCopy(sameDC, targetGroup.root, targetGroup.backup);
     } catch (error) {
         addError(targetGroup, {
             text: `Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${targetGroup.root}`,
@@ -200,7 +204,7 @@ function step_MakeBackupCopy(targetGroup: TargetGroup): void {
 }
 
 function step_Modify(targetGroup: TargetGroup): void {
-    
+
     function modifyUrl(url: string | undefined): string | undefined {
         return url && Matching.makeRawMatchData({style: Matching.Style.regex, opt: Matching.Options.pmacSet, url}, '');
     }
@@ -225,18 +229,24 @@ function step_Save(targetGroup: TargetGroup): void {
 
     // const destFolder = ensureNameUnique(`${targetGroup.root}/new ${nowDayTime()}`, false);
     // osStuff.mkdirSync(destFolder);
-    // loadedManifests.files.forEach((f) => {
-    //     const xml = makeXML(f.mani);
-    //     if (xml) {
-    //         const newFname = path.join(destFolder, f.short);
-    //         fs.writeFileSync(newFname, xml);
-    //         //const newDir = path.join(f.short, 'new');
-    //         //const newFname = path.join(newDir, f.short);
-    //         // const newFname = path.join(newDir, path.basename(f.short, path.extname(f.fname)) + '_new') + path.extname(f.fname);
-    //         //osStuff.mkdirSync(newDir);
-    //         //fs.writeFileSync(newFname, xml);
-    //     }
-    // });
+
+    const destFolder = targetGroup.root;
+
+    flatDcActive(targetGroup.sameDc).forEach((f) => {
+
+        const xml = makeXML(f.mani);
+        if (xml) {
+            const newFname = path.join(destFolder, f.short);
+            fs.writeFileSync(newFname, xml);
+
+
+            //const newDir = path.join(f.short, 'new');
+            //const newFname = path.join(newDir, f.short);
+            // const newFname = path.join(newDir, path.basename(f.short, path.extname(f.fname)) + '_new') + path.extname(f.fname);
+            //osStuff.mkdirSync(newDir);
+            //fs.writeFileSync(newFname, xml);
+        }
+    });
 
     //TODO: place modified files into original folder
 
@@ -245,12 +255,53 @@ function step_Save(targetGroup: TargetGroup): void {
 export function step3_SaveResult(targetGroup: TargetGroup): void {
     if (targetGroup.sameDc.length) {
         try {
-            // step_MakeBackupCopy(targetGroup);
+            targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
+
+            step_MakeBackupCopy(targetGroup);
             step_Modify(targetGroup);
             step_Save(targetGroup);
+            step4_FinalMakeReport(targetGroup);
         } catch (error) {
         }
     }
+}
+
+export function step4_FinalMakeReport(targetGroup: TargetGroup): void {
+
+    function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
+        if (Object.keys(targetGroup.report).length) {
+            const dataStr = JSON.stringify(targetGroup.report, null, 4);
+
+            console.log('dataStr:\n', dataStr);
+
+            return templateStr.replace('"__INJECTED__DATA__"', dataStr);
+        }
+    }
+
+    const report: ReportRecords = [{ ...targetGroup.report, root: toUnix(targetGroup.root) }];
+    const reportStr = JSON.stringify(report, null, 4);
+    console.log('dataStr:\n', reportStr);
+    templateStr.replace('"__INJECTED__DATA__"', reportStr);
+
+    // targetGroups.forEach((targetGroup) => {
+    //     const report = makeHtmlReport(targetGroup);
+
+    //     if (targetGroup.sameDc.length) {
+    //         printDcActive(targetGroup.sameDc);
+    //     } else {
+    //         notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
+    //     }
+
+    //     if (report) {
+    //         //TODO: save it into the same folder
+    //         //console.log('newTemplate\n', report);
+    //         console.log(chalk.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
+    //     }
+
+    //     notes.add(`All done in folder ${targetGroup.root}`);
+    // });
+
+    notes.add(`All done`);
 }
 
 export function step_FinalMakeReport(targetGroups: TargetGroup[]): void {
