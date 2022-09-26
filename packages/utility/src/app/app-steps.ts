@@ -147,7 +147,7 @@ export function printDcActive(sameDC: SameDc[]) {
 
 // Steps
 
-export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
+export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = loadManifests(sourceGroup);
     //printLoaded(targetGroup);
 
@@ -182,7 +182,7 @@ export function step_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     return targetGroup;
 }
 
-export function step_FindSameDc(targetGroup: TargetGroup) {
+export function step2_FindSameDc(targetGroup: TargetGroup) {
     targetGroup.sameDc = getSameDc(targetGroup.files);
 }
 
@@ -242,12 +242,12 @@ function step_Save(targetGroup: TargetGroup): void {
 
 }
 
-export function step_SaveResult(targetGroup: TargetGroup): void {
+export function step3_SaveResult(targetGroup: TargetGroup): void {
     if (targetGroup.sameDc.length) {
         try {
             // step_MakeBackupCopy(targetGroup);
             step_Modify(targetGroup);
-            // step_Save(targetGroup);
+            step_Save(targetGroup);
         } catch (error) {
         }
     }

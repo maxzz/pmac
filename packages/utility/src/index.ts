@@ -3,20 +3,21 @@ import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
 import { help } from './app/app-help';
 import { getAndCheckTargets, getVerifiedFolders, SourceGroup, Targets } from './app/app-arguments';
-import { step_FindSameDc, step_LoadManifests, step_FinalMakeReport, TargetGroup, step_SaveResult } from './app/app-steps';
+import { step2_FindSameDc, step1_LoadManifests, step_FinalMakeReport, TargetGroup, step3_SaveResult } from './app/app-steps';
 import { notes } from './app/app-notes';
 
 function processFiles(sourceGroup: SourceGroup): TargetGroup {
-    const targetGroup = step_LoadManifests(sourceGroup);
-    step_FindSameDc(targetGroup);
-    step_SaveResult(targetGroup);
+    const targetGroup = step1_LoadManifests(sourceGroup);
+    step2_FindSameDc(targetGroup);
+    step3_SaveResult(targetGroup);
     return targetGroup;
 }
 
 async function main() {
     let targets: Targets = getAndCheckTargets();
     const sourceGroups = getVerifiedFolders(targets);
-    step_FinalMakeReport(sourceGroups.map(processFiles));
+    const targetGroups = sourceGroups.map(processFiles);
+    step_FinalMakeReport(targetGroups);
     notes.show();
 }
 
