@@ -268,10 +268,9 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
     const reportStr = JSON.stringify(report, null, 4);
     console.log('dataStr:\n', reportStr);
 
-    const fname = path.join(targetGroup.backup);
+    const fname = path.join(targetGroup.backup, 'report.html');
     const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
-    //fs.writeFileSync()
-
+    fs.writeFileSync(fname, cnt);
 }
 
 export function step3_SaveResult(targetGroup: TargetGroup): void {
@@ -280,9 +279,9 @@ export function step3_SaveResult(targetGroup: TargetGroup): void {
             targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
 
             final1_MakeBackupCopy(targetGroup);
-            // final2_Modify(targetGroup);
+            final2_Modify(targetGroup);
             // final3_Save(targetGroup);
-            // final4_FinalMakeReport(targetGroup);
+            final4_FinalMakeReport(targetGroup);
         } catch (error) {
         }
     }
