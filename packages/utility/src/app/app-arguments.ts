@@ -65,8 +65,16 @@ export function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
     }
     else if (dirs.length) {
         for (let root of dirs) {
-            const res = osStuff.collectDirItems(root);
-            const fnames = osStuff.filterByExtension(res.files.map((item) => item.short), '.dpm');
+            const filesAndDirs = osStuff.collectDirItems(root);
+
+            let files = filesAndDirs.files;
+            const pmTestFolder = filesAndDirs.subs.find((dir) => path.basename(dir.name).toLowerCase() === 'c');
+            if (pmTestFolder) {
+                const fnameWSubs = pmTestFolder.files.map((fileItem) => ({ ...fileItem, short: path.join('c', fileItem.short) }));
+                files.concat(pmTestFolder.files);
+            }
+
+            const fnames = osStuff.filterByExtension(files.map((item) => item.short), '.dpm');
             if (fnames.length) {
                 rv.push({ root, fnames });
             }
