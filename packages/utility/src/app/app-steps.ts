@@ -9,7 +9,7 @@ import { ensureNameUnique, nowDayTime, toUnix } from "../utils/unique-names";
 import { notes } from "./app-notes";
 import { SourceGroup } from "./app-arguments";
 import { templateStr } from "../utils/utils-report-template";
-import { ItemError, FormData, Report, ReportRecords } from "@pmac/shared-types";
+import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
 import { splitByKey } from "../utils/utils";
 
 // Manifest loading
@@ -143,12 +143,12 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = loadManifests(sourceGroup);
     //printLoaded(targetGroup);
 
-    function formUrls(f: FileMeta, idx: number): FormData | undefined {
+    function formUrls(f: FileMeta, idx: number): ReportFormUrls | undefined {
         const parts = f.urls[idx];
         const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
         if (oWoP) {
-            console.log('ourl', parts?.o);
-            console.log('oWoP', oWoP);
+            console.log(`${chalk.green('ourl')} ${parts?.o}`);
+            console.log(`${chalk.gray('oWoP')} ${oWoP}`);
         }
         return parts?.o ? {
             domain: parts?.oParts?.domain,
