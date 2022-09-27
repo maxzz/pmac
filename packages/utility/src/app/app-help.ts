@@ -1,11 +1,11 @@
 import chalk from 'chalk';
-let config = require('../../package.json');
+let config = require('../../../../package.json');
 
-export const programName = config.name.split('/')[0].substring(1);
+export const programName = config.name; //config.name.split('/')[0].substring(1);
 export const programVersion = config.version;
 
 export function help() {
-    
+
     let msg = `
 The ${chalk.cyan(`${programName}`)} utility converts PM manifests with domain credentials to
 manifests with credentials that apply only to a specific URL.

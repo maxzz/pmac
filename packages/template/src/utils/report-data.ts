@@ -36,7 +36,8 @@ function folderInputSameDcItem(reportRecords: ReportRecords): FolderInputSameDcI
 }
 
 export namespace ReportData {
-    export const reportData = rawRepopts;
+    const firstReport = rawRepopts?.[0];
+    export const reportVersion = firstReport ? {version: firstReport.version, date: firstReport.date} : undefined;
 
     export const folderInputSameDcItems: FolderInputSameDcItem[] = folderInputSameDcItem(rawRepopts);
 

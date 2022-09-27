@@ -115,7 +115,7 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
             sameDc: [],
             empty: [],
             failed: [],
-            report: { root: '', version: programVersion, },
+            report: { root: '', version: programVersion, date: Date.now()},
         };
 
         for (const file of sourceGroup.fnames) {
