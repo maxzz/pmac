@@ -78,26 +78,12 @@ function loadManifests(sourceGroup: SourceGroup): TargetGroup {
 
 // Manifest sorting
 
-export function getSameDc(files: FileMeta[]): SameDc[] {
-    const byDomains = splitByKey(files, (item) => {
-        const loginForm = item.urls[0];
-        const loginStyle = loginForm?.mData?.style;
-        const makeSenseToProcces = loginStyle === Matching.Style.undef || loginStyle === Matching.Style.makeDomainMatch;
-        return makeSenseToProcces ? loginForm?.oParts?.domain : undefined;
-    });
-
-    const haveSameDc = Object.entries(byDomains).filter(([domain, files]) => files.length > 1);
-
-    const sameDC = haveSameDc.map(([domain, files]) => ({ domain, files }));
-    return sameDC;
-}
-
 function flatDcActive(sameDC: SameDc[]): FileMeta[] {
     const files: FileMeta[] = sameDC.map(({ domain, files }) => files).flat();
     return files;
 }
 
-// Errors and Backup
+// Errors
 
 function addError(targetGroup: TargetGroup, msg: ItemError | string) {
     const errors = targetGroup.report.errors || (targetGroup.report.errors = []);
@@ -146,10 +132,10 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     function formUrls(f: FileMeta, idx: number): ReportFormUrls | undefined {
         const parts = f.urls[idx];
         const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
-        if (oWoP) {
-            console.log(`${chalk.green('ourl')} ${parts?.o}`);
-            console.log(`${chalk.gray('oWoP')} ${oWoP}`);
-        }
+        // if (oWoP) {
+        //     console.log(`${chalk.green('ourl')} ${parts?.o}`);
+        //     console.log(`${chalk.gray('oWoP')} ${oWoP}`);
+        // }
         return parts?.o ? {
             domain: parts?.oParts?.domain,
             ourl: parts?.o,
@@ -175,6 +161,20 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
 }
 
 export function step2_FindSameDc(targetGroup: TargetGroup) {
+    function getSameDc(files: FileMeta[]): SameDc[] {
+        const byDomains = splitByKey(files, (fileMeta) => {
+            const loginForm = fileMeta.urls?.[0];
+            const loginStyle = loginForm?.mData?.style;
+            const makeSenseToProcces = loginStyle === Matching.Style.undef || loginStyle === Matching.Style.makeDomainMatch;
+            return makeSenseToProcces ? loginForm?.oParts?.domain : undefined;
+        });
+    
+        const haveSameDc = Object.entries(byDomains).filter(([domain, files]) => files.length > 1);
+    
+        const sameDC = haveSameDc.map(([domain, files]) => ({ domain, files }));
+        return sameDC;
+    }
+    
     targetGroup.sameDc = getSameDc(targetGroup.files);
 }
 
