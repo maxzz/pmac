@@ -30,7 +30,7 @@ export type SameDc = {          // Domain Credentials Duplicates; use the same c
 
 export type TargetGroup = {
     root: string;               // this group root source folder
-    backup?: string;            // folder for backup
+    backup: string;             // folder for backup
     sameDc: SameDc[];           // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
     files: FileMeta[];          // loaded meaninfull files, i.e. wo/ empty and failed
     empty: string[];            // filename list of empty files
@@ -39,7 +39,15 @@ export type TargetGroup = {
 };
 
 function loadManifests(sourceGroup: SourceGroup): TargetGroup {
-    const rv: TargetGroup = { root: sourceGroup.root, files: [], sameDc: [], empty: [], failed: [], report: { root: '' } };
+    const rv: TargetGroup = { 
+        root: sourceGroup.root, 
+        backup: path.join(sourceGroup.root, 'temp'),  // later it will be replaced by a more suitable one
+        files: [], 
+        sameDc: [], 
+        empty: [], 
+        failed: [], 
+        report: { root: '' }
+    };
 
     for (const file of sourceGroup.fnames) {
         const fname = path.join(sourceGroup.root, file);
@@ -174,9 +182,9 @@ function step_MakeBackupCopy(targetGroup: TargetGroup): void {
     if (!targetGroup.backup) {
         throw new Error(`No backup folder for ${targetGroup.root}`); // this dev time only error
     }
+    debugger;
 
     function makeBackupCopy(files: FileMeta[], rootFolder: string, backupFolder: string): void {
-
         osStuff.mkdirSync(backupFolder);
 
         files.forEach((f) => {
@@ -206,7 +214,7 @@ function step_MakeBackupCopy(targetGroup: TargetGroup): void {
 function step_Modify(targetGroup: TargetGroup): void {
 
     function modifyUrl(url: string | undefined): string | undefined {
-        return url && Matching.makeRawMatchData({style: Matching.Style.regex, opt: Matching.Options.pmacSet, url}, '');
+        return url && Matching.makeRawMatchData({ style: Matching.Style.regex, opt: Matching.Options.pmacSet, url }, '');
     }
 
     targetGroup.report.domcreds = {
@@ -281,27 +289,11 @@ export function step4_FinalMakeReport(targetGroup: TargetGroup): void {
     const report: ReportRecords = [{ ...targetGroup.report, root: toUnix(targetGroup.root) }];
     const reportStr = JSON.stringify(report, null, 4);
     console.log('dataStr:\n', reportStr);
-    templateStr.replace('"__INJECTED__DATA__"', reportStr);
+    
+    const fname = path.join(targetGroup.backup)
+    const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
+    //fs.writeFileSync()
 
-    // targetGroups.forEach((targetGroup) => {
-    //     const report = makeHtmlReport(targetGroup);
-
-    //     if (targetGroup.sameDc.length) {
-    //         printDcActive(targetGroup.sameDc);
-    //     } else {
-    //         notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
-    //     }
-
-    //     if (report) {
-    //         //TODO: save it into the same folder
-    //         //console.log('newTemplate\n', report);
-    //         console.log(chalk.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
-    //     }
-
-    //     notes.add(`All done in folder ${targetGroup.root}`);
-    // });
-
-    notes.add(`All done`);
 }
 
 export function step_FinalMakeReport(targetGroups: TargetGroup[]): void {
