@@ -179,7 +179,7 @@ export function step2_FindSameDc(targetGroup: TargetGroup) {
     targetGroup.sameDc = getSameDc(targetGroup.files);
 }
 
-function step_MakeBackupCopy(targetGroup: TargetGroup): void {
+function final1_MakeBackupCopy(targetGroup: TargetGroup): void {
 
     function makeBackupCopy(files: FileMeta[], destFolder: string): void {
         osStuff.mkdirSync(destFolder);
@@ -203,7 +203,7 @@ function step_MakeBackupCopy(targetGroup: TargetGroup): void {
     }
 }
 
-function step_Modify(targetGroup: TargetGroup): void {
+function final2_Modify(targetGroup: TargetGroup): void {
 
     function modifyUrl(url: string | undefined): string | undefined {
         return url && Matching.makeRawMatchData({ style: Matching.Style.regex, opt: Matching.Options.pmacSet, url }, '');
@@ -223,7 +223,7 @@ function step_Modify(targetGroup: TargetGroup): void {
     };
 }
 
-function step_Save(targetGroup: TargetGroup): void {
+function final3_Save(targetGroup: TargetGroup): void {
 
     //was: (duplicates: Duplicate[])
 
@@ -252,7 +252,7 @@ function step_Save(targetGroup: TargetGroup): void {
 
 }
 
-function step_FinalMakeReport(targetGroup: TargetGroup): void {
+function final4_FinalMakeReport(targetGroup: TargetGroup): void {
 
     function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
         if (Object.keys(targetGroup.report).length) {
@@ -279,10 +279,10 @@ export function step3_SaveResult(targetGroup: TargetGroup): void {
         try {
             targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
 
-            step_MakeBackupCopy(targetGroup);
-            // step_Modify(targetGroup);
-            // step_Save(targetGroup);
-            // step_FinalMakeReport(targetGroup);
+            final1_MakeBackupCopy(targetGroup);
+            // final2_Modify(targetGroup);
+            // final3_Save(targetGroup);
+            // final4_FinalMakeReport(targetGroup);
         } catch (error) {
         }
     }
