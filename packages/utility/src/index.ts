@@ -17,7 +17,7 @@ async function main() {
     let targets: Targets = getAndCheckTargets();
     const sourceGroups = getVerifiedFolders(targets);
     const targetGroups = sourceGroups.map(processSourceGroup);
-    step4_FinalMakeReport(targetGroups);
+    //step4_FinalMakeReport(targetGroups);
     notes.show();
 }
 
