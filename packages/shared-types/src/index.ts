@@ -40,6 +40,7 @@ export type Report = {
     inputs?: Report_InputFiles;
     domcreds?: Report_Duplicates;
     errors?: ItemError[];
+    version: string;        // version of utility that created this report
 };
 
 export type ReportRecords = Report[]; // root folder -> ReportRecord

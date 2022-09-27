@@ -11,6 +11,7 @@ import { SourceGroup } from "./app-arguments";
 import { templateStr } from "../utils/utils-report-template";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
 import { splitByKey } from "../utils/utils";
+import { programVersion } from "./app-help";
 
 // Manifest loading
 
@@ -114,7 +115,7 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
             sameDc: [],
             empty: [],
             failed: [],
-            report: { root: '' }
+            report: { root: '', version: programVersion, },
         };
 
         for (const file of sourceGroup.fnames) {
@@ -322,3 +323,5 @@ export function step4_FinalMakeReport(targetGroups: TargetGroup[]): void {
 
     notes.add(`All done`);
 }
+
+//TODO: add version to HID icon hover in the template project
