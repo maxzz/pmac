@@ -15,12 +15,12 @@ import { splitByKey } from "../utils/utils";
 // Manifest loading
 
 export type FileMeta = {
-    id: string;                 // file this run unique ID
+    id: string;                 // File this run unique ID
     mani: Mani.Manifest;        // Parsed manifest
     forms: Meta.Form[];         // Each form meta data
     urls: FormUrls[];           // Each form urls
     raw: string;                // Loaded file content
-    short: string;              // Filename relative to TargetGroup.root; const fname = path.join(f.root, f.short)
+    short: string;              // Filename relative to TargetGroup.root; const fname = path.join(f.root, f.short); it can be also 'c/filename.dpm'
 };
 
 export type SameDc = {          // Domain Credentials Duplicates; use the same creadential for the whole domain
@@ -185,12 +185,10 @@ function step_MakeBackupCopy(targetGroup: TargetGroup): void {
 
         files.forEach((f) => {
             if (f.raw) {
-                const fname = path.join(rootFolder, f.short); //TODO: check it for sub-folders
+                const fname = path.join(backupFolder, f.short);
                 const maybeSubFolder = path.dirname(fname);
                 osStuff.mkdirSync(maybeSubFolder);
-
-                const newFname = path.join(backupFolder, path.basename(fname));
-                fs.writeFileSync(newFname, f.raw);
+                fs.writeFileSync(fname, f.raw);
             }
         });
     }
@@ -261,7 +259,7 @@ export function step3_SaveResult(targetGroup: TargetGroup): void {
         try {
             targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
 
-            //step_MakeBackupCopy(targetGroup);
+            step_MakeBackupCopy(targetGroup);
             // step_Modify(targetGroup);
             // step_Save(targetGroup);
             // step4_FinalMakeReport(targetGroup);

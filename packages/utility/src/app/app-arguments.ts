@@ -70,7 +70,7 @@ export function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
             let files = filesAndDirs.files;
             const pmTestFolder = filesAndDirs.subs.find((dir) => path.basename(dir.name).toLowerCase() === 'c');
             if (pmTestFolder) {
-                const fnameWSubs = pmTestFolder.files.map((fileItem) => ({ ...fileItem, short: path.join('c', fileItem.short) }));
+                const fnameWSubs = pmTestFolder.files.map((fileItem) => ({ ...fileItem, short: path.join('C', fileItem.short) }));
                 files = files.concat(fnameWSubs);
             }
 

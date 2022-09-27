@@ -1,21 +1,21 @@
 export type FormData = {
-    domain?: string;        // domain
-    ourl?: string;          // original url
-    murl?: string;          // match url; it will be undefined if ourl === murl or ourl === undefined
-    oWoP?: string;          // original url wo/ params if ourl !== oWoP
+    domain?: string;        // Form domain
+    ourl?: string;          // Form original url
+    oWoP?: string;          // Form original url wo/ params if ourl !== oWoP
+    murl?: string;          // Form match url; it will be undefined if ourl === murl or ourl === undefined
 };
 
 export type ItemInputFile = {
-    id: string;             // file this run unique ID
-    idx: number,            // file index from all loaded files
+    id: string;             // File this run unique ID
+    idx: number,            // File index from all loaded files
     title: string;          // Login form title
-    urls: FormData[];       // manifest form urls
-    short: string;          // Filename relative to root; const fname = path.join(f.root, f.short)
+    urls: FormData[];       // Manifest form urls
+    short: string;          // Filename relative to TargetGroup.root; const fname = path.join(f.root, f.short); it can be also 'c/filename.dpm'
 };
 
 export type ItemDuplicate = {
     id: string;             // ItemInputFile ID
-    urls: string[];         // manifest form new modified urls //TODO: change to object vs. [undefined, url] -> filter(Boolean)
+    urls: string[];         // Manifest form new modified urls //TODO: change to object vs. [undefined, url] -> filter(Boolean)
 };
 
 export type ItemError = {
