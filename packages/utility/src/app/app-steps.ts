@@ -38,44 +38,6 @@ export type TargetGroup = {
     report: Report;             // report for this group
 };
 
-function loadManifests(sourceGroup: SourceGroup): TargetGroup {
-    const rv: TargetGroup = {
-        root: sourceGroup.root,
-        backup: path.join(sourceGroup.root, 'temp'),  // later it will be replaced by a more suitable one
-        files: [],
-        sameDc: [],
-        empty: [],
-        failed: [],
-        report: { root: '' }
-    };
-
-    for (const file of sourceGroup.fnames) {
-        const fname = path.join(sourceGroup.root, file);
-        try {
-            const cnt = fs.readFileSync(fname).toString();
-            const { mani } = parseXMLFile(cnt);
-            const forms = buildManiMetaForms(mani);
-
-            if (mani && forms.length) {
-                rv.files.push({
-                    id: uuid(),
-                    mani,
-                    forms,
-                    urls: [getFormUrls(forms[0]), getFormUrls(forms[1])],
-                    raw: cnt,
-                    short: file,
-                });
-            } else {
-                rv.empty.push(fname);
-            }
-        } catch (error) {
-            rv.failed.push(fname);
-        }
-    }
-
-    return rv;
-}
-
 // Manifest sorting
 
 function flatDcActive(sameDC: SameDc[]): FileMeta[] {
@@ -129,21 +91,6 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = loadManifests(sourceGroup);
     //printLoaded(targetGroup);
 
-    function formUrls(f: FileMeta, idx: number): ReportFormUrls | undefined {
-        const parts = f.urls[idx];
-        const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
-        // if (oWoP) {
-        //     console.log(`${chalk.green('ourl')} ${parts?.o}`);
-        //     console.log(`${chalk.gray('oWoP')} ${oWoP}`);
-        // }
-        return parts?.o ? {
-            domain: parts?.oParts?.domain,
-            ourl: parts?.o,
-            ...(oWoP && { oWoP }),
-            ...(parts?.o !== parts?.m && { murl: parts?.m }),
-        } : undefined;
-    }
-
     targetGroup.report.inputs = {
         input: targetGroup.files.map((f, idx) => {
             const urls = [formUrls(f, 0), formUrls(f, 1)].filter(Boolean);
@@ -158,7 +105,61 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     };
 
     return targetGroup;
-}
+
+    function loadManifests(sourceGroup: SourceGroup): TargetGroup {
+        const rv: TargetGroup = {
+            root: sourceGroup.root,
+            backup: path.join(sourceGroup.root, 'temp'),  // later it will be replaced by a more suitable one
+            files: [],
+            sameDc: [],
+            empty: [],
+            failed: [],
+            report: { root: '' }
+        };
+    
+        for (const file of sourceGroup.fnames) {
+            const fname = path.join(sourceGroup.root, file);
+            try {
+                const cnt = fs.readFileSync(fname).toString();
+                const { mani } = parseXMLFile(cnt);
+                const forms = buildManiMetaForms(mani);
+    
+                if (mani && forms.length) {
+                    rv.files.push({
+                        id: uuid(),
+                        mani,
+                        forms,
+                        urls: [getFormUrls(forms[0]), getFormUrls(forms[1])],
+                        raw: cnt,
+                        short: file,
+                    });
+                } else {
+                    rv.empty.push(fname);
+                }
+            } catch (error) {
+                rv.failed.push(fname);
+            }
+        }
+    
+        return rv;
+    }
+
+    function formUrls(f: FileMeta, idx: number): ReportFormUrls | undefined {
+        const parts = f.urls[idx];
+        const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
+        // if (oWoP) {
+        //     console.log(`${chalk.green('ourl')} ${parts?.o}`);
+        //     console.log(`${chalk.gray('oWoP')} ${oWoP}`);
+        // }
+        return parts?.o ? {
+            domain: parts?.oParts?.domain,
+            ourl: parts?.o,
+            ...(oWoP && { oWoP }),
+            ...(parts?.o !== parts?.m && { murl: parts?.m }),
+        } : undefined;
+    }
+    
+} //step1_LoadManifests()
 
 export function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
