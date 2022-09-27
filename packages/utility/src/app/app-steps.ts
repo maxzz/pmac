@@ -252,21 +252,7 @@ function step_Save(targetGroup: TargetGroup): void {
 
 }
 
-export function step3_SaveResult(targetGroup: TargetGroup): void {
-    if (targetGroup.sameDc.length) {
-        try {
-            targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
-
-            step_MakeBackupCopy(targetGroup);
-            // step_Modify(targetGroup);
-            // step_Save(targetGroup);
-            // step4_FinalMakeReport(targetGroup);
-        } catch (error) {
-        }
-    }
-}
-
-export function step4_FinalMakeReport(targetGroup: TargetGroup): void {
+function step_FinalMakeReport(targetGroup: TargetGroup): void {
 
     function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
         if (Object.keys(targetGroup.report).length) {
@@ -288,7 +274,21 @@ export function step4_FinalMakeReport(targetGroup: TargetGroup): void {
 
 }
 
-export function step_FinalMakeReport(targetGroups: TargetGroup[]): void {
+export function step3_SaveResult(targetGroup: TargetGroup): void {
+    if (targetGroup.sameDc.length) {
+        try {
+            targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
+
+            step_MakeBackupCopy(targetGroup);
+            // step_Modify(targetGroup);
+            // step_Save(targetGroup);
+            // step_FinalMakeReport(targetGroup);
+        } catch (error) {
+        }
+    }
+}
+
+export function step4_FinalMakeReport(targetGroups: TargetGroup[]): void {
 
     function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
         if (Object.keys(targetGroup.report).length) {

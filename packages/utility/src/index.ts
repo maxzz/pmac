@@ -3,7 +3,7 @@ import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
 import { help } from './app/app-help';
 import { getAndCheckTargets, getVerifiedFolders, SourceGroup, Targets } from './app/app-arguments';
-import { step2_FindSameDc, step1_LoadManifests, step_FinalMakeReport, TargetGroup, step3_SaveResult } from './app/app-steps';
+import { step2_FindSameDc, step1_LoadManifests, step4_FinalMakeReport, TargetGroup, step3_SaveResult } from './app/app-steps';
 import { notes } from './app/app-notes';
 
 function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
@@ -17,7 +17,7 @@ async function main() {
     let targets: Targets = getAndCheckTargets();
     const sourceGroups = getVerifiedFolders(targets);
     const targetGroups = sourceGroups.map(processSourceGroup);
-    step_FinalMakeReport(targetGroups);
+    step4_FinalMakeReport(targetGroups);
     notes.show();
 }
 
