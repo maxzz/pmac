@@ -71,7 +71,7 @@ export function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
             const pmTestFolder = filesAndDirs.subs.find((dir) => path.basename(dir.name).toLowerCase() === 'c');
             if (pmTestFolder) {
                 const fnameWSubs = pmTestFolder.files.map((fileItem) => ({ ...fileItem, short: path.join('c', fileItem.short) }));
-                files.concat(pmTestFolder.files);
+                files = files.concat(fnameWSubs);
             }
 
             const fnames = osStuff.filterByExtension(files.map((item) => item.short), '.dpm');

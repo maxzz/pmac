@@ -39,13 +39,13 @@ export type TargetGroup = {
 };
 
 function loadManifests(sourceGroup: SourceGroup): TargetGroup {
-    const rv: TargetGroup = { 
-        root: sourceGroup.root, 
+    const rv: TargetGroup = {
+        root: sourceGroup.root,
         backup: path.join(sourceGroup.root, 'temp'),  // later it will be replaced by a more suitable one
-        files: [], 
-        sameDc: [], 
-        empty: [], 
-        failed: [], 
+        files: [],
+        sameDc: [],
+        empty: [],
+        failed: [],
         report: { root: '' }
     };
 
@@ -179,10 +179,6 @@ export function step2_FindSameDc(targetGroup: TargetGroup) {
 }
 
 function step_MakeBackupCopy(targetGroup: TargetGroup): void {
-    if (!targetGroup.backup) {
-        throw new Error(`No backup folder for ${targetGroup.root}`); // this dev time only error
-    }
-    debugger;
 
     function makeBackupCopy(files: FileMeta[], rootFolder: string, backupFolder: string): void {
         osStuff.mkdirSync(backupFolder);
@@ -265,10 +261,10 @@ export function step3_SaveResult(targetGroup: TargetGroup): void {
         try {
             targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
 
-            step_MakeBackupCopy(targetGroup);
-            step_Modify(targetGroup);
-            step_Save(targetGroup);
-            step4_FinalMakeReport(targetGroup);
+            //step_MakeBackupCopy(targetGroup);
+            // step_Modify(targetGroup);
+            // step_Save(targetGroup);
+            // step4_FinalMakeReport(targetGroup);
         } catch (error) {
         }
     }
@@ -289,7 +285,7 @@ export function step4_FinalMakeReport(targetGroup: TargetGroup): void {
     const report: ReportRecords = [{ ...targetGroup.report, root: toUnix(targetGroup.root) }];
     const reportStr = JSON.stringify(report, null, 4);
     console.log('dataStr:\n', reportStr);
-    
+
     const fname = path.join(targetGroup.backup)
     const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
     //fs.writeFileSync()
