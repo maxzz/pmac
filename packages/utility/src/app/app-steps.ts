@@ -116,14 +116,14 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
             failed: [],
             report: { root: '' }
         };
-    
+
         for (const file of sourceGroup.fnames) {
             const fname = path.join(sourceGroup.root, file);
             try {
                 const cnt = fs.readFileSync(fname).toString();
                 const { mani } = parseXMLFile(cnt);
                 const forms = buildManiMetaForms(mani);
-    
+
                 if (mani && forms.length) {
                     rv.files.push({
                         id: uuid(),
@@ -140,7 +140,7 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
                 rv.failed.push(fname);
             }
         }
-    
+
         return rv;
     }
 
@@ -158,7 +158,7 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
             ...(parts?.o !== parts?.m && { murl: parts?.m }),
         } : undefined;
     }
-    
+
 } //step1_LoadManifests()
 
 export function step2_FindSameDc(targetGroup: TargetGroup) {
@@ -169,34 +169,31 @@ export function step2_FindSameDc(targetGroup: TargetGroup) {
             const makeSenseToProcces = loginStyle === Matching.Style.undef || loginStyle === Matching.Style.makeDomainMatch;
             return makeSenseToProcces ? loginForm?.oParts?.domain : undefined;
         });
-    
+
         const haveSameDc = Object.entries(byDomains).filter(([domain, files]) => files.length > 1);
-    
+
         const sameDC = haveSameDc.map(([domain, files]) => ({ domain, files }));
         return sameDC;
     }
-    
+
     targetGroup.sameDc = getSameDc(targetGroup.files);
 }
 
 function step_MakeBackupCopy(targetGroup: TargetGroup): void {
 
-    function makeBackupCopy(files: FileMeta[], rootFolder: string, backupFolder: string): void {
-        osStuff.mkdirSync(backupFolder);
-
+    function makeBackupCopy(files: FileMeta[], destFolder: string): void {
+        osStuff.mkdirSync(destFolder);
         files.forEach((f) => {
-            if (f.raw) {
-                const fname = path.join(backupFolder, f.short);
-                const maybeSubFolder = path.dirname(fname);
-                osStuff.mkdirSync(maybeSubFolder);
-                fs.writeFileSync(fname, f.raw);
-            }
+            const fname = path.join(destFolder, f.short);
+            const maybeSubFolder = path.dirname(fname);
+            osStuff.mkdirSync(maybeSubFolder);
+            fs.writeFileSync(fname, f.raw);
         });
     }
 
     try {
         const sameDC: FileMeta[] = flatDcActive(targetGroup.sameDc);
-        makeBackupCopy(sameDC, targetGroup.root, targetGroup.backup);
+        makeBackupCopy(sameDC, targetGroup.backup);
     } catch (error) {
         addError(targetGroup, {
             text: `Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${targetGroup.root}`,
@@ -285,7 +282,7 @@ export function step4_FinalMakeReport(targetGroup: TargetGroup): void {
     const reportStr = JSON.stringify(report, null, 4);
     console.log('dataStr:\n', reportStr);
 
-    const fname = path.join(targetGroup.backup)
+    const fname = path.join(targetGroup.backup);
     const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
     //fs.writeFileSync()
 
