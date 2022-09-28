@@ -13,3 +13,7 @@ function shift(ch: string) {
         ? String.fromCharCode((code + (code % 2 === 0 ? 1 : 2)))
         : ch;
 }
+
+function shiftStr(str: string) {
+    return str.split('').map(shift).join('');
+}
