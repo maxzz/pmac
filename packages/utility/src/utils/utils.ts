@@ -7,14 +7,22 @@ export function splitByKey<T>(items: T[], keyFn: (item: T) => string | undefined
     return rv;
 }
 
+const useStable = 0; // 0 - use unrecoverable/random/unstable hash; 1 - use constant hash
+
 function shift(ch: string) {
-    const hash = 0 ? 1 : Math.round(Math.random()); // 0 - use unrecoverable/random/unstable hash; 1 - use constant hash
-    return (ch >= 'a' && ch <= 'y') || (ch >= 'A' && ch <= 'Y')
-        ? String.fromCharCode((ch.charCodeAt(0) + hash))
-        : ch;
+    const hash = useStable ? 1 : Math.round(Math.random());
+    return (
+        ch === 'z'
+            ? 'a'
+            : ch === 'Z'
+                ? 'A'
+                : (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')
+                    ? String.fromCharCode((ch.charCodeAt(0) + hash))
+                    : ch
+    );
 }
 
-function shiftStr(str: string) {
+function hashStr(str: string) {
     return str.split('').map(shift).join('');
 }
 
@@ -22,8 +30,8 @@ export function makeTestUrl(url: string) {
     const m = url.match(/^(https?:\/\/)([^\/]*)([\s\S]*)$/);
     if (m) {
         const [, prefix = '', domain = '', path = ''] = m;
-        const domainParts = domain.split('.').map((part) => part.match(/(com|org|net|gov)/) ? part : shiftStr(part)).join('.');
-        return `${prefix}${domainParts}${shiftStr(path)}`;
+        const domainParts = domain.split('.').map((part) => part.match(/(com|org|net|gov)/) ? part : hashStr(part)).join('.');
+        return `${prefix}${domainParts}${hashStr(path)}`;
     }
     return url;
 }
