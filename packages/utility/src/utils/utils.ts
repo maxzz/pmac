@@ -17,3 +17,14 @@ function shift(ch: string) {
 function shiftStr(str: string) {
     return str.split('').map(shift).join('');
 }
+
+export function makeTestUrl(url: string) {
+    const m = url.match(/^(https?:\/\/)([^\/]*)([\s\S]*)$/);
+    if (m) {
+        const prefix = m[1] || '';
+        const domain = m[2] || '';
+        const path = m[3] || '';
+        return `${prefix}${domain}${path}`;
+    }
+    return url;
+}
