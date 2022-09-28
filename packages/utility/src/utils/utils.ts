@@ -6,3 +6,7 @@ export function splitByKey<T>(items: T[], keyFn: (item: T) => string | undefined
     });
     return rv;
 }
+
+function shift(ch: string) {
+    return (ch >= 'a' && ch <= 'y') || (ch >= 'A' && ch <= 'Y') ? String.fromCharCode((ch.charCodeAt(0) + 1)) : ch;
+}
