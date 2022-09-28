@@ -5,7 +5,7 @@ function main() {
     const rootDir = path.dirname(process.argv[1]); // get this script folder
 
     const fnameSkeleton = path.resolve(rootDir, '../dist/index--single.html'); // relative to this script folder
-    const fnameJsonData = path.resolve(rootDir, '../src/utils/test-data.json'); // relative to this script folder
+    const fnameJsonData = path.resolve(rootDir, '../src/utils/test-data-github.json'); // relative to this script folder
 
     if (!fs.existsSync(fnameSkeleton)) {
         console.log(`\nFirst create \n      ${fnameSkeleton} \n      by running 'yarn make-template' and then run this script.`);

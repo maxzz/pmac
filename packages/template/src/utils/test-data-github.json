@@ -1,0 +1,398 @@
+[
+    {
+        "root": "c:/Y/w/2-web/0-dp/utils/pm-domain-credentials-switch/packages/utility/tests/01",
+        "version": "1.2.8",
+        "date": 1664268230859,
+        "inputs": {
+            "input": [
+                {
+                    "id": "l8jxz0ew",
+                    "idx": 0,
+                    "urls": [
+                        {
+                            "domain": "yahoo.org",
+                            "ourl": "https://bank.yahoo.org/financial/Login?code=COMMUNITY%23COMMUNITY_SAFE",
+                            "oWoP": "https://bank.yahoo.org/financial/login"
+                        }
+                    ],
+                    "title": "Bank Training - First-Time User",
+                    "short": "aapr.org{28ffdef1-210e-4c78-b77e-a87a80b4bfbb}.dpm"
+                },
+                {
+                    "id": "l8jxz0ey",
+                    "idx": 1,
+                    "urls": [
+                        {
+                            "domain": "yahoo.org",
+                            "ourl": "https://bank.yahoo.org/account/Login?ReturnUrl=%2F",
+                            "oWoP": "https://bank.yahoo.org/account/login"
+                        }
+                    ],
+                    "title": "Bank Training",
+                    "short": "aapr.org{c06ec934-4be0-4785-8540-d3e985aeadd5}.dpm"
+                },
+                {
+                    "id": "l8jxz0ez",
+                    "idx": 2,
+                    "urls": [
+                        {
+                            "domain": "metoo.com",
+                            "ourl": "https://onboardadvisor.metoo.com/"
+                        }
+                    ],
+                    "title": "MeToo - Onboard Adviser",
+                    "short": "metoo.com.{6d268ceb-01d5-4b29-a38b-5771eca42568}.dpm"
+                },
+                {
+                    "id": "l8jxz0f0",
+                    "idx": 3,
+                    "urls": [
+                        {
+                            "domain": "metoo.com",
+                            "ourl": "https://www.workplace.app.metoo.com/#/authentication/login/Login",
+                            "oWoP": "https://www.workplace.app.metoo.com/"
+                        }
+                    ],
+                    "title": "Safe Workplace - MeToo Vantage",
+                    "short": "metoo.com.{78d225a8-ab93-4375-9383-582f9a3f6b90}.dpm"
+                },
+                {
+                    "id": "l8jxz0f1",
+                    "idx": 4,
+                    "urls": [
+                        {
+                            "domain": "metoo.com",
+                            "ourl": "https://www.workplace.app.metoo.com/#/authentication/login/Login",
+                            "oWoP": "https://www.workplace.app.metoo.com/"
+                        }
+                    ],
+                    "title": "Safe Workplace",
+                    "short": "metoo.com.{7efa6dd7-be39-476a-bdee-a70929918662}.dpm"
+                },
+                {
+                    "id": "l8jxz0f2",
+                    "idx": 5,
+                    "urls": [
+                        {
+                            "domain": "metoo.com",
+                            "ourl": "https://bankac.customsource.metoo.com/Login.epm"
+                        }
+                    ],
+                    "title": "MeToo Source Advantage",
+                    "short": "metoo.com.{9667a3e4-6f7f-4a92-a09a-3c7a3c5f7f0c}.dpm"
+                },
+                {
+                    "id": "l8jxz0f3",
+                    "idx": 6,
+                    "urls": [
+                        {
+                            "domain": "metoo.com",
+                            "ourl": "https://ipcws.metoo.com/CWS.WEB/Login.aspx"
+                        }
+                    ],
+                    "title": "TCM Return",
+                    "short": "metoo.com.{c330549b-bc7f-41db-91ea-14b8fe0eac0c}.dpm"
+                },
+                {
+                    "id": "l8jxz0f4",
+                    "idx": 7,
+                    "urls": [
+                        {
+                            "domain": "metoo.com",
+                            "ourl": "https://www.bankintelligence.metoo.com/main/bancAnalyst/login"
+                        }
+                    ],
+                    "title": "MeToo Intelligence/Analyst/Business",
+                    "short": "metoo.com.{c857ed8e-5e08-48c2-ac5e-be1495b7b5a3}.dpm"
+                },
+                {
+                    "id": "l8jxz0f5",
+                    "idx": 8,
+                    "urls": [
+                        {
+                            "domain": "onemetoo.com",
+                            "ourl": "https://oa-mc-cert.onemetoo.com/"
+                        }
+                    ],
+                    "title": "MeToo - Onboard Advisor - Training",
+                    "short": "onemetoo.com.{5518a6d0-ee18-4e0b-89ae-be1e6effed62}.dpm"
+                },
+                {
+                    "id": "l8jxz0f6",
+                    "idx": 9,
+                    "urls": [
+                        {
+                            "domain": "gencontrol.com",
+                            "ourl": "https://app.gencontrol.com/Core/Authentication/Login?ReturnUrl=https%3A%2F%2Fapp.gencontrol.com%2FBRI%2FAlertManagement%3FswitchTo%3D7085",
+                            "oWoP": "https://app.gencontrol.com/core/authentication/login"
+                        }
+                    ],
+                    "title": "Managed Risk and Security Services",
+                    "short": "{0a58d2be-9441-4860-ae5b-cb3cb09de112}.dpm"
+                },
+                {
+                    "id": "l8jxz0f7",
+                    "idx": 10,
+                    "urls": [
+                        {
+                            "domain": "castmime.com",
+                            "ourl": "https://brighthorizons.login-us.castmime.com/u/login/?gta=secure#/login",
+                            "oWoP": "https://brighthorizons.login-us.castmime.com/u/login/"
+                        },
+                        {
+                            "domain": "castmime.com",
+                            "ourl": "https://brighthorizons.login-us.castmime.com/u/login/?gta=secure#/reset-password/",
+                            "oWoP": "https://brighthorizons.login-us.castmime.com/u/login/"
+                        }
+                    ],
+                    "title": "Secure Message",
+                    "short": "{0a60444f-1a89-4b1d-8a7f-c3b87c3b7f80}.dpm"
+                },
+                {
+                    "id": "l8jxz0f8",
+                    "idx": 11,
+                    "urls": [],
+                    "title": "Trust",
+                    "short": "{2de7d301-a9cb-4b81-8541-44d483f326fe}.dpm"
+                },
+                {
+                    "id": "l8jxz0f9",
+                    "idx": 12,
+                    "urls": [
+                        {
+                            "domain": "cotana.com",
+                            "ourl": "https://secure5a.cotana.com/arcotadmin/bamlogin.htm"
+                        },
+                        {
+                            "domain": "cotana.com",
+                            "ourl": "https://secure5a.cotana.com/arcotadmin/bamlogin.htm"
+                        }
+                    ],
+                    "title": "Secure Signon",
+                    "short": "{2f8fd1e2-2db4-400e-943c-a1b8d13f9e09}.dpm"
+                },
+                {
+                    "id": "l8jxz0fa",
+                    "idx": 13,
+                    "urls": [
+                        {
+                            "domain": "methree.net",
+                            "ourl": "http://shop.methree.net/"
+                        }
+                    ],
+                    "title": "James Bond Supply Homepage",
+                    "short": "C/bug89340.{45aa19f6-7a35-4ce7-9806-21ea9376ae94}.dpm"
+                },
+                {
+                    "id": "l8jxz0fb",
+                    "idx": 14,
+                    "urls": [
+                        {
+                            "domain": "methree.net",
+                            "ourl": "https://shop.methree.net/Authentication/Login"
+                        }
+                    ],
+                    "title": "James Bond Office Supplies",
+                    "short": "C/bug89340.{d4d24871-a874-4772-b2ff-a6208fa48fa2}.dpm"
+                },
+                {
+                    "id": "l8jxz0fc",
+                    "idx": 15,
+                    "urls": [
+                        {
+                            "domain": "starcu.org",
+                            "ourl": "https://support.starcu.org/login/login"
+                        }
+                    ],
+                    "title": "John Wayne Login",
+                    "short": "C/{05567745-0030-4599-9050-4ca3669bb343}.dpm"
+                },
+                {
+                    "id": "l8jxz0fd",
+                    "idx": 16,
+                    "urls": [
+                        {
+                            "domain": "microsoftonline.com",
+                            "ourl": "https://login.microsoftonline.com/te/meeservservicepoint.onmicrosoft.com/B2C_1A_Prod_sn_signin/samlp/sso/login?SAMLRequest=lVLBbptAEP0VtHfArO0mWRlLxFZVS2mKYjeHXqw1DM5KywzdWUj79wVM0%2FRiKdeZN%2B%2B9eTMr1rWVjcpa%2F4JP8LMF9sGv2iKrSycVrUNFmg0r1DWw8oXaZ18flIxmqnHkqSArgowZnDeEG0Jua3B7cJ0p4PvTQypevG9YxXFlelAX8aUVIr1GBdUx6q7RZ4hKEsG2N2BQD0z%2F5iydDUa1KRwxVZ7QGoRx1MNEOnE2ZNBHhG%2FYEXUvN8ckO%2BaOyiPjkc0ZDcbDgk3MTBd%2BEXwmV8CYRCoqbRlEsNumYv%2B4metTtSw%2FJSe4K%2BRiDrI4lYm%2BkUkCd7dzKHsg55rZdJAK79phkrmFHbLX6FMhZ8ltOFuGUh6SGyWXaiGjZLb4IYJ8ivDeYGnwfD3v0wXE6svhkIf5t%2F1hJOhMCe6xR38o6mdwPMbcM4v1ary3Gm279y9w3ZH%2Be3exvi69it8LTHKNGlzvtjlZU%2FwOMmvpdeNA%2B7cY%2B5vU2l%2F3MFRMGVYjVDXDWuwBvYjXk%2Br%2FD77%2BAw%3D%3D&RelayState=https%3A%2F%2Fmeeserv.service-now.com%2Fnav_to.do%3Furi%3D%252FIRG_Collapse_Kb_View_Customer.do%253Fsysparm_article%253DKB0133020",
+                            "oWoP": "https://login.microsoftonline.com/te/meeservservicepoint.onmicrosoft.com/b2c_1a_prod_sn_signin/samlp/sso/login",
+                            "murl": "[m0]:4:2:https^2dot;//servicepoint.meeservapps.com"
+                        }
+                    ],
+                    "title": "MS Service Point",
+                    "short": "C/{176b24a3-ce71-4ac1-8ee5-d7fa1f887f53}.dpm"
+                },
+                {
+                    "id": "l8jxz0fe",
+                    "idx": 17,
+                    "urls": [
+                        {
+                            "domain": "csod.com",
+                            "ourl": "https://myday.csod.com/client/myday/default.aspx"
+                        },
+                        {
+                            "domain": "csod.com",
+                            "ourl": "https://myday.csod.com/resetPasswrd.aspx?token=VR11wQSGa1WK1alxN5AO&c=myday&l=en-US",
+                            "oWoP": "https://myday.csod.com/resetpasswrd.aspx"
+                        }
+                    ],
+                    "title": "Learning Center",
+                    "short": "C/{2bd7b639-d7c6-4377-b42c-4e59d02ba1e0}.dpm"
+                },
+                {
+                    "id": "l8jxz0ff",
+                    "idx": 18,
+                    "urls": [
+                        {
+                            "domain": "attsolutions.com",
+                            "ourl": "https://watchdogpro.attsolutions.com/logon.aspx"
+                        },
+                        {
+                            "domain": "attsolutions.com",
+                            "ourl": "https://watchdogpro.attsolutions.com/AdminUserResetPass.aspx?r=y",
+                            "oWoP": "https://watchdogpro.attsolutions.com/adminuserresetpass.aspx"
+                        }
+                    ],
+                    "title": "Watch",
+                    "short": "C/{47fe6a4b-c82c-4f42-b2ef-16895e7b60ba}.dpm"
+                },
+                {
+                    "id": "l8jxz0fg",
+                    "idx": 19,
+                    "urls": [],
+                    "title": "Compass",
+                    "short": "C/{498cb5c7-c7dd-4eff-8cd6-a56f0a91f8c8}.dpm"
+                },
+                {
+                    "id": "l8jxz0fh",
+                    "idx": 20,
+                    "urls": [
+                        {
+                            "domain": "my2day.com",
+                            "ourl": "https://signin.resourcecenter.my2day.com/"
+                        }
+                    ],
+                    "title": "my2day Learning Center",
+                    "short": "C/{5755a710-4285-4356-bdaf-e8ee08c9dcff}.dpm"
+                },
+                {
+                    "id": "l8jxz0fi",
+                    "idx": 21,
+                    "urls": [
+                        {
+                            "domain": "checksemifree.com",
+                            "ourl": "https://partnercare.checksemifree.com/PartnerCareUI/Pages/Login/Login.aspx"
+                        },
+                        {
+                            "domain": "checksemifree.com",
+                            "ourl": "https://partnercare.checksemifree.com/PartnerCareUI/Pages/Login/ChangePwdExpired.aspx"
+                        }
+                    ],
+                    "title": "PartnerCare CheckSemiFree Old",
+                    "short": "C/{63b8feef-c560-4777-b26a-70413303c096}.dpm"
+                },
+                {
+                    "id": "l8jxz0fj",
+                    "idx": 22,
+                    "urls": [
+                        {
+                            "domain": "fanny.com",
+                            "ourl": "https://glass.fanny.com/fl8ui/#/signin/forgot-password",
+                            "oWoP": "https://glass.fanny.com/fl8ui/"
+                        }
+                    ],
+                    "title": "Fanny User ID",
+                    "short": "C/{6da4a61a-1fca-40f8-b5ad-4ce5868a0584}.dpm"
+                },
+                {
+                    "id": "l8jxz0fk",
+                    "idx": 23,
+                    "urls": [
+                        {
+                            "domain": "mortgage.net",
+                            "ourl": "https://encompass.mortgage.net/EncompassAccount/AccountLogin.aspx"
+                        }
+                    ],
+                    "title": "Compass Loan Center",
+                    "short": "C/{98a03026-7953-4267-9c43-67da3356424c}.dpm"
+                },
+                {
+                    "id": "l8jxz0fl",
+                    "idx": 24,
+                    "urls": [
+                        {
+                            "domain": "ellie.com",
+                            "ourl": "https://idp.ellie.com/authorize?client_id=n35xg3ze&response_type=code&redirect_uri=https://encompass.ellie.com/homepage/atest.asp&scope=sc&instance_id=BE11175106",
+                            "oWoP": "https://idp.ellie.com/authorize"
+                        }
+                    ],
+                    "title": "Compass",
+                    "short": "C/{d1a7d718-b827-455d-9d4d-d5b5bafef0a1}.dpm"
+                }
+            ]
+        },
+        "domcreds": {
+            "multiple": [
+                {
+                    "id": "l8jxz0ew",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//bank.yahoo.org/financial/Login?code=COMMUNITY%23COMMUNITY_SAFE"
+                    ]
+                },
+                {
+                    "id": "l8jxz0ey",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//bank.yahoo.org/account/Login?ReturnUrl=%2F"
+                    ]
+                },
+                {
+                    "id": "l8jxz0ez",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//onboardadvisor.metoo.com/"
+                    ]
+                },
+                {
+                    "id": "l8jxz0f0",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//www.workplace.app.metoo.com/#/authentication/login/Login"
+                    ]
+                },
+                {
+                    "id": "l8jxz0f1",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//www.workplace.app.metoo.com/#/authentication/login/Login"
+                    ]
+                },
+                {
+                    "id": "l8jxz0f2",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//bankac.customsource.metoo.com/Login.epm"
+                    ]
+                },
+                {
+                    "id": "l8jxz0f3",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//ipcws.metoo.com/CWS.WEB/Login.aspx"
+                    ]
+                },
+                {
+                    "id": "l8jxz0f4",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//www.bankintelligence.metoo.com/main/bancAnalyst/login"
+                    ]
+                },
+                {
+                    "id": "l8jxz0fa",
+                    "urls": [
+                        "[m0]:2:8:http^2dot;//shop.methree.net/"
+                    ]
+                },
+                {
+                    "id": "l8jxz0fb",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//shop.methree.net/Authentication/Login"
+                    ]
+                }
+            ]
+        }
+    }
+]
