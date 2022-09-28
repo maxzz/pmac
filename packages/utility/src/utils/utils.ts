@@ -8,7 +8,10 @@ export function splitByKey<T>(items: T[], keyFn: (item: T) => string | undefined
 }
 
 function shift(ch: string) {
-    return (ch >= 'a' && ch <= 'x') || (ch >= 'A' && ch <= 'X') ? String.fromCharCode((ch.charCodeAt(0) + Math.round(Math.random()))) : ch;
+    const hash = 0 ? 1 : Math.round(Math.random()); // 0 - use unrecoverable/random/unstable hash; 1 - use constant hash
+    return (ch >= 'a' && ch <= 'y') || (ch >= 'A' && ch <= 'Y')
+        ? String.fromCharCode((ch.charCodeAt(0) + hash))
+        : ch;
 }
 
 function shiftStr(str: string) {
@@ -18,10 +21,8 @@ function shiftStr(str: string) {
 export function makeTestUrl(url: string) {
     const m = url.match(/^(https?:\/\/)([^\/]*)([\s\S]*)$/);
     if (m) {
-        const prefix = m[1] || '';
-        const domain = m[2] || '';
-        const path = m[3] || '';
-        const domainParts = domain.split('.').map((part) => part.match(/(com|org)/) ? part : shiftStr(part)).join('.');
+        const [, prefix = '', domain = '', path = ''] = m;
+        const domainParts = domain.split('.').map((part) => part.match(/(com|org|net|gov)/) ? part : shiftStr(part)).join('.');
         return `${prefix}${domainParts}${shiftStr(path)}`;
     }
     return url;
