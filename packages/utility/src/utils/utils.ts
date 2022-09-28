@@ -8,12 +8,7 @@ export function splitByKey<T>(items: T[], keyFn: (item: T) => string | undefined
 }
 
 function shift(ch: string) {
-    const code = ch.charCodeAt(0);
-    return (ch >= 'a' && ch <= 'x') || (ch >= 'A' && ch <= 'X')
-        // ? String.fromCharCode((code + (code % 2 === 0 ? 1 : 2)))
-        // ? String.fromCharCode((code + 1))
-        ? String.fromCharCode((code + Math.round(Math.random())))
-        : ch;
+    return (ch >= 'a' && ch <= 'x') || (ch >= 'A' && ch <= 'X') ? String.fromCharCode((ch.charCodeAt(0) + Math.round(Math.random()))) : ch;
 }
 
 function shiftStr(str: string) {
