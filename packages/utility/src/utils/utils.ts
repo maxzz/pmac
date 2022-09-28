@@ -10,7 +10,8 @@ export function splitByKey<T>(items: T[], keyFn: (item: T) => string | undefined
 function shift(ch: string) {
     const code = ch.charCodeAt(0);
     return (ch >= 'a' && ch <= 'x') || (ch >= 'A' && ch <= 'X')
-        ? String.fromCharCode((code + (code % 2 === 0 ? 1 : 2)))
+        // ? String.fromCharCode((code + (code % 2 === 0 ? 1 : 2)))
+        ? String.fromCharCode((code + 1))
         : ch;
 }
 
@@ -24,7 +25,7 @@ export function makeTestUrl(url: string) {
         const prefix = m[1] || '';
         const domain = m[2] || '';
         const path = m[3] || '';
-        return `${prefix}${domain}${path}`;
+        return `${prefix}${shiftStr(domain)}${shiftStr(path)}`;
     }
     return url;
 }
