@@ -17,6 +17,7 @@
     "scripts": {
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
         "template": "yarn workspace @pmac/template template",
+        "makebin": "yarn workspace @pmac/utility makebin",
         "predeploy": "yarn workspace @pmac/template predeploy",
         "deploy": "gh-pages -d ./packages/template/dist-gh"
     },

@@ -8,7 +8,8 @@
     "scripts": {
         "dev": "tsc -w",
         "build": "rm -rf dist && tsc",
-        "makebin": "yarn build && pkg -t host --compress Brotli -o pmac dist/index.js"
+        "copy": "xcopy pmac.exe \"./../..\" /Y",
+        "makebin": "yarn build && pkg -t host -o pmac dist/index.js && yarn copy"
     },
     "dependencies": {
         "@pmac/shared-types": "1.0.0",
