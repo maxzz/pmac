@@ -6,7 +6,9 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "dev": "tsc -w"
+        "dev": "tsc -w",
+        "build": "rm -rf dist && tsc",
+        "makebin": "yarn build && pkg -t host --compress Brotli -o pmac dist/index.js"
     },
     "dependencies": {
         "@pmac/shared-types": "1.0.0",

@@ -1,8 +1,8 @@
 {
     "name": "pmac",
-    "version": "1.2.8",
+    "version": "1.4.0",
     "author": "Max Zakharzhevskiy",
-    "description": "Password manager domain credential switch utility",
+    "description": "Password manager administrator commands",
     "private": true,
     "license": "MIT",
     "main": "index.js",
@@ -16,8 +16,6 @@
     ],
     "scripts": {
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
-        "build": "rm -rf dist && tsc",
-        "makebin": "yarn build && pkg -t host -o pmac dist/index.js",
         "template": "yarn workspace @pmac/template template",
         "predeploy": "yarn workspace @pmac/template predeploy",
         "deploy": "gh-pages -d ./packages/template/dist-gh"
