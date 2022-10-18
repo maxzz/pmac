@@ -8,7 +8,7 @@
     "scripts": {
         "dev": "tsc -w",
         "build": "rm -rf dist && tsc",
-        "copy": "xcopy pmac.exe \"./../..\" /Y",
+        "copy": "robocopy . ./../.. pmac.exe /MOV",
         "makebin": "yarn build && pkg -t host -o pmac dist/index.js && yarn copy"
     },
     "dependencies": {
