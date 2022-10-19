@@ -42,7 +42,14 @@ export async function getAndCheckTargets(): Promise<Targets> {
     if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
         console.log(chalk.red('no options'));
 
-        //prompts
+        const response = await prompts({
+            type: 'number',
+            name: 'value',
+            message: 'How old are you?',
+            validate: value => value < 18 ? `Nightclub is 18+ only` : true
+          });
+        
+          console.log(response); // => { value: 24 }
     }
 
     return { files: [], dirs: [] };
