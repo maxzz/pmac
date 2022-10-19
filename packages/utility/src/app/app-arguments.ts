@@ -15,7 +15,7 @@ type RealArgs = {
     'dc': boolean;
     'addPrefix': boolean;
     'removePrefix': boolean;
-}
+};
 
 export async function getAndCheckTargets(): Promise<Targets> {
     type ArgsType = {
@@ -26,7 +26,7 @@ export async function getAndCheckTargets(): Promise<Targets> {
         'a': boolean;
         'r': boolean;
     };
-    
+
     let args: ArgsType = minimist<ArgsType>(process.argv.slice(2), {
         boolean: ['dc', 'add-prefix', 'remove-prefix'],
         alias: {
@@ -36,20 +36,44 @@ export async function getAndCheckTargets(): Promise<Targets> {
         },
     });
 
-    const {'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix} = args;
-    const realArgs: RealArgs = {dc, addPrefix, removePrefix};
+    const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix } = args;
+    const realArgs: RealArgs = { dc, addPrefix, removePrefix };
 
     if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
         console.log(chalk.red('no options'));
 
+        /*1*/
         const response = await prompts({
             type: 'number',
             name: 'value',
             message: 'How old are you?',
             validate: value => value < 18 ? `Nightclub is 18+ only` : true
-          });
-        
-          console.log(response); // => { value: 24 }
+        });
+
+        console.log(response); // => { value: 24 }
+
+        /*2*/
+        const questions: prompts.PromptObject[] = [
+            {
+                type: 'text',
+                name: 'username',
+                message: 'What is your GitHub username?'
+            },
+            {
+                type: 'number',
+                name: 'age',
+                message: 'How old are you?'
+            },
+            {
+                type: 'text',
+                name: 'about',
+                message: 'Tell something about yourself',
+                initial: 'Why should I?'
+            }
+        ];
+
+        const response2 = await prompts(questions);
+        console.log('response2', response2);
     }
 
     return { files: [], dirs: [] };
