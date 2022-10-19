@@ -3,8 +3,8 @@ import path from 'path';
 import { exist } from '../utils/unique-names';
 import { newErrorArgs } from '../utils/utils-errors';
 import { osStuff } from '../utils/utils-os';
-import minimist from 'minimist';
 import prompts from 'prompts';
+import { getMinimistArgs, MinimistArgs } from './app-help';
 
 export type Targets = {
     files: string[];
@@ -44,8 +44,7 @@ async function getTaskTodo(realArgs: RealArgs) {
 }
 
 function getTargets(unnamed: string[] = []): Targets {
-    let rv: Targets = { files: [], dirs: [], };
-
+    let rv: Targets = { files: [], dirs: [] };
     for (let target of unnamed) {
         let current: string = path.resolve(target); // relative to the start up folder
         let st = exist(current);
@@ -63,26 +62,11 @@ function getTargets(unnamed: string[] = []): Targets {
 }
 
 export async function getAndCheckTargets(): Promise<Targets> {
-    type MinimistArgs = {
-        'dc': boolean;
-        'add-prefix': boolean;
-        'remove-prefix': boolean;
-        'd': boolean;
-        'a': boolean;
-        'r': boolean;
-        _: string[];
-    };
-
-    let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
-        boolean: ['dc', 'add-prefix', 'remove-prefix'],
-        alias: {
-            'd': 'dc',
-            'a': 'add-prefix',
-            'r': 'remove-prefix',
-        },
-    });
+    let args: MinimistArgs = getMinimistArgs();
 
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix } = args;
+    
+    
     const realArgs: RealArgs = { dc, addPrefix, removePrefix, targets: { files: [], dirs: [], } };
 
     await getTaskTodo(realArgs);
@@ -91,28 +75,6 @@ export async function getAndCheckTargets(): Promise<Targets> {
     realArgs.targets = getTargets(args._);
 
     return { files: [], dirs: [] };
-
-    /** /
-    let argTargets: string[] = args._ || [];
-
-    let rv: Targets = { files: [], dirs: [], };
-
-    for (let target of argTargets) {
-        let current: string = path.resolve(target); // relative to the start up folder
-        let st = exist(current);
-        if (st) {
-            if (st.isDirectory()) {
-                rv.dirs.push(current);
-            } else if (st.isFile()) {
-                rv.files.push(current); // TODO: Check all files should have the same root folder. That is not possible with drag and drop, but still ...
-            }
-        } else {
-            throw newErrorArgs(`Target "${target}" does not exist.`);
-        }
-    }
-
-    return rv;
-    /**/
 }
 
 export type SourceGroup = {
