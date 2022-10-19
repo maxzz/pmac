@@ -42,59 +42,25 @@ export async function getAndCheckTargets(): Promise<Targets> {
     if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
         console.log(chalk.red('no options'));
 
-        /*1*/
-        const response = await prompts({
-            type: 'number',
-            name: 'value',
-            message: 'How old are you?',
-            validate: value => value < 18 ? `Nightclub is 18+ only` : true
-        });
-
-        console.log(response); // => { value: 24 }
-
-        /*2*/
         const questions: prompts.PromptObject[] = [
-            // {
-            //     type: 'text',
-            //     name: 'username',
-            //     message: 'What is your GitHub username?'
-            // },
-            // {
-            //     type: 'number',
-            //     name: 'age',
-            //     message: 'How old are you?'
-            // },
-            // {
-            //     type: 'text',
-            //     name: 'about',
-            //     message: 'Tell something about yourself',
-            //     initial: 'Why should I?'
-            // },
-            // {
-            //     type: 'multiselect',
-            //     name: 'color',
-            //     message: 'Pick colors',
-            //     choices: [
-            //         { title: 'Red', value: '#ff0000' },
-            //         { title: 'Green', value: '#00ff00' },
-            //         { title: 'Blue', value: '#0000ff' }
-            //     ],
-            // }
             {
                 type: 'select',
-                name: 'value',
-                message: 'Pick a color',
+                name: 'job',
+                message: 'Select a task to complete',
                 choices: [
-                    { title: 'Red', description: 'This option has a description', value: '#ff0000' },
-                    { title: 'Green', value: '#00ff00', disabled: true },
-                    { title: 'Blue', value: '#0000ff' }
+                    { title: 'Domain credentials', value: 'dc', description: 'Switch to credentials that apply only to a specific URL',  },
+                    { title: 'Add prefix', value: 'addPrefix', description: 'Add domain name as prefix to manifest filenames',  },
+                    { title: 'Remove prefix', value: 'removePrefix', description: 'Remove domain name prefix from manifest filenames',  },
+                    { title: 'Exit', value: '', description: 'Do nothing, just exit' },
                 ],
-                initial: 1
-            }
+                initial: 0,
+            },
         ];
 
         const response2 = await prompts(questions);
         console.log('response2', response2);
+
+        throw new Error('Chosen to do nothing, just exit.');
     }
 
     return { files: [], dirs: [] };
