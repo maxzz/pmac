@@ -13,13 +13,15 @@
     },
     "dependencies": {
         "@pmac/shared-types": "1.0.0",
+        "@pmac/template": "1.0.0",
         "chalk": "4.1.2",
         "fast-xml-parser": "^4.0.9",
         "minimist": "^1.2.5",
-        "rimraf": "^3.0.2",
-        "@pmac/template": "1.0.0"
+        "prompts": "^2.4.2",
+        "rimraf": "^3.0.2"
     },
     "devDependencies": {
+        "@types/minimist": "^1.2.2",
         "@types/node": "18.7.14",
         "@types/rimraf": "^3.0.0"
     }
