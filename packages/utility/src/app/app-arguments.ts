@@ -12,22 +12,24 @@ export type Targets = {
 };
 
 type RealArgs = {
-    'dc': boolean;
-    'addPrefix': boolean;
-    'removePrefix': boolean;
+    dc: boolean;
+    addPrefix: boolean;
+    removePrefix: boolean;
+    unnamed: string[];
 };
 
 export async function getAndCheckTargets(): Promise<Targets> {
-    type ArgsType = {
+    type MinimistArgs = {
         'dc': boolean;
         'add-prefix': boolean;
         'remove-prefix': boolean;
         'd': boolean;
         'a': boolean;
         'r': boolean;
+        _: string[];
     };
 
-    let args: ArgsType = minimist<ArgsType>(process.argv.slice(2), {
+    let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
         boolean: ['dc', 'add-prefix', 'remove-prefix'],
         alias: {
             'd': 'dc',
@@ -37,7 +39,7 @@ export async function getAndCheckTargets(): Promise<Targets> {
     });
 
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix } = args;
-    const realArgs: RealArgs = { dc, addPrefix, removePrefix };
+    const realArgs: RealArgs = { dc, addPrefix, removePrefix, unnamed: args._ };
 
     if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
         console.log(chalk.red('no options'));
@@ -63,9 +65,9 @@ export async function getAndCheckTargets(): Promise<Targets> {
         throw new Error('Chosen to do nothing, just exit.');
     }
 
-    return { files: [], dirs: [] };
+    //return { files: [], dirs: [] };
 
-    /*
+    /**/
     let argTargets: string[] = args._ || [];
 
     let rv: Targets = { files: [], dirs: [], };
@@ -85,7 +87,7 @@ export async function getAndCheckTargets(): Promise<Targets> {
     }
 
     return rv;
-    */
+    /**/
 }
 
 export type SourceGroup = {
