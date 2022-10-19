@@ -3,14 +3,30 @@ import path from 'path';
 import { exist } from '../utils/unique-names';
 import { newErrorArgs } from '../utils/utils-errors';
 import { osStuff } from '../utils/utils-os';
+import minimist from 'minimist';
 
 export type Targets = {
     files: string[];
     dirs: string[];
 };
 
+type Args = {
+    'dc': boolean;
+    'addPrefix': boolean;
+    'removePrefix': boolean;
+}
+
 export function getAndCheckTargets(): Targets {
-    let args = require('minimist')(process.argv.slice(2), {
+    type ArgsType = {
+        'dc': boolean;
+        'add-prefix': boolean;
+        'remove-prefix': boolean;
+        'd': boolean;
+        'a': boolean;
+        'r': boolean;
+    };
+    
+    let args: ArgsType = minimist<ArgsType>(process.argv.slice(2), {
         boolean: ['dc', 'add-prefix', 'remove-prefix'],
         alias: {
             'd': 'dc',
@@ -19,11 +35,14 @@ export function getAndCheckTargets(): Targets {
         },
     });
 
-    if (!args.d && !args.a && !args.r) {
+    const {'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix} = args;
+    const realArgs: Args = {dc, addPrefix, removePrefix};
+
+    if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
         console.log(chalk.red('no options'));
     }
 
-    return { files: [], dirs:[] };
+    return { files: [], dirs: [] };
 
     /*
     let argTargets: string[] = args._ || [];
