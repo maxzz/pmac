@@ -15,8 +15,34 @@ type RealArgs = {
     dc: boolean;
     addPrefix: boolean;
     removePrefix: boolean;
-    unnamed: string[];
+    targets: Targets;
 };
+
+async function getTaskTodo(realArgs: RealArgs) {
+    if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
+        const questions: prompts.PromptObject[] = [
+            {
+                type: 'select',
+                name: 'job',
+                message: 'Select a task to complete',
+                choices: [
+                    { title: 'Domain credentials', value: 'dc', description: 'Switch to credentials that apply only to a specific URL', },
+                    { title: 'Add prefix', value: 'addPrefix', description: 'Add domain name as prefix to manifest filenames', },
+                    { title: 'Remove prefix', value: 'removePrefix', description: 'Remove domain name prefix from manifest filenames', },
+                    { title: 'Exit', value: '', description: 'Do nothing, just exit' },
+                ],
+                initial: 0,
+            },
+        ];
+
+        type t = keyof Omit<RealArgs, 'targets'>;
+
+        const response = await prompts(questions);
+        response.job && (realArgs[response.job as keyof Omit<RealArgs, 'targets'>] = true);
+
+        throw new Error('Chosen to do nothing, just exit.');
+    }
+}
 
 export async function getAndCheckTargets(): Promise<Targets> {
     type MinimistArgs = {
@@ -39,31 +65,10 @@ export async function getAndCheckTargets(): Promise<Targets> {
     });
 
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix } = args;
-    const realArgs: RealArgs = { dc, addPrefix, removePrefix, unnamed: args._ };
+    const realArgs: RealArgs = { dc, addPrefix, removePrefix, targets: { files: [], dirs: [], } };
 
-    if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
-        console.log(chalk.red('no options'));
-
-        const questions: prompts.PromptObject[] = [
-            {
-                type: 'select',
-                name: 'job',
-                message: 'Select a task to complete',
-                choices: [
-                    { title: 'Domain credentials', value: 'dc', description: 'Switch to credentials that apply only to a specific URL',  },
-                    { title: 'Add prefix', value: 'addPrefix', description: 'Add domain name as prefix to manifest filenames',  },
-                    { title: 'Remove prefix', value: 'removePrefix', description: 'Remove domain name prefix from manifest filenames',  },
-                    { title: 'Exit', value: '', description: 'Do nothing, just exit' },
-                ],
-                initial: 0,
-            },
-        ];
-
-        const response2 = await prompts(questions);
-        console.log('response2', response2);
-
-        throw new Error('Chosen to do nothing, just exit.');
-    }
+    await getTaskTodo(realArgs);
+    console.log('realArgs', realArgs);
 
     //return { files: [], dirs: [] };
 
