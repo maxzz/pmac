@@ -69,6 +69,16 @@ export async function getAndCheckTargets(): Promise<Targets> {
                 name: 'about',
                 message: 'Tell something about yourself',
                 initial: 'Why should I?'
+            },
+            {
+                type: 'multiselect',
+                name: 'color',
+                message: 'Pick colors',
+                choices: [
+                    { title: 'Red', value: '#ff0000' },
+                    { title: 'Green', value: '#00ff00' },
+                    { title: 'Blue', value: '#0000ff' }
+                ],
             }
         ];
 
