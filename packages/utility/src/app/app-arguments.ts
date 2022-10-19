@@ -63,18 +63,14 @@ function getTargets(unnamed: string[] = []): Targets {
 
 export async function getAndCheckTargets(): Promise<Targets> {
     let args: MinimistArgs = getMinimistArgs();
-
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix } = args;
-    
-    
-    const realArgs: RealArgs = { dc, addPrefix, removePrefix, targets: { files: [], dirs: [], } };
+    const realArgs: RealArgs = { dc, addPrefix, removePrefix, targets: getTargets(args._) };
 
     await getTaskTodo(realArgs);
     console.log('realArgs', realArgs);
 
-    realArgs.targets = getTargets(args._);
-
-    return { files: [], dirs: [] };
+    //return { files: [], dirs: [] };
+    return realArgs.targets;
 }
 
 export type SourceGroup = {
