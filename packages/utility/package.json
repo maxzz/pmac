@@ -12,6 +12,7 @@
         "makebin": "del pmac.exe && yarn build && pkg -t host -o pmac dist/index.js && yarn copy"
     },
     "dependencies": {
+        "@pmac/shared-types": "1.0.0",
         "chalk": "4.1.2",
         "fast-xml-parser": "^4.0.9",
         "minimist": "^1.2.5",
@@ -19,7 +20,6 @@
         "@pmac/template": "1.0.0"
     },
     "devDependencies": {
-        "@pmac/shared-types": "1.0.0",
         "@types/node": "18.7.14",
         "@types/rimraf": "^3.0.0"
     }

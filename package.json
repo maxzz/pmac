@@ -16,9 +16,13 @@
     ],
     "scripts": {
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
+        
+        "maketypes": "yarn workspace @pmac/shared-types build",
         "template": "yarn workspace @pmac/template template",
         "makebin": "yarn workspace @pmac/utility makebin",
-        "final": "del pmac.exe && yarn template && yarn makebin",
+        
+        "final": "del pmac.exe && yarn maketypes && yarn template && yarn makebin",
+
         "predeploy": "yarn workspace @pmac/template predeploy",
         "deploy": "gh-pages -d ./packages/template/dist-gh"
     },
