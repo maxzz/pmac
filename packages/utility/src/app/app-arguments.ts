@@ -54,31 +54,42 @@ export async function getAndCheckTargets(): Promise<Targets> {
 
         /*2*/
         const questions: prompts.PromptObject[] = [
+            // {
+            //     type: 'text',
+            //     name: 'username',
+            //     message: 'What is your GitHub username?'
+            // },
+            // {
+            //     type: 'number',
+            //     name: 'age',
+            //     message: 'How old are you?'
+            // },
+            // {
+            //     type: 'text',
+            //     name: 'about',
+            //     message: 'Tell something about yourself',
+            //     initial: 'Why should I?'
+            // },
+            // {
+            //     type: 'multiselect',
+            //     name: 'color',
+            //     message: 'Pick colors',
+            //     choices: [
+            //         { title: 'Red', value: '#ff0000' },
+            //         { title: 'Green', value: '#00ff00' },
+            //         { title: 'Blue', value: '#0000ff' }
+            //     ],
+            // }
             {
-                type: 'text',
-                name: 'username',
-                message: 'What is your GitHub username?'
-            },
-            {
-                type: 'number',
-                name: 'age',
-                message: 'How old are you?'
-            },
-            {
-                type: 'text',
-                name: 'about',
-                message: 'Tell something about yourself',
-                initial: 'Why should I?'
-            },
-            {
-                type: 'multiselect',
-                name: 'color',
-                message: 'Pick colors',
+                type: 'select',
+                name: 'value',
+                message: 'Pick a color',
                 choices: [
-                    { title: 'Red', value: '#ff0000' },
-                    { title: 'Green', value: '#00ff00' },
+                    { title: 'Red', description: 'This option has a description', value: '#ff0000' },
+                    { title: 'Green', value: '#00ff00', disabled: true },
                     { title: 'Blue', value: '#0000ff' }
                 ],
+                initial: 1
             }
         ];
 
