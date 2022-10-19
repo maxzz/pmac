@@ -14,7 +14,7 @@ function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
 }
 
 async function main() {
-    let targets: Targets = getAndCheckTargets();
+    let targets: Targets = await getAndCheckTargets();
     const sourceGroups = getVerifiedFolders(targets);
     const targetGroups = sourceGroups.map(processSourceGroup);
     //step4_FinalMakeReport(targetGroups);

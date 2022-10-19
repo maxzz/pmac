@@ -4,19 +4,20 @@ import { exist } from '../utils/unique-names';
 import { newErrorArgs } from '../utils/utils-errors';
 import { osStuff } from '../utils/utils-os';
 import minimist from 'minimist';
+import prompts from 'prompts';
 
 export type Targets = {
     files: string[];
     dirs: string[];
 };
 
-type Args = {
+type RealArgs = {
     'dc': boolean;
     'addPrefix': boolean;
     'removePrefix': boolean;
 }
 
-export function getAndCheckTargets(): Targets {
+export async function getAndCheckTargets(): Promise<Targets> {
     type ArgsType = {
         'dc': boolean;
         'add-prefix': boolean;
@@ -36,10 +37,12 @@ export function getAndCheckTargets(): Targets {
     });
 
     const {'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix} = args;
-    const realArgs: Args = {dc, addPrefix, removePrefix};
+    const realArgs: RealArgs = {dc, addPrefix, removePrefix};
 
     if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
         console.log(chalk.red('no options'));
+
+        //prompts
     }
 
     return { files: [], dirs: [] };
