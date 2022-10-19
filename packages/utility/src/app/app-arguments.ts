@@ -19,7 +19,8 @@ type RealArgs = {
 };
 
 async function getTaskTodo(realArgs: RealArgs) {
-    if (!realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix) {
+    const noTask = () => !realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix;
+    if (noTask()) {
         const questions: prompts.PromptObject[] = [
             {
                 type: 'select',
@@ -34,14 +35,31 @@ async function getTaskTodo(realArgs: RealArgs) {
                 initial: 0,
             },
         ];
-
-        type t = keyof Omit<RealArgs, 'targets'>;
-
         const response = await prompts(questions);
         response.job && (realArgs[response.job as keyof Omit<RealArgs, 'targets'>] = true);
-
-        throw new Error('Chosen to do nothing, just exit.');
+        if (noTask()) {
+            throw new Error('Chosen to do nothing, just exit.');
+        }
     }
+}
+
+function getTargets(unnamed: string[] = []): Targets {
+    let rv: Targets = { files: [], dirs: [], };
+
+    for (let target of unnamed) {
+        let current: string = path.resolve(target); // relative to the start up folder
+        let st = exist(current);
+        if (st) {
+            if (st.isDirectory()) {
+                rv.dirs.push(current);
+            } else if (st.isFile()) {
+                rv.files.push(current); // TODO: Check all files should have the same root folder. That is not possible with drag and drop, but still ...
+            }
+        } else {
+            throw newErrorArgs(`Target "${target}" does not exist.`);
+        }
+    }
+    return rv;
 }
 
 export async function getAndCheckTargets(): Promise<Targets> {
@@ -70,9 +88,11 @@ export async function getAndCheckTargets(): Promise<Targets> {
     await getTaskTodo(realArgs);
     console.log('realArgs', realArgs);
 
-    //return { files: [], dirs: [] };
+    realArgs.targets = getTargets(args._);
 
-    /**/
+    return { files: [], dirs: [] };
+
+    /** /
     let argTargets: string[] = args._ || [];
 
     let rv: Targets = { files: [], dirs: [], };
