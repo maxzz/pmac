@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import path from 'path';
 import { exist } from '../utils/unique-names';
 import { newErrorArgs } from '../utils/utils-errors';
@@ -10,8 +11,21 @@ export type Targets = {
 
 export function getAndCheckTargets(): Targets {
     let args = require('minimist')(process.argv.slice(2), {
+        boolean: ['dc', 'add-prefix', 'remove-prefix'],
+        alias: {
+            'd': 'dc',
+            'a': 'add-prefix',
+            'r': 'remove-prefix',
+        },
     });
 
+    if (!args.d && !args.a && !args.r) {
+        console.log(chalk.red('no options'));
+    }
+
+    return { files: [], dirs:[] };
+
+    /*
     let argTargets: string[] = args._ || [];
 
     let rv: Targets = { files: [], dirs: [], };
@@ -31,6 +45,7 @@ export function getAndCheckTargets(): Targets {
     }
 
     return rv;
+    */
 }
 
 export type SourceGroup = {
