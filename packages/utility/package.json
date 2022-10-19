@@ -9,7 +9,7 @@
         "dev": "tsc -w",
         "build": "rm -rf dist && tsc",
         "copy": "xcopy pmac.exe \"./../..\" /Y",
-        "makebin": "yarn build && pkg -t host -o pmac dist/index.js && yarn copy"
+        "makebin": "del pmac.exe && yarn build && pkg -t host -o pmac dist/index.js && yarn copy"
     },
     "dependencies": {
         "chalk": "4.1.2",
