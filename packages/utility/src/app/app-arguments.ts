@@ -7,31 +7,6 @@ import prompts from 'prompts';
 import { AppArgs, SourceGroup, Targets } from './app-types';
 import { getMinimistArgs } from './app-help';
 
-async function checkTaskTodo(appArgs: AppArgs) {
-    const noTask = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
-    if (noTask()) {
-        const questions: prompts.PromptObject[] = [
-            {
-                type: 'select',
-                name: 'job',
-                message: 'Select a task to complete',
-                choices: [
-                    { title: 'Domain credentials', value: 'dc', description: 'Switch to credentials that apply only to a specific URL', },
-                    { title: 'Add prefix', value: 'addPrefix', description: 'Add domain name as prefix to manifest filenames', },
-                    { title: 'Remove prefix', value: 'removePrefix', description: 'Remove domain name prefix from manifest filenames', },
-                    { title: 'Exit', value: '', description: 'Do nothing, just exit' },
-                ],
-                initial: 0,
-            },
-        ];
-        const response = await prompts(questions);
-        response.job && (appArgs[response.job as keyof Omit<AppArgs, 'sourceGroups'>] = true);
-        if (noTask()) {
-            throw new Error('Chosen to do nothing, just exit.');
-        }
-    }
-}
-
 function getTargets(unnamed: string[] = []): Targets {
     let rv: Targets = { files: [], dirs: [] };
     for (let target of unnamed) {
@@ -48,14 +23,6 @@ function getTargets(unnamed: string[] = []): Targets {
         }
     }
     return rv;
-}
-
-export async function getAndCheckTargets(): Promise<AppArgs> {
-    const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, _: unnamed } = getMinimistArgs();
-    const targets = getTargets(unnamed);
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups: getVerifiedFolders(targets) };
-    await checkTaskTodo(appArgs);
-    return appArgs;
 }
 
 function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
@@ -108,4 +75,37 @@ function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
     //throw 'not now';
 
     return rv;
+}
+
+async function checkTaskTodo(appArgs: AppArgs) {
+    const noTask = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
+    if (noTask()) {
+        const questions: prompts.PromptObject[] = [
+            {
+                type: 'select',
+                name: 'job',
+                message: 'Select a task to complete',
+                choices: [
+                    { title: 'Domain credentials', value: 'dc', description: 'Switch to credentials that apply only to a specific URL', },
+                    { title: 'Add prefix', value: 'addPrefix', description: 'Add domain name as prefix to manifest filenames', },
+                    { title: 'Remove prefix', value: 'removePrefix', description: 'Remove domain name prefix from manifest filenames', },
+                    { title: 'Exit', value: '', description: 'Do nothing, just exit' },
+                ],
+                initial: 0,
+            },
+        ];
+        const response = await prompts(questions);
+        response.job && (appArgs[response.job as keyof Omit<AppArgs, 'sourceGroups'>] = true);
+        if (noTask()) {
+            throw new Error('Chosen to do nothing, just exit.');
+        }
+    }
+}
+
+export async function getAndCheckTargets(): Promise<AppArgs> {
+    const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, _: unnamed } = getMinimistArgs();
+    const targets = getTargets(unnamed);
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups: getVerifiedFolders(targets) };
+    await checkTaskTodo(appArgs);
+    return appArgs;
 }
