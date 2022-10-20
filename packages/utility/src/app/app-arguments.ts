@@ -104,17 +104,18 @@ async function checkTaskTodo(appArgs: AppArgs) {
 
 export async function getAndCheckTargets(): Promise<AppArgs> {
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, _: unnamed } = getMinimistArgs();
-    const targets = getTargets(unnamed);
+
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups: [] };
+    await checkTaskTodo(appArgs);
 
     let sourceGroups: SourceGroup[] = [];
     try {
-        sourceGroups = getVerifiedFolders(targets);    
+        const targets = getTargets(unnamed);
+        sourceGroups = getVerifiedFolders(targets);
     } catch (error) {
-        throw error;        
+        throw error;
     }
 
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups };
-    await checkTaskTodo(appArgs);
     return appArgs;
 }
 
