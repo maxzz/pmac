@@ -18,10 +18,15 @@ async function main() {
     const appArgs = await getAndCheckTargets();
     console.log('appArgs', appArgs);
 
-    let targets: Targets = appArgs.targets;
-    const sourceGroups = getVerifiedFolders(targets);
-    const targetGroups = sourceGroups.map(processSourceGroup);
-    //step4_FinalMakeReport(targetGroups);
+    if (appArgs.dc) {
+        let targets: Targets = appArgs.targets;
+        const sourceGroups = getVerifiedFolders(targets);
+        const targetGroups = sourceGroups.map(processSourceGroup);
+        //step4_FinalMakeReport(targetGroups);
+    } else if (appArgs.addPrefix || appArgs.removePrefix) {
+        throw new Error('Not implemented yet');
+    }
+
     notes.show();
 }
 
