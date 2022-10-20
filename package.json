@@ -21,7 +21,7 @@
         "template": "yarn workspace @pmac/template template",
         "makebin": "yarn workspace @pmac/utility makebin",
         
-        "final": "del pmac.exe && yarn maketypes && yarn template && yarn makebin",
+        "build": "del pmac.exe && yarn maketypes && yarn template && yarn makebin",
 
         "predeploy": "yarn workspace @pmac/template predeploy",
         "deploy": "gh-pages -d ./packages/template/dist-gh"
