@@ -4,11 +4,11 @@ import { exist } from '../utils/unique-names';
 import { newErrorArgs } from '../utils/utils-errors';
 import { osStuff } from '../utils/utils-os';
 import prompts from 'prompts';
-import { RealArgs, SourceGroup, Targets } from './app-types';
+import { AppArgs, SourceGroup, Targets } from './app-types';
 import { getMinimistArgs, MinimistArgs } from './app-help';
 
-async function getTaskTodo(realArgs: RealArgs) {
-    const noTask = () => !realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix;
+async function checkTaskTodo(appArgs: AppArgs) {
+    const noTask = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
     if (noTask()) {
         const questions: prompts.PromptObject[] = [
             {
@@ -25,7 +25,7 @@ async function getTaskTodo(realArgs: RealArgs) {
             },
         ];
         const response = await prompts(questions);
-        response.job && (realArgs[response.job as keyof Omit<RealArgs, 'targets'>] = true);
+        response.job && (appArgs[response.job as keyof Omit<AppArgs, 'targets'>] = true);
         if (noTask()) {
             throw new Error('Chosen to do nothing, just exit.');
         }
@@ -50,16 +50,15 @@ function getTargets(unnamed: string[] = []): Targets {
     return rv;
 }
 
-export async function getAndCheckTargets(): Promise<Targets> {
-    let args: MinimistArgs = getMinimistArgs();
+export async function getAndCheckTargets(): Promise<AppArgs> {
+    const args: MinimistArgs = getMinimistArgs();
+    const targets = getTargets(args._);
+
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix } = args;
-    const realArgs: RealArgs = { dc, addPrefix, removePrefix, targets: getTargets(args._) };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, targets };
 
-    await getTaskTodo(realArgs);
-    console.log('realArgs', realArgs);
-
-    //return { files: [], dirs: [] };
-    return realArgs.targets;
+    await checkTaskTodo(appArgs);
+    return appArgs;
 }
 
 export function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
