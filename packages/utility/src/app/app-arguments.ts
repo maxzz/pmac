@@ -4,19 +4,8 @@ import { exist } from '../utils/unique-names';
 import { newErrorArgs } from '../utils/utils-errors';
 import { osStuff } from '../utils/utils-os';
 import prompts from 'prompts';
+import { RealArgs, SourceGroup, Targets } from './app-types';
 import { getMinimistArgs, MinimistArgs } from './app-help';
-
-export type Targets = {
-    files: string[];
-    dirs: string[];
-};
-
-type RealArgs = {
-    dc: boolean;
-    addPrefix: boolean;
-    removePrefix: boolean;
-    targets: Targets;
-};
 
 async function getTaskTodo(realArgs: RealArgs) {
     const noTask = () => !realArgs.dc && !realArgs.addPrefix && !realArgs.removePrefix;
@@ -72,11 +61,6 @@ export async function getAndCheckTargets(): Promise<Targets> {
     //return { files: [], dirs: [] };
     return realArgs.targets;
 }
-
-export type SourceGroup = {
-    root: string;       // this group root folder
-    fnames: string[];   // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
-};
 
 export function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
     //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);

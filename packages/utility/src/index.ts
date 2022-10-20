@@ -1,8 +1,9 @@
 import chalk from 'chalk';
 import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
+import { SourceGroup, Targets } from './app/app-types';
 import { help } from './app/app-help';
-import { getAndCheckTargets, getVerifiedFolders, SourceGroup, Targets } from './app/app-arguments';
+import { getAndCheckTargets, getVerifiedFolders } from './app/app-arguments';
 import { step2_FindSameDc, step1_LoadManifests, step4_FinalMakeReport, TargetGroup, step3_SaveResult } from './app/app-steps';
 import { notes } from './app/app-notes';
 
