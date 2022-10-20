@@ -105,7 +105,24 @@ async function checkTaskTodo(appArgs: AppArgs) {
 export async function getAndCheckTargets(): Promise<AppArgs> {
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, _: unnamed } = getMinimistArgs();
     const targets = getTargets(unnamed);
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups: getVerifiedFolders(targets) };
+
+    let sourceGroups: SourceGroup[] = [];
+    try {
+        sourceGroups = getVerifiedFolders(targets);    
+    } catch (error) {
+        throw error;        
+    }
+
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups };
     await checkTaskTodo(appArgs);
     return appArgs;
 }
+
+//TODO: what to do if no folders; use current?
+
+//TODO: promt process after operation selected:
+//  dc: folder, domain
+//  add prefix: folders, file, domain
+//  remove prefix: folders, file, domain
+
+//TODO: --d donain to +/- as prefix
