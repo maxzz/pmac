@@ -1,26 +1,17 @@
 import chalk from 'chalk';
 import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
-import { SourceGroup } from './app/app-types';
 import { help } from './app/app-help';
 import { getAndCheckTargets } from './app/app-arguments';
-import { step2_FindSameDc, step1_LoadManifests, step4_FinalMakeReport, TargetGroup, step3_SaveResult } from './app/app-steps';
+import { executeTaskDc } from './app/task-dc/task-dc-steps';
 import { notes } from './app/app-notes';
-
-function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
-    const targetGroup = step1_LoadManifests(sourceGroup);
-    step2_FindSameDc(targetGroup);
-    step3_SaveResult(targetGroup);
-    return targetGroup;
-}
 
 async function main() {
     const appArgs = await getAndCheckTargets();
     console.log('appArgs', appArgs);
 
     if (appArgs.dc) {
-        const targetGroups = appArgs.sourceGroups.map(processSourceGroup);
-        //step4_FinalMakeReport(targetGroups);
+        executeTaskDc(appArgs.sourceGroups);
     } else if (appArgs.addPrefix || appArgs.removePrefix) {
         throw new Error('Not implemented yet');
     }

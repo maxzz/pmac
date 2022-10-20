@@ -1,21 +1,21 @@
 import path from "path";
 import fs from "fs";
 import chalk from "chalk";
-import { buildManiMetaForms, makeXML, Mani, Matching, Meta, parseXMLFile } from "../manifest";
-import { FormUrls, getFormUrls } from "../utils/utils-mani-urls";
-import { uuid } from "../utils/uuid";
-import { osStuff } from "../utils/utils-os";
-import { ensureNameUnique, nowDayTime, toUnix } from "../utils/unique-names";
-import { SourceGroup } from "./app-types";
-import { notes } from "./app-notes";
-import { templateStr } from "../utils/utils-report-template";
+import { buildManiMetaForms, makeXML, Mani, Matching, Meta, parseXMLFile } from "../../manifest";
+import { FormUrls, getFormUrls } from "../../utils/utils-mani-urls";
+import { uuid } from "../../utils/uuid";
+import { osStuff } from "../../utils/utils-os";
+import { ensureNameUnique, nowDayTime, toUnix } from "../../utils/unique-names";
+import { SourceGroup } from "../app-types";
+import { notes } from "../app-notes";
+import { templateStr } from "../../utils/utils-report-template";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
-import { splitByKey } from "../utils/utils";
-import { programVersion } from "./app-help";
+import { splitByKey } from "../../utils/utils";
+import { programVersion } from "../app-help";
 
 // Manifest loading
 
-export type FileMeta = {
+/*export*/ type FileMeta = {
     id: string;                 // File this run unique ID
     mani: Mani.Manifest;        // Parsed manifest
     forms: Meta.Form[];         // Each form meta data
@@ -24,12 +24,12 @@ export type FileMeta = {
     short: string;              // Filename relative to TargetGroup.root; const fname = path.join(f.root, f.short); it can be also 'c/filename.dpm'
 };
 
-export type SameDc = {          // Domain Credentials Duplicates; use the same creadential for the whole domain
+/*export*/ type SameDc = {          // Domain Credentials Duplicates; use the same creadential for the whole domain
     domain: string;
     files: FileMeta[];
 };
 
-export type TargetGroup = {
+/*export*/ type TargetGroup = {
     root: string;               // this group root source folder
     backup: string;             // folder for backup
     sameDc: SameDc[];           // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
@@ -55,7 +55,7 @@ function addError(targetGroup: TargetGroup, msg: ItemError | string) {
 
 // Local console log reports
 
-export function printLoaded(targetGroup: TargetGroup) {
+/*export*/ function printLoaded(targetGroup: TargetGroup) {
 
     targetGroup.files.forEach((file) => {
         const [a, b] = [file.urls[0]?.oParts?.woParms, file.urls[1]?.oParts?.woParms];
@@ -75,7 +75,7 @@ export function printLoaded(targetGroup: TargetGroup) {
     });
 }
 
-export function printDcActive(sameDC: SameDc[]) {
+/*export*/ function printDcActive(sameDC: SameDc[]) {
     const entries = sameDC.map(({ domain, files }) => {
         const items = files.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
         return chalk.red(`${domain} ${files.length}${items}`);
@@ -88,7 +88,7 @@ export function printDcActive(sameDC: SameDc[]) {
 
 // Steps
 
-export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
+/*export*/ function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = loadManifests(sourceGroup);
     //printLoaded(targetGroup);
 
@@ -162,7 +162,7 @@ export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
 
 } //step1_LoadManifests()
 
-export function step2_FindSameDc(targetGroup: TargetGroup) {
+/*export*/ function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
         const byDomains = splitByKey(files, (fileMeta) => {
             const loginForm = fileMeta.urls?.[0];
@@ -274,7 +274,7 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
     fs.writeFileSync(fname, cnt);
 }
 
-export function step3_SaveResult(targetGroup: TargetGroup): void {
+/*export*/ function step3_SaveResult(targetGroup: TargetGroup): void {
     if (targetGroup.sameDc.length) {
         try {
             targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
@@ -288,7 +288,7 @@ export function step3_SaveResult(targetGroup: TargetGroup): void {
     }
 }
 
-export function step4_FinalMakeReport(targetGroups: TargetGroup[]): void {
+/*export*/ function step4_FinalMakeReport(targetGroups: TargetGroup[]): void {
 
     const report: ReportRecords = targetGroups.map((targetGroup) => ({ ...targetGroup.report, root: toUnix(targetGroup.root) }));
     const dataStr = JSON.stringify(report, null, 4);
@@ -322,6 +322,18 @@ export function step4_FinalMakeReport(targetGroups: TargetGroup[]): void {
     // });
 
     notes.add(`All done`);
+}
+
+/*export*/ function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
+    const targetGroup = step1_LoadManifests(sourceGroup);
+    step2_FindSameDc(targetGroup);
+    step3_SaveResult(targetGroup);
+    return targetGroup;
+}
+
+export function executeTaskDc(sourceGroups: SourceGroup[]) {
+    const targetGroups = sourceGroups.map(processSourceGroup);
+    //step4_FinalMakeReport(targetGroups);
 }
 
 //TODO: add version to HID icon hover in the template project
