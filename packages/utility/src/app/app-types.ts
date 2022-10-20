@@ -3,7 +3,7 @@ export type Targets = {
     dirs: string[];
 };
 
-export type RealArgs = {
+export type AppArgs = {
     dc: boolean;
     addPrefix: boolean;
     removePrefix: boolean;
