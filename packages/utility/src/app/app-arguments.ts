@@ -5,7 +5,7 @@ import { newErrorArgs } from '../utils/utils-errors';
 import { osStuff } from '../utils/utils-os';
 import prompts from 'prompts';
 import { AppArgs, SourceGroup, Targets } from './app-types';
-import { getMinimistArgs, MinimistArgs } from './app-help';
+import { getMinimistArgs } from './app-help';
 
 async function checkTaskTodo(appArgs: AppArgs) {
     const noTask = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
@@ -51,12 +51,9 @@ function getTargets(unnamed: string[] = []): Targets {
 }
 
 export async function getAndCheckTargets(): Promise<AppArgs> {
-    const args: MinimistArgs = getMinimistArgs();
-    const targets = getTargets(args._);
-
-    const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix } = args;
+    const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, _: unnamed } = getMinimistArgs();
+    const targets = getTargets(unnamed);
     const appArgs: AppArgs = { dc, addPrefix, removePrefix, targets };
-
     await checkTaskTodo(appArgs);
     return appArgs;
 }
