@@ -25,7 +25,7 @@ async function checkTaskTodo(appArgs: AppArgs) {
             },
         ];
         const response = await prompts(questions);
-        response.job && (appArgs[response.job as keyof Omit<AppArgs, 'targets'>] = true);
+        response.job && (appArgs[response.job as keyof Omit<AppArgs, 'sourceGroups'>] = true);
         if (noTask()) {
             throw new Error('Chosen to do nothing, just exit.');
         }
@@ -53,12 +53,12 @@ function getTargets(unnamed: string[] = []): Targets {
 export async function getAndCheckTargets(): Promise<AppArgs> {
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, _: unnamed } = getMinimistArgs();
     const targets = getTargets(unnamed);
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, targets };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups: getVerifiedFolders(targets) };
     await checkTaskTodo(appArgs);
     return appArgs;
 }
 
-export function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
+function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
     //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);
     //help(); return;
     //await exitProcess(0, '');

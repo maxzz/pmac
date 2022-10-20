@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
-import { SourceGroup, Targets } from './app/app-types';
+import { SourceGroup } from './app/app-types';
 import { help } from './app/app-help';
-import { getAndCheckTargets, getVerifiedFolders } from './app/app-arguments';
+import { getAndCheckTargets } from './app/app-arguments';
 import { step2_FindSameDc, step1_LoadManifests, step4_FinalMakeReport, TargetGroup, step3_SaveResult } from './app/app-steps';
 import { notes } from './app/app-notes';
 
@@ -19,9 +19,7 @@ async function main() {
     console.log('appArgs', appArgs);
 
     if (appArgs.dc) {
-        let targets: Targets = appArgs.targets;
-        const sourceGroups = getVerifiedFolders(targets);
-        const targetGroups = sourceGroups.map(processSourceGroup);
+        const targetGroups = appArgs.sourceGroups.map(processSourceGroup);
         //step4_FinalMakeReport(targetGroups);
     } else if (appArgs.addPrefix || appArgs.removePrefix) {
         throw new Error('Not implemented yet');
