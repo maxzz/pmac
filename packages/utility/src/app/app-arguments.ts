@@ -25,7 +25,7 @@ function getTargets(unnamed: string[] = []): Targets {
     return rv;
 }
 
-function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
+function getVerifiedFoldersWManifests({ files, dirs }: Targets): SourceGroup[] {
     //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);
     //help(); return;
     //await exitProcess(0, '');
@@ -55,24 +55,18 @@ function getVerifiedFolders({ files, dirs }: Targets): SourceGroup[] {
             const filesAndDirs = osStuff.collectDirItems(root);
 
             let files = filesAndDirs.files;
-            const pmTestFolder = filesAndDirs.subs.find((dir) => path.basename(dir.name).toLowerCase() === 'c');
+            const pmTestFolder = filesAndDirs.subs.find((dir) => path.basename(dir.name).toLowerCase() === 'c'); // A(InUse), B(NotInUse), and C(NotInUseTest)
             if (pmTestFolder) {
                 const fnameWSubs = pmTestFolder.files.map((fileItem) => ({ ...fileItem, short: path.join('C', fileItem.short) }));
                 files = files.concat(fnameWSubs);
             }
 
             const fnames = osStuff.filterByExtension(files.map((item) => item.short), '.dpm');
-            if (fnames.length) {
-                rv.push({ root, fnames });
-            }
+            fnames.length && rv.push({ root, fnames });
         }
     } else {
         throw newErrorArgs(`Nothing done:\nSpecify at leats one folder or files name to process.`);
     }
-
-    //TODO: add A(InUse), B(NotInUse), and C(NotInUseTest) to each TargetGroup
-
-    //throw 'not now';
 
     return rv;
 }
@@ -105,16 +99,18 @@ async function checkTaskTodo(appArgs: AppArgs) {
 export async function getAndCheckTargets(): Promise<AppArgs> {
     const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, _: unnamed } = getMinimistArgs();
 
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups: [] };
-    await checkTaskTodo(appArgs);
-
+    // 1. Get target folders first
     let sourceGroups: SourceGroup[] = [];
     try {
         const targets = getTargets(unnamed);
-        sourceGroups = getVerifiedFolders(targets);
+        sourceGroups = getVerifiedFoldersWManifests(targets);
     } catch (error) {
         throw error;
     }
+
+    // 2. Then complete with task to accomplish
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups };
+    await checkTaskTodo(appArgs);
 
     return appArgs;
 }
