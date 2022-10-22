@@ -8,17 +8,20 @@ export const programVersion = config.version;
 export function help() {
 
     let msg = `
-The ${color.cyan(`${programName}`)} utility converts PM manifests with domain credentials to
-manifests with credentials that apply only to a specific URL.
+The ${color.cyan(`${programName}`)} (password manager administrator commands) utility version ${programVersion}.
 
-Usage:
-
-${color.cyan(`${programName} [folder] | [<file(s)>]`)}
+Usage: ${color.cyan(`${programName} source [options]`)}
 
 where:
-    folder  - folder with the manifest files to process
-    file(s) - manifest filenames to process
+    source       - folder with the manifest files to process or
+                   space-separated list of manifest filenames to process
+    options:
+        --domain - process manifests only with the specified web domain.
+                   For example pmac --domain google.com
 
+The ${color.cyan(`${programName}`)} utility converts PM manifests with domain credentials to
+manifests with credentials that apply only to a specific URL.
+        
 ${color.gray(`Run this utility from the folder where the manifest files are
 located. Alternatively, you can specify the folder where the
 manifest files are located or filenames separated by space
@@ -27,15 +30,6 @@ character. Specify the folder name or file names, but not both.`)}
 Version ${programVersion}`;
 
     console.log(msg);
-    
-    // console.log(color.cyan(`Processed2:`));
-    // console.log(color.dim(color.cyan(`Processed2:`)));
-    // console.log(color.dim(color.blue(`Processed2:`)));
-    // console.log(color.blue(color.dim(`Processed2:`)));
-    // console.log(color.dim(`Processed3:`));
-    // console.log(color.bold(`Processed3:`));
-    // console.log(`Processed3:`);
-    // console.log(color.blue(`Processed:`));
 }
 
 //TODO: options: replace files i.e. don't create backup folder (unique backup name w/ date)
