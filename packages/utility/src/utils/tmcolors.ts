@@ -47,6 +47,15 @@ export let createColors = (enabled = isColorSupported) => ({
 
     gray: enabled ? formatter("\x1b[90m", "\x1b[39m") : String,
 
+    blackBright: enabled ? formatter("\x1b[90m", "\x1b[39m") : String,
+    redBright: enabled ? formatter("\x1b[91m", "\x1b[39m") : String,
+    greenBright: enabled ? formatter("\x1b[92m", "\x1b[39m") : String,
+    yellowBright: enabled ? formatter("\x1b[93m", "\x1b[39m") : String,
+    blueBright: enabled ? formatter("\x1b[94m", "\x1b[39m") : String,
+    magentaBright: enabled ? formatter("\x1b[95m", "\x1b[39m") : String,
+    cyanBright: enabled ? formatter("\x1b[96m", "\x1b[39m") : String,
+    whiteBright: enabled ? formatter("\x1b[97m", "\x1b[39m") : String,
+
     bgBlack: enabled ? formatter("\x1b[40m", "\x1b[49m") : String,
     bgRed: enabled ? formatter("\x1b[41m", "\x1b[49m") : String,
     bgGreen: enabled ? formatter("\x1b[42m", "\x1b[49m") : String,
@@ -56,13 +65,3 @@ export let createColors = (enabled = isColorSupported) => ({
     bgCyan: enabled ? formatter("\x1b[46m", "\x1b[49m") : String,
     bgWhite: enabled ? formatter("\x1b[47m", "\x1b[49m") : String,
 });
-
-            // // Bright color
-			// blackBright: [90, 39],
-			// redBright: [91, 39],
-			// greenBright: [92, 39],
-			// yellowBright: [93, 39],
-			// blueBright: [94, 39],
-			// magentaBright: [95, 39],
-			// cyanBright: [96, 39],
-			// whiteBright: [97, 39]
