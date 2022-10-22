@@ -1,51 +1,50 @@
-//import { createColors } from "picocolors";
-let tty = require("tty");
+import tty from "node:tty";
 
-export type Formatter = (input: string | number | null | undefined) => string
+export type Formatter = (input: string | number | null | undefined) => string;
 
 export interface Colors {
-	isColorSupported: boolean
+    isColorSupported: boolean;
 
-	reset: Formatter
-	bold: Formatter
-	dim: Formatter
-	italic: Formatter
-	underline: Formatter
-	inverse: Formatter
-	hidden: Formatter
-	strikethrough: Formatter
+    reset: Formatter;
+    bold: Formatter;
+    dim: Formatter;
+    italic: Formatter;
+    underline: Formatter;
+    inverse: Formatter;
+    hidden: Formatter;
+    strikethrough: Formatter;
 
-	black: Formatter
-	red: Formatter
-	green: Formatter
-	yellow: Formatter
-	blue: Formatter
-	magenta: Formatter
-	cyan: Formatter
-	white: Formatter
+    black: Formatter;
+    red: Formatter;
+    green: Formatter;
+    yellow: Formatter;
+    blue: Formatter;
+    magenta: Formatter;
+    cyan: Formatter;
+    white: Formatter;
 
-	gray: Formatter
+    gray: Formatter;
 
-	blackBright: Formatter
-	redBright: Formatter
-	greenBright: Formatter
-	yellowBright: Formatter
-	blueBright: Formatter
-	magentaBright: Formatter
-	cyanBright: Formatter
-	whiteBright: Formatter
-    
-	bgBlack: Formatter
-	bgRed: Formatter
-	bgGreen: Formatter
-	bgYellow: Formatter
-	bgBlue: Formatter
-	bgMagenta: Formatter
-	bgCyan: Formatter
-	bgWhite: Formatter
+    blackBright: Formatter;
+    redBright: Formatter;
+    greenBright: Formatter;
+    yellowBright: Formatter;
+    blueBright: Formatter;
+    magentaBright: Formatter;
+    cyanBright: Formatter;
+    whiteBright: Formatter;
+
+    bgBlack: Formatter;
+    bgRed: Formatter;
+    bgGreen: Formatter;
+    bgYellow: Formatter;
+    bgBlue: Formatter;
+    bgMagenta: Formatter;
+    bgCyan: Formatter;
+    bgWhite: Formatter;
 }
 
-let isColorSupported =
+const isColorSupported =
     !("NO_COLOR" in process.env || process.argv.includes("--no-color")) &&
     ("FORCE_COLOR" in process.env ||
         process.argv.includes("--color") ||
@@ -53,22 +52,22 @@ let isColorSupported =
         (tty.isatty(1) && process.env.TERM !== "dumb") ||
         "CI" in process.env);
 
-let replaceClose = (str: string, close: string, replace: string, index: number): string => {
-    let start = str.substring(0, index) + replace;
-    let end = str.substring(index + close.length);
-    let nextIndex = end.indexOf(close);
+const replaceClose = (str: string, close: string, replace: string, index: number): string => {
+    const start = str.substring(0, index) + replace;
+    const end = str.substring(index + close.length);
+    const nextIndex = end.indexOf(close);
     return ~nextIndex ? start + replaceClose(end, close, replace, nextIndex) : start + end;
 };
 
-let formatter = (open: string, close: string, replace = open): Formatter => (input: string | number | null | undefined) => {
-    let str = "" + input;
-    let index = str.indexOf(close, open.length);
+export const formatter = (open: string, close: string, replace = open): Formatter => (input: string | number | null | undefined) => {
+    const str = "" + input;
+    const index = str.indexOf(close, open.length);
     return ~index
         ? open + replaceClose(str, close, replace, index) + close
         : open + str + close;
 };
 
-export let createColors = (enabled = isColorSupported): Colors => ({
+export const createColors = (enabled = isColorSupported): Colors => ({
     isColorSupported: enabled,
 
     reset: enabled ? (s: string | number | null | undefined) => `\x1b[0m${s}\x1b[0m` : String,
@@ -110,7 +109,4 @@ export let createColors = (enabled = isColorSupported): Colors => ({
     bgWhite: enabled ? formatter("\x1b[47m", "\x1b[49m") : String,
 });
 
-//chalkcolors
-//pokocolors
-//pocochalk
-//pococolors - little bit in spanish
+export default createColors;
