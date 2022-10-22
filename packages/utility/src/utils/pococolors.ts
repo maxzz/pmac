@@ -1,6 +1,50 @@
 //import { createColors } from "picocolors";
 let tty = require("tty");
 
+export type Formatter = (input: string | number | null | undefined) => string
+
+export interface Colors {
+	isColorSupported: boolean
+
+	reset: Formatter
+	bold: Formatter
+	dim: Formatter
+	italic: Formatter
+	underline: Formatter
+	inverse: Formatter
+	hidden: Formatter
+	strikethrough: Formatter
+
+	black: Formatter
+	red: Formatter
+	green: Formatter
+	yellow: Formatter
+	blue: Formatter
+	magenta: Formatter
+	cyan: Formatter
+	white: Formatter
+
+	gray: Formatter
+
+	blackBright: Formatter
+	redBright: Formatter
+	greenBright: Formatter
+	yellowBright: Formatter
+	blueBright: Formatter
+	magentaBright: Formatter
+	cyanBright: Formatter
+	whiteBright: Formatter
+    
+	bgBlack: Formatter
+	bgRed: Formatter
+	bgGreen: Formatter
+	bgYellow: Formatter
+	bgBlue: Formatter
+	bgMagenta: Formatter
+	bgCyan: Formatter
+	bgWhite: Formatter
+}
+
 let isColorSupported =
     !("NO_COLOR" in process.env || process.argv.includes("--no-color")) &&
     ("FORCE_COLOR" in process.env ||
@@ -16,7 +60,7 @@ let replaceClose = (str: string, close: string, replace: string, index: number):
     return ~nextIndex ? start + replaceClose(end, close, replace, nextIndex) : start + end;
 };
 
-let formatter = (open: string, close: string, replace = open) => (input: string) => {
+let formatter = (open: string, close: string, replace = open): Formatter => (input: string | number | null | undefined) => {
     let str = "" + input;
     let index = str.indexOf(close, open.length);
     return ~index
@@ -24,10 +68,10 @@ let formatter = (open: string, close: string, replace = open) => (input: string)
         : open + str + close;
 };
 
-export let createColors = (enabled = isColorSupported) => ({
+export let createColors = (enabled = isColorSupported): Colors => ({
     isColorSupported: enabled,
 
-    reset: enabled ? (s: string) => `\x1b[0m${s}\x1b[0m` : String,
+    reset: enabled ? (s: string | number | null | undefined) => `\x1b[0m${s}\x1b[0m` : String,
     bold: enabled ? formatter("\x1b[1m", "\x1b[22m", "\x1b[22m\x1b[1m") : String,
     dim: enabled ? formatter("\x1b[2m", "\x1b[22m", "\x1b[22m\x1b[2m") : String,
     italic: enabled ? formatter("\x1b[3m", "\x1b[23m") : String,
@@ -65,3 +109,8 @@ export let createColors = (enabled = isColorSupported) => ({
     bgCyan: enabled ? formatter("\x1b[46m", "\x1b[49m") : String,
     bgWhite: enabled ? formatter("\x1b[47m", "\x1b[49m") : String,
 });
+
+//chalkcolors
+//pokocolors
+//pocochalk
+//pococolors - little bit in spanish
