@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import color from 'picocolors';
 import rimraf from 'rimraf';
 import { exitProcess } from './utils/utils-errors';
 import { help } from './app/app-help';
@@ -21,7 +21,7 @@ async function main() {
 
 main().catch(async (error) => {
     error.args && help();
-    const msg = chalk[error.args ? 'yellow' : 'red'](`\n${error.message}`);
+    const msg = color[error.args ? 'yellow' : 'red'](`\n${error.message}`);
     await exitProcess(1, `${notes.buildMessage()}${msg}`);
 });
 

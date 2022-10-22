@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import chalk from "chalk";
+import color from 'picocolors';
 import { buildManiMetaForms, makeXML, Mani, Matching, Meta, parseXMLFile } from "../../manifest";
 import { FormUrls, getFormUrls } from "../../utils/utils-mani-urls";
 import { uuid } from "../../utils/uuid";
@@ -61,24 +61,24 @@ function addError(targetGroup: TargetGroup, msg: ItemError | string) {
         const [a, b] = [file.urls[0]?.oParts?.woParms, file.urls[1]?.oParts?.woParms];
         if (a || b) {
             notes.add('--------------------------------');
-            a && notes.add(`    0: ${chalk.green(a)}`);
-            b && notes.add(`    1: ${chalk.green(b)}`);
+            a && notes.add(`    0: ${color.green(a)}`);
+            b && notes.add(`    1: ${color.green(b)}`);
         }
     });
 
     targetGroup.empty.forEach((file) => {
-        notes.add(chalk.bgBlue.green(`empty --------------------------------${path.basename(file)}`));
+        notes.add(color.bgBlue(color.green(`empty --------------------------------${path.basename(file)}`)));
     });
 
     targetGroup.failed.forEach((file) => {
-        notes.add(chalk.bgBlue.green(`failed --------------------------------${path.basename(file)}`));
+        notes.add(color.bgBlue(color.green(`failed --------------------------------${path.basename(file)}`)));
     });
 }
 
 /*export*/ function printDcActive(sameDC: SameDc[]) {
     const entries = sameDC.map(({ domain, files }) => {
         const items = files.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
-        return chalk.red(`${domain} ${files.length}${items}`);
+        return color.red(`${domain} ${files.length}${items}`);
     });
 
     entries.forEach((item) => {
@@ -149,8 +149,8 @@ function addError(targetGroup: TargetGroup, msg: ItemError | string) {
         const parts = f.urls[idx];
         const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
         // if (oWoP) {
-        //     console.log(`${chalk.green('ourl')} ${parts?.o}`);
-        //     console.log(`${chalk.gray('oWoP')} ${oWoP}`);
+        //     console.log(`${color.green('ourl')} ${parts?.o}`);
+        //     console.log(`${color.gray('oWoP')} ${oWoP}`);
         // }
         return parts?.o ? {
             domain: parts?.oParts?.domain,
@@ -315,7 +315,7 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
     //     if (report) {
     //         //TODO: save it into the same folder
     //         //console.log('newTemplate\n', report);
-    //         console.log(chalk.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
+    //         console.log(color.gray(`newTemplate: ${report.substring(0, 100).replace(/\r?\n/g, ' ')}`));
     //     }
     //
     //     notes.add(`All done in folder ${targetGroup.root}`);

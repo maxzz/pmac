@@ -1,5 +1,5 @@
-import chalk from "chalk";
+import color from 'picocolors';
 
 export function showError(error: any) {
-    console.log(chalk.red('tm-error:\n'), error);
+    console.log(color.red('tm-error:\n'), error);
 }

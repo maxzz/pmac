@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import color from "picocolors";
 import path from 'path';
 import { exist } from '../utils/unique-names';
 import { newErrorArgs } from '../utils/utils-errors';

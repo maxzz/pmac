@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import color from 'picocolors';
 import { exitProcess } from "../utils/utils-errors";
 import { programName } from "./app-help";
 
@@ -16,8 +16,8 @@ export namespace notes {
     }
 
     export function buildMessage(): string {
-        let p = processed.length > 1 ? chalk.blueBright(`Processed:\n${processed.join('\n')}\n`) : '';
-        let s = messages.length ? chalk.yellow(`\nNotes:\n${messages.join('\n')}\n`) : '';
+        let p = processed.length > 1 ? color.blue(`Processed:\n${processed.join('\n')}\n`) : ''; //blueBright
+        let s = messages.length ? color.yellow(`\nNotes:\n${messages.join('\n')}\n`) : '';
         let f = `${p}${s}`;
         return f ? `${programName} finished\n\n${f}` : '';
     }

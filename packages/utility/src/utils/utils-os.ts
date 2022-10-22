@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import chalk from 'chalk';
+import color from 'picocolors';
 
 export namespace osStuff {
 
@@ -88,7 +88,7 @@ export namespace osStuff {
             try {
                 fs.renameSync(from, to); // TODO: Check posibily if huge files will be copied instead of moving.
             } catch (error) {
-                console.log(chalk.red(`Cannot move folder content up\n${from}\n${to}\n${error}`));
+                console.log(color.red(`Cannot move folder content up\n${from}\n${to}\n${error}`));
                 throw error;
             }
         });
