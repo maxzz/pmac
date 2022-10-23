@@ -71,6 +71,60 @@ function getVerifiedFoldersWManifests({ files, dirs }: Targets): SourceGroup[] {
     return rv;
 }
 
+function getSourceGroups(unnamed: string[]) {
+    let sourceGroups: SourceGroup[] = [];
+    try {
+        const targets = getTargets(unnamed);
+        sourceGroups = getVerifiedFoldersWManifests(targets);
+    } catch (error) {
+        throw error;
+    }
+
+    if (!sourceGroups.length) {
+        throw new Error(`${strDoneNothing}. There are no manifest files in the current folder.`);
+    }
+
+    return sourceGroups;
+}
+
+async function checkTaskScope(appArgs: AppArgs) {
+    const noDomain = () => !appArgs.domain;
+    if (noDomain()) {
+        // 1. All files or domain
+        const questions1: prompts.PromptObject[] = [
+            {
+                type: 'select',
+                name: 'all',
+                message: 'Process all files or single domain',
+                choices: [
+                    { title: 'All files', value: true, },
+                    { title: 'Single domain', value: false, description: 'like google.com', },
+                ],
+                initial: 0,
+            },
+        ];
+        const response1 = await prompts(questions1);
+        if (response1.all) {
+            return;
+        }
+        // 2. Get domain
+        const questions2: prompts.PromptObject[] = [
+            {
+                type: 'text',
+                name: 'domain',
+                message: 'What domain to process?',
+                validate: (input: string) => !!input.trim() ? true : 'Enter a domain name, for example, google.com',
+            },
+        ];
+        const response2 = await prompts(questions2);
+        const domain = (response2.domain as string || '').trim();
+        if (!domain) {
+            throw new Error(strDoNothingExit);
+        }
+        appArgs.domain = domain;
+    }
+}
+
 async function checkTaskTodo(appArgs: AppArgs) {
     const noTask = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
     if (noTask()) {
@@ -96,63 +150,6 @@ async function checkTaskTodo(appArgs: AppArgs) {
 
         await checkTaskScope(appArgs);
     }
-}
-
-async function checkTaskScope(appArgs: AppArgs) {
-    const noDomain = () => !appArgs.domain;
-    if (noDomain()) {
-        // 1.
-        const questions1: prompts.PromptObject[] = [
-            {
-                type: 'select',
-                name: 'all',
-                message: 'Process all files or single domain',
-                choices: [
-                    { title: 'All files', value: true, },
-                    { title: 'Single domain', value: false, description: 'like google.com', },
-                ],
-                initial: 0,
-            },
-        ];
-        const response1 = await prompts(questions1);
-        if (response1.all) {
-            return;
-        }
-
-        // 2.
-        const questions2: prompts.PromptObject[] = [
-            {
-                type: 'text',
-                name: 'domain',
-                message: 'What domain to process?',
-                validate: (input: string) => !!input.trim() ? true : 'Enter a domain name, for example, google.com',
-            },
-        ];
-        const response2 = await prompts(questions2);
-        const domain = (response2.domain as string || '').trim();
-
-        if (!domain) {
-            throw new Error(strDoNothingExit);
-        }
-
-        appArgs.domain = domain;
-    }
-}
-
-function getSourceGroups(unnamed: string[]) {
-    let sourceGroups: SourceGroup[] = [];
-    try {
-        const targets = getTargets(unnamed);
-        sourceGroups = getVerifiedFoldersWManifests(targets);
-    } catch (error) {
-        throw error;
-    }
-
-    if (!sourceGroups.length) {
-        throw new Error(`${strDoneNothing}. There are no manifest files in the current folder.`);
-    }
-
-    return sourceGroups;
 }
 
 export async function getAndCheckTargets(): Promise<AppArgs> {
