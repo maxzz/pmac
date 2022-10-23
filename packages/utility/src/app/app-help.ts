@@ -6,6 +6,7 @@ export const programName = config.name; //config.name.split('/')[0].substring(1)
 export const programVersion = config.version;
 
 export const strDoneNothing = 'Nothing has been done';
+export const strDoNothingExit = 'Chosen to do nothing, just exit.';
 
 export function help() {
 

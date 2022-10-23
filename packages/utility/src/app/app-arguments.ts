@@ -5,7 +5,7 @@ import { newErrorArgs } from '../utils/utils-errors';
 import { OsStuff } from '../utils/utils-os';
 import prompts from 'prompts';
 import { AppArgs, SourceGroup, Targets } from './app-types';
-import { getMinimistArgs, strDoneNothing } from './app-help';
+import { getMinimistArgs, strDoneNothing, strDoNothingExit } from './app-help';
 
 function getTargets(unnamed: string[] = []): Targets {
     let rv: Targets = { files: [], dirs: [] };
@@ -91,33 +91,48 @@ async function checkTaskTodo(appArgs: AppArgs) {
         const response = await prompts(questions);
         response.job && (appArgs[response.job as keyof Omit<AppArgs, 'sourceGroups' | 'domain'>] = true);
         if (noTask()) {
-            throw new Error('Chosen to do nothing, just exit.');
+            throw new Error(strDoNothingExit);
         }
+
+        checkTaskScope(appArgs);
     }
 }
 
 async function checkTaskScope(appArgs: AppArgs) {
     const noDomain = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
     if (noDomain()) {
-        const questions: prompts.PromptObject[] = [
+        // 1.
+        const questions1: prompts.PromptObject[] = [
             {
                 type: 'select',
-                name: 'job',
-                message: 'Select a task to complete',
+                name: 'all',
+                message: 'Process all files or Domain',
                 choices: [
-                    { title: 'Domain credentials', value: 'dc', description: 'Switch to credentials that apply only to a specific URL', },
-                    { title: 'Add prefix', value: 'addPrefix', description: 'Add domain name as prefix to manifest filenames', },
-                    { title: 'Remove prefix', value: 'removePrefix', description: 'Remove domain name prefix from manifest filenames', },
-                    { title: 'Exit', value: 'none', description: 'Do nothing, just exit' },
+                    { title: 'All files', value: true, },
+                    { title: 'Domain', value: false, },
                 ],
                 initial: 0,
             },
         ];
-        const response = await prompts(questions);
-        response.job && (appArgs[response.job as keyof Omit<AppArgs, 'sourceGroups' | 'domain'>] = true);
-        if (noDomain()) {
-            throw new Error('Chosen to do nothing, just exit.');
+        const response1 = await prompts(questions1);
+        if (response1.all) {
+            return;
         }
+
+        // 2.
+        const questions2: prompts.PromptObject[] = [
+            {
+                type: 'text',
+                name: 'domain',
+                message: 'What domain to process?',
+            },
+        ];
+        const response2 = await prompts(questions2);
+        const domain = (response2.domain as string || '').trim();
+        if (!domain) {
+            throw new Error(strDoNothingExit);
+        }
+        appArgs.domain = domain;
     }
 }
 
