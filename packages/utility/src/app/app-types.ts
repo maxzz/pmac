@@ -13,5 +13,5 @@ export type AppArgs = {
     addPrefix: boolean;
     removePrefix: boolean;
     sourceGroups: SourceGroup[];
-    domain?: string;    // scope of task: all files or with a specific domain only
+    domain?: string;    // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
 };

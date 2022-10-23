@@ -26,14 +26,14 @@ function getTargets(unnamed: string[] = []): Targets {
 }
 
 function getVerifiedFoldersWManifests({ files, dirs }: Targets): SourceGroup[] {
-    //console.log(`targets ${JSON.stringify({ files, dirs }, null, 4)}`);
-    //help(); return;
-    //await exitProcess(0, '');
-
     const rv: SourceGroup[] = [];
 
     if (files.length && dirs.length) {
         throw newErrorArgs(`${strDoneNothing}. Specify the folder name or file names, but not both.`);
+    }
+
+    if (!files.length && !dirs.length) {
+        dirs.push(path.resolve('.'));
     }
 
     if (files.length) {
@@ -44,7 +44,7 @@ function getVerifiedFoldersWManifests({ files, dirs }: Targets): SourceGroup[] {
 
         const root = OsStuff.getParentFolder(ourFiles);
         if (!root) {
-            throw newErrorArgs(`${strDoneNothing}. All files must belong to the same folder.`); // Cannot get destination folder (files from multiple folders)
+            throw newErrorArgs(`${strDoneNothing}. All files must be in the same folder.`); // Cannot get destination folder (files from multiple folders); or we can split them multiple sources
         }
 
         const shortFnames = ourFiles.map((fname) => path.basename(fname));
@@ -65,7 +65,7 @@ function getVerifiedFoldersWManifests({ files, dirs }: Targets): SourceGroup[] {
             fnames.length && rv.push({ root, fnames });
         }
     } else {
-        throw newErrorArgs(`${strDoneNothing}. Specify at leats one folder or files name to process.`);
+        throw newErrorArgs(`${strDoneNothing}. Specify at least one folder or filename(s) to process.`);
     }
 
     return rv;
@@ -131,7 +131,6 @@ async function checkTaskScope(appArgs: AppArgs) {
         const response2 = await prompts(questions2);
         const domain = (response2.domain as string || '').trim();
 
-        //TODO: validate that we have at least dot character
         if (!domain) {
             throw new Error(strDoNothingExit);
         }
@@ -163,7 +162,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     return appArgs;
 }
 
-//TODO: what to do if no folders; use current?
+//TODO: what to do if no folders; use current? - done
 
 //TODO: promt process after operation selected:
 //  dc: folder, domain
