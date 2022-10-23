@@ -125,6 +125,7 @@ async function checkTaskScope(appArgs: AppArgs) {
                 type: 'text',
                 name: 'domain',
                 message: 'What domain to process?',
+                validate: (input: string) => !!input.trim() ? true : 'Enter a domain name, for example, google.com',
             },
         ];
         const response2 = await prompts(questions2);
