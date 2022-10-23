@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import color from 'picocolors';
 
-export namespace osStuff {
+export namespace OsStuff {
 
     export type FileItem = {
         short: string;      // filename wo/ path
@@ -17,7 +17,7 @@ export namespace osStuff {
         subs: FolderItem[]; // Sub-folders.
     };
 
-    function collectFiles(dir: string, rv: FolderItem, recursive: boolean): void {
+    function recursivelyCollectFiles(dir: string, rv: FolderItem, recursive: boolean): void {
         const filenames = fs.readdirSync(dir)
             .map((item) => {
                 let fname = path.join(dir, item);
@@ -29,7 +29,7 @@ export namespace osStuff {
                             files: [],
                             subs: [],
                         };
-                        collectFiles(fname, newFolder, recursive);
+                        recursivelyCollectFiles(fname, newFolder, recursive);
                         if (newFolder.files.length || newFolder.subs.length) {
                             rv.subs.push(newFolder);
                         }
@@ -54,7 +54,7 @@ export namespace osStuff {
             files: [],
             subs: [],
         };
-        collectFiles(dir, rv, true);
+        recursivelyCollectFiles(dir, rv, true);
         return rv;
     }
 

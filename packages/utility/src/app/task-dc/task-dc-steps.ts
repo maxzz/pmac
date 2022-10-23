@@ -4,7 +4,7 @@ import color from 'picocolors';
 import { buildManiMetaForms, makeXML, Mani, Matching, Meta, parseXMLFile } from "../../manifest";
 import { FormUrls, getFormUrls } from "../../utils/utils-mani-urls";
 import { uuid } from "../../utils/uuid";
-import { osStuff } from "../../utils/utils-os";
+import { OsStuff } from "../../utils/utils-os";
 import { ensureNameUnique, nowDayTime, toUnix } from "../../utils/unique-names";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
 import { SourceGroup } from "../app-types";
@@ -183,11 +183,11 @@ function addError(targetGroup: TargetGroup, msg: ItemError | string) {
 function final1_MakeBackupCopy(targetGroup: TargetGroup): void {
 
     function makeBackupCopy(files: FileMeta[], destFolder: string): void {
-        osStuff.mkdirSync(destFolder);
+        OsStuff.mkdirSync(destFolder);
         files.forEach((f) => {
             const fname = path.join(destFolder, f.short);
             const maybeSubFolder = path.dirname(fname);
-            osStuff.mkdirSync(maybeSubFolder);
+            OsStuff.mkdirSync(maybeSubFolder);
             fs.writeFileSync(fname, f.raw);
         });
     }
