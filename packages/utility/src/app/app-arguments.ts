@@ -94,12 +94,12 @@ async function checkTaskTodo(appArgs: AppArgs) {
             throw new Error(strDoNothingExit);
         }
 
-        checkTaskScope(appArgs);
+        await checkTaskScope(appArgs);
     }
 }
 
 async function checkTaskScope(appArgs: AppArgs) {
-    const noDomain = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
+    const noDomain = () => !appArgs.domain;
     if (noDomain()) {
         // 1.
         const questions1: prompts.PromptObject[] = [
