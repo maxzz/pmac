@@ -106,10 +106,10 @@ async function checkTaskScope(appArgs: AppArgs) {
             {
                 type: 'select',
                 name: 'all',
-                message: 'Process all files or Domain',
+                message: 'Process all files or single domain',
                 choices: [
                     { title: 'All files', value: true, },
-                    { title: 'Domain', value: false, },
+                    { title: 'Single domain', value: false, description: 'like google.com', },
                 ],
                 initial: 0,
             },
@@ -129,9 +129,12 @@ async function checkTaskScope(appArgs: AppArgs) {
         ];
         const response2 = await prompts(questions2);
         const domain = (response2.domain as string || '').trim();
+
+        //TODO: validate that we have at least dot character
         if (!domain) {
             throw new Error(strDoNothingExit);
         }
+
         appArgs.domain = domain;
     }
 }
