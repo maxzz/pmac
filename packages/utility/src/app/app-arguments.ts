@@ -139,10 +139,7 @@ async function checkTaskScope(appArgs: AppArgs) {
     }
 }
 
-export async function getAndCheckTargets(): Promise<AppArgs> {
-    const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, domain, _: unnamed } = getMinimistArgs();
-
-    // 1. Get target folders first
+function getSourceGroups(unnamed: string[]) {
     let sourceGroups: SourceGroup[] = [];
     try {
         const targets = getTargets(unnamed);
@@ -154,6 +151,15 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     if (!sourceGroups.length) {
         throw new Error(`${strDoneNothing}. There are no manifest files in the current folder.`);
     }
+
+    return sourceGroups;
+}
+
+export async function getAndCheckTargets(): Promise<AppArgs> {
+    const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, domain, _: unnamed } = getMinimistArgs();
+
+    // 1. Get target folders first
+    const sourceGroups = getSourceGroups(unnamed);
 
     // 2. Then complete with task to accomplish
     const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups, domain };
@@ -169,4 +175,6 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
 //  add prefix: folders, file, domain
 //  remove prefix: folders, file, domain
 
-//TODO: --d donain to +/- as prefix
+//TODO: --d donain to +/- as prefix - done
+
+//TODO: interactive mode during operation process started like 'let me select'
