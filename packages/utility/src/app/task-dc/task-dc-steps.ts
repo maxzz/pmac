@@ -1,20 +1,17 @@
 import path from "path";
 import fs from "fs";
 import color from 'picocolors';
-import { buildManiMetaForms, makeXML, Mani, Matching, Meta, parseXMLFile } from "../../manifest";
-import { FormUrls, getFormUrls } from "../../utils/utils-mani-urls";
-import { uuid } from "../../utils/uuid";
+import { makeXML, Matching, } from "../../manifest";
 import { OsStuff } from "../../utils/utils-os";
 import { ensureNameUnique, nowDayTime, toUnix } from "../../utils/unique-names";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
-import { SourceGroup } from "../app-types";
+import { FileMeta, SameDc, SourceGroup, TargetGroup } from "../app-types";
 import { notes } from "../app-notes";
 import { templateStr } from "../../utils/utils-report-template";
 import { splitByKey } from "../../utils/utils";
-import { programVersion } from "../app-help";
-import { FileMeta, SameDc, step1_LoadManifests, TargetGroup } from "../task-common";
+import { step1_LoadManifests } from "../task-common";
 
-// Manifest sorting
+// Flat manifest
 
 function flatDcActive(sameDC: SameDc[]): FileMeta[] {
     const files: FileMeta[] = sameDC.map(({ domain, files }) => files).flat();
