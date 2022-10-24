@@ -1,9 +1,9 @@
 import color from "picocolors";
 import path from 'path';
+import prompts from 'prompts';
 import { exist } from '../utils/unique-names';
 import { exitProcess, newErrorArgs } from '../utils/utils-errors';
 import { OsStuff } from '../utils/utils-os';
-import prompts from 'prompts';
 import { AppArgs, SourceGroup, Targets } from './app-types';
 import { getMinimistArgs, help, strDoneNothing, strDoNothingExit } from './app-help';
 
@@ -88,6 +88,19 @@ function getSourceGroups(unnamed: string[]) {
     return sourceGroups;
 }
 
+async function checkBoolean(message: string, initial: boolean): Promise<boolean> {
+    const question: prompts.PromptObject[] = [
+        {
+            type: 'confirm',
+            name: 'value',
+            message,
+            initial,
+        },
+    ];
+    const { value } = await prompts(question);
+    return value;
+}
+
 async function checkTaskScope(appArgs: AppArgs) {
     const noDomain = () => !appArgs.domain;
     if (noDomain()) {
@@ -96,10 +109,10 @@ async function checkTaskScope(appArgs: AppArgs) {
             {
                 type: 'select',
                 name: 'all',
-                message: 'Process all files or single domain',
+                message: 'Process all files or a specific domain',
                 choices: [
                     { title: 'All files', value: true, },
-                    { title: 'Single domain', value: false, description: 'like google.com', },
+                    { title: 'Specific domain', value: false, description: 'process files only for a specific domain', },
                 ],
                 initial: 0,
             },
@@ -182,14 +195,3 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
 
     return appArgs;
 }
-
-//TODO: what to do if no folders; use current? - done
-
-//TODO: promt process after operation selected:
-//  dc: folder, domain
-//  add prefix: folders, file, domain
-//  remove prefix: folders, file, domain
-
-//TODO: --d donain to +/- as prefix - done
-
-//TODO: interactive mode during operation process started like 'let me select'

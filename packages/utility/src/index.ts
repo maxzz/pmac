@@ -37,3 +37,14 @@ main().catch(async (error) => {
 //TODO: add slim scrollbar in the template project
 
 //TODO: no-report; no-backup
+
+//TODO: what to do if no folders; use current? - done
+
+//TODO: promt process after operation selected:
+//  dc: folder, domain
+//  add prefix: folders, file, domain
+//  remove prefix: folders, file, domain
+
+//TODO: --d donain to +/- as prefix - done
+
+//TODO: interactive mode during operation process started like 'let me select'
