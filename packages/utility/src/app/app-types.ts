@@ -12,17 +12,19 @@ export type SourceGroup = {
     fnames: string[];   // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
 };
 
-export type AppArgs = {
+export type AppOptions = {
+    noBackup?: boolean;
+    noReport?: boolean;
+    noUpdate?: boolean; // will create report if there is no --no-report option
+    domain?: string;    // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
+}
+
+export type AppArgs = AppOptions & {
     dc: boolean;
     addPrefix: boolean;
     removePrefix: boolean;
 
-    noBackup?: boolean;
-    noReport?: boolean;
-    noUpdate?: boolean; // will create report if there is no --no-report option
-
     sourceGroups: SourceGroup[];
-    domain?: string;    // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
 };
 
 // Manifest loading
