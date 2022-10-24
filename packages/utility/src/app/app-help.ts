@@ -9,7 +9,6 @@ export const strDoneNothing = 'Nothing has been done';
 export const strDoNothingExit = 'Chosen to do nothing, just exit.';
 
 export function help() {
-
     let msg = `
 The ${color.gray(`${programName}`)} (password manager administrator commands) utility version ${programVersion}.
 
@@ -36,6 +35,16 @@ examples
     ${color.gray('pmac --remove-prefix --domain mybank.com c:/manifests')}
         This command will look in the "c:/manifests" folder and will rename
         manifests file names "mybank.com.{guid}.dpm" to "{guid}.dpm".
+`;
+    console.log(msg);
+}
+
+export function helpAdvancedOption() {
+    let msg = `
+
+    advanced options:
+      --no-backup     - don't create back up for modified files.
+      --no-report     - don't create report file.
 `;
     console.log(msg);
 }

@@ -35,3 +35,5 @@ main().catch(async (error) => {
 //TODO: add version to HID icon hover in the template project
 
 //TODO: add slim scrollbar in the template project
+
+//TODO: no-report; no-backup
