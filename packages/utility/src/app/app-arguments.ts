@@ -5,7 +5,7 @@ import { newErrorArgs } from '../utils/utils-errors';
 import { OsStuff } from '../utils/utils-os';
 import prompts from 'prompts';
 import { AppArgs, SourceGroup, Targets } from './app-types';
-import { getMinimistArgs, strDoneNothing, strDoNothingExit } from './app-help';
+import { getMinimistArgs, help, strDoneNothing, strDoNothingExit } from './app-help';
 
 function getTargets(unnamed: string[] = []): Targets {
     let rv: Targets = { files: [], dirs: [] };
@@ -81,6 +81,7 @@ function getSourceGroups(unnamed: string[]) {
     }
 
     if (!sourceGroups.length) {
+        help();
         throw new Error(`${strDoneNothing}. There are no manifest files in the current folder.`);
     }
 
