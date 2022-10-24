@@ -9,57 +9,7 @@ import { FileMeta, SameDc, SourceGroup, TargetGroup } from "../app-types";
 import { notes } from "../app-notes";
 import { templateStr } from "../../utils/utils-report-template";
 import { splitByKey } from "../../utils/utils";
-import { step1_LoadManifests } from "../task-common";
-
-// Flat manifest
-
-function flatDcActive(sameDC: SameDc[]): FileMeta[] {
-    const files: FileMeta[] = sameDC.map(({ domain, files }) => files).flat();
-    return files;
-}
-
-// Errors
-
-function addError(targetGroup: TargetGroup, msg: ItemError | string) {
-    const errors = targetGroup.report.errors || (targetGroup.report.errors = []);
-    errors.push(typeof msg === 'string' ? { text: msg } : msg);
-}
-
-// Local console log reports
-
-/*export*/ function printLoaded(targetGroup: TargetGroup) {
-
-    targetGroup.files.forEach((file) => {
-        const [a, b] = [file.urls[0]?.oParts?.woParms, file.urls[1]?.oParts?.woParms];
-        if (a || b) {
-            notes.add('--------------------------------');
-            a && notes.add(`    0: ${color.green(a)}`);
-            b && notes.add(`    1: ${color.green(b)}`);
-        }
-    });
-
-    targetGroup.empty.forEach((file) => {
-        notes.add(color.bgBlue(color.green(`empty --------------------------------${path.basename(file)}`)));
-    });
-
-    targetGroup.failed.forEach((file) => {
-        notes.add(color.bgBlue(color.green(`failed --------------------------------${path.basename(file)}`)));
-    });
-}
-
-/*export*/ function printDcActive(sameDC: SameDc[]) {
-    const entries = sameDC.map(({ domain, files }) => {
-        const items = files.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
-        return color.red(`${domain} ${files.length}${items}`);
-    });
-
-    entries.forEach((item) => {
-        console.log(item);
-    });
-}
-
-// Steps
-
+import { addError, flatDcActive, step1_LoadManifests } from "../task-common";
 
 /*export*/ function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
@@ -234,5 +184,3 @@ export function executeTaskDc(sourceGroups: SourceGroup[]) {
     const targetGroups = sourceGroups.map(processSourceGroup);
     //step4_FinalMakeReport(targetGroups);
 }
-
-//TODO: add version to HID icon hover in the template project

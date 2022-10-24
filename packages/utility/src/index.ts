@@ -30,4 +30,6 @@ main().catch(async (error) => {
 //TODO: HTML report
 //TODO: show diff
 
-//TODO: new CLI swithces: add and remove domain file prefix
+//TODO: new CLI swithces: add and remove domain file prefix - done
+
+//TODO: add version to HID icon hover in the template project
