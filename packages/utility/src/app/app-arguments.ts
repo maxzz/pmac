@@ -4,7 +4,7 @@ import prompts from 'prompts';
 import { exist } from '../utils/unique-names';
 import { exitProcess, newErrorArgs } from '../utils/utils-errors';
 import { OsStuff } from '../utils/utils-os';
-import { AppArgs, SourceGroup, Targets } from './app-types';
+import { AppArgs, AppOptions, SourceGroup, Targets } from './app-types';
 import { getMinimistArgs, help, strDoneNothing, strDoNothingExit } from './app-help';
 
 function getTargets(unnamed: string[] = []): Targets {
@@ -174,6 +174,8 @@ async function checkOmmitedArgs(appArgs: AppArgs) {
     }
 }
 
+export let appOptions: AppOptions = {};
+
 export async function getAndCheckTargets(): Promise<AppArgs> {
     const {
         'dc': dc,
@@ -198,8 +200,10 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     const sourceGroups = getSourceGroups(unnamed);
 
     // 2. Then complete with task to accomplish
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup, noReport, noUpdate, sourceGroups, domain };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup, noReport, noUpdate, sourceGroups, domain, };
     await checkOmmitedArgs(appArgs);
+
+    appOptions = { noBackup, noReport, noUpdate, domain, };
 
     return appArgs;
 }

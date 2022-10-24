@@ -8,22 +8,21 @@ export type Targets = {
 };
 
 export type SourceGroup = {
-    root: string;       // this group root folder
-    fnames: string[];   // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
+    root: string;               // this group root folder
+    fnames: string[];           // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
 };
 
 export type AppOptions = {
     noBackup?: boolean;
     noReport?: boolean;
-    noUpdate?: boolean; // will create report if there is no --no-report option
-    domain?: string;    // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
+    noUpdate?: boolean;         // will create report if there is no --no-report option
+    domain?: string;            // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
 }
 
 export type AppArgs = AppOptions & {
-    dc: boolean;
-    addPrefix: boolean;
-    removePrefix: boolean;
-
+    dc: boolean;                // task: domain credentials
+    addPrefix: boolean;         // task: add prefix
+    removePrefix: boolean;      // task: remove prefix
     sourceGroups: SourceGroup[];
 };
 

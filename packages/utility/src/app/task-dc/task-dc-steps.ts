@@ -10,6 +10,7 @@ import { notes } from "../app-notes";
 import { templateStr } from "../../utils/utils-report-template";
 import { splitByKey } from "../../utils/utils";
 import { addError, flatDcActive, step1_LoadManifests } from "../task-common";
+import { appOptions } from "../app-arguments";
 
 /*export*/ function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
@@ -181,6 +182,11 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
 }
 
 export function executeTaskDc(sourceGroups: SourceGroup[]) {
+
+    if (appOptions.domain) {
+        
+    }
+
     const targetGroups = sourceGroups.map(processSourceGroup);
     //step4_FinalMakeReport(targetGroups);
 }
