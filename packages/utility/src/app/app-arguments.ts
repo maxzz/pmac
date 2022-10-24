@@ -139,8 +139,6 @@ async function checkTaskScope(appArgs: AppArgs) {
     }
 }
 
-const noTask = (appArgs: AppArgs) => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
-
 async function checkTaskTodo(appArgs: AppArgs) {
     const questions: prompts.PromptObject[] = [
         {
@@ -161,10 +159,10 @@ async function checkTaskTodo(appArgs: AppArgs) {
 }
 
 async function checkOmmitedArgs(appArgs: AppArgs) {
-    if (noTask(appArgs)) {
-
+    const noTask = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
+    if (noTask()) {
         await checkTaskTodo(appArgs);
-        if (noTask(appArgs)) {
+        if (noTask()) {
             throw new Error(strDoNothingExit);
         }
 
@@ -200,7 +198,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     const sourceGroups = getSourceGroups(unnamed);
 
     // 2. Then complete with task to accomplish
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups, domain };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup, noReport, noUpdate, sourceGroups, domain };
     await checkOmmitedArgs(appArgs);
 
     return appArgs;
