@@ -16,17 +16,17 @@ The ${color.gray(`${programName}`)} (password manager administrator commands) ut
 Usage: ${color.gray(`${programName} source [command] [options]`)}
 
 where:
-    source              - folder with the manifest files to process or
-                          space-separated list of manifest filenames to process
+    source                - folder with the manifest files to process or
+                            space-separated list of manifest filenames to process
 
     command:
-        --dc, -c        - switch domain credentials to credentials that apply only
-                          to a specific URL
-        --add-prefix    - add domain name as prefix to manifest filenames
-        --remove-prefix - remove domain name prefix from manifest filenames
+      --dc, -c            - switch domain credentials to credentials
+                            that apply only to a specific URL
+      --add-prefix, -a    - add domain name as prefix to manifest filenames
+      --remove-prefix, -r - remove domain name prefix from manifest filenames
 
     options:
-        --domain        - process manifests only with the specified web domain.
+      --domain        - process manifests only with the specified web domain.
 
 examples
     ${color.gray('pmac --add-prefix --domain mybank.com c:/manifests')}
@@ -58,7 +58,7 @@ examples
 
 The ${color.cyan(`${programName}`)} utility converts PM manifests with domain credentials to
 manifests with credentials that apply only to a specific URL.
-        
+
 ${color.gray(`Run this utility from the folder where the manifest files are
 located. Alternatively, you can specify the folder where the
 manifest files are located or filenames separated by space

@@ -33,3 +33,5 @@ main().catch(async (error) => {
 //TODO: new CLI swithces: add and remove domain file prefix - done
 
 //TODO: add version to HID icon hover in the template project
+
+//TODO: add slim scrollbar in the template project
