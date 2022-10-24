@@ -88,7 +88,7 @@ function getSourceGroups(unnamed: string[]) {
     return sourceGroups;
 }
 
-async function checkBoolean(message: string, initial: boolean): Promise<boolean> {
+async function queryBoolean(message: string, initial: boolean): Promise<boolean> {
     const question: prompts.PromptObject[] = [
         {
             type: 'confirm',
@@ -139,30 +139,40 @@ async function checkTaskScope(appArgs: AppArgs) {
     }
 }
 
+const noTask = (appArgs: AppArgs) => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
+
 async function checkTaskTodo(appArgs: AppArgs) {
-    const noTask = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
-    if (noTask()) {
-        const questions: prompts.PromptObject[] = [
-            {
-                type: 'select',
-                name: 'job',
-                message: 'Select a task to complete',
-                choices: [
-                    { title: 'Domain credentials', value: 'dc', description: 'Switch to credentials that apply only to a specific URL', },
-                    { title: 'Add prefix', value: 'addPrefix', description: 'Add domain name as prefix to manifest filenames', },
-                    { title: 'Remove prefix', value: 'removePrefix', description: 'Remove domain name prefix from manifest filenames', },
-                    { title: 'Exit', value: 'none', description: 'Do nothing, just exit' },
-                ],
-                initial: 0,
-            },
-        ];
-        const response = await prompts(questions);
-        response.job && (appArgs[response.job as keyof Omit<AppArgs, 'sourceGroups' | 'domain'>] = true);
-        if (noTask()) {
+    const questions: prompts.PromptObject[] = [
+        {
+            type: 'select',
+            name: 'job',
+            message: 'Select a task to complete',
+            choices: [
+                { title: 'Domain credentials', value: 'dc', description: 'Switch to credentials that apply only to a specific URL', },
+                { title: 'Add prefix', value: 'addPrefix', description: 'Add domain name as prefix to manifest filenames', },
+                { title: 'Remove prefix', value: 'removePrefix', description: 'Remove domain name prefix from manifest filenames', },
+                { title: 'Exit', value: 'none', description: 'Do nothing, just exit' },
+            ],
+            initial: 0,
+        },
+    ];
+    const response = await prompts(questions);
+    response.job && (appArgs[response.job as keyof Omit<AppArgs, 'sourceGroups' | 'domain'>] = true);
+}
+
+async function checkOmmitedArgs(appArgs: AppArgs) {
+    if (noTask(appArgs)) {
+
+        await checkTaskTodo(appArgs);
+        if (noTask(appArgs)) {
             throw new Error(strDoNothingExit);
         }
 
         await checkTaskScope(appArgs);
+
+        appArgs.noBackup = await queryBoolean('Create back up files?', true);
+        appArgs.noReport = await queryBoolean('Create report?', true);
+        appArgs.noBackup = await queryBoolean('Modify files?', true);
     }
 }
 
@@ -191,7 +201,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
 
     // 2. Then complete with task to accomplish
     const appArgs: AppArgs = { dc, addPrefix, removePrefix, sourceGroups, domain };
-    await checkTaskTodo(appArgs);
+    await checkOmmitedArgs(appArgs);
 
     return appArgs;
 }
