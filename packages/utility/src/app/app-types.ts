@@ -16,6 +16,11 @@ export type AppArgs = {
     dc: boolean;
     addPrefix: boolean;
     removePrefix: boolean;
+
+    noBackup?: boolean;
+    noReport?: boolean;
+    noUpdate?: boolean; // will create report if there is no --no-report option
+
     sourceGroups: SourceGroup[];
     domain?: string;    // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
 };
