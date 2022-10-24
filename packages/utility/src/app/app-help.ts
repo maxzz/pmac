@@ -22,6 +22,7 @@ where:
                             that apply only to a specific URL
       --add-prefix, -a    - add domain name as prefix to manifest filenames
       --remove-prefix, -r - remove domain name prefix from manifest filenames
+      --help              - show full help
 
     options:
       --domain            - process manifests only with the specified web domain.`;
@@ -45,7 +46,9 @@ export function helpAdvancedOption() {
     let msg = `
     advanced options:
       --no-backup         - don't create back up for modified files.
-      --no-report         - don't create report file.`;
+      --no-report         - don't create report file.
+      --no-update         - don't update manifest files.`;
+
     return msg;
 }
 
@@ -86,6 +89,10 @@ export type MinimistArgs = {
     'dc': boolean;
     'add-prefix': boolean;
     'remove-prefix': boolean;
+    'help': boolean;
+    'no-backup': boolean;
+    'no-report': boolean;
+    'no-update': boolean;
     'c': boolean;
     'a': boolean;
     'r': boolean;
@@ -95,7 +102,7 @@ export type MinimistArgs = {
 
 export function getMinimistArgs(): MinimistArgs {
     let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
-        boolean: ['dc', 'add-prefix', 'remove-prefix'],
+        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'no-backup', 'no-report', 'no-update',],
         string: ['domain'],
         alias: {
             'c': 'dc',

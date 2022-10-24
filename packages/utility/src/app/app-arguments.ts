@@ -1,7 +1,7 @@
 import color from "picocolors";
 import path from 'path';
 import { exist } from '../utils/unique-names';
-import { newErrorArgs } from '../utils/utils-errors';
+import { exitProcess, newErrorArgs } from '../utils/utils-errors';
 import { OsStuff } from '../utils/utils-os';
 import prompts from 'prompts';
 import { AppArgs, SourceGroup, Targets } from './app-types';
@@ -154,7 +154,24 @@ async function checkTaskTodo(appArgs: AppArgs) {
 }
 
 export async function getAndCheckTargets(): Promise<AppArgs> {
-    const { 'dc': dc, 'add-prefix': addPrefix, 'remove-prefix': removePrefix, domain, _: unnamed } = getMinimistArgs();
+    const {
+        'dc': dc,
+        'add-prefix': addPrefix,
+        'remove-prefix': removePrefix,
+
+        'help': shwoHelp,
+        'no-backup': noBackup,
+        'no-report': noReport,
+        'no-update': noUpdate,
+
+        domain,
+        _: unnamed
+    } = getMinimistArgs();
+
+    if (shwoHelp) {
+        help(true);
+        await exitProcess(0, '');
+    }
 
     // 1. Get target folders first
     const sourceGroups = getSourceGroups(unnamed);
