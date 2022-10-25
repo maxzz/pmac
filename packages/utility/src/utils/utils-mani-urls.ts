@@ -1,9 +1,9 @@
 import { ReportFormUrls } from "@pmac/shared-types";
 import { FileMeta, FormUrls } from "../app/app-types";
-import { Mani, Matching, Meta } from "../manifest";
+import { Matching, Meta } from "../manifest";
 import { tmurl } from "../manifest/url";
 
-export function getFormUrls(form: Meta.Form | undefined): FormUrls {
+function getFormUrls(form: Meta.Form | undefined): FormUrls {
     const rv: FormUrls = {};
     const detection = form?.mani?.detection;
     if (detection) {
@@ -34,8 +34,12 @@ export function getFormUrls(form: Meta.Form | undefined): FormUrls {
     return rv;
 }
 
-export function reportFormUrls(f: FileMeta, idx: number): ReportFormUrls | undefined {
-    const parts = f.urls[idx];
+export function getFormUrlsArray(forms: Meta.Form[]): FormUrls[] {
+    return [getFormUrls(forms[0]), getFormUrls(forms[1])];
+}
+
+function reportFormUrls(fileMeta: FileMeta, idx: number): ReportFormUrls | undefined {
+    const parts = fileMeta.urls[idx];
     const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
     // if (oWoP) {
     //     console.log(`${color.green('ourl')} ${parts?.o}`);
@@ -47,4 +51,8 @@ export function reportFormUrls(f: FileMeta, idx: number): ReportFormUrls | undef
         ...(oWoP && { oWoP }),
         ...(parts?.o !== parts?.m && { murl: parts?.m }),
     } : undefined;
+}
+
+export function reportFormUrlsArray(fileMeta: FileMeta): ReportFormUrls[] {
+    return [reportFormUrls(fileMeta, 0), reportFormUrls(fileMeta, 1)].filter(Boolean);
 }
