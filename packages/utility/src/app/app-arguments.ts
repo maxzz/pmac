@@ -4,11 +4,11 @@ import prompts from 'prompts';
 import { exist } from '../utils/unique-names';
 import { exitProcess, newErrorArgs } from '../utils/utils-errors';
 import { OsStuff } from '../utils/utils-os';
-import { AppArgs, AppOptions, RootGroup, Targets } from './app-types';
+import { AppArgs, AppOptions, RootGroup, ArgTarget } from './app-types';
 import { getMinimistArgs, help, strDoneNothing, strDoNothingExit } from './app-help';
 
-function getTargets(unnamed: string[] = []): Targets {
-    let rv: Targets = { files: [], dirs: [] };
+function getArgTarget(unnamed: string[] = []): ArgTarget {
+    let rv: ArgTarget = { files: [], dirs: [] };
     for (let target of unnamed) {
         let current: string = path.resolve(target); // relative to the start up folder
         let st = exist(current);
@@ -25,7 +25,7 @@ function getTargets(unnamed: string[] = []): Targets {
     return rv;
 }
 
-function getVerifiedFoldersWManifests({ files, dirs }: Targets): RootGroup[] {
+function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): RootGroup[] {
     const rv: RootGroup[] = [];
 
     if (files.length && dirs.length) {
@@ -74,8 +74,8 @@ function getVerifiedFoldersWManifests({ files, dirs }: Targets): RootGroup[] {
 function getRootGroups(unnamed: string[]) {
     let rootGroups: RootGroup[] = [];
     try {
-        const targets = getTargets(unnamed);
-        rootGroups = getVerifiedFoldersWManifests(targets);
+        const argTarget = getArgTarget(unnamed);
+        rootGroups = getVerifiedFoldersWManifests(argTarget);
     } catch (error) {
         throw error;
     }

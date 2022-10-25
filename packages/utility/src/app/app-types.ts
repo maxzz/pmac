@@ -1,7 +1,7 @@
 import { Mani, Matching, Meta } from "../manifest";
 import { Report } from "@pmac/shared-types";
 
-export type Targets = {
+export type ArgTarget = {
     files: string[];
     dirs: string[];
 };
