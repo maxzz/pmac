@@ -11,11 +11,11 @@ import { uuid } from "../../utils/uuid";
 function loadManifests(sourceGroup: SourceGroup): TargetGroup {
     const rv: TargetGroup = {
         root: sourceGroup.root,
-        backup: path.join(sourceGroup.root, 'temp'),  // later it will be replaced by a more suitable one
         files: [],
-        sameDc: [],
         empty: [],
         failed: [],
+        backup: path.join(sourceGroup.root, 'temp'),  // later it will be replaced by a more suitable one
+        sameDc: [],
         report: { root: '', version: programVersion, date: Date.now()},
     };
 

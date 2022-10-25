@@ -1,19 +1,6 @@
+import { FormUrls } from "../app/app-types";
 import { Mani, Matching, Meta } from "../manifest";
 import { tmurl } from "../manifest/url";
-
-export type FormUrlParts = {
-    domain?: string;    // original url domain
-    woParms?: string;   // original url wo/ params
-    urlPath?: string;   // original url path part wo/ domain and params
-};
-
-export type FormUrls = {
-    o?: string;         // original url
-    m?: string;         // match url
-    oParts?: FormUrlParts;
-    mParts?: FormUrlParts; // available only if mData.style === Matching.Style.makeDomainMatch i.e. string match  
-    mData?: Matching.RawMatchData; // built out of mParts
-};
 
 export function getFormUrls(form: Meta.Form | undefined): FormUrls {
     const rv: FormUrls = {};

@@ -1,6 +1,5 @@
+import { Mani, Matching, Meta } from "../manifest";
 import { Report } from "@pmac/shared-types";
-import { Mani, Meta } from "../manifest";
-import { FormUrls } from "../utils/utils-mani-urls";
 
 export type Targets = {
     files: string[];
@@ -28,6 +27,20 @@ export type AppArgs = AppOptions & {
 
 // Manifest loading
 
+export type FormUrlParts = {
+    domain?: string;    // original url domain
+    woParms?: string;   // original url wo/ params
+    urlPath?: string;   // original url path part wo/ domain and params
+};
+
+export type FormUrls = {
+    o?: string;         // original url
+    m?: string;         // match url
+    oParts?: FormUrlParts;
+    mParts?: FormUrlParts; // available only if mData.style === Matching.Style.makeDomainMatch i.e. string match  
+    mData?: Matching.RawMatchData; // built out of mParts
+};
+
 export type FileMeta = {
     id: string;                 // File this run unique ID
     mani: Mani.Manifest;        // Parsed manifest
@@ -44,10 +57,10 @@ export type SameDc = {          // Domain Credentials Duplicates; use the same c
 
 export type TargetGroup = {
     root: string;               // this group root source folder
-    backup: string;             // folder for backup
-    sameDc: SameDc[];           // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
     files: FileMeta[];          // loaded meaninfull files, i.e. wo/ empty and failed
     empty: string[];            // filename list of empty files
     failed: string[];           // filename list of failed to load files
+    backup: string;             // folder for backup
+    sameDc: SameDc[];           // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
     report: Report;             // report for this group
 };
