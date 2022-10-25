@@ -19,7 +19,7 @@ function getArgTarget(unnamed: string[] = []): ArgTarget {
                 rv.files.push(current); // TODO: Check all files should have the same root folder. That is not possible with drag and drop, but still ...
             }
         } else {
-            throw newErrorArgs(`Target "${target}" does not exist.`);
+            throw newErrorArgs(`Source "${target}" does not exist.`);
         }
     }
     return rv;
@@ -158,7 +158,7 @@ async function checkTaskTodo(appArgs: AppArgs) {
     response.job && (appArgs[response.job as keyof Omit<AppArgs, 'rootGroups' | 'domain'>] = true);
 }
 
-async function checkOmmitedArgs(appArgs: AppArgs) {
+async function checkOmittedArgs(appArgs: AppArgs) {
     const noTask = () => !appArgs.dc && !appArgs.addPrefix && !appArgs.removePrefix;
     if (noTask()) {
         await checkTaskTodo(appArgs);
@@ -201,7 +201,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
 
     // 2. Then complete with task to accomplish
     const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup, noReport, noUpdate, rootGroups: rootGroups, domain, };
-    await checkOmmitedArgs(appArgs);
+    await checkOmittedArgs(appArgs);
 
     appOptions = { noBackup, noReport, noUpdate, domain, };
 

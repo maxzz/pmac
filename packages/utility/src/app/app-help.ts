@@ -32,6 +32,16 @@ where:
 export function helpExamples() {
     let msg = `
 examples
+    ${color.gray('pmac --dc c:/manifests')}
+        This command looks in the "c:/manifests" folder and updates the
+        manifest mapping settings from domain credentials to credentials 
+        that only apply to a specific URL. As a result, Password Manager 
+        will not prompt you to select credentials from a menu.
+
+    ${color.gray('pmac --dc --domain mybank.com c:/manifests')}
+        This is the same as the previous example, but the changes will only
+        apply to manifest files with the mybank.com domain.
+
     ${color.gray('pmac --add-prefix --domain mybank.com c:/manifests')}
         This command will look in the "c:/manifests" folder and will rename
         manifests with the "mybank.com" domain to "mybank.com.{guid}.dpm".
@@ -57,6 +67,8 @@ export function help(showAdvanced: boolean = false) {
     console.log(msg);
 }
 
+//TODO: interactive mode by domains
+
 /*
 
 For example ${color.gray('pmac --domain google.com')}
@@ -80,6 +92,13 @@ ${color.gray(`Run this utility from the folder where the manifest files are
 located. Alternatively, you can specify the folder where the
 manifest files are located or filenames separated by space
 character. Specify the folder name or file names, but not both.`)}
+*/
+
+/* spelling checked:
+DC is an irreversible operation compared to prefix add/remove operations.
+To preserve the ability to rollback DC changes, the program will create a backup folder with changed files.
+This backup folder will be in the same folder as the manifest files, but will have a unique name each time the utility is run.
+The name of this backup folder looks like "backup-10.25.22-at-15.26.39.195" where the "10.25.22" part is the date and "15.26.39.195" is the start time.
 */
 
 //TODO: options: replace files i.e. don't create backup folder (unique backup name w/ date)
