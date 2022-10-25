@@ -53,7 +53,7 @@ export function helpAdvancedOption() {
 }
 
 export function help(showAdvanced: boolean = false) {
-    let msg = `${helpHeader()}\n${showAdvanced ? `${helpAdvancedOption()}\n` : ''}${helpExamples()}`;
+    let msg = `${helpHeader()}${showAdvanced ? `\n${helpAdvancedOption()}\n${helpExamples()}` : ''}`;
     console.log(msg);
 }
 
