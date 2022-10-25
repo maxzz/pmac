@@ -11,7 +11,7 @@ async function main() {
     console.log('appArgs', appArgs);
 
     if (appArgs.dc) {
-        executeTaskDc(appArgs.sourceGroups);
+        executeTaskDc(appArgs.rootGroups);
     } else if (appArgs.addPrefix || appArgs.removePrefix) {
         throw new Error('Not implemented yet');
     }

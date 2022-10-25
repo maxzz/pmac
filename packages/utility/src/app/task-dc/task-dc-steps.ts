@@ -5,7 +5,7 @@ import { makeXML, Matching, } from "../../manifest";
 import { OsStuff } from "../../utils/utils-os";
 import { ensureNameUnique, nowDayTime, toUnix } from "../../utils/unique-names";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
-import { FileMeta, SameDc, SourceGroup, TargetGroup } from "../app-types";
+import { FileMeta, SameDc, RootGroup, TargetGroup } from "../app-types";
 import { notes } from "../app-notes";
 import { templateStr } from "../../utils/utils-report-template";
 import { splitByKey } from "../../utils/utils";
@@ -175,8 +175,8 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
     notes.add(`All done`);
 }
 
-function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
-    const targetGroup = step1_LoadManifests(sourceGroup);
+function processRootGroup(rootGroup: RootGroup): TargetGroup {
+    const targetGroup = step1_LoadManifests(rootGroup);
 
     filterFilesByDomain(targetGroup, appOptions.domain);
 
@@ -185,8 +185,8 @@ function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
     return targetGroup;
 }
 
-export function executeTaskDc(sourceGroups: SourceGroup[]) {
-    const targetGroups = sourceGroups.map(processSourceGroup);
+export function executeTaskDc(rootGroups: RootGroup[]) {
+    const targetGroups = rootGroups.map(processRootGroup);
 
     if (!appOptions.noReport) {
         //TODO:

@@ -4,7 +4,7 @@ import prompts from 'prompts';
 import { exist } from '../utils/unique-names';
 import { exitProcess, newErrorArgs } from '../utils/utils-errors';
 import { OsStuff } from '../utils/utils-os';
-import { AppArgs, AppOptions, SourceGroup, Targets } from './app-types';
+import { AppArgs, AppOptions, RootGroup, Targets } from './app-types';
 import { getMinimistArgs, help, strDoneNothing, strDoNothingExit } from './app-help';
 
 function getTargets(unnamed: string[] = []): Targets {
@@ -25,8 +25,8 @@ function getTargets(unnamed: string[] = []): Targets {
     return rv;
 }
 
-function getVerifiedFoldersWManifests({ files, dirs }: Targets): SourceGroup[] {
-    const rv: SourceGroup[] = [];
+function getVerifiedFoldersWManifests({ files, dirs }: Targets): RootGroup[] {
+    const rv: RootGroup[] = [];
 
     if (files.length && dirs.length) {
         throw newErrorArgs(`${strDoneNothing}. Specify the folder name or file names, but not both.`);
@@ -71,21 +71,21 @@ function getVerifiedFoldersWManifests({ files, dirs }: Targets): SourceGroup[] {
     return rv;
 }
 
-function getSourceGroups(unnamed: string[]) {
-    let sourceGroups: SourceGroup[] = [];
+function getRootGroups(unnamed: string[]) {
+    let rootGroups: RootGroup[] = [];
     try {
         const targets = getTargets(unnamed);
-        sourceGroups = getVerifiedFoldersWManifests(targets);
+        rootGroups = getVerifiedFoldersWManifests(targets);
     } catch (error) {
         throw error;
     }
 
-    if (!sourceGroups.length) {
+    if (!rootGroups.length) {
         help();
         throw new Error(`${strDoneNothing}. There are no manifest files in the current folder.`);
     }
 
-    return sourceGroups;
+    return rootGroups;
 }
 
 async function queryBoolean(message: string, initial: boolean): Promise<boolean> {
@@ -155,7 +155,7 @@ async function checkTaskTodo(appArgs: AppArgs) {
         },
     ];
     const response = await prompts(questions);
-    response.job && (appArgs[response.job as keyof Omit<AppArgs, 'sourceGroups' | 'domain'>] = true);
+    response.job && (appArgs[response.job as keyof Omit<AppArgs, 'rootGroups' | 'domain'>] = true);
 }
 
 async function checkOmmitedArgs(appArgs: AppArgs) {
@@ -197,10 +197,10 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     }
 
     // 1. Get target folders first
-    const sourceGroups = getSourceGroups(unnamed);
+    const rootGroups = getRootGroups(unnamed);
 
     // 2. Then complete with task to accomplish
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup, noReport, noUpdate, sourceGroups, domain, };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup, noReport, noUpdate, rootGroups: rootGroups, domain, };
     await checkOmmitedArgs(appArgs);
 
     appOptions = { noBackup, noReport, noUpdate, domain, };

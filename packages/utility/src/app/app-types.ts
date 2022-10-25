@@ -6,7 +6,7 @@ export type Targets = {
     dirs: string[];
 };
 
-export type SourceGroup = {
+export type RootGroup = {
     root: string;               // this group root folder
     fnames: string[];           // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
 };
@@ -22,7 +22,7 @@ export type AppArgs = AppOptions & {
     dc: boolean;                // task: domain credentials
     addPrefix: boolean;         // task: add prefix
     removePrefix: boolean;      // task: remove prefix
-    sourceGroups: SourceGroup[];
+    rootGroups: RootGroup[];
 };
 
 // Manifest loading
