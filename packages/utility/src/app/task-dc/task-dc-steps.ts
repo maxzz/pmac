@@ -174,19 +174,32 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
     notes.add(`All done`);
 }
 
-/*export*/ function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
+function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = step1_LoadManifests(sourceGroup);
+
+    if (appOptions.domain) {
+        //TODO: filter targetGroup.files        
+    }
+
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);
     return targetGroup;
 }
 
 export function executeTaskDc(sourceGroups: SourceGroup[]) {
+    const targetGroups = sourceGroups.map(processSourceGroup);
 
-    if (appOptions.domain) {
-        
+    if (!appOptions.noReport) {
+        //TODO:
+    }
+    
+    if (!appOptions.noBackup) {
+        //TODO:
     }
 
-    const targetGroups = sourceGroups.map(processSourceGroup);
+    if (!appOptions.noUpdate) {
+        //TODO:
+    }
+
     //step4_FinalMakeReport(targetGroups);
 }

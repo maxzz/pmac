@@ -46,16 +46,14 @@ function loadManifests(sourceGroup: SourceGroup): TargetGroup {
 }
 
 export function step1_LoadManifests(sourceGroup: SourceGroup): TargetGroup {
-    const targetGroup = loadManifests(sourceGroup);
-    //printLoaded(targetGroup);
+    const targetGroup = loadManifests(sourceGroup); //printLoaded(targetGroup);
 
     targetGroup.report.inputs = {
         input: targetGroup.files.map((fileMeta, idx) => {
-            const urls = reportFormUrlsArray(fileMeta);
             return {
                 id: fileMeta.id,
                 idx,
-                urls,
+                urls: reportFormUrlsArray(fileMeta),
                 title: fileMeta.forms[0]?.mani?.options?.choosename || '',
                 short: toUnix(fileMeta.short),
             };
