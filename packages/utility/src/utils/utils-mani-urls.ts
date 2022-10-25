@@ -1,5 +1,5 @@
 import { ReportFormUrls } from "@pmac/shared-types";
-import { FileMeta, FormUrls } from "../app/app-types";
+import { FileMeta, FormUrls, TargetGroup } from "../app/app-types";
 import { Matching, Meta } from "../manifest";
 import { tmurl } from "../manifest/url";
 
@@ -55,4 +55,15 @@ function reportFormUrls(fileMeta: FileMeta, idx: number): ReportFormUrls | undef
 
 export function reportFormUrlsArray(fileMeta: FileMeta): ReportFormUrls[] {
     return [reportFormUrls(fileMeta, 0), reportFormUrls(fileMeta, 1)].filter(Boolean);
+}
+
+// Filter by domain
+
+export function filterFilesByDomain(targetGroup: TargetGroup, domain?: string) {
+    if (domain) {
+        function matchedDomain(fileMeta: FileMeta): boolean {
+            return fileMeta.urls.some((formUrls) => formUrls.oParts?.domain === domain); // I'm not sure if we need here false positive matches w/ regex.
+        }
+        targetGroup.files = targetGroup.files.filter(matchedDomain);
+    }
 }

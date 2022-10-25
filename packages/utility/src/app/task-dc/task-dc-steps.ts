@@ -11,6 +11,7 @@ import { templateStr } from "../../utils/utils-report-template";
 import { splitByKey } from "../../utils/utils";
 import { addError, flatDcActive, step1_LoadManifests } from "../task-common";
 import { appOptions } from "../app-arguments";
+import { filterFilesByDomain } from "../../utils/utils-mani-urls";
 
 /*export*/ function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
@@ -177,9 +178,7 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
 function processSourceGroup(sourceGroup: SourceGroup): TargetGroup {
     const targetGroup = step1_LoadManifests(sourceGroup);
 
-    if (appOptions.domain) {
-        //TODO: filter targetGroup.files        
-    }
+    filterFilesByDomain(targetGroup, appOptions.domain);
 
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);
@@ -192,7 +191,7 @@ export function executeTaskDc(sourceGroups: SourceGroup[]) {
     if (!appOptions.noReport) {
         //TODO:
     }
-    
+
     if (!appOptions.noBackup) {
         //TODO:
     }

@@ -131,7 +131,7 @@ async function checkTaskScope(appArgs: AppArgs) {
             },
         ];
         const response2 = await prompts(questions2);
-        const domain = (response2.domain as string || '').trim();
+        const domain = (response2.domain as string || '').trim().toLowerCase();
         if (!domain) {
             throw new Error(strDoNothingExit);
         }
@@ -181,8 +181,8 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
         'dc': dc,
         'add-prefix': addPrefix,
         'remove-prefix': removePrefix,
-
         'help': shwoHelp,
+
         'no-backup': noBackup,
         'no-report': noReport,
         'no-update': noUpdate,
