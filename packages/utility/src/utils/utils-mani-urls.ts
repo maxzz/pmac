@@ -1,4 +1,5 @@
-import { FormUrls } from "../app/app-types";
+import { ReportFormUrls } from "@pmac/shared-types";
+import { FileMeta, FormUrls } from "../app/app-types";
 import { Mani, Matching, Meta } from "../manifest";
 import { tmurl } from "../manifest/url";
 
@@ -31,4 +32,19 @@ export function getFormUrls(form: Meta.Form | undefined): FormUrls {
         }
     }
     return rv;
+}
+
+export function reportFormUrls(f: FileMeta, idx: number): ReportFormUrls | undefined {
+    const parts = f.urls[idx];
+    const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
+    // if (oWoP) {
+    //     console.log(`${color.green('ourl')} ${parts?.o}`);
+    //     console.log(`${color.gray('oWoP')} ${oWoP}`);
+    // }
+    return parts?.o ? {
+        domain: parts?.oParts?.domain,
+        ourl: parts?.o,
+        ...(oWoP && { oWoP }),
+        ...(parts?.o !== parts?.m && { murl: parts?.m }),
+    } : undefined;
 }
