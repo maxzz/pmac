@@ -191,9 +191,9 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
         'remove-prefix': removePrefix,
         'help': shwoHelp,
 
-        'no-backup': noBackup,
-        'no-report': noReport,
-        'no-update': noUpdate,
+        'backup': doBackup,
+        'report': doReport,
+        'update': doUpdate,
 
         domain,
         _: unnamed
@@ -208,11 +208,11 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     const rootGroups = getRootGroups(unnamed);
 
     // 2. Then complete with task to accomplish
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup, noReport, noUpdate, rootGroups: rootGroups, domain, };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup: !doBackup, noReport: !doReport, noUpdate: !doUpdate, rootGroups: rootGroups, domain, };
     await checkOmittedArgs(appArgs);
     //console.log('appArgs', appArgs);
 
-    appOptions = { noBackup, noReport, noUpdate, domain, };
+    appOptions = { noBackup: !doBackup, noReport: !doReport, noUpdate: !doUpdate, domain, };
 
     return appArgs;
 }

@@ -55,9 +55,9 @@ examples
 export function helpAdvancedOption() {
     let msg = `
     advanced options:
-      --no-backup         - don't create backup of modified files (defautl yes).
-      --no-report         - don't create report file (defautl yes).
-      --no-update         - don't update manifest files (defautl yes).`;
+      --backup            - create backup of modified files (defautl yes).
+      --report            - create report file (defautl yes).
+      --update            - update manifest files (defautl yes).`;
     return msg;
 }
 
@@ -106,9 +106,9 @@ export type MinimistArgs = {
     'add-prefix': boolean;
     'remove-prefix': boolean;
     'help': boolean;
-    'no-backup': boolean;
-    'no-report': boolean;
-    'no-update': boolean;
+    'backup': boolean;
+    'report': boolean;
+    'update': boolean;
     'c': boolean;
     'a': boolean;
     'r': boolean;
@@ -119,7 +119,7 @@ export type MinimistArgs = {
 
 export function getMinimistArgs(): MinimistArgs {
     let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
-        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'no-backup', 'no-report', 'no-update',],
+        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'backup', 'report', 'update',],
         string: ['domain'],
         alias: {
             'c': 'dc',
@@ -127,7 +127,7 @@ export function getMinimistArgs(): MinimistArgs {
             'r': 'remove-prefix',
             'h': 'help',
         },
-        //default: { bytecode: true, 'native-build': true },
+        
     });
     return args;
 }
