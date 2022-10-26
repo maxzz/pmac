@@ -131,7 +131,7 @@ export function getMinimistArgs(): MinimistArgs {
             'r': 'remove-prefix',
             'h': 'help',
         },
-        default: { 'need-backup': undefined, 'need-report': undefined, 'need-update': undefined, },
+        default: { 'need-backup': 0, 'need-report': 0, 'need-update': 0, }, // hack: number instead of undefined to distinguish uninitialized values.
     });
     return args;
 }
