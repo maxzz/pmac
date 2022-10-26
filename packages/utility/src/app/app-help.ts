@@ -18,11 +18,11 @@ where:
     source                - folder with the manifest files to process or
                             space-separated list of manifest filenames to process
     command:
-      --dc, -c            - switch domain credentials to credentials
+      -c, --dc            - switch domain credentials to credentials
                             that apply only to a specific URL
-      --add-prefix, -a    - add domain name as prefix to manifest filenames
-      --remove-prefix, -r - remove domain name prefix from manifest filenames
-      --help              - show full help
+      -a, --add-prefix    - add domain name as prefix to manifest filenames
+      -r, --remove-prefix - remove domain name prefix from manifest filenames
+      -h, --help          - show full help
 
     options:
       --domain            - process manifests only with the specified web domain.`;
@@ -55,9 +55,9 @@ examples
 export function helpAdvancedOption() {
     let msg = `
     advanced options:
-      --no-backup         - don't create back up for modified files.
-      --no-report         - don't create report file.
-      --no-update         - don't update manifest files.`;
+      --no-backup         - don't create backup of modified files (defautl yes).
+      --no-report         - don't create report file (defautl yes).
+      --no-update         - don't update manifest files (defautl yes).`;
     return msg;
 }
 
@@ -112,6 +112,7 @@ export type MinimistArgs = {
     'c': boolean;
     'a': boolean;
     'r': boolean;
+    'h': boolean;
     'domain': string;
     _: string[];
 };
@@ -124,7 +125,9 @@ export function getMinimistArgs(): MinimistArgs {
             'c': 'dc',
             'a': 'add-prefix',
             'r': 'remove-prefix',
+            'h': 'help',
         },
+        //default: { bytecode: true, 'native-build': true },
     });
     return args;
 }
