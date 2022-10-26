@@ -42,6 +42,10 @@ examples
         This is the same as the previous example, but the changes will only
         apply to manifest files with the mybank.com domain.
 
+    ${color.gray('pmac --dc --domain mybank.com c:/manifests --no-report')}
+        This is the same as the previous example, but the program will not 
+        generate a report.
+
     ${color.gray('pmac --add-prefix --domain mybank.com c:/manifests')}
         This command will look in the "c:/manifests" folder and will rename
         manifests with the "mybank.com" domain to "mybank.com.{guid}.dpm".
