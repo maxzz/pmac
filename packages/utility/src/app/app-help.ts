@@ -42,7 +42,7 @@ examples
         This is the same as the previous example, but the changes will only
         apply to manifest files with the mybank.com domain.
 
-    ${color.gray('pmac --dc --domain mybank.com c:/manifests --no-report')}
+    ${color.gray('pmac --dc --domain mybank.com c:/manifests --no-need-report')}
         This is the same as the previous example, but the program will not 
         generate a report.
 
@@ -59,9 +59,9 @@ examples
 export function helpAdvancedOption() {
     let msg = `
     advanced options:
-      --backup            - create backup of modified files (defautl yes).
-      --report            - create report file (defautl yes).
-      --update            - update manifest files (defautl yes).`;
+      --need-backup       - create backup of modified files (defautl yes).
+      --need-report       - create report file (defautl yes).
+      --need-update       - update manifest files (defautl yes).`;
     return msg;
 }
 
@@ -110,9 +110,9 @@ export type MinimistArgs = {
     'add-prefix': boolean;
     'remove-prefix': boolean;
     'help': boolean;
-    'backup': boolean;
-    'report': boolean;
-    'update': boolean;
+    'need-backup': boolean;
+    'need-report': boolean;
+    'need-update': boolean;
     'c': boolean;
     'a': boolean;
     'r': boolean;
@@ -123,7 +123,7 @@ export type MinimistArgs = {
 
 export function getMinimistArgs(): MinimistArgs {
     let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
-        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'backup', 'report', 'update',],
+        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'need-backup', 'need-report', 'need-update',],
         string: ['domain'],
         alias: {
             'c': 'dc',
@@ -131,7 +131,7 @@ export function getMinimistArgs(): MinimistArgs {
             'r': 'remove-prefix',
             'h': 'help',
         },
-        default: { backup: true, report: true, update: true, },
+        default: { 'need-backup': true, 'need-report': true, 'need-update': true, },
     });
     return args;
 }

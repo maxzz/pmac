@@ -176,9 +176,9 @@ async function checkOmittedArgs(appArgs: AppArgs) {
 
         await checkTaskScope(appArgs);
 
-        appArgs.noBackup = !await queryBoolean('Create back up files?', !appArgs.noBackup, true);
-        appArgs.noReport = !await queryBoolean('Create report?', !appArgs.noReport, true);
-        appArgs.noUpdate = !await queryBoolean('Modify files?', !appArgs.noUpdate, true);
+        appArgs.needBackup = !await queryBoolean('Create back up files?', appArgs.needBackup, true);
+        appArgs.needReport = !await queryBoolean('Create report?', appArgs.needReport, true);
+        appArgs.needUpdate = !await queryBoolean('Modify files?', appArgs.needUpdate, true);
     }
 }
 
@@ -191,9 +191,9 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
         'remove-prefix': removePrefix,
         'help': shwoHelp,
 
-        'backup': doBackup,
-        'report': doReport,
-        'update': doUpdate,
+        'need-backup': needBackup,
+        'need-report': needReport,
+        'need-update': needUpdate,
 
         domain,
         _: unnamed
@@ -208,11 +208,11 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     const rootGroups = getRootGroups(unnamed);
 
     // 2. Then complete with task to accomplish
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup: !doBackup, noReport: !doReport, noUpdate: !doUpdate, rootGroups: rootGroups, domain, };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, needBackup, needReport, needUpdate, rootGroups: rootGroups, domain, };
     await checkOmittedArgs(appArgs);
     //console.log('appArgs', appArgs);
 
-    appOptions = { noBackup: !doBackup, noReport: !doReport, noUpdate: !doUpdate, domain, };
+    appOptions = { needBackup, needReport, needUpdate, domain, };
 
     return appArgs;
 }

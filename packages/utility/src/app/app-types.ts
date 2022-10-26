@@ -12,9 +12,9 @@ export type RootGroup = {
 };
 
 export type AppOptions = {
-    noBackup?: boolean;
-    noReport?: boolean;
-    noUpdate?: boolean;         // will create report if there is no --no-report option
+    needBackup?: boolean;
+    needReport?: boolean;
+    needUpdate?: boolean;        // will create report if there is no --no-report option
     domain?: string;            // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
 }
 

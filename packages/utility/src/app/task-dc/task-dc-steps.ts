@@ -188,15 +188,15 @@ function processRootGroup(rootGroup: RootGroup): TargetGroup {
 export function executeTaskDc(rootGroups: RootGroup[]) {
     const targetGroups = rootGroups.map(processRootGroup);
 
-    if (!appOptions.noReport) {
+    if (!appOptions.needReport) {
         //TODO:
     }
 
-    if (!appOptions.noBackup) {
+    if (!appOptions.needBackup) {
         //TODO:
     }
 
-    if (!appOptions.noUpdate) {
+    if (!appOptions.needUpdate) {
         //TODO:
     }
 
