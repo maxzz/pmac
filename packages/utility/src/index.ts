@@ -8,7 +8,6 @@ import { notes } from './app/app-notes';
 
 async function main() {
     const appArgs = await getAndCheckTargets();
-    console.log('appArgs', appArgs);
 
     if (appArgs.dc) {
         executeTaskDc(appArgs.rootGroups);
@@ -48,3 +47,6 @@ main().catch(async (error) => {
 //TODO: --d donain to +/- as prefix - done
 
 //TODO: interactive mode during operation process started like 'let me select'
+
+//TODO: interactive mode by domains
+//TODO: ask do adv options

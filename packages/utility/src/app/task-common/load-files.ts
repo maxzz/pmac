@@ -48,7 +48,7 @@ function loadManifests(rootGroup: RootGroup): TargetGroup {
 export function step1_LoadManifests(rootGroup: RootGroup): TargetGroup {
     const targetGroup = loadManifests(rootGroup); //printLoaded(targetGroup);
 
-    targetGroup.report.inputs = {
+    targetGroup.report.inputs = { // fill out directory of all loaded files for report refs
         input: targetGroup.files.map((fileMeta, idx) => {
             return {
                 id: fileMeta.id,

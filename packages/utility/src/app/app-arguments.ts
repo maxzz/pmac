@@ -6,6 +6,7 @@ import { exitProcess, newErrorArgs } from '../utils/utils-errors';
 import { OsStuff } from '../utils/utils-os';
 import { AppArgs, AppOptions, RootGroup, ArgTarget } from './app-types';
 import { getMinimistArgs, help, strDoneNothing, strDoNothingExit } from './app-help';
+import { notes } from "./app-notes";
 
 function getArgTarget(unnamed: string[] = []): ArgTarget {
     let rv: ArgTarget = { files: [], dirs: [] };
@@ -62,7 +63,11 @@ function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): RootGroup[] {
             }
 
             const fnames = OsStuff.filterByExtension(files.map((item) => item.short), '.dpm');
-            fnames.length && rv.push({ root, fnames });
+            if (fnames.length) {
+                fnames.length && rv.push({ root, fnames });
+            } else {
+                notes.add(`Source "${root}" has no mainfest files.`);
+            }
         }
     } else {
         throw newErrorArgs(`${strDoneNothing}. Specify at least one folder or filename(s) to process.`);
@@ -202,6 +207,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     // 2. Then complete with task to accomplish
     const appArgs: AppArgs = { dc, addPrefix, removePrefix, noBackup, noReport, noUpdate, rootGroups: rootGroups, domain, };
     await checkOmittedArgs(appArgs);
+    //console.log('appArgs', appArgs);
 
     appOptions = { noBackup, noReport, noUpdate, domain, };
 

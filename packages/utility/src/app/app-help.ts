@@ -58,7 +58,6 @@ export function helpAdvancedOption() {
       --no-backup         - don't create back up for modified files.
       --no-report         - don't create report file.
       --no-update         - don't update manifest files.`;
-
     return msg;
 }
 
@@ -66,8 +65,6 @@ export function help(showAdvanced: boolean = false) {
     let msg = `${helpHeader()}${showAdvanced ? `\n${helpAdvancedOption()}\n${helpExamples()}` : ''}`;
     console.log(msg);
 }
-
-//TODO: interactive mode by domains
 
 /*
 

@@ -19,7 +19,7 @@ export namespace notes {
         let p = processed.length > 1 ? color.blue(`Processed:\n${processed.join('\n')}\n`) : ''; //blueBright
         let s = messages.length ? color.yellow(`\nNotes:\n${messages.join('\n')}\n`) : '';
         let f = `${p}${s}`;
-        return f ? `${programName} finished\n\n${f}` : '';
+        return f ? `${programName} program finished.\n\n${f}` : '';
     }
 
     export async function show(): Promise<void> {
