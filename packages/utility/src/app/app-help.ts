@@ -127,7 +127,7 @@ export function getMinimistArgs(): MinimistArgs {
             'r': 'remove-prefix',
             'h': 'help',
         },
-        
+        default: { backup: true, report: true, update: true, },
     });
     return args;
 }
