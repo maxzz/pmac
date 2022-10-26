@@ -93,8 +93,8 @@ function getRootGroups(unnamed: string[]) {
     return rootGroups;
 }
 
-async function queryBoolean(message: string, needToAsk: boolean, initial: boolean): Promise<boolean> {
-    if (!needToAsk) {
+async function queryBoolean(message: string, needToAsk: boolean | undefined, initial: boolean): Promise<boolean> {
+    if (needToAsk !== undefined) {
         return initial;
     }
     const question: prompts.PromptObject[] = [
@@ -176,9 +176,13 @@ async function checkOmittedArgs(appArgs: AppArgs) {
 
         await checkTaskScope(appArgs);
 
-        appArgs.needBackup = !await queryBoolean('Create back up files?', appArgs.needBackup, true);
-        appArgs.needReport = !await queryBoolean('Create report?', appArgs.needReport, true);
-        appArgs.needUpdate = !await queryBoolean('Modify files?', appArgs.needUpdate, true);
+        appArgs.needBackup = await queryBoolean('Create back up files?', appArgs.needBackup, true);
+        appArgs.needReport = await queryBoolean('Create report?', appArgs.needReport, true);
+        appArgs.needUpdate = await queryBoolean('Modify files?', appArgs.needUpdate, true);
+    } else {
+        (appArgs.needBackup === undefined) && (appArgs.needBackup = true);
+        (appArgs.needReport === undefined) && (appArgs.needReport = true);
+        (appArgs.needUpdate === undefined) && (appArgs.needUpdate = true);
     }
 }
 
