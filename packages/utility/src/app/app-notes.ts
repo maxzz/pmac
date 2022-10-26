@@ -22,7 +22,7 @@ export namespace notes {
         return f ? `${programName} program finished.\n\n${f}` : '';
     }
 
-    export async function show(): Promise<void> {
+    export async function showAndExit(): Promise<void> {
         let final = buildMessage();
         if (final) {
             await exitProcess(0, final);

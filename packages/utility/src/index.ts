@@ -15,7 +15,7 @@ async function main() {
         throw new Error('Not implemented yet');
     }
 
-    notes.show();
+    notes.showAndExit();
 }
 
 main().catch(async (error) => {
