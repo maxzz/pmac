@@ -93,7 +93,10 @@ function getRootGroups(unnamed: string[]) {
     return rootGroups;
 }
 
-async function queryBoolean(message: string, initial: boolean): Promise<boolean> {
+async function queryBoolean(message: string, needToAsk: boolean, initial: boolean): Promise<boolean> {
+    if (!needToAsk) {
+        return initial;
+    }
     const question: prompts.PromptObject[] = [
         {
             type: 'confirm',
@@ -173,9 +176,9 @@ async function checkOmittedArgs(appArgs: AppArgs) {
 
         await checkTaskScope(appArgs);
 
-        appArgs.noBackup = await queryBoolean('Create back up files?', true);
-        appArgs.noReport = await queryBoolean('Create report?', true);
-        appArgs.noBackup = await queryBoolean('Modify files?', true);
+        appArgs.noBackup = !await queryBoolean('Create back up files?', !appArgs.noBackup, true);
+        appArgs.noReport = !await queryBoolean('Create report?', !appArgs.noReport, true);
+        appArgs.noUpdate = !await queryBoolean('Modify files?', !appArgs.noUpdate, true);
     }
 }
 

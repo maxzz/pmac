@@ -20,6 +20,7 @@
                 // "C:/Y/w/2-web/0-dp/utils/pmac/packages/utility/tests/01",
                 //"packages/utility/tests/01",
                 //"packages/utility/tests/02",
+                "--no-backup",
                 
                 "C:/Users/maxzz/Desktop/01",
                 //"C:/Users/maxzz/Desktop/01 dd",
@@ -28,7 +29,7 @@
                 //"C:/Users/maxzz/Desktop/01", "--dc",
                 ".",
                 // ".", "-c",
-                //"--help",
+                "--help",
 
                 // "packages/utility/tests/01/{0a60444f-1a89-4b1d-8a7f-c3b87c3b7f80}.dpm",
                 // "packages/utility/tests/01/{2de7d301-a9cb-4b81-8541-44d483f326fe}.dpm",
