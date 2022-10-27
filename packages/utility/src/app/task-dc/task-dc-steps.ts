@@ -1,4 +1,4 @@
-import { FileMeta, SameDc, RootGroup, TargetGroup } from "../app-env/app-types";
+import { FileMeta, SameDc, RootGroup, TargetGroup } from "../../app-types";
 import { ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../../utils";
 import { Matching } from "../../manifest";
 import { notes } from "../app-env/app-notes";

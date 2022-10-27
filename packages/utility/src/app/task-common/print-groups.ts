@@ -1,5 +1,5 @@
 import path from "path";
-import { SameDc, TargetGroup } from "../app-env/app-types";
+import { SameDc, TargetGroup } from "../../app-types";
 import { notes } from "../app-env/app-notes";
 import { color } from "../../utils";
 
