@@ -217,7 +217,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     await checkOmittedArgs(appArgs);
     //console.log('appArgs', appArgs);
 
-    appOptions = { needBackup, needReport, needUpdate, domain, };
+    appOptions = { needBackup: appArgs.needBackup, needReport: appArgs.needReport, needUpdate: appArgs.needUpdate, domain, };
 
     return appArgs;
 }
