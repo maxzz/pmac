@@ -94,8 +94,8 @@ function getRootGroups(unnamed: string[]) {
 }
 
 async function queryBoolean(message: string, current: boolean | undefined, initial: boolean): Promise<boolean> {
-    if (typeof current !== 'number') {
-        return !!current;
+    if (typeof current === 'boolean') {
+        return current;
     }
     const question: prompts.PromptObject[] = [
         {

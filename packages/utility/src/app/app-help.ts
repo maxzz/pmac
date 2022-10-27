@@ -66,7 +66,7 @@ examples
 }
 
 export function help(showAdvanced: boolean = false) {
-    let msg = `${helpHeader()}${showAdvanced ? `\n${helpAdvancedOption()}\n${helpExamples()}` : ''}`;
+    const msg = `${helpHeader()}${showAdvanced ? `\n${helpAdvancedOption()}\n${helpExamples()}` : ''}`;
     console.log(msg);
 }
 
