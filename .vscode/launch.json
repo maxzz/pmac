@@ -28,11 +28,11 @@
                 // "C:/Users/maxzz/Desktop/01", "--dc",
                 // ".",
                 // ".", "-c",
+                "-c", "-a", "-r",
 
                 "C:/Users/maxzz/Desktop/01",
                 "C:/Users/maxzz/Desktop/02",
                 "--dc",
-                "-r",
                 "--no-need-backup",
                 "--no-need-report",
                 "--no-need-update",
