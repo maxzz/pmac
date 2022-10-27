@@ -1,7 +1,7 @@
 import { color, exitProcess } from './utils';
-import { notes } from './app/app-notes';
-import { help } from './app/app-help';
-import { getAndCheckTargets } from './app/app-arguments';
+import { notes } from './app/app-env/app-notes';
+import { help } from './app/app-env/app-help';
+import { getAndCheckTargets } from './app/app-env/app-arguments';
 import { executeTaskDc } from './task-dc';
 
 async function main() {

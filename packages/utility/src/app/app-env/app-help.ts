@@ -1,4 +1,4 @@
-import { color } from '../utils';
+import { color } from '../../utils';
 import minimist from 'minimist';
 let config = require('../../../../package.json');
 
