@@ -32,6 +32,7 @@
                 "C:/Users/maxzz/Desktop/01",
                 "C:/Users/maxzz/Desktop/02",
                 "--dc",
+                "-r",
                 "--no-need-backup",
                 "--no-need-report",
                 "--no-need-update",

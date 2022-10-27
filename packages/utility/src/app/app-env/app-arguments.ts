@@ -205,6 +205,10 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
         await exitProcess(0, '');
     }
 
+    if (+dc + +addPrefix + +removePrefix + +shwoHelp > 1) {
+        throw new Error('Multiple commands are not allowed. Specify only one command.');
+    }
+
     // 1. Get target folders first
     const rootGroups = getRootGroups(unnamed);
 
