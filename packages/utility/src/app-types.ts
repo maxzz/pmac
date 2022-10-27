@@ -1,4 +1,4 @@
-import { Mani, Matching, Meta } from "../manifest";
+import { Mani, Matching, Meta } from "./manifest";
 import { Report } from "@pmac/shared-types";
 
 export type ArgTarget = {

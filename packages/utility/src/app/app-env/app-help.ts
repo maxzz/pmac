@@ -22,7 +22,7 @@ where:
                             that apply only to a specific URL
       -a, --add-prefix    - Add domain name as prefix to manifest filenames
       -r, --remove-prefix - Remove domain name prefix from manifest filenames
-      -h, --help          - Show full help
+      -h, --help          - Output usage information
 
     options:
       --domain            - Process manifests only with the specified web domain.`;
@@ -71,7 +71,11 @@ export function help(showAdvanced: boolean = false) {
 }
 
 /*
+(*) this will not modify content of manifest files, just change filenames as result there is no backup files. 
+(**) this will modify content of manifest files, as result backup files will be created. 
+*/
 
+/*
 For example ${color.gray('pmac --domain google.com')}
 
 examples
