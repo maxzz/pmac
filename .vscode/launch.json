@@ -21,11 +21,11 @@
                 //"packages/utility/tests/01",
                 //"packages/utility/tests/02",
 
-                "C:/Users/maxzz/Desktop/01",
+                //"C:/Users/maxzz/Desktop/01",
                 //"C:/Users/maxzz/Desktop/01 dd",
                 //"C:/Users/maxzz/Desktop/01", "--domain", "hosnet.net",
                 //"C:/Users/maxzz/Desktop/01", "-c",
-                //"C:/Users/maxzz/Desktop/01", "--dc",
+                "C:/Users/maxzz/Desktop/01", "--dc",
                 ".",
                 // ".", "-c",
 

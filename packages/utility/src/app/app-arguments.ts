@@ -66,7 +66,7 @@ function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): RootGroup[] {
             if (fnames.length) {
                 fnames.length && rv.push({ root, fnames });
             } else {
-                notes.add(`Source "${root}" has no mainfest files.`);
+                notes.addProcessed(`Source "${root}" has no mainfest files.`);
             }
         }
     } else {

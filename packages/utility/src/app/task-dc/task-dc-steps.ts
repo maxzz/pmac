@@ -188,7 +188,7 @@ function processRootGroup(rootGroup: RootGroup): TargetGroup {
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);
 
-    notes.add(`Source "${rootGroup.root}" has been processed.`);
+    notes.addProcessed(`Source "${rootGroup.root}" has been processed.`);
 
     return targetGroup;
 }
