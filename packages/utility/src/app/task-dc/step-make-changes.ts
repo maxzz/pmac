@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import { OsStuff } from "../../utils";
-import { FileMeta, TargetGroup } from "../app/app-types";
+import { FileMeta, TargetGroup } from "../../app-types";
 import { addError, flatDcActive } from "../task-common";
 import { makeXML, Matching } from "../../manifest";
 

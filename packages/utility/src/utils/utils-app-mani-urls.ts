@@ -1,5 +1,5 @@
 import { ReportFormUrls } from "@pmac/shared-types";
-import { FileMeta, FormUrls, TargetGroup } from "../app/app-types";
+import { FileMeta, FormUrls, TargetGroup } from "../app-types";
 import { Matching, Meta } from "../manifest";
 import { tmurl } from "../manifest/url";
 

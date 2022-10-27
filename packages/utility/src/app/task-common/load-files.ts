@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { programVersion } from "../app-env/app-help";
+import { programVersion } from "../app-env";
 import { RootGroup, TargetGroup } from "../../app-types";
 import { buildManiMetaForms, parseXMLFile } from "../../manifest";
 import { getFormUrlsArray, reportFormUrlsArray, toUnix, uuid } from "../../utils";

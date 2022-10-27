@@ -2,8 +2,8 @@ import path from 'path';
 import prompts from 'prompts';
 import { exist, exitProcess, newErrorArgs, OsStuff } from "../../utils";
 import { AppArgs, AppOptions, RootGroup, ArgTarget } from '../../app-types';
-import { getMinimistArgs, help, strDoneNothing, strDoNothingExit } from './app-help';
-import { notes } from "./app-notes";
+import { getMinimistArgs, help, notes, strDoneNothing, strDoNothingExit } from '.';
+
 
 function getArgTarget(unnamed: string[] = []): ArgTarget {
     let rv: ArgTarget = { files: [], dirs: [] };
