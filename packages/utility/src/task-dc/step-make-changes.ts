@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import { OsStuff } from "../utils";
 import { FileMeta, TargetGroup } from "../app/app-types";
-import { addError, flatDcActive } from "../task-common";
+import { addError, flatDcActive } from "../app/task-common";
 import { makeXML, Matching } from "../manifest";
 
 export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {

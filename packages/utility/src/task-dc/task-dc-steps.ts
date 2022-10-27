@@ -2,7 +2,7 @@ import { FileMeta, SameDc, RootGroup, TargetGroup } from "../app/app-types";
 import { ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../utils";
 import { Matching } from "../manifest";
 import { notes } from "../app/app-notes";
-import { step1_LoadManifests } from "../task-common";
+import { step1_LoadManifests } from "../app/task-common";
 import { appOptions } from "../app/app-env/app-arguments";
 import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./step-make-changes";
 import { step3_4_FinalMakeReport, step4_FinalMakeReportToAllGroups } from "./step-make-report";
