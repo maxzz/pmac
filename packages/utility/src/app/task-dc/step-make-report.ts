@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
-import { templateStr, toUnix } from "../utils";
+import { templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../app/app-types";
 
 //import { color } from "../../utils";
