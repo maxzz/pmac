@@ -33,12 +33,12 @@ import { step3_4_FinalMakeReport, step4_FinalMakeReportToAllGroups } from "./ste
                 step3_1_MakeBackupCopy(targetGroup);
             }
 
-            if (!appOptions.needUpdate) {
+            if (appOptions.needUpdate) {
                 step3_2_Modify(targetGroup);
                 step3_3_Save(targetGroup);
             }
 
-            if (!appOptions.needReport) {
+            if (appOptions.needReport) {
                 step3_4_FinalMakeReport(targetGroup);
             }
         } catch (error) {

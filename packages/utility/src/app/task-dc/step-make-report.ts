@@ -27,10 +27,16 @@ export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
 
 export function step4_FinalMakeReportToAllGroups(targetGroups: TargetGroup[]): void {
 
+    /*
     const report: ReportRecords = targetGroups.map((targetGroup) => ({ ...targetGroup.report, root: toUnix(targetGroup.root) }));
     const dataStr = JSON.stringify(report, null, 4);
+    
     console.log('dataStr:\n', dataStr);
+    
     templateStr.replace('"__INJECTED__DATA__"', dataStr);
+    */
+
+
 
     // function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
     //     if (Object.keys(targetGroup.report).length) {
