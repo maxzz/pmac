@@ -7,6 +7,9 @@ export function splitByKey<T>(items: T[], keyFn: (item: T) => string | undefined
     return rv;
 }
 
+//#region url obfuscation
+// url obfuscation as customer requested
+
 const useStable = 0; // 0 - use unrecoverable/random/unstable hash; 1 - use constant hash
 
 function shift(ch: string) {
@@ -35,3 +38,5 @@ export function makeTestUrl(url: string) {
     }
     return url;
 }
+
+//#endregion url obfuscation
