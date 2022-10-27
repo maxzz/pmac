@@ -1,6 +1,8 @@
 import { Mani, Matching, Meta } from "./manifest";
 import { Report } from "@pmac/shared-types";
 
+// Arguments
+
 export type ArgTarget = {
     files: string[];
     dirs: string[];
@@ -15,7 +17,7 @@ export type AppOptions = {
     needBackup?: boolean;
     needReport?: boolean;
     needUpdate?: boolean;        // will create report if there is no --no-report option
-    domain?: string;            // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
+    domain?: string;             // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
 }
 
 export type AppArgs = AppOptions & {
@@ -28,16 +30,16 @@ export type AppArgs = AppOptions & {
 // Manifest loading
 
 export type FormUrlParts = {
-    domain?: string;    // original url domain
-    woParms?: string;   // original url wo/ params
-    urlPath?: string;   // original url path part wo/ domain and params
+    domain?: string;            // original url domain
+    woParms?: string;           // original url wo/ params
+    urlPath?: string;           // original url path part wo/ domain and params
 };
 
 export type FormUrls = {
-    o?: string;         // original url
-    m?: string;         // match url
+    o?: string;                 // original url
+    m?: string;                 // match url
     oParts?: FormUrlParts;
-    mParts?: FormUrlParts; // available only if mData.style === Matching.Style.makeDomainMatch i.e. string match  
+    mParts?: FormUrlParts;      // available only if mData.style === Matching.Style.makeDomainMatch i.e. string match  
     mData?: Matching.RawMatchData; // built out of mParts
 };
 
@@ -49,6 +51,8 @@ export type FileMeta = {
     raw: string;                // Loaded file content
     short: string;              // Filename relative to TargetGroup.root; const fname = path.join(f.root, f.short); it can be also 'c/filename.dpm'
 };
+
+// Processing group
 
 export type SameDc = {          // Domain Credentials Duplicates; use the same creadential for the whole domain
     domain: string;
