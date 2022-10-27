@@ -19,9 +19,9 @@ async function main() {
 
 main().catch(async (error) => {
     error.args && help();
-    const note = notes.buildMessage();
     const msg = color[error.args ? 'yellow' : 'red'](error.message);
-    await exitProcess(1, [note, msg].join('\n'));
+    const note = notes.buildMessage();
+    await exitProcess(1, ['', msg, note].join('\n'));
 });
 
 //TODO: save manifests - done
