@@ -2,7 +2,7 @@ import { color, exitProcess } from './utils';
 import { notes } from './app/app-notes';
 import { help } from './app/app-help';
 import { getAndCheckTargets } from './app/app-arguments';
-import { executeTaskDc } from './app/task-dc';
+import { executeTaskDc } from './task-dc';
 
 async function main() {
     const appArgs = await getAndCheckTargets();

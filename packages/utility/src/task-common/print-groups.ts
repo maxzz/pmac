@@ -1,7 +1,7 @@
 import path from "path";
-import { SameDc, TargetGroup } from "../app-types";
-import { notes } from "../app-notes";
-import { color } from "../../utils";
+import { SameDc, TargetGroup } from "../app/app-types";
+import { notes } from "../app/app-notes";
+import { color } from "../utils";
 
 // Local console log reports
 

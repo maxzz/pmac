@@ -1,5 +1,5 @@
 import { ItemError } from '@pmac/shared-types';
-import { FileMeta, SameDc, TargetGroup } from '../app-types';
+import { FileMeta, SameDc, TargetGroup } from '../app/app-types';
 
 export { step1_LoadManifests } from './load-files';
 export { printDcActive, printLoaded } from './print-groups';
