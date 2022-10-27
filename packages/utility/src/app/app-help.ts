@@ -8,28 +8,37 @@ export const programVersion = config.version;
 export const strDoneNothing = 'Nothing has been done';
 export const strDoNothingExit = 'Chosen to do nothing, just exit.';
 
-export function helpHeader() {
+function helpHeader() {
     let msg = `
 The ${color.gray(`${programName}`)} (password manager administrator commands) utility version ${programVersion}.
 
 Usage: ${color.gray(`${programName} source [command] [options]`)}
 
 where:
-    source                - folder with the manifest files to process or
+    source                - Folder with the manifest files to process or
                             space-separated list of manifest filenames to process
     command:
-      -c, --dc            - switch domain credentials to credentials
+      -c, --dc            - Switch domain credentials to credentials
                             that apply only to a specific URL
-      -a, --add-prefix    - add domain name as prefix to manifest filenames
-      -r, --remove-prefix - remove domain name prefix from manifest filenames
-      -h, --help          - show full help
+      -a, --add-prefix    - Add domain name as prefix to manifest filenames
+      -r, --remove-prefix - Remove domain name prefix from manifest filenames
+      -h, --help          - Show full help
 
     options:
-      --domain            - process manifests only with the specified web domain.`;
+      --domain            - Process manifests only with the specified web domain.`;
     return msg;
 }
 
-export function helpExamples() {
+function helpAdvancedOption() {
+    let msg = `
+    advanced options:
+      --need-backup       - Create backup of modified files (defautl yes).
+      --need-report       - Create report file (defautl yes).
+      --need-update       - Update manifest files (defautl yes).`;
+    return msg;
+}
+
+function helpExamples() {
     let msg = `
 examples
     ${color.gray('pmac --dc c:/manifests')}
@@ -53,15 +62,6 @@ examples
     ${color.gray('pmac --remove-prefix --domain mybank.com c:/manifests')}
         This command will look in the "c:/manifests" folder and will rename
         manifests file names "mybank.com.{guid}.dpm" to "{guid}.dpm".`;
-    return msg;
-}
-
-export function helpAdvancedOption() {
-    let msg = `
-    advanced options:
-      --need-backup       - create backup of modified files (defautl yes).
-      --need-report       - create report file (defautl yes).
-      --need-update       - update manifest files (defautl yes).`;
     return msg;
 }
 
