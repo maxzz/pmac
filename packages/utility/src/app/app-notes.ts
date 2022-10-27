@@ -4,8 +4,8 @@ import { programName } from "./app-help";
 
 export namespace notes {
 
-    let messages: string[] = []; // messages will be shown if any warnings happen.
-    let processed: string[] = []; // processed will be shown if ${programName} processed more then one folder.
+    const messages: string[] = []; // messages will be shown if any warnings happen.
+    const processed: string[] = []; // processed will be shown if ${programName} processed more then one folder.
 
     export function add(note: string): void {
         messages.push(note);
@@ -16,9 +16,9 @@ export namespace notes {
     }
 
     export function buildMessage(): string {
-        let pro = processed.length > 1 ? color.cyan(`\nProcessed:\n${processed.join('\n')}`) : ''; //blueBright
-        let msg = messages.length ? color.yellow(`\nNotes:\n${messages.join('\n')}`) : '';
-        let hasOutput = pro || msg;
+        const pro = processed.length > 1 ? color.cyan(`\nProcessed:\n${processed.join('\n')}`) : ''; //blueBright
+        const msg = messages.length ? color.yellow(`\nNotes:\n${messages.join('\n')}`) : '';
+        const hasOutput = pro || msg;
         return hasOutput ? [pro, msg].join('\n') : `Program ${programName} finished.\n\n`;
     }
 
