@@ -180,9 +180,9 @@ async function checkOmittedArgs(appArgs: AppArgs) {
         appArgs.needReport = await queryBoolean('Create report?', appArgs.needReport, true);
         appArgs.needUpdate = await queryBoolean('Modify files?', appArgs.needUpdate, true);
     } else {
-        (appArgs.needBackup === undefined) && (appArgs.needBackup = true);
-        (appArgs.needReport === undefined) && (appArgs.needReport = true);
-        (appArgs.needUpdate === undefined) && (appArgs.needUpdate = true);
+        (typeof appArgs.needBackup !== 'boolean') && (appArgs.needBackup = true);
+        (typeof appArgs.needReport !== 'boolean') && (appArgs.needReport = true);
+        (typeof appArgs.needUpdate !== 'boolean') && (appArgs.needUpdate = true);
     }
 }
 
