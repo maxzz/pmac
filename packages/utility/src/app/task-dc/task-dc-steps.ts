@@ -1,4 +1,3 @@
-import color from 'picocolors';
 import { FileMeta, SameDc, RootGroup, TargetGroup } from "../app-types";
 import { ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../../utils";
 import { Matching } from "../../manifest";

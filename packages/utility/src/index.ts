@@ -1,10 +1,8 @@
-import color from 'picocolors';
-import rimraf from 'rimraf';
-import { exitProcess } from './utils/utils-errors';
+import { color, exitProcess } from './utils';
+import { notes } from './app/app-notes';
 import { help } from './app/app-help';
 import { getAndCheckTargets } from './app/app-arguments';
 import { executeTaskDc } from './app/task-dc';
-import { notes } from './app/app-notes';
 
 async function main() {
     const appArgs = await getAndCheckTargets();

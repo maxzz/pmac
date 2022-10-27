@@ -1,5 +1,4 @@
-import color from 'picocolors';
-import { exitProcess } from "../utils/utils-errors";
+import { color, exitProcess } from "../utils";
 import { programName } from "./app-help";
 
 export namespace notes {

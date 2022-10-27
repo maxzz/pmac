@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import color from 'picocolors';
+import { color } from '.';
 
 export namespace OsStuff {
 
