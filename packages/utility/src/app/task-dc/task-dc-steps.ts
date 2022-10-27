@@ -31,7 +31,7 @@ import { filterFilesByDomain } from "../../utils/utils-mani-urls";
     targetGroup.sameDc = getSameDc(targetGroup.files);
 }
 
-function final1_MakeBackupCopy(targetGroup: TargetGroup): void {
+function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
 
     function makeBackupCopy(files: FileMeta[], destFolder: string): void {
         OsStuff.mkdirSync(destFolder);
@@ -55,7 +55,7 @@ function final1_MakeBackupCopy(targetGroup: TargetGroup): void {
     }
 }
 
-function final2_Modify(targetGroup: TargetGroup): void {
+function step3_2_Modify(targetGroup: TargetGroup): void {
 
     function modifyUrl(url: string | undefined): string | undefined {
         return url && Matching.makeRawMatchData({ style: Matching.Style.regex, opt: Matching.Options.pmacSet, url }, '');
@@ -75,7 +75,7 @@ function final2_Modify(targetGroup: TargetGroup): void {
     };
 }
 
-function final3_Save(targetGroup: TargetGroup): void {
+function step3_3_Save(targetGroup: TargetGroup): void {
 
     //was: (duplicates: Duplicate[])
 
@@ -104,7 +104,7 @@ function final3_Save(targetGroup: TargetGroup): void {
 
 }
 
-function final4_FinalMakeReport(targetGroup: TargetGroup): void {
+function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
 
     function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
         if (Object.keys(targetGroup.report).length) {
@@ -130,16 +130,24 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
         try {
             targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
 
-            final1_MakeBackupCopy(targetGroup);
-            final2_Modify(targetGroup);
-            // final3_Save(targetGroup);
-            final4_FinalMakeReport(targetGroup);
+            if (appOptions.needBackup) {
+                step3_1_MakeBackupCopy(targetGroup);
+            }
+
+            if (!appOptions.needUpdate) {
+                step3_2_Modify(targetGroup);
+                step3_3_Save(targetGroup);
+            }
+
+            if (!appOptions.needReport) {
+                step3_4_FinalMakeReport(targetGroup);
+            }
         } catch (error) {
         }
     }
 }
 
-/*export*/ function step4_FinalMakeReport(targetGroups: TargetGroup[]): void {
+/*export*/ function step4_FinalMakeReportToAllGroups(targetGroups: TargetGroup[]): void {
 
     const report: ReportRecords = targetGroups.map((targetGroup) => ({ ...targetGroup.report, root: toUnix(targetGroup.root) }));
     const dataStr = JSON.stringify(report, null, 4);
@@ -171,17 +179,17 @@ function final4_FinalMakeReport(targetGroup: TargetGroup): void {
     //
     //     notes.add(`All done in folder ${targetGroup.root}`);
     // });
-
-    notes.add(`All done`);
 }
 
 function processRootGroup(rootGroup: RootGroup): TargetGroup {
     const targetGroup = step1_LoadManifests(rootGroup);
-
     filterFilesByDomain(targetGroup, appOptions.domain);
 
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);
+
+    notes.add(`Source "${rootGroup.root}" has been processed.`);
+
     return targetGroup;
 }
 
@@ -192,13 +200,7 @@ export function executeTaskDc(rootGroups: RootGroup[]) {
         //TODO:
     }
 
-    if (!appOptions.needBackup) {
-        //TODO:
-    }
+    //step4_FinalMakeReportToAllGroups(targetGroups);
 
-    if (!appOptions.needUpdate) {
-        //TODO:
-    }
-
-    //step4_FinalMakeReport(targetGroups);
+    notes.add(`All done`);
 }
