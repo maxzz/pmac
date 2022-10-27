@@ -10,7 +10,9 @@ function processRootGroup(rootGroup: RootGroup): TargetGroup {
     return targetGroup;
 }
 
-export function executeTaskRename(rootGroups: RootGroup[]) {
+export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
+    throw new Error('Not implemented yet');
+    
     const targetGroups = rootGroups.map(processRootGroup);
     notes.add(`All done`);
 }

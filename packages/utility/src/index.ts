@@ -3,6 +3,7 @@ import { notes } from './app/app-env/app-notes';
 import { help } from './app/app-env/app-help';
 import { getAndCheckTargets } from './app/app-env/app-arguments';
 import { executeTaskDc } from './app/task-dc';
+import { executeTaskRename } from './app/task-rename';
 
 async function main() {
     const appArgs = await getAndCheckTargets();
@@ -10,7 +11,7 @@ async function main() {
     if (appArgs.dc) {
         executeTaskDc(appArgs.rootGroups);
     } else if (appArgs.addPrefix || appArgs.removePrefix) {
-        throw new Error('Not implemented yet');
+        executeTaskRename(appArgs.rootGroups, appArgs.addPrefix);
     }
 
     notes.showAndExit();
