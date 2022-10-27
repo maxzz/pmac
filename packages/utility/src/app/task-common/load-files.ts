@@ -1,11 +1,9 @@
 import fs from "fs";
 import path from "path";
+import { programVersion } from "../app-help";
 import { RootGroup, TargetGroup } from "../app-types";
 import { buildManiMetaForms, parseXMLFile } from "../../manifest";
-import { getFormUrlsArray, reportFormUrlsArray } from "../../utils/utils-mani-urls";
-import { programVersion } from "../app-help";
-import { toUnix } from "../../utils/unique-names";
-import { uuid } from "../../utils/uuid";
+import { getFormUrlsArray, reportFormUrlsArray, toUnix, uuid } from "../../utils";
 
 function loadManifests(rootGroup: RootGroup): TargetGroup {
     const rv: TargetGroup = {

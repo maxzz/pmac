@@ -1,9 +1,10 @@
 import path from "path";
 import fs from "fs";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
-import { toUnix } from "../../utils/unique-names";
-import { templateStr } from "../../utils/utils-report-template";
+import { templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../app-types";
+
+//import { color } from "../../utils";
 
 export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
 

@@ -1,14 +1,12 @@
 import color from 'picocolors';
-import { Matching, } from "../../manifest";
-import { ensureNameUnique, nowDayTime, } from "../../utils/unique-names";
 import { FileMeta, SameDc, RootGroup, TargetGroup } from "../app-types";
+import { ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../../utils";
+import { Matching } from "../../manifest";
 import { notes } from "../app-notes";
-import { splitByKey } from "../../utils/utils";
 import { step1_LoadManifests } from "../task-common";
 import { appOptions } from "../app-arguments";
-import { filterFilesByDomain } from "../../utils/utils-mani-urls";
-import { step3_4_FinalMakeReport, step4_FinalMakeReportToAllGroups } from "./step-make-report";
 import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./step-make-changes";
+import { step3_4_FinalMakeReport, step4_FinalMakeReportToAllGroups } from "./step-make-report";
 
 /*export*/ function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
