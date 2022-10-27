@@ -16,10 +16,10 @@ export namespace notes {
     }
 
     export function buildMessage(): string {
-        let pro = processed.length > 1 ? color.cyan(`\nProcessed:\n${processed.join('\n')}\n`) : ''; //blueBright
-        let msg = messages.length ? color.yellow(`\nNotes:\n${messages.join('\n')}\n`) : '';
+        let pro = processed.length > 1 ? color.cyan(`\nProcessed:\n${processed.join('\n')}`) : ''; //blueBright
+        let msg = messages.length ? color.yellow(`\nNotes:\n${messages.join('\n')}`) : '';
         let hasOutput = pro || msg;
-        return hasOutput ? `${pro}${msg}` : `Program ${programName} finished.\n\n`;
+        return hasOutput ? [pro, msg].join('\n') : `Program ${programName} finished.\n\n`;
     }
 
     export async function showAndExit(): Promise<void> {
@@ -28,5 +28,5 @@ export namespace notes {
             await exitProcess(0, final);
         }
     }
-    
+
 } //namespace notes
