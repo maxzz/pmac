@@ -4,7 +4,7 @@ import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-t
 import { color, templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../../app-types";
 import { appOptions } from "../app-env";
-import { hasDomCredsReport } from "../../utils/utils-app-report-template";
+import { numberOfDomCreds } from "../../utils/utils-app-report-template";
 
 function targetGroupToReport(targetGroup: TargetGroup): Report {
     return { ...targetGroup.report, root: toUnix(targetGroup.root) };
@@ -25,7 +25,7 @@ function createJsonForDebugging(targetGroups: TargetGroup[]) {
 }
 
 export function step3_4_MakeTargetGroupReport(targetGroup: TargetGroup): void {
-    if (hasDomCredsReport(targetGroup)) {
+    if (numberOfDomCreds(targetGroup)) {
         const reportStr = JSON.stringify([targetGroupToReport(targetGroup)], null, 4);
         const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
         const fname = path.join(targetGroup.backup, 'report.html');
