@@ -3,6 +3,7 @@ import fs from "fs";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
 import { color, templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../../app-types";
+import { appOptions } from "../app-env";
 
 export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
 
@@ -18,7 +19,11 @@ export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
 
     const report: ReportRecords = [{ ...targetGroup.report, root: toUnix(targetGroup.root) }];
     const reportStr = JSON.stringify(report, null, 4);
-    //console.log('dataStr:\n', reportStr);
+    console.log('dataStr:\n', reportStr);
+
+    if (appOptions.generateJson) {
+        console.log('generateJson');
+    }
 
     const fname = path.join(targetGroup.backup, 'report.html');
     const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);

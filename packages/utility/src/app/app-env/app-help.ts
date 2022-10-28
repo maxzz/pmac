@@ -117,6 +117,7 @@ export type MinimistArgs = {
     'need-backup': boolean;
     'need-report': boolean;
     'need-update': boolean;
+    'generate-json': boolean; // private: generate local json file for template debugging
     'c': boolean;
     'a': boolean;
     'r': boolean;
@@ -127,7 +128,7 @@ export type MinimistArgs = {
 
 export function getMinimistArgs(): MinimistArgs {
     let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
-        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'need-backup', 'need-report', 'need-update',],
+        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'need-backup', 'need-report', 'need-update', 'generate-json',],
         string: ['domain'],
         alias: {
             'c': 'dc',

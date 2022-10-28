@@ -16,6 +16,7 @@
                 "${workspaceFolder}/**/*.js"
             ],
             "args": [
+                "--generate-json",
                 // ".",
                 // "C:/Y/w/2-web/0-dp/utils/pmac/packages/utility/tests/01",
                 // "packages/utility/tests/01",
