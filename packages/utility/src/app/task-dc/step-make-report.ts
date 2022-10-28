@@ -5,18 +5,18 @@ import { color, templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../../app-types";
 import { appOptions } from "../app-env";
 
-function createJsonForDebuggingSingle(reportStr: string) {
-    if (appOptions.generateJson) {
-        const scriptFilename = process.argv[1];
-        const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/utils/');
-        const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
-        if (isRunningDebug) {
-            const jsonFilename = path.join(jsonFilePath, 'test-data-private2.json');
-            console.log(`generateJson:\n${color.blue(jsonFilename)}\n\n${reportStr}`);
-            fs.writeFileSync(jsonFilename, reportStr);
-        }
-    }
-}
+// function createJsonForDebuggingSingle(reportStr: string) {
+//     if (appOptions.generateJson) {
+//         const scriptFilename = process.argv[1];
+//         const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/utils/');
+//         const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
+//         if (isRunningDebug) {
+//             const jsonFilename = path.join(jsonFilePath, 'test-data-private2.json');
+//             console.log(`generateJson:\n${color.blue(jsonFilename)}\n\n${reportStr}`);
+//             fs.writeFileSync(jsonFilename, reportStr);
+//         }
+//     }
+// }
 
 function createJsonForDebugging(targetGroups: TargetGroup[]) {
     if (appOptions.generateJson) {
@@ -25,12 +25,11 @@ function createJsonForDebugging(targetGroups: TargetGroup[]) {
         const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
         if (isRunningDebug) {
             const jsonFilename = path.join(jsonFilePath, 'test-data-private2.json');
-            console.log(`generateJson:\n${color.blue(jsonFilename)}`);
 
             const reports = targetGroups.map<Report>((targetGroup) => ({ ...targetGroup.report, root: toUnix(targetGroup.root) }));
             const reportStr = JSON.stringify(reports, null, 4);
-
-            console.log(reportStr);
+            console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
+            
             fs.writeFileSync(jsonFilename, reportStr);
         }
     }
