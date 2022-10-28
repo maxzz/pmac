@@ -4,7 +4,7 @@ import { OsStuff } from "../../utils";
 import { FileMeta, TargetGroup } from "../../app-types";
 import { addError, flatDcActive } from "../task-common";
 import { makeXML, Matching } from "../../manifest";
-import { modify4ReportUrlsArray } from "../../utils/utils-app-mani-urls";
+import { updateToRegexUrlsArray } from "../../utils/utils-app-mani-urls";
 
 export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
 
@@ -35,7 +35,7 @@ export function step3_2_Modify(targetGroup: TargetGroup): void {
         multiple: flatDcActive(targetGroup.sameDc).map((fileMeta) => {
             return {
                 id: fileMeta.id, //TODO: add more to report
-                urls: modify4ReportUrlsArray(fileMeta),
+                urls: updateToRegexUrlsArray(fileMeta),
             };
         }),
     };

@@ -1,5 +1,5 @@
 import path from "path";
-import fs from "fs";
+import fs, { existsSync } from "fs";
 import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-types";
 import { color, templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../../app-types";
@@ -22,7 +22,14 @@ export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
     console.log('dataStr:\n', reportStr);
 
     if (appOptions.generateJson) {
-        console.log('generateJson');
+        const scriptFilename = process.argv[1];
+        const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/utils/');
+        const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
+        if (isRunningDebug) {
+            const jsonFilename = path.join(jsonFilePath, 'test-data-private2.json');
+            console.log('generateJson', jsonFilename);
+            fs.writeFileSync(jsonFilename, reportStr);
+        }
     }
 
     const fname = path.join(targetGroup.backup, 'report.html');

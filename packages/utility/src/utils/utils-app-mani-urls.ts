@@ -68,7 +68,7 @@ export function filterFilesByDomain(targetGroup: TargetGroup, domain?: string) {
     }
 }
 
-export function modify4ReportUrlsArray(fileMeta: FileMeta): string[] {
+export function updateToRegexUrlsArray(fileMeta: FileMeta): string[] {
 
     function modifyUrl(url: string | undefined): string | undefined {
         return url && Matching.makeRawMatchData({ style: Matching.Style.regex, opt: Matching.Options.pmacSet, url }, '');

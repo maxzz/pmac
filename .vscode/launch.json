@@ -18,7 +18,7 @@
             "args": [
                 "--generate-json",
                 // ".",
-                // "C:/Y/w/2-web/0-dp/utils/pmac/packages/utility/tests/01",
+                "C:/Y/w/2-web/0-dp/utils/pmac/packages/utility/tests/01",
                 // "packages/utility/tests/01",
                 // "packages/utility/tests/02",
 
@@ -31,12 +31,12 @@
                 // ".", "-c",
                 //"-c", "-a", "-r",
 
-                "C:/Users/maxzz/Desktop/01",
-                "C:/Users/maxzz/Desktop/02",
+                // "C:/Users/maxzz/Desktop/01",
+                // "C:/Users/maxzz/Desktop/02",
                 "--dc",
                 //"--no-need-backup",
                 //"--no-need-report",
-                "--no-need-update",
+                //"--no-need-update",
 
                 //"--need-backup", "false",
                 //"--need-backup=false",
