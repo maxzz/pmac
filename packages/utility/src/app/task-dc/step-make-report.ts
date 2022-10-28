@@ -5,6 +5,19 @@ import { color, templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../../app-types";
 import { appOptions } from "../app-env";
 
+function createJsonForDebugging(reportStr: string) {
+    if (appOptions.generateJson) {
+        const scriptFilename = process.argv[1];
+        const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/utils/');
+        const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
+        if (isRunningDebug) {
+            const jsonFilename = path.join(jsonFilePath, 'test-data-private2.json');
+            console.log(`generateJson:\n${color.blue(jsonFilename)}\n\n${reportStr}`);
+            fs.writeFileSync(jsonFilename, reportStr);
+        }
+    }
+}
+
 export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
 
     function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
@@ -19,18 +32,8 @@ export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
 
     const report: ReportRecords = [{ ...targetGroup.report, root: toUnix(targetGroup.root) }];
     const reportStr = JSON.stringify(report, null, 4);
-    console.log('dataStr:\n', reportStr);
 
-    if (appOptions.generateJson) {
-        const scriptFilename = process.argv[1];
-        const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/utils/');
-        const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
-        if (isRunningDebug) {
-            const jsonFilename = path.join(jsonFilePath, 'test-data-private2.json');
-            console.log('generateJson', jsonFilename);
-            fs.writeFileSync(jsonFilename, reportStr);
-        }
-    }
+    createJsonForDebugging(reportStr);
 
     const fname = path.join(targetGroup.backup, 'report.html');
     const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);

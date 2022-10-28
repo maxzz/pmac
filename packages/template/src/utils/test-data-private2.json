@@ -1,0 +1,94 @@
+[
+    {
+        "root": "C:/Users/maxzz/Desktop/02",
+        "version": "1.4.0",
+        "date": 1666997466464,
+        "inputs": {
+            "input": [
+                {
+                    "id": "l9t3917l",
+                    "idx": 0,
+                    "urls": [
+                        {
+                            "domain": "nextgencontrol.com",
+                            "ourl": "https://app.nextgencontrol.com/Core/Authentication/Login?ReturnUrl=https%3A%2F%2Fapp.nextgencontrol.com%2FBRI%2FAlertManagement%3FswitchTo%3D7085",
+                            "oWoP": "https://app.nextgencontrol.com/core/authentication/login"
+                        }
+                    ],
+                    "title": "FIS Managed Risk and Security Services",
+                    "short": "{0a58d2be-9441-4860-ae5b-cb3cb09de112}.dpm"
+                },
+                {
+                    "id": "l9t3917m",
+                    "idx": 1,
+                    "urls": [
+                        {
+                            "domain": "nextgencontrol.com",
+                            "ourl": "https://app.nextgencontrol.com/Core/Authentication/Login?ReturnUrl=https%3A%2F%2Fapp.nextgencontrol.com%2FBRI%2FAlertManagement%3FswitchTo%3D7085",
+                            "oWoP": "https://app.nextgencontrol.com/core/authentication/login"
+                        }
+                    ],
+                    "title": "FIS Managed Risk and Security Services",
+                    "short": "{0a58d2be-9441-4860-ae5b-cb3cb09de112}_new.dpm"
+                },
+                {
+                    "id": "l9t3917n",
+                    "idx": 2,
+                    "urls": [
+                        {
+                            "domain": "mimecast.com",
+                            "ourl": "https://brighthorizons.login-us.mimecast.com/u/login/?gta=secure#/login",
+                            "oWoP": "https://brighthorizons.login-us.mimecast.com/u/login/"
+                        },
+                        {
+                            "domain": "mimecast.com",
+                            "ourl": "https://brighthorizons.login-us.mimecast.com/u/login/?gta=secure#/reset-password/",
+                            "oWoP": "https://brighthorizons.login-us.mimecast.com/u/login/"
+                        }
+                    ],
+                    "title": "Bright Horizons Secure Message PW",
+                    "short": "{0a60444f-1a89-4b1d-8a7f-c3b87c3b7f80}.dpm"
+                },
+                {
+                    "id": "l9t3917o",
+                    "idx": 3,
+                    "urls": [],
+                    "title": "BeyondTrust - ERPM",
+                    "short": "{2de7d301-a9cb-4b81-8541-44d483f326fe}.dpm"
+                },
+                {
+                    "id": "l9t3917p",
+                    "idx": 4,
+                    "urls": [
+                        {
+                            "domain": "arcot.com",
+                            "ourl": "https://secure5a.arcot.com/arcotadmin/bamlogin.htm"
+                        },
+                        {
+                            "domain": "arcot.com",
+                            "ourl": "https://secure5a.arcot.com/arcotadmin/bamlogin.htm"
+                        }
+                    ],
+                    "title": "3D Secure Signon Organization",
+                    "short": "{2f8fd1e2-2db4-400e-943c-a1b8d13f9e09}.dpm"
+                }
+            ]
+        },
+        "domcreds": {
+            "multiple": [
+                {
+                    "id": "l9t3917l",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//app.nextgencontrol.com/Core/Authentication/Login?ReturnUrl=https%3A%2F%2Fapp.nextgencontrol.com%2FBRI%2FAlertManagement%3FswitchTo%3D7085"
+                    ]
+                },
+                {
+                    "id": "l9t3917m",
+                    "urls": [
+                        "[m0]:2:8:https^2dot;//app.nextgencontrol.com/Core/Authentication/Login?ReturnUrl=https%3A%2F%2Fapp.nextgencontrol.com%2FBRI%2FAlertManagement%3FswitchTo%3D7085"
+                    ]
+                }
+            ]
+        }
+    }
+]
