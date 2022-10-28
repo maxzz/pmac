@@ -30,7 +30,7 @@ export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
     }
 }
 
-export function step3_2_ModifyOriginals4Repost(targetGroup: TargetGroup): void {
+export function step3_2_Modify(targetGroup: TargetGroup): void {
     targetGroup.report.domcreds = {
         multiple: flatDcActive(targetGroup.sameDc).map((fileMeta) => {
             return {
@@ -51,11 +51,10 @@ export function step3_3_Save(targetGroup: TargetGroup): void {
     const destFolder = targetGroup.root;
 
     const files: FileMeta[] = flatDcActive(targetGroup.sameDc);
-    files.forEach((f) => {
-
-        const xml = makeXML(f.mani);
+    files.forEach((fileMeta) => {
+        const xml = makeXML(fileMeta.mani);
         if (xml) {
-            const newFname = path.join(destFolder, f.short);
+            const newFname = path.join(destFolder, fileMeta.short);
             fs.writeFileSync(newFname, xml);
 
 
