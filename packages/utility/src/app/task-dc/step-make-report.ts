@@ -4,6 +4,7 @@ import { ItemError, ReportFormUrls, Report, ReportRecords } from "@pmac/shared-t
 import { color, templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../../app-types";
 import { appOptions } from "../app-env";
+import { hasDomCredsReport } from "../../utils/utils-app-report-template";
 
 function targetGroupToReport(targetGroup: TargetGroup): Report {
     return { ...targetGroup.report, root: toUnix(targetGroup.root) };
@@ -18,29 +19,18 @@ function createJsonForDebugging(targetGroups: TargetGroup[]) {
         if (isRunningDebug) {
             const jsonFilename = path.join(jsonFilePath, 'test-data-private.json');
             const reportStr = JSON.stringify(targetGroups.map<Report>(targetGroupToReport), null, 4);
-            console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
-            fs.writeFileSync(jsonFilename, reportStr);
+            fs.writeFileSync(jsonFilename, reportStr); //console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
         }
     }
 }
 
 export function step3_4_MakeTargetGroupReport(targetGroup: TargetGroup): void {
-
-    function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
-        if (Object.keys(targetGroup.report).length) {
-            const dataStr = JSON.stringify(targetGroup.report, null, 4);
-
-            console.log('dataStr:\n', dataStr); // to debug template project
-
-            return templateStr.replace('"__INJECTED__DATA__"', dataStr);
-        }
+    if (hasDomCredsReport(targetGroup)) {
+        const reportStr = JSON.stringify([targetGroupToReport(targetGroup)], null, 4);
+        const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
+        const fname = path.join(targetGroup.backup, 'report.html');
+        fs.writeFileSync(fname, cnt);
     }
-
-    const reportStr = JSON.stringify([targetGroupToReport(targetGroup)], null, 4);
-
-    const fname = path.join(targetGroup.backup, 'report.html');
-    const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
-    fs.writeFileSync(fname, cnt);
 }
 
 export function step4_FinalMakeReportToAllGroups(targetGroups: TargetGroup[]): void {
