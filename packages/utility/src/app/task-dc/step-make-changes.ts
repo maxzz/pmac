@@ -4,6 +4,7 @@ import { OsStuff } from "../../utils";
 import { FileMeta, TargetGroup } from "../../app-types";
 import { addError, flatDcActive } from "../task-common";
 import { makeXML, Matching } from "../../manifest";
+import { modify4ReportUrlsArray } from "../../utils/utils-app-mani-urls";
 
 export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
 
@@ -18,8 +19,8 @@ export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
     }
 
     try {
-        const sameDC: FileMeta[] = flatDcActive(targetGroup.sameDc);
-        makeBackupCopy(sameDC, targetGroup.backup);
+        const files: FileMeta[] = flatDcActive(targetGroup.sameDc);
+        makeBackupCopy(files, targetGroup.backup);
     } catch (error) {
         addError(targetGroup, {
             text: `Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${targetGroup.root}`,
@@ -29,21 +30,12 @@ export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
     }
 }
 
-export function step3_2_Modify(targetGroup: TargetGroup): void {
-
-    function modifyUrl(url: string | undefined): string | undefined {
-        return url && Matching.makeRawMatchData({ style: Matching.Style.regex, opt: Matching.Options.pmacSet, url }, '');
-    }
-
+export function step3_2_ModifyOriginals4Repost(targetGroup: TargetGroup): void {
     targetGroup.report.domcreds = {
-        multiple: flatDcActive(targetGroup.sameDc).map((file) => {
-            const newUrls = [
-                modifyUrl(file.urls?.[0].m),
-                modifyUrl(file.urls?.[1].m),
-            ].filter(Boolean);
+        multiple: flatDcActive(targetGroup.sameDc).map((fileMeta) => {
             return {
-                id: file.id, //TODO: add more to report
-                urls: newUrls,
+                id: fileMeta.id, //TODO: add more to report
+                urls: modify4ReportUrlsArray(fileMeta),
             };
         }),
     };
@@ -58,7 +50,8 @@ export function step3_3_Save(targetGroup: TargetGroup): void {
 
     const destFolder = targetGroup.root;
 
-    flatDcActive(targetGroup.sameDc).forEach((f) => {
+    const files: FileMeta[] = flatDcActive(targetGroup.sameDc);
+    files.forEach((f) => {
 
         const xml = makeXML(f.mani);
         if (xml) {

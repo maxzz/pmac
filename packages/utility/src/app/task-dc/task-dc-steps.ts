@@ -3,10 +3,10 @@ import { ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from ".
 import { Matching } from "../../manifest";
 import { appOptions, notes } from "../app-env";
 import { step1_LoadManifests } from "../task-common";
-import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./step-make-changes";
+import { step3_1_MakeBackupCopy, step3_2_ModifyOriginals4Repost, step3_3_Save } from "./step-make-changes";
 import { step3_4_FinalMakeReport, step4_FinalMakeReportToAllGroups } from "./step-make-report";
 
-/*export*/ function step2_FindSameDc(targetGroup: TargetGroup) {
+function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
         const byDomains = splitByKey(files, (fileMeta) => {
             const loginForm = fileMeta.urls?.[0];
@@ -24,7 +24,7 @@ import { step3_4_FinalMakeReport, step4_FinalMakeReportToAllGroups } from "./ste
     targetGroup.sameDc = getSameDc(targetGroup.files);
 }
 
-/*export*/ function step3_SaveResult(targetGroup: TargetGroup): void {
+function step3_SaveResult(targetGroup: TargetGroup): void {
     if (targetGroup.sameDc.length) {
         try {
             targetGroup.backup = ensureNameUnique(`${targetGroup.root}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
@@ -34,7 +34,7 @@ import { step3_4_FinalMakeReport, step4_FinalMakeReportToAllGroups } from "./ste
             }
 
             if (appOptions.needUpdate) {
-                step3_2_Modify(targetGroup);
+                step3_2_ModifyOriginals4Repost(targetGroup);
                 step3_3_Save(targetGroup);
             }
 

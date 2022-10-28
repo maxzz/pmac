@@ -67,3 +67,12 @@ export function filterFilesByDomain(targetGroup: TargetGroup, domain?: string) {
         targetGroup.files = targetGroup.files.filter(matchedDomain);
     }
 }
+
+export function modify4ReportUrlsArray(fileMeta: FileMeta): string[] {
+
+    function modifyUrl(url: string | undefined): string | undefined {
+        return url && Matching.makeRawMatchData({ style: Matching.Style.regex, opt: Matching.Options.pmacSet, url }, '');
+    }
+
+    return [ modifyUrl(fileMeta.urls?.[0].m), modifyUrl(fileMeta.urls?.[1].m), ].filter(Boolean);
+}
