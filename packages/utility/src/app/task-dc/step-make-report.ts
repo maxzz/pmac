@@ -5,37 +5,26 @@ import { color, templateStr, toUnix } from "../../utils";
 import { TargetGroup } from "../../app-types";
 import { appOptions } from "../app-env";
 
-// function createJsonForDebuggingSingle(reportStr: string) {
-//     if (appOptions.generateJson) {
-//         const scriptFilename = process.argv[1];
-//         const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/utils/');
-//         const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
-//         if (isRunningDebug) {
-//             const jsonFilename = path.join(jsonFilePath, 'test-data-private2.json');
-//             console.log(`generateJson:\n${color.blue(jsonFilename)}\n\n${reportStr}`);
-//             fs.writeFileSync(jsonFilename, reportStr);
-//         }
-//     }
-// }
+function targetGroupToReport(targetGroup: TargetGroup): Report {
+    return { ...targetGroup.report, root: toUnix(targetGroup.root) };
+}
 
 function createJsonForDebugging(targetGroups: TargetGroup[]) {
+    // This combined report is for debugging multiple targets, the html file has a single report.
     if (appOptions.generateJson) {
         const scriptFilename = process.argv[1];
         const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/utils/');
         const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
         if (isRunningDebug) {
-            const jsonFilename = path.join(jsonFilePath, 'test-data-private2.json');
-
-            const reports = targetGroups.map<Report>((targetGroup) => ({ ...targetGroup.report, root: toUnix(targetGroup.root) }));
-            const reportStr = JSON.stringify(reports, null, 4);
+            const jsonFilename = path.join(jsonFilePath, 'test-data-private.json');
+            const reportStr = JSON.stringify(targetGroups.map<Report>(targetGroupToReport), null, 4);
             console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
-            
             fs.writeFileSync(jsonFilename, reportStr);
         }
     }
 }
 
-export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
+export function step3_4_MakeTargetGroupReport(targetGroup: TargetGroup): void {
 
     function makeHtmlReport(targetGroup: TargetGroup): string | undefined {
         if (Object.keys(targetGroup.report).length) {
@@ -47,10 +36,7 @@ export function step3_4_FinalMakeReport(targetGroup: TargetGroup): void {
         }
     }
 
-    const report: ReportRecords = [{ ...targetGroup.report, root: toUnix(targetGroup.root) }];
-    const reportStr = JSON.stringify(report, null, 4);
-
-    //createJsonForDebuggingSingle(reportStr);
+    const reportStr = JSON.stringify([targetGroupToReport(targetGroup)], null, 4);
 
     const fname = path.join(targetGroup.backup, 'report.html');
     const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
