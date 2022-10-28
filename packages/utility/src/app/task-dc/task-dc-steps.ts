@@ -4,7 +4,7 @@ import { Matching } from "../../manifest";
 import { appOptions, notes } from "../app-env";
 import { step1_LoadManifests } from "../task-common";
 import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./step-make-changes";
-import { step3_4_FinalMakeReport, step4_FinalMakeReportToAllGroups } from "./step-make-report";
+import { step3_4_MakeTargetGroupReport, step4_FinalMakeReportToAllGroups } from "./step-make-report";
 
 function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
@@ -38,8 +38,8 @@ function step3_SaveResult(targetGroup: TargetGroup): void {
                 step3_3_Save(targetGroup);
             }
 
-            if (appOptions.needReport) {
-                step3_4_FinalMakeReport(targetGroup);
+            if (appOptions.needReport && appOptions.needBackup) { //TODO: appOptions.needBackup check is here to make sure folder for report exist
+                step3_4_MakeTargetGroupReport(targetGroup);
             }
         } catch (error) {
         }
