@@ -1,10 +1,10 @@
 import { FileMeta, SameDc, RootGroup, TargetGroup } from "../../app-types";
-import { ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../../utils";
+import { color, ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../../utils";
 import { Matching } from "../../manifest";
 import { appOptions, notes } from "../app-env";
 import { step1_LoadManifests } from "../task-common";
 import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./step-make-changes";
-import { step3_4_MakeTargetGroupReport, step4_FinalMakeReportToAllGroups } from "./step-make-report";
+import { step3_4_MakeTargetGroupReport, step4_MakeReportToAllGroups } from "./step-make-report";
 import { numberOfDomCreds } from "../../utils/utils-app-report-template";
 
 function step2_FindSameDc(targetGroup: TargetGroup) {
@@ -54,8 +54,6 @@ function processRootGroup(rootGroup: RootGroup): TargetGroup {
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);
 
-    //         notes.add(`\nNothing done:\nThere are no duplicates in ${targetGroup.files.length} loaded file${targetGroup.files.length === 1 ? '' : 's'}.`);
-
     notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${numberOfDomCreds(targetGroup)}`);
 
     return targetGroup;
@@ -64,11 +62,7 @@ function processRootGroup(rootGroup: RootGroup): TargetGroup {
 export function executeTaskDc(rootGroups: RootGroup[]) {
     const targetGroups = rootGroups.map(processRootGroup);
 
-    if (!appOptions.needReport) {
-        //TODO:
-    }
+    step4_MakeReportToAllGroups(targetGroups);
 
-    step4_FinalMakeReportToAllGroups(targetGroups);
-
-    notes.add(`All done`);
+    notes.addProcessed(color.green('All done'));
 }
