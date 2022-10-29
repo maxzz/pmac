@@ -8,14 +8,13 @@ function processRootGroup(rootGroup: RootGroup) {
     filterFilesByDomain(targetGroup, appOptions.domain);
 
     targetGroup.files.forEach((fileMeta) => {
-        console.log('    ', fileMeta.short);
+        const filenameWPerix = fileMeta.short.match(/(.*)({c857ed8e-5e08-48c2-ac5e-be1495b7b5a3})(.*)\.dpm/);
+        console.log('    ', fileMeta.short, filenameWPerix);
     });
-
 }
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
     //throw new Error('Not implemented yet');
-
     rootGroups.forEach(processRootGroup);
     notes.add(`All done`);
 }
