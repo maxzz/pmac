@@ -43,6 +43,7 @@ function step3_SaveResult(targetGroup: TargetGroup): void {
                 step3_4_MakeTargetGroupReport(targetGroup);
             }
         } catch (error) {
+            console.error(error);
         }
     }
 }
@@ -61,8 +62,6 @@ function processRootGroup(rootGroup: RootGroup): TargetGroup {
 
 export function executeTaskDc(rootGroups: RootGroup[]) {
     const targetGroups = rootGroups.map(processRootGroup);
-
     step4_MakeReportToAllGroups(targetGroups);
-
     notes.addProcessed(color.green('All done'));
 }
