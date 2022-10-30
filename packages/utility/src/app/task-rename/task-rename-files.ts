@@ -5,7 +5,7 @@ import { step1_LoadManifests } from "../task-common";
 import path from "path";
 
 function getAutoName(prefix: string): {prefix: string, isAuto: boolean} {
-    const mOur = prefix.match(/([\s\S]*)(___)$/); //TODO: place it anywhere
+    const mOur = prefix.match(/^([\s\S]*)(___)/); //TODO: place it anywhere
     return {
         prefix: mOur ? mOur[1] : prefix,
         isAuto: !!mOur,
@@ -29,7 +29,8 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
             const {prefix, isAuto} =  getAutoName(prefixRaw);
 
-            console.log(`b: ${name} c:'${suffix}' ${isAuto ? '___' : '   '} auto:'${prefix}' url: ${domain} a:'${prefixRaw}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+            console.log(`url: ${domain}___${name}${suffix}.dpm was: ${isAuto ? '___' : '   '} auto:'${prefix}' a:'${prefixRaw}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+            // console.log(`b: ${name} c:'${suffix}' ${isAuto ? '___' : '   '} auto:'${prefix}' url: ${domain} a:'${prefixRaw}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
 
             if (addOrRemove) {
 
