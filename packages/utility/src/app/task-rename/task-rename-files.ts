@@ -4,12 +4,11 @@ import { color, filterFilesByDomain } from "../../utils";
 import { step1_LoadManifests } from "../task-common";
 import path from "path";
 
-function getAutoName(prefix: string): { prefix: string; ourAutoNmae: boolean; ending: string; } {
-    const mOur = prefix.match(/^([\s\S]*)___([\s\S]*)/); //TODO: place it anywhere
+function getAutoName(prefix: string, domain: string): { ourAutoName: boolean; ending: string; } {
+    const mOur = prefix.match(new RegExp(`^${domain}___([\s\S]*)`));
     return {
-        prefix: mOur ? mOur[1] : prefix,
-        ending: mOur ? mOur[2] : '',
-        ourAutoNmae: !!mOur,
+        ourAutoName: !!mOur,
+        ending: mOur ? mOur[1] : prefix,
     };
 }
 
@@ -22,7 +21,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const targetGroup = step1_LoadManifests(rootGroup);
     filterFilesByDomain(targetGroup, appOptions.domain);
 
-    const renamePairs = [];
+    const renamePairs: RenamePair[] = [];
 
     targetGroup.files.forEach((fileMeta) => {
         const dirname = path.dirname(fileMeta.short);
@@ -31,7 +30,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
         const m = filename.match(/(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/);
         if (m) {
-            const [, prefixRaw, name, suffix] = m;
+            const [, prefixRaw, guid, suffix] = m;
 
             const domain = fileMeta.urls?.[0].oParts?.domain || '';
             if (!domain) {
@@ -39,16 +38,28 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
                 return;
             }
 
-            const { prefix, ourAutoNmae: isAuto } = getAutoName(prefixRaw);
-
-            console.log(`url: ${domain}___${name}${suffix}.dpm was: ${isAuto ? '___' : '   '} auto:'${prefix}' a:'${prefixRaw}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
-            // console.log(`b: ${name} c:'${suffix}' ${isAuto ? '___' : '   '} auto:'${prefix}' url: ${domain} a:'${prefixRaw}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+            const { ourAutoName, ending } = getAutoName(prefixRaw, domain);
 
             if (addOrRemove) {
-
+                if (!ourAutoName) {
+                    const newName = `${domain}___${ending}${guid}${suffix}.dpm`;
+                    const fullName = path.join(rootGroup.root, dirname, newName);
+                    if (fullName.length > 255) {
+                        console.log(`The new name is too long (${fullName.length}) for ${fullName}`);
+                        return;
+                    } else {
+                        console.log(`${fullName}`);
+                    }
+                } else {
+                    console.log(color.green(`already our name ${filename}`));
+                }
             } else {
 
             }
+
+            //console.log(`url: ${domain}___${guid}${suffix}.dpm was: ${ourAutoName ? '___' : '   '} a:'${ending}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+            // console.log(`b: ${guid} c:'${suffix}' ${isAuto ? '___' : '   '} auto:'${prefix}' url: ${domain} a:'${prefixRaw}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+
         } else {
             console.log(color.red(`no match ${fileMeta.short}`));
         }
