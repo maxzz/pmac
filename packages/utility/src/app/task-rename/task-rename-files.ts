@@ -16,13 +16,22 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         const m = filename.match(/(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/);
         if (m) {
             const [, prefix, name, suffix] = m;
-            console.log(`prefix: '${prefix}' guid: ${name} suffix: '${suffix}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+
+            let prefixName = name;
+            let isAutoName = false;
+            const mOur = prefix.match(/([\s\S]*)(___)$/);
+            if (mOur) {
+                prefixName = mOur[1];
+                isAutoName = true;
+            }
 
             if (addOrRemove) {
 
             } else {
 
             }
+
+            console.log(`prefix: '${prefix}' guid: ${name} suffix: '${suffix}' isAutoName = ${isAutoName} prefixName: '${prefixName}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
         } else {
             console.log(color.red(`no match ${fileMeta.short}`));
         }
