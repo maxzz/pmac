@@ -17,7 +17,9 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         if (m) {
             const [, prefix, name, suffix] = m;
 
-            let prefixName = name;
+            const domain = fileMeta.urls?.[0].oParts?.domain || '';
+
+            let prefixName = prefix;
             let isAutoName = false;
             const mOur = prefix.match(/([\s\S]*)(___)$/);
             if (mOur) {
@@ -25,13 +27,13 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
                 isAutoName = true;
             }
 
+            console.log(`domain: '${domain} 'prefix: '${prefix}' guid: ${name} suffix: '${suffix}' ${isAutoName ? '___' : '   '} autoPrefix: '${prefixName}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+
             if (addOrRemove) {
 
             } else {
 
             }
-
-            console.log(`prefix: '${prefix}' guid: ${name} suffix: '${suffix}' isAutoName = ${isAutoName} prefixName: '${prefixName}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
         } else {
             console.log(color.red(`no match ${fileMeta.short}`));
         }
