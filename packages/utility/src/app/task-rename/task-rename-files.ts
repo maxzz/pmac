@@ -17,7 +17,9 @@ type RenamePair = { //TODO: check length root + dir + new name < 255
     newName: string;
 };
 
-const winappPrefix = 'winapp';
+const constWinApp = 'winapp';
+const reWinApp = new RegExp(`${constWinApp}___`);
+const reGuidMath = /(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/;
 
 function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const targetGroup = step1_LoadManifests(rootGroup);
@@ -29,10 +31,10 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         const dirname = path.dirname(fileMeta.short);
         const filename = path.basename(fileMeta.short);
 
-        const m = filename.match(/(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/);
+        const m = filename.match(reGuidMath);
         if (m) {
             const [, prefixRaw, guid, suffix] = m;
-            const domain = fileMeta.urls?.[0].oParts?.domain || winappPrefix;
+            const domain = fileMeta.urls?.[0].oParts?.domain || constWinApp;
             const { ourAutoName, ending } = getAutoName(prefixRaw, domain);
 
             if (addOrRemove) {
@@ -63,8 +65,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     });
 
     renamePairs.forEach((pair) => {
-        const isWinApp = pair.newName.match(new RegExp(`${winappPrefix}___`));
-        const n = color[isWinApp ? 'yellow' : 'green'](pair.newName);
+        const n = color[pair.newName.match(reWinApp) ? 'yellow' : 'green'](pair.newName);
         console.log(`{\n    ${pair.oldName}\n    ${n}\n}`);
     });
 }
