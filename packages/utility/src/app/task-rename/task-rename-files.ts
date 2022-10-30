@@ -29,7 +29,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
             const {prefix: prefixName, isAuto} =  getAutoName(prefix);
 
-            console.log(`url: '${domain} 'a1: '${prefix}' guid: ${name} a3: '${suffix}' ${isAuto ? '___' : '   '} autoPrefix: '${prefixName}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+            console.log(`2: ${name} url: ${domain} 1:'${prefix}' 3:'${suffix}' ${isAuto ? '___' : '   '} auto:'${prefixName}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
 
             if (addOrRemove) {
 
