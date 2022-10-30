@@ -5,7 +5,7 @@ import { step1_LoadManifests } from "../task-common";
 import path from "path";
 
 function getAutoName(prefix: string, domain: string): { ourAutoName: boolean; ending: string; } {
-    const mOur = prefix.match(new RegExp(`^${domain}___([\s\S]*)`));
+    const mOur = prefix.match(new RegExp(`^${domain}___([\s\S]*)`, 'i'));
     return {
         ourAutoName: !!mOur,
         ending: mOur ? mOur[1] : prefix,
@@ -47,11 +47,15 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
                     if (fullName.length > 255) {
                         console.log(`The new name is too long (${fullName.length}) for ${fullName}`);
                         return;
-                    } else {
-                        console.log(`${fullName}`);
                     }
+                    console.log(color.cyan(newName));
+
+                    renamePairs.push({
+                        oldName: path.join(rootGroup.root, fileMeta.short),
+                        newName: fullName,
+                    })
                 } else {
-                    console.log(color.green(`already our name ${filename}`));
+                    console.log(color.green(`${filename} already our name`));
                 }
             } else {
 
@@ -64,6 +68,8 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
             console.log(color.red(`no match ${fileMeta.short}`));
         }
     });
+
+    console.log('renamePairs', renamePairs);
 }
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
@@ -71,3 +77,7 @@ export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean)
     rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
     notes.add(`All done`);
 }
+
+//TODO: ___mm_
+//TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix
+//TODO: interactive mode
