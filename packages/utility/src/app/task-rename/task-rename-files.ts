@@ -5,7 +5,7 @@ import { step1_LoadManifests } from "../task-common";
 import path from "path";
 
 function getAutoName(prefix: string): {prefix: string, isAuto: boolean} {
-    const mOur = prefix.match(/([\s\S]*)(___)$/);
+    const mOur = prefix.match(/([\s\S]*)(___)$/); //TODO: place it anywhere
     return {
         prefix: mOur ? mOur[1] : prefix,
         isAuto: !!mOur,
@@ -23,13 +23,13 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
         const m = filename.match(/(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/);
         if (m) {
-            const [, prefix, name, suffix] = m;
+            const [, prefixRaw, name, suffix] = m;
 
             const domain = fileMeta.urls?.[0].oParts?.domain || '';
 
-            const {prefix: prefixName, isAuto} =  getAutoName(prefix);
+            const {prefix, isAuto} =  getAutoName(prefixRaw);
 
-            console.log(`2: ${name} url: ${domain} 1:'${prefix}' 3:'${suffix}' ${isAuto ? '___' : '   '} auto:'${prefixName}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+            console.log(`b: ${name} c:'${suffix}' ${isAuto ? '___' : '   '} auto:'${prefix}' url: ${domain} a:'${prefixRaw}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
 
             if (addOrRemove) {
 
