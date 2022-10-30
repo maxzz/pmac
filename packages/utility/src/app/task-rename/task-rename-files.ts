@@ -4,10 +4,11 @@ import { color, filterFilesByDomain } from "../../utils";
 import { step1_LoadManifests } from "../task-common";
 import path from "path";
 
-function getAutoName(prefix: string): string | undefined {
+function getAutoName(prefix: string): {prefix: string, isAuto: boolean} {
     const mOur = prefix.match(/([\s\S]*)(___)$/);
-    if (mOur) {
-        return mOur[1];
+    return {
+        prefix: mOur ? mOur[1] : prefix,
+        isAuto: !!mOur,
     }
 }
 
@@ -26,9 +27,9 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
             const domain = fileMeta.urls?.[0].oParts?.domain || '';
 
-            let prefixName = getAutoName(prefix) || prefix;
+            const {prefix: prefixName, isAuto} =  getAutoName(prefix);
 
-            console.log(`domain: '${domain} 'prefix: '${prefix}' guid: ${name} suffix: '${suffix}' ${isAutoName ? '___' : '   '} autoPrefix: '${prefixName}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
+            console.log(`url: '${domain} 'a1: '${prefix}' guid: ${name} a3: '${suffix}' ${isAuto ? '___' : '   '} autoPrefix: '${prefixName}'`); //TODO: 'C\\{63b8feef-c560-4777-b26a-70413303c096}.dpm', // path.basename
 
             if (addOrRemove) {
 
