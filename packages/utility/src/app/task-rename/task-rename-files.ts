@@ -32,7 +32,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         if (m) {
             const [, prefixRaw, guid, suffix] = m;
 
-            const domain = fileMeta.urls?.[0].oParts?.domain || '';
+            const domain = fileMeta.urls?.[0].oParts?.domain || 'winapp';
             if (!domain) {
                 console.log(color.yellow(`${filename} not a website`));
                 return;
@@ -44,16 +44,18 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
                 if (!ourAutoName) {
                     const newName = `${domain}___${ending}${guid}${suffix}.dpm`;
                     const fullName = path.join(rootGroup.root, dirname, newName);
+
                     if (fullName.length > 255) {
-                        console.log(`The new name is too long (${fullName.length}) for ${fullName}`);
+                        notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
                         return;
                     }
+
                     console.log(color.cyan(newName));
 
                     renamePairs.push({
                         oldName: path.join(rootGroup.root, fileMeta.short),
-                        newName: fullName,
-                    })
+                        newName: domain === 'winapp' ? color.yellow(fullName) : fullName,
+                    });
                 } else {
                     console.log(color.green(`${filename} already our name`));
                 }
@@ -69,7 +71,8 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         }
     });
 
-    console.log('renamePairs', renamePairs);
+    //console.log('renamePairs', renamePairs);
+    renamePairs.forEach((pair) => console.log(`{\n    ${pair.oldName}\n    ${pair.newName}\n}`));
 }
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
