@@ -27,6 +27,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     filterFilesByDomain(targetGroup, appOptions.domain);
 
     const renamePairs: RenamePair[] = [];
+    const removeAny = appOptions.removeAny;
 
     targetGroup.files.forEach((fileMeta) => {
         const dirname = path.dirname(fileMeta.short);
@@ -59,12 +60,12 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
                     newName: fullName,
                 });
             } else {
-                if (!ourAutoName) {
+                if (!removeAny && !ourAutoName) {
                     console.log(color.green(`${filename} not our name`));
                     return;
                 }
 
-                const newName = `${ending}${guid}${suffix}.dpm`;
+                const newName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
                 const fullName = path.join(rootGroup.root, dirname, newName);
 
                 if (fullName.length > 255) {
