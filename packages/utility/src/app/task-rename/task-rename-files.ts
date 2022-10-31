@@ -100,6 +100,6 @@ export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean)
     notes.add(`All done`);
 }
 
-//TODO: ___mm_
-//TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix
+//TODO: ___mm_: ___cx_ ___cc_ ___ix_ ___mx_
+//TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix; remove-existing
 //TODO: interactive mode

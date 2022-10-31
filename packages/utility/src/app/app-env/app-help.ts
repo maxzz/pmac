@@ -16,13 +16,14 @@ Usage: ${color.gray(`${programName} source [command] [options]`)}
 
 where:
     source                - Folder with the manifest files to process or
-                            space-separated list of manifest filenames to process
+                            space-separated list of manifest filenames to process.
     command:
       -c, --dc            - Switch domain credentials to credentials
-                            that apply only to a specific URL
-      -a, --add-prefix    - Add domain name as prefix to manifest filenames
-      -r, --remove-prefix - Remove domain name prefix from manifest filenames
-      -h, --help          - Output usage information
+                            that apply only to a specific URL. This command will
+                            back up changed files.
+      -a, --add-prefix    - Add domain name as prefix to manifest filenames.
+      -r, --remove-prefix - Remove domain name prefix from manifest filenames.
+      -h, --help          - Output usage information.
 
     options:
       --domain            - Process manifests only with the specified web domain.`;
@@ -34,7 +35,10 @@ function helpAdvancedOption() {
     advanced options:
       --need-backup       - Create backup of modified files (defautl yes).
       --need-report       - Create report file (defautl yes).
-      --need-update       - Update manifest files (defautl yes).`;
+      --need-update       - Update manifest files (defautl yes).
+      --remove-any        - Remove any existing prefixes before the guid part
+                            of the filename when running the --remove-prefix
+                            command (default no)`;
     return msg;
 }
 
@@ -43,8 +47,8 @@ function helpExamples() {
 examples
     ${color.gray('pmac --dc c:/manifests')}
         This command looks in the "c:/manifests" folder and updates the
-        manifest mapping settings from domain credentials to credentials 
-        that only apply to a specific URL. As a result, Password Manager 
+        manifest mapping settings from domain credentials to credentials
+        that only apply to a specific URL. As a result, Password Manager
         will not prompt you to select credentials from a menu.
 
     ${color.gray('pmac --dc --domain mybank.com c:/manifests')}
@@ -52,7 +56,7 @@ examples
         apply to manifest files with the mybank.com domain.
 
     ${color.gray('pmac --dc --domain mybank.com c:/manifests --no-need-report')}
-        This is the same as the previous example, but the program will not 
+        This is the same as the previous example, but the program will not
         generate a report.
 
     ${color.gray('pmac --add-prefix --domain mybank.com c:/manifests')}
@@ -70,9 +74,41 @@ export function help(showAdvanced: boolean = false) {
     console.log(msg);
 }
 
+export type MinimistArgs = {
+    'dc': boolean;
+    'add-prefix': boolean;
+    'remove-prefix': boolean;
+    'help': boolean;
+    'need-backup': boolean;
+    'need-report': boolean;
+    'need-update': boolean;
+    'generate-json': boolean; // private: generate local json file for template debugging
+    'c': boolean;
+    'a': boolean;
+    'r': boolean;
+    'h': boolean;
+    'domain': string;
+    _: string[];
+};
+
+export function getMinimistArgs(): MinimistArgs {
+    let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
+        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'need-backup', 'need-report', 'need-update', 'generate-json',],
+        string: ['domain'],
+        alias: {
+            'c': 'dc',
+            'a': 'add-prefix',
+            'r': 'remove-prefix',
+            'h': 'help',
+        },
+        default: { 'need-backup': 0, 'need-report': 0, 'need-update': 0, }, // hack: number instead of undefined to distinguish uninitialized values.
+    });
+    return args;
+}
+
 /*
-(*) this will not modify content of manifest files, just change filenames as result there is no backup files. 
-(**) this will modify content of manifest files, as result backup files will be created. 
+(*) this will not modify content of manifest files, just change filenames as result there is no backup files.
+(**) this will modify content of manifest files, as result backup files will be created.
 */
 
 /*
@@ -108,35 +144,3 @@ The name of this backup folder looks like "backup-10.25.22-at-15.26.39.195" wher
 
 //TODO: options: replace files i.e. don't create backup folder (unique backup name w/ date)
 //TODO: options: interactive mode
-
-export type MinimistArgs = {
-    'dc': boolean;
-    'add-prefix': boolean;
-    'remove-prefix': boolean;
-    'help': boolean;
-    'need-backup': boolean;
-    'need-report': boolean;
-    'need-update': boolean;
-    'generate-json': boolean; // private: generate local json file for template debugging
-    'c': boolean;
-    'a': boolean;
-    'r': boolean;
-    'h': boolean;
-    'domain': string;
-    _: string[];
-};
-
-export function getMinimistArgs(): MinimistArgs {
-    let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
-        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'need-backup', 'need-report', 'need-update', 'generate-json',],
-        string: ['domain'],
-        alias: {
-            'c': 'dc',
-            'a': 'add-prefix',
-            'r': 'remove-prefix',
-            'h': 'help',
-        },
-        default: { 'need-backup': 0, 'need-report': 0, 'need-update': 0, }, // hack: number instead of undefined to distinguish uninitialized values.
-    });
-    return args;
-}
