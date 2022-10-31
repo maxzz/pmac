@@ -1,4 +1,4 @@
-import { RootGroup, TargetGroup } from "../../app-types";
+import { FileMeta, RootGroup, TargetGroup } from "../../app-types";
 import { appOptions, notes } from "../app-env";
 import { color, filterFilesByDomain } from "../../utils";
 import { step1_LoadManifests } from "../task-common";
@@ -17,20 +17,16 @@ const constWinApp = 'winapp';
 const reWinApp = new RegExp(`${constWinApp}___`);
 const reGuidMath = /(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/;
 
-function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
-    const targetGroup = step1_LoadManifests(rootGroup);
-    filterFilesByDomain(targetGroup, appOptions.domain);
+type RenamePair = {
+    oldName: string;
+    newName: string;
+};
 
-    type RenamePair = {
-        oldName: string;
-        newName: string;
-    };
-
+function prepareFilePairs(root: string, fileMetas: FileMeta[], addOrRemove: boolean, detailedOutput: boolean): RenamePair[] {
     const renamePairs: RenamePair[] = [];
     const removeAny = appOptions.removeAny;
-    const detailedOutput = true;
 
-    targetGroup.files.forEach((fileMeta) => {
+    fileMetas.forEach((fileMeta) => {
         const dirname = path.dirname(fileMeta.short);
         const filename = path.basename(fileMeta.short);
 
@@ -60,7 +56,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
             newShortName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
         }
 
-        const newFullName = path.join(rootGroup.root, dirname, newShortName);
+        const newFullName = path.join(root, dirname, newShortName);
 
         if (newFullName.length > 254) {
             notes.add(`The new name is too long (${newFullName.length}) for ${newFullName}`);
@@ -68,10 +64,20 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         }
 
         renamePairs.push({
-            oldName: path.join(rootGroup.root, fileMeta.short),
+            oldName: path.join(root, fileMeta.short),
             newName: newFullName,
         });
     });
+
+    return renamePairs;
+}
+
+function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
+    const targetGroup = step1_LoadManifests(rootGroup);
+    filterFilesByDomain(targetGroup, appOptions.domain);
+
+    const detailedOutput = true;
+    const renamePairs = prepareFilePairs(targetGroup.root, targetGroup.files, addOrRemove, detailedOutput);
 
     renamePairs.forEach((pair) => {
         fs.renameSync(pair.oldName, pair.newName);
