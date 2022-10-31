@@ -79,8 +79,8 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const detailedOutput = true;
     const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);
 
-    renamePairs.forEach((pair) => {
-        fs.renameSync(pair.oldName, pair.newName);
+    renamePairs.forEach(({oldName, newName}) => {
+        fs.renameSync(oldName, newName);
     });
 
     detailedOutput && renamePairs.forEach(({ oldName, newName }) => {
@@ -94,8 +94,3 @@ export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean)
     rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
     notes.add(color.white(`\nAll done`));
 }
-
-//throw new Error('Not implemented yet');
-//TODO: ___mm_: ___cx_ ___cc_ ___ix_ ___mx_
-//TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix; remove-existing
-//TODO: interactive mode

@@ -50,3 +50,9 @@ main().catch(async (error) => {
 
 //TODO: interactive mode by domains
 //TODO: ask do adv options
+
+//task-rename-files:
+    //throw new Error('Not implemented yet');
+    //TODO: ___mm_: ___cx_ ___cc_ ___ix_ ___mx_
+    //TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix; remove-existing
+    //TODO: interactive mode
