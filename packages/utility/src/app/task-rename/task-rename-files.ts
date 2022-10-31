@@ -28,6 +28,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
     const renamePairs: RenamePair[] = [];
     const removeAny = appOptions.removeAny;
+    const detailedOutput = false;
 
     targetGroup.files.forEach((fileMeta) => {
         const dirname = path.dirname(fileMeta.short);
@@ -41,7 +42,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
             if (addOrRemove) {
                 if (ourAutoName) {
-                    console.log(color.green(`${filename} already our name`));
+                    detailedOutput && console.log(color.green(`${filename} already our name`));
                     return;
                 }
 
@@ -53,7 +54,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
                     return;
                 }
 
-                console.log(color.cyan(newName));
+                detailedOutput && console.log(color.cyan(newName));
 
                 renamePairs.push({
                     oldName: path.join(rootGroup.root, fileMeta.short),
@@ -61,7 +62,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
                 });
             } else {
                 if (!removeAny && !ourAutoName) {
-                    console.log(color.green(`${filename} not our name`));
+                    detailedOutput && console.log(color.green(`${filename} not our name`));
                     return;
                 }
 
@@ -73,7 +74,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
                     return;
                 }
 
-                console.log(color.cyan(newName));
+                detailedOutput && console.log(color.cyan(newName));
 
                 renamePairs.push({
                     oldName: path.join(rootGroup.root, fileMeta.short),
@@ -89,14 +90,15 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         fs.renameSync(pair.oldName, pair.newName);
     });
 
-    renamePairs.forEach((pair) => {
+    detailedOutput && renamePairs.forEach((pair) => {
         const n = color[pair.newName.match(reWinApp) ? 'yellow' : 'green'](pair.newName);
-        console.log(`{\n    ${pair.oldName}\n    ${n}\n}`);
+        notes.add(`{\n    ${pair.oldName}\n    ${n}\n}`);
     });
 }
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
     //throw new Error('Not implemented yet');
+    notes.add(color.cyan(`Command: ${addOrRemove ? 'add prefixes' : 'remove prefixes'}`));
     rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
     notes.add(`All done`);
 }
