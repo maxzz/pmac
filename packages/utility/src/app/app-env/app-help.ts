@@ -82,6 +82,7 @@ export type MinimistArgs = {
     'need-backup': boolean;
     'need-report': boolean;
     'need-update': boolean;
+    'remove-any': boolean;
     'generate-json': boolean; // private: generate local json file for template debugging
     'c': boolean;
     'a': boolean;
@@ -93,7 +94,7 @@ export type MinimistArgs = {
 
 export function getMinimistArgs(): MinimistArgs {
     let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
-        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'need-backup', 'need-report', 'need-update', 'generate-json',],
+        boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'need-backup', 'need-report', 'need-update', 'remove-any', 'generate-json',],
         string: ['domain'],
         alias: {
             'c': 'dc',
@@ -101,7 +102,12 @@ export function getMinimistArgs(): MinimistArgs {
             'r': 'remove-prefix',
             'h': 'help',
         },
-        default: { 'need-backup': 0, 'need-report': 0, 'need-update': 0, }, // hack: number instead of undefined to distinguish uninitialized values.
+        default: {
+            'need-backup': 0, // hack: number instead of undefined to distinguish uninitialized values.
+            'need-report': 0,
+            'need-update': 0,
+            'remove-any': false,
+        },
     });
     return args;
 }

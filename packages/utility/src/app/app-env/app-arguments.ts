@@ -195,6 +195,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
         'need-backup': needBackup,
         'need-report': needReport,
         'need-update': needUpdate,
+        'remove-any': removeAny,
         'generate-json': generateJson,
 
         domain,
@@ -218,7 +219,14 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     await checkOmittedArgs(appArgs);
     //console.log('appArgs', appArgs);
 
-    appOptions = { needBackup: appArgs.needBackup, needReport: appArgs.needReport, needUpdate: appArgs.needUpdate, domain, generateJson, };
+    appOptions = { 
+        needBackup: appArgs.needBackup, 
+        needReport: appArgs.needReport, 
+        needUpdate: appArgs.needUpdate, 
+        removeAny,
+        domain,
+        generateJson,
+    };
 
     return appArgs;
 }
