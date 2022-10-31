@@ -22,11 +22,11 @@ type RenamePair = {
     newName: string;
 };
 
-function prepareFilePairs(root: string, fileMetas: FileMeta[], addOrRemove: boolean, detailedOutput: boolean): RenamePair[] {
+function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detailedOutput: boolean): RenamePair[] {
     const renamePairs: RenamePair[] = [];
     const removeAny = appOptions.removeAny;
 
-    fileMetas.forEach((fileMeta) => {
+    targetGroup.files.forEach((fileMeta) => {
         const dirname = path.dirname(fileMeta.short);
         const filename = path.basename(fileMeta.short);
 
@@ -56,7 +56,7 @@ function prepareFilePairs(root: string, fileMetas: FileMeta[], addOrRemove: bool
             newShortName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
         }
 
-        const newFullName = path.join(root, dirname, newShortName);
+        const newFullName = path.join(targetGroup.root, dirname, newShortName);
 
         if (newFullName.length > 254) {
             notes.add(`The new name is too long (${newFullName.length}) for ${newFullName}`);
@@ -64,7 +64,7 @@ function prepareFilePairs(root: string, fileMetas: FileMeta[], addOrRemove: bool
         }
 
         renamePairs.push({
-            oldName: path.join(root, fileMeta.short),
+            oldName: path.join(targetGroup.root, fileMeta.short),
             newName: newFullName,
         });
     });
@@ -77,7 +77,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     filterFilesByDomain(targetGroup, appOptions.domain);
 
     const detailedOutput = true;
-    const renamePairs = prepareFilePairs(targetGroup.root, targetGroup.files, addOrRemove, detailedOutput);
+    const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);
 
     renamePairs.forEach((pair) => {
         fs.renameSync(pair.oldName, pair.newName);
