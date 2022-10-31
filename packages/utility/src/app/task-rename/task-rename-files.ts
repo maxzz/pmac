@@ -40,33 +40,32 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
             const domain = fileMeta.urls?.[0].oParts?.domain || constWinApp;
             const { ourAutoName, ending } = getAutoName(prefixRaw, domain);
 
-            let newName = '';
-            let fullName = '';
+            let newFullName = '';
 
             if (addOrRemove) {
                 if (ourAutoName) {
                     detailedOutput && notes.add(color.green(`${filename} already our name`));
                     return;
                 }
-                newName = `${domain}___${ending}${guid}${suffix}.dpm`;
-                fullName = path.join(rootGroup.root, dirname, newName);
+                const newShortName = `${domain}___${ending}${guid}${suffix}.dpm`;
+                newFullName = path.join(rootGroup.root, dirname, newShortName);
             } else {
                 if (!removeAny && !ourAutoName) {
                     detailedOutput && notes.add(color.green(`${filename} not our name`));
                     return;
                 }
-                newName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
-                fullName = path.join(rootGroup.root, dirname, newName);
+                const newShortName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
+                newFullName = path.join(rootGroup.root, dirname, newShortName);
             }
 
-            if (fullName.length > 254) {
-                notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
+            if (newFullName.length > 254) {
+                notes.add(`The new name is too long (${newFullName.length}) for ${newFullName}`);
                 return;
             }
 
             renamePairs.push({
                 oldName: path.join(rootGroup.root, fileMeta.short),
-                newName: fullName,
+                newName: newFullName,
             });
         } else {
             notes.add(color.red(`${fileMeta.short} has no guid filename match`));
