@@ -84,9 +84,9 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 }
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
-    notes.add(color.cyan(`Command: ${addOrRemove ? 'add prefixes' : 'remove prefixes'}`));
+    notes.add(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));
     rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
-    notes.add(`All done`);
+    notes.add(color.white(`\nAll done`));
 }
 
 //throw new Error('Not implemented yet');

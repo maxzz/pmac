@@ -16,7 +16,7 @@ export namespace notes {
 
     export function buildMessage(): string {
         const pro = processed.length > 1 ? color.cyan(`\nProcessed:\n${processed.join('\n')}`) : ''; //blueBright
-        const msg = messages.length ? color.yellow(`\nNotes:\n${messages.join('\n')}`) : '';
+        const msg = messages.length ? color.yellow(`${messages.join('\n')}`) : '';
         const hasOutput = pro || msg;
         return hasOutput ? [pro, msg].join('\n') : `The ${programName} program has ended.`;
     }
