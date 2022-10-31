@@ -3,9 +3,10 @@ import { appOptions, notes } from "../app-env";
 import { color, filterFilesByDomain } from "../../utils";
 import { step1_LoadManifests } from "../task-common";
 import path from "path";
+import fs from "fs";
 
 function getAutoName(prefix: string, domain: string): { ourAutoName: boolean; ending: string; } {
-    const mOur = prefix.match(new RegExp(`^${domain}___([\s\S]*)`, 'i'));
+    const mOur = prefix.match(new RegExp(`^${domain}___(.*)`, 'i'));
     return {
         ourAutoName: !!mOur,
         ending: mOur ? mOur[1] : prefix,
@@ -38,30 +39,53 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
             const { ourAutoName, ending } = getAutoName(prefixRaw, domain);
 
             if (addOrRemove) {
-                if (!ourAutoName) {
-                    const newName = `${domain}___${ending}${guid}${suffix}.dpm`;
-                    const fullName = path.join(rootGroup.root, dirname, newName);
-
-                    if (fullName.length > 255) {
-                        notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
-                        return;
-                    }
-
-                    console.log(color.cyan(newName));
-
-                    renamePairs.push({
-                        oldName: path.join(rootGroup.root, fileMeta.short),
-                        newName: fullName,
-                    });
-                } else {
+                if (ourAutoName) {
                     console.log(color.green(`${filename} already our name`));
+                    return;
                 }
-            } else {
 
+                const newName = `${domain}___${ending}${guid}${suffix}.dpm`;
+                const fullName = path.join(rootGroup.root, dirname, newName);
+
+                if (fullName.length > 255) {
+                    notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
+                    return;
+                }
+
+                console.log(color.cyan(newName));
+
+                renamePairs.push({
+                    oldName: path.join(rootGroup.root, fileMeta.short),
+                    newName: fullName,
+                });
+            } else {
+                if (!ourAutoName) {
+                    console.log(color.green(`${filename} not our name`));
+                    return;
+                }
+
+                const newName = `${ending}${guid}${suffix}.dpm`;
+                const fullName = path.join(rootGroup.root, dirname, newName);
+
+                if (fullName.length > 255) {
+                    notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
+                    return;
+                }
+
+                console.log(color.cyan(newName));
+
+                renamePairs.push({
+                    oldName: path.join(rootGroup.root, fileMeta.short),
+                    newName: fullName,
+                });
             }
         } else {
             notes.add(color.red(`${fileMeta.short} has no guid filename match`));
         }
+    });
+
+    renamePairs.forEach((pair) => {
+        fs.renameSync(pair.oldName, pair.newName);
     });
 
     renamePairs.forEach((pair) => {
