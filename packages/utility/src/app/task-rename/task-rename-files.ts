@@ -13,11 +13,6 @@ function getAutoName(prefix: string, domain: string): { ourAutoName: boolean; en
     };
 }
 
-type RenamePair = { //TODO: check length root + dir + new name < 255
-    oldName: string;
-    newName: string;
-};
-
 const constWinApp = 'winapp';
 const reWinApp = new RegExp(`${constWinApp}___`);
 const reGuidMath = /(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/;
@@ -26,9 +21,14 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const targetGroup = step1_LoadManifests(rootGroup);
     filterFilesByDomain(targetGroup, appOptions.domain);
 
+    type RenamePair = {
+        oldName: string;
+        newName: string;
+    };
+
     const renamePairs: RenamePair[] = [];
     const removeAny = appOptions.removeAny;
-    const detailedOutput = false;
+    const detailedOutput = true;
 
     targetGroup.files.forEach((fileMeta) => {
         const dirname = path.dirname(fileMeta.short);
@@ -45,26 +45,24 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
             if (addOrRemove) {
                 if (ourAutoName) {
-                    detailedOutput && console.log(color.green(`${filename} already our name`));
+                    detailedOutput && notes.add(color.green(`${filename} already our name`));
                     return;
                 }
                 newName = `${domain}___${ending}${guid}${suffix}.dpm`;
                 fullName = path.join(rootGroup.root, dirname, newName);
             } else {
                 if (!removeAny && !ourAutoName) {
-                    detailedOutput && console.log(color.green(`${filename} not our name`));
+                    detailedOutput && notes.add(color.green(`${filename} not our name`));
                     return;
                 }
                 newName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
                 fullName = path.join(rootGroup.root, dirname, newName);
             }
 
-            if (fullName.length > 255) {
+            if (fullName.length > 254) {
                 notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
                 return;
             }
-
-            detailedOutput && console.log(color.cyan(newName));
 
             renamePairs.push({
                 oldName: path.join(rootGroup.root, fileMeta.short),
@@ -79,19 +77,19 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         fs.renameSync(pair.oldName, pair.newName);
     });
 
-    detailedOutput && renamePairs.forEach((pair) => {
-        const n = color[pair.newName.match(reWinApp) ? 'yellow' : 'green'](pair.newName);
-        notes.add(`{\n    ${pair.oldName}\n    ${n}\n}`);
+    detailedOutput && renamePairs.forEach(({ oldName, newName }) => {
+        const name = color[newName.match(reWinApp) ? 'yellow' : 'green'](newName);
+        notes.add(`{\n    ${oldName}\n    ${name}\n}`);
     });
 }
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
-    //throw new Error('Not implemented yet');
     notes.add(color.cyan(`Command: ${addOrRemove ? 'add prefixes' : 'remove prefixes'}`));
     rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
     notes.add(`All done`);
 }
 
+//throw new Error('Not implemented yet');
 //TODO: ___mm_: ___cx_ ___cc_ ___ix_ ___mx_
 //TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix; remove-existing
 //TODO: interactive mode
