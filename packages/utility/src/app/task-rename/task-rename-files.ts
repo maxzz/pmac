@@ -40,47 +40,36 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
             const domain = fileMeta.urls?.[0].oParts?.domain || constWinApp;
             const { ourAutoName, ending } = getAutoName(prefixRaw, domain);
 
+            let newName = '';
+            let fullName = '';
+
             if (addOrRemove) {
                 if (ourAutoName) {
                     detailedOutput && console.log(color.green(`${filename} already our name`));
                     return;
                 }
-
-                const newName = `${domain}___${ending}${guid}${suffix}.dpm`;
-                const fullName = path.join(rootGroup.root, dirname, newName);
-
-                if (fullName.length > 255) {
-                    notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
-                    return;
-                }
-
-                detailedOutput && console.log(color.cyan(newName));
-
-                renamePairs.push({
-                    oldName: path.join(rootGroup.root, fileMeta.short),
-                    newName: fullName,
-                });
+                newName = `${domain}___${ending}${guid}${suffix}.dpm`;
+                fullName = path.join(rootGroup.root, dirname, newName);
             } else {
                 if (!removeAny && !ourAutoName) {
                     detailedOutput && console.log(color.green(`${filename} not our name`));
                     return;
                 }
-
-                const newName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
-                const fullName = path.join(rootGroup.root, dirname, newName);
-
-                if (fullName.length > 255) {
-                    notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
-                    return;
-                }
-
-                detailedOutput && console.log(color.cyan(newName));
-
-                renamePairs.push({
-                    oldName: path.join(rootGroup.root, fileMeta.short),
-                    newName: fullName,
-                });
+                newName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
+                fullName = path.join(rootGroup.root, dirname, newName);
             }
+
+            if (fullName.length > 255) {
+                notes.add(`The new name is too long (${fullName.length}) for ${fullName}`);
+                return;
+            }
+
+            detailedOutput && console.log(color.cyan(newName));
+
+            renamePairs.push({
+                oldName: path.join(rootGroup.root, fileMeta.short),
+                newName: fullName,
+            });
         } else {
             notes.add(color.red(`${fileMeta.short} has no guid filename match`));
         }
