@@ -46,30 +46,12 @@ export function step3_2_Modify(targetGroup: TargetGroup): void {
 }
 
 export function step3_3_Save(targetGroup: TargetGroup): void {
-
-    //was: (duplicates: Duplicate[])
-
-    // const destFolder = ensureNameUnique(`${targetGroup.root}/new ${nowDayTime()}`, false);
-    // osStuff.mkdirSync(destFolder);
-
-    const destFolder = targetGroup.root;
-
     const files: FileMeta[] = flatDcActive(targetGroup.sameDc);
     files.forEach((fileMeta) => {
         const xml = makeXML(fileMeta.mani);
         if (xml) {
-            const newFname = path.join(destFolder, fileMeta.short);
+            const newFname = path.join(targetGroup.root, fileMeta.short);
             fs.writeFileSync(newFname, xml);
-
-
-            //const newDir = path.join(f.short, 'new');
-            //const newFname = path.join(newDir, f.short);
-            // const newFname = path.join(newDir, path.basename(f.short, path.extname(f.fname)) + '_new') + path.extname(f.fname);
-            //osStuff.mkdirSync(newDir);
-            //fs.writeFileSync(newFname, xml);
         }
     });
-
-    //TODO: place modified files into original folder
-
 }

@@ -51,6 +51,9 @@ main().catch(async (error) => {
 //TODO: interactive mode by domains
 //TODO: ask do adv options
 
+//task-dc:
+    //TODO: place modified files into original folder - will not do
+
 //task-rename-files:
     //throw new Error('Not implemented yet');
     //TODO: ___mm_: ___cx_ ___cc_ ___ix_ ___mx_
