@@ -32,7 +32,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
 
         const m = filename.match(reGuidMath);
         if (!m) {
-            notes.add(color.red(`${fileMeta.short} has no guid filename match`));
+            notes.addProcessed(color.red(`${fileMeta.short} has no guid filename match`));
             return;
         }
 
@@ -44,13 +44,15 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
 
         if (addOrRemove) {
             if (ourAutoName) {
-                detailedOutput && notes.add(color.green(`${filename} already our name`));
+                // detailedOutput && notes.add(color.green(`${filename} already our name`));
+                //detailedOutput && notes.addProcessed(color.green(`The filename "${filename}" already contains the domain prefix.`));
+                detailedOutput && notes.addProcessed(color.green(`${filename} - already contains prefix`));
                 return;
             }
             newShortName = `${domain}___${ending}${guid}${suffix}.dpm`;
         } else {
             if (!removeAny && !ourAutoName) {
-                detailedOutput && notes.add(color.green(`${filename} not our name`));
+                detailedOutput && notes.addProcessed(color.green(`${filename} not our name`));
                 return;
             }
             newShortName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
@@ -59,7 +61,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
         const newFullName = path.join(targetGroup.root, dirname, newShortName);
 
         if (newFullName.length > 254) {
-            notes.add(`The new name is too long (${newFullName.length}) for ${newFullName}`);
+            notes.addProcessed(`The new name is too long (${newFullName.length}) for ${newFullName}`);
             return;
         }
 
@@ -87,7 +89,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
     detailedOutput && renamePairs.forEach(({ oldName, newName }) => {
         const name = color[newName.match(reWinApp) ? 'yellow' : 'green'](newName);
-        notes.add(`{\n    ${oldName}\n    ${name}\n}`);
+        notes.addProcessed(`{\n    ${oldName}\n    ${name}\n}`);
     });
 
     notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${renamePairs.length}`);
