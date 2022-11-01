@@ -40,8 +40,12 @@
                 //"C:/Users/maxzz/Desktop/01", "--a", "--domain", "fiserv",
                 //"C:/Users/maxzz/Desktop/01", "--r", "--domain", "fiserv",
 
-                "C:/Users/maxzz/Desktop/01", "--a", "--domain", "fiserv.com",
+                //"C:/Users/maxzz/Desktop/01", "--a", "--domain", "fiserv.com",
                 //"C:/Users/maxzz/Desktop/01", "--r", "--domain", "fiserv.com",
+                
+                //"C:/Users/maxzz/Desktop/01", "--a",
+                //"C:/Users/maxzz/Desktop/01", "--r",
+                "C:/Users/maxzz/Desktop/01", "--r", "--remove-any",
                 
                 //"C:/Users/maxzz/Desktop/01",
                 //"-a",

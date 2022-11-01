@@ -44,9 +44,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
 
         if (addOrRemove) {
             if (ourAutoName) {
-                // detailedOutput && notes.add(color.green(`${filename} already our name`));
-                //detailedOutput && notes.addProcessed(color.green(`The filename "${filename}" already contains the domain prefix.`));
-                detailedOutput && notes.addProcessed(color.green(`${filename} - already contains prefix`));
+                detailedOutput && notes.addProcessed(color.green(`${filename} - already have a prefix`));
                 return;
             }
             newShortName = `${domain}___${ending}${guid}${suffix}.dpm`;
