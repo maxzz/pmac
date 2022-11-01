@@ -44,7 +44,7 @@ export namespace ReportData {
     type ItemId = string;
 
     function getAllInputItems(reportRecords: ReportRecords): Record<ItemId, ItemInputFile> {
-        const rv: Record<string, ItemInputFile> = {};
+        const rv: Record<ItemId, ItemInputFile> = {};
         const items = reportRecords.map((report) => {
             report.inputs?.input?.forEach((item) => rv[item.id] = item);
         });
@@ -52,20 +52,20 @@ export namespace ReportData {
     }
 
     function getAllDcsItems(reportRecords: ReportRecords): Record<ItemId, ItemDuplicate> {
-        const rv: Record<string, ItemDuplicate> = {};
+        const rv: Record<ItemId, ItemDuplicate> = {};
         const items = reportRecords.map((report) => {
             report.domcreds?.multiple?.forEach((item) => rv[item.id] = item);
         });
         return rv;
     }
 
-    function getAllById(): Record<string, InputSameDcItem> {
+    function getAllById(): Record<ItemId, InputSameDcItem> {
         const allInputs = getAllInputItems(rawRepopts);
         const allDcs = getAllDcsItems(rawRepopts);
         return Object.fromEntries(Object.entries(allInputs).map(([id, item]) => [id, { src: item, dup: allDcs[id] }]));
     }
 
-    export const allItemsById: Record<string, InputSameDcItem> = getAllById();
+    export const allItemsById: Record<ItemId, InputSameDcItem> = getAllById();
 }
 
 //TODO: break dependency on folderInputSameDcItem() call that will call getInputs() and set IDs.
