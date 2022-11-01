@@ -41,7 +41,9 @@ export namespace ReportData {
 
     export const folderInputSameDcItems: FolderInputSameDcItem[] = folderInputSameDcItem(rawRepopts);
 
-    function getAllInputItems(reportRecords: ReportRecords): Record<string, ItemInputFile> {
+    type ItemId = string;
+
+    function getAllInputItems(reportRecords: ReportRecords): Record<ItemId, ItemInputFile> {
         const rv: Record<string, ItemInputFile> = {};
         const items = reportRecords.map((report) => {
             report.inputs?.input?.forEach((item) => rv[item.id] = item);
@@ -49,7 +51,7 @@ export namespace ReportData {
         return rv;
     }
 
-    function getAllDcsItems(reportRecords: ReportRecords): Record<string, ItemDuplicate> {
+    function getAllDcsItems(reportRecords: ReportRecords): Record<ItemId, ItemDuplicate> {
         const rv: Record<string, ItemDuplicate> = {};
         const items = reportRecords.map((report) => {
             report.domcreds?.multiple?.forEach((item) => rv[item.id] = item);
