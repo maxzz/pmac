@@ -22,5 +22,5 @@ export function addError(targetGroup: TargetGroup, msg: ItemError | string) {
 // Notes
 
 export function addNoteIfEmptyAfterFilter(prefix: string, appOptions: AppOptions) {
-    notes.addProcessed(`${prefix}No manifests after applying "${appOptions.domain}" filter.`);
+    notes.addProcessed(`${prefix}No manifests found matching the filter "${appOptions.domain}".`);
 }
