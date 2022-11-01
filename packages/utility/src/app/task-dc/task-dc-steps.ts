@@ -1,4 +1,4 @@
-import { FileMeta, SameDc, RootGroup, TargetGroup } from "../../app-types";
+import { FileMeta, SameDc, RootGroup, TargetGroup, AppOptions } from "../../app-types";
 import { color, ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../../utils";
 import { Matching } from "../../manifest";
 import { appOptions, notes } from "../app-env";
@@ -48,9 +48,14 @@ function step3_SaveResult(targetGroup: TargetGroup): void {
     }
 }
 
+function addNoteIfEmptyAfterFilter(targetGroup: TargetGroup, appOptions: AppOptions) {
+    
+    
+}
+
 function processRootGroup(rootGroup: RootGroup): TargetGroup {
     const targetGroup = step1_LoadManifests(rootGroup);
-    filterFilesByDomain(targetGroup, appOptions.domain);
+    targetGroup.files = filterFilesByDomain(targetGroup.files, appOptions.domain);
 
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);

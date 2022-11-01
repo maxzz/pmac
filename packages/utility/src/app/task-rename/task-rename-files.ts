@@ -74,7 +74,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
 
 function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const targetGroup = step1_LoadManifests(rootGroup);
-    filterFilesByDomain(targetGroup, appOptions.domain);
+    targetGroup.files = filterFilesByDomain(targetGroup.files, appOptions.domain);
 
     const detailedOutput = true;
     const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);

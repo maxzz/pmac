@@ -59,12 +59,11 @@ export function reportFormUrlsArray(fileMeta: FileMeta): ReportFormUrls[] {
 
 // Filter by domain
 
-export function filterFilesByDomain(targetGroup: TargetGroup, domain?: string) {
-    if (domain) {
-        function matchedDomain(fileMeta: FileMeta): boolean {
-            return fileMeta.urls.some((formUrls) => formUrls.oParts?.domain === domain); // I'm not sure if we need here false positive matches w/ regex.
-        }
-        targetGroup.files = targetGroup.files.filter(matchedDomain);
+export function filterFilesByDomain(files: FileMeta[], domain?: string): FileMeta[] {
+    return domain ? files.filter(matchedDomain) : files;
+    
+    function matchedDomain(fileMeta: FileMeta): boolean {
+        return fileMeta.urls.some((formUrls) => formUrls.oParts?.domain === domain); // I'm not sure if we need here false positive matches w/ regex.
     }
 }
 
@@ -74,5 +73,5 @@ export function updateToRegexUrlsArray(fileMeta: FileMeta): string[] {
         return url && Matching.makeRawMatchData({ style: Matching.Style.regex, opt: Matching.Options.pmacSet, url }, '');
     }
 
-    return [ modifyUrl(fileMeta.urls?.[0].m), modifyUrl(fileMeta.urls?.[1].m), ].filter(Boolean);
+    return [modifyUrl(fileMeta.urls?.[0].m), modifyUrl(fileMeta.urls?.[1].m),].filter(Boolean);
 }
