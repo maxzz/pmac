@@ -37,7 +37,7 @@ function folderInputSameDcItem(reportRecords: ReportRecords): FolderInputSameDcI
 
 export namespace ReportData {
     const firstReport = rawRepopts?.[0];
-    export const reportVersion = firstReport ? {version: firstReport.version, date: firstReport.date} : undefined;
+    export const reportVersion = firstReport ? { version: firstReport.version, date: firstReport.date } : undefined;
 
     export const folderInputSameDcItems: FolderInputSameDcItem[] = folderInputSameDcItem(rawRepopts);
 
@@ -66,6 +66,12 @@ export namespace ReportData {
     }
 
     export const allItemsById: Record<ItemId, InputSameDcItem> = getAllById();
+
+    export function getUrlsToShow(item: InputSameDcItem, idx: number): { org: string; mod: string; } {
+        const org = item.src?.urls?.[idx]?.ourl || '';
+        const mod = item.dup?.urls?.[idx] || '';
+        return { org, mod };
+    }
 }
 
 //TODO: break dependency on folderInputSameDcItem() call that will call getInputs() and set IDs.

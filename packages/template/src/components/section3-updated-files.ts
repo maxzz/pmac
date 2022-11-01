@@ -10,8 +10,7 @@ function IconArrow() {
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const formName = !idx ? 'Login' : 'Password change';
-    const org = item.src?.urls?.[idx]?.ourl || '';
-    const mod = item.dup?.urls?.[idx] || '';
+    const { org, mod } = ReportData.getUrlsToShow(item, idx);
     if (!org && !mod) { return ''; }
     return `
         <div>${formName}</div>
