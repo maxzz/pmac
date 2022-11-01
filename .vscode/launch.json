@@ -31,9 +31,11 @@
                 // ".", "-c",
                 //"-c", "-a", "-r",
 
-                "C:/Users/maxzz/Desktop/01",
+                //"C:/Users/maxzz/Desktop/01",
                 // "C:/Users/maxzz/Desktop/02",
                 //"--dc",
+
+                "C:/Users/maxzz/Desktop/01", "--dc", "--domain", "fiserv",
                 
                 //"C:/Users/maxzz/Desktop/01",
                 //"-a",

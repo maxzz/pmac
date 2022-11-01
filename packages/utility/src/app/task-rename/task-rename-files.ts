@@ -1,7 +1,7 @@
 import { FileMeta, RootGroup, TargetGroup } from "../../app-types";
 import { appOptions, notes } from "../app-env";
 import { color, filterFilesByDomain } from "../../utils";
-import { step1_LoadManifests } from "../task-common";
+import { addNoteIfEmptyAfterFilter, step1_LoadManifests } from "../task-common";
 import path from "path";
 import fs from "fs";
 
@@ -74,7 +74,11 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
 
 function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const targetGroup = step1_LoadManifests(rootGroup);
-    targetGroup.files = filterFilesByDomain(targetGroup.files, appOptions.domain);
+    const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
+
+    addNoteIfEmptyAfterFilter(targetGroup, filteredOut, appOptions);
+
+    targetGroup.files = filteredOut;
 
     const detailedOutput = true;
     const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);

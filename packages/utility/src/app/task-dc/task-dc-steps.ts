@@ -2,7 +2,7 @@ import { FileMeta, SameDc, RootGroup, TargetGroup, AppOptions } from "../../app-
 import { color, ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../../utils";
 import { Matching } from "../../manifest";
 import { appOptions, notes } from "../app-env";
-import { step1_LoadManifests } from "../task-common";
+import { addNoteIfEmptyAfterFilter, step1_LoadManifests } from "../task-common";
 import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./step-make-changes";
 import { step3_4_MakeTargetGroupReport, step4_MakeReportToAllGroups } from "./step-make-report";
 import { numberOfDomCreds } from "../../utils/utils-app-report-template";
@@ -48,14 +48,13 @@ function step3_SaveResult(targetGroup: TargetGroup): void {
     }
 }
 
-function addNoteIfEmptyAfterFilter(targetGroup: TargetGroup, appOptions: AppOptions) {
-    
-    
-}
-
 function processRootGroup(rootGroup: RootGroup): TargetGroup {
     const targetGroup = step1_LoadManifests(rootGroup);
-    targetGroup.files = filterFilesByDomain(targetGroup.files, appOptions.domain);
+    const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
+
+    addNoteIfEmptyAfterFilter(targetGroup, filteredOut, appOptions);
+
+    targetGroup.files = filteredOut;
 
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);
