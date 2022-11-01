@@ -75,8 +75,9 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
 function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const targetGroup = step1_LoadManifests(rootGroup);
     const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
+    const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
 
-    addNoteIfEmptyAfterFilter(targetGroup, filteredOut, appOptions);
+    gotEmptySet && addNoteIfEmptyAfterFilter(appOptions);
 
     targetGroup.files = filteredOut;
 

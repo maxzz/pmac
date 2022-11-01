@@ -21,9 +21,6 @@ export function addError(targetGroup: TargetGroup, msg: ItemError | string) {
 
 // Notes
 
-export function addNoteIfEmptyAfterFilter(targetGroup: TargetGroup, filteredOut: FileMeta[], appOptions: AppOptions) {
-    const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
-    if (gotEmptySet) {
-        notes.addProcessed(`No manifests after applying "${appOptions.domain}" filter.`)
-    }
+export function addNoteIfEmptyAfterFilter(appOptions: AppOptions) {
+    notes.addProcessed(`No manifests after applying "${appOptions.domain}" filter.`);
 }

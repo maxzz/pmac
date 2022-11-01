@@ -51,8 +51,9 @@ function step3_SaveResult(targetGroup: TargetGroup): void {
 function processRootGroup(rootGroup: RootGroup): TargetGroup {
     const targetGroup = step1_LoadManifests(rootGroup);
     const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
+    const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
 
-    addNoteIfEmptyAfterFilter(targetGroup, filteredOut, appOptions);
+    gotEmptySet && addNoteIfEmptyAfterFilter(appOptions);
 
     targetGroup.files = filteredOut;
 
