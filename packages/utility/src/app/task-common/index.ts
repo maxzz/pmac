@@ -21,6 +21,6 @@ export function addError(targetGroup: TargetGroup, msg: ItemError | string) {
 
 // Notes
 
-export function addNoteIfEmptyAfterFilter(appOptions: AppOptions) {
-    notes.addProcessed(`No manifests after applying "${appOptions.domain}" filter.`);
+export function addNoteIfEmptyAfterFilter(prefix: string, appOptions: AppOptions) {
+    notes.addProcessed(`${prefix}No manifests after applying "${appOptions.domain}" filter.`);
 }

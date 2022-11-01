@@ -76,10 +76,9 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const targetGroup = step1_LoadManifests(rootGroup);
     const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
     const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
-
-    gotEmptySet && addNoteIfEmptyAfterFilter(appOptions);
-
     targetGroup.files = filteredOut;
+
+    gotEmptySet && addNoteIfEmptyAfterFilter('', appOptions);
 
     const detailedOutput = true;
     const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);

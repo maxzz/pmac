@@ -52,15 +52,13 @@ function processRootGroup(rootGroup: RootGroup): TargetGroup {
     const targetGroup = step1_LoadManifests(rootGroup);
     const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
     const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
-
-    gotEmptySet && addNoteIfEmptyAfterFilter(appOptions);
-
     targetGroup.files = filteredOut;
 
     step2_FindSameDc(targetGroup);
     step3_SaveResult(targetGroup);
 
     notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${numberOfDomCreds(targetGroup)}`);
+    gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
 
     return targetGroup;
 }
