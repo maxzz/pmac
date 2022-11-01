@@ -106,7 +106,7 @@ export function getMinimistArgs(): MinimistArgs {
             'need-backup': 0, // hack: number instead of undefined to distinguish uninitialized values.
             'need-report': 0,
             'need-update': 0,
-            'remove-any': false,
+            'remove-any': 0,
         },
     });
     return args;

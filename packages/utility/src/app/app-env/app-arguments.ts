@@ -178,11 +178,16 @@ async function checkOmittedArgs(appArgs: AppArgs) {
             appArgs.needReport = await queryBoolean('Create report?', appArgs.needReport, true);
             appArgs.needUpdate = await queryBoolean('Modify files?', appArgs.needUpdate, true);
         }
+
+        if (appArgs.removePrefix) {
+            appArgs.removeAny = !await queryBoolean('Remove only automatically generated prefixes?', appArgs.removeAny, true);
+        }
     }
 
     (typeof appArgs.needBackup !== 'boolean') && (appArgs.needBackup = true);
     (typeof appArgs.needReport !== 'boolean') && (appArgs.needReport = true);
     (typeof appArgs.needUpdate !== 'boolean') && (appArgs.needUpdate = true);
+    (typeof appArgs.removeAny !== 'boolean') && (appArgs.removeAny = false);
 }
 
 export let appOptions: AppOptions = {};
