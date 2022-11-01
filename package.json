@@ -16,13 +16,10 @@
     ],
     "scripts": {
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
-        
         "maketypes": "yarn workspace @pmac/shared-types build",
         "template": "yarn workspace @pmac/template template",
         "makebin": "yarn workspace @pmac/utility makebin",
-        
         "build": "del pmac.exe && yarn maketypes && yarn template && yarn makebin",
-
         "predeploy": "yarn workspace @pmac/template predeploy",
         "deploy": "gh-pages -d ./packages/template/dist-gh"
     },
@@ -30,6 +27,6 @@
         "postcss": "^8.4.16"
     },
     "devDependencies": {
-        "typescript": "^4.8.3"
+        "typescript": "^4.8.4"
     }
 }
