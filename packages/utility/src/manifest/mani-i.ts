@@ -108,7 +108,7 @@ export namespace Matching {
     //export const reUrlMatchRegex = /^\[m0\]\:3\:.\:/; // this can be 3 or 8: /^\[m0\]\:8\:.\:/   // this regex to quickly check the start of url if regex matching is set
     export const addPrefixRegex = '[m0]:3:8:';          // this prefix is to add the start of url as regex match to exclude from DomainMatch
 
-    const reOtsMatching = /^\[m0\]:([0-4]):([0-8]?):\s*(.+)/; // 0: [m0]; 1:style; 2:options; 3:pattern. Example: web_murl="[m0]:2:2:https^2dot;//maxzz.github.io/test-pm/"
+    const reOtsMatching = /^\[m0\]:([0-4]):([01248]{1,4}):\s*(.+)/; // 0: [m0]; 1:style; 2:options; 3:pattern. Example: web_murl="[m0]:2:2:https^2dot;//maxzz.github.io/test-pm/"
 
     export function getMatchRawData(murl: string): RawMatchData {
         let rv = { style: Style.undef, opt: Options.undef, url: murl || '', }; // don't need call restoreCpp(murl) here.
