@@ -50,7 +50,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
             newShortName = `${domain}___${ending}${guid}${suffix}.dpm`;
         } else {
             if (!removeAny && !ourAutoName) {
-                detailedOutput && notes.addProcessed(color.green(`${filename} not our name`));
+                detailedOutput && notes.addProcessed(color.green(`${filename} - has no generated prefix`));
                 return;
             }
             newShortName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;

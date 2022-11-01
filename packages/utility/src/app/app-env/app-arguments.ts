@@ -222,7 +222,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     const rootGroups = getRootGroups(unnamed);
 
     // 2. Then complete with task to accomplish
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, needBackup, needReport, needUpdate, rootGroups: rootGroups, domain, };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, needBackup, needReport, needUpdate, removeAny, rootGroups: rootGroups, domain, };
     await checkOmittedArgs(appArgs);
     //console.log('appArgs', appArgs);
 
@@ -230,7 +230,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
         needBackup: appArgs.needBackup, 
         needReport: appArgs.needReport, 
         needUpdate: appArgs.needUpdate, 
-        removeAny,
+        removeAny: appArgs.removeAny,
         domain,
         generateJson,
     };
