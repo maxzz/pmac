@@ -31,12 +31,12 @@
                 // ".", "-c",
                 //"-c", "-a", "-r",
 
-                // "C:/Users/maxzz/Desktop/01",
-                // "C:/Users/maxzz/Desktop/02",
-                // "--dc",
-                
                 "C:/Users/maxzz/Desktop/01",
-                "-a",
+                // "C:/Users/maxzz/Desktop/02",
+                "--dc",
+                
+                //"C:/Users/maxzz/Desktop/01",
+                //"-a",
                 //"-r",
                 //"-r", "--remove-any",
 
