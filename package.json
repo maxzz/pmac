@@ -1,6 +1,6 @@
 {
     "name": "pmac",
-    "version": "1.4.0",
+    "version": "1.5.1",
     "author": "Max Zakharzhevskiy",
     "description": "Password manager administrator commands",
     "private": true,

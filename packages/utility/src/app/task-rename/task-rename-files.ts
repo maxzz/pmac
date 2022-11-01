@@ -78,8 +78,6 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
     targetGroup.files = filteredOut;
 
-    gotEmptySet && addNoteIfEmptyAfterFilter('', appOptions);
-
     const detailedOutput = true;
     const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);
 
@@ -91,10 +89,13 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         const name = color[newName.match(reWinApp) ? 'yellow' : 'green'](newName);
         notes.add(`{\n    ${oldName}\n    ${name}\n}`);
     });
+
+    notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${renamePairs.length}`);
+    gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
 }
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
-    notes.add(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));
+    console.log(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));
     rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
-    notes.add(color.white(`\nAll done`));
+    notes.addProcessed(color.white(`\nAll done`));
 }
