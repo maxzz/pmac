@@ -173,14 +173,16 @@ async function checkOmittedArgs(appArgs: AppArgs) {
 
         await checkTaskScope(appArgs);
 
-        appArgs.needBackup = await queryBoolean('Create back up files?', appArgs.needBackup, true);
-        appArgs.needReport = await queryBoolean('Create report?', appArgs.needReport, true);
-        appArgs.needUpdate = await queryBoolean('Modify files?', appArgs.needUpdate, true);
-    } else {
-        (typeof appArgs.needBackup !== 'boolean') && (appArgs.needBackup = true);
-        (typeof appArgs.needReport !== 'boolean') && (appArgs.needReport = true);
-        (typeof appArgs.needUpdate !== 'boolean') && (appArgs.needUpdate = true);
+        if (appArgs.dc) {
+            appArgs.needBackup = await queryBoolean('Create back up files?', appArgs.needBackup, true);
+            appArgs.needReport = await queryBoolean('Create report?', appArgs.needReport, true);
+            appArgs.needUpdate = await queryBoolean('Modify files?', appArgs.needUpdate, true);
+        }
     }
+
+    (typeof appArgs.needBackup !== 'boolean') && (appArgs.needBackup = true);
+    (typeof appArgs.needReport !== 'boolean') && (appArgs.needReport = true);
+    (typeof appArgs.needUpdate !== 'boolean') && (appArgs.needUpdate = true);
 }
 
 export let appOptions: AppOptions = {};
