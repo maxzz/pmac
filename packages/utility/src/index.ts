@@ -59,3 +59,5 @@ main().catch(async (error) => {
     //TODO: ___mm_: ___cx_ ___cc_ ___ix_ ___mx_
     //TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix; remove-existing
     //TODO: interactive mode
+    
+    //TODO: '--remove-prefix' with '--remove-any' option may need to have backup as separate folder with a single html file
