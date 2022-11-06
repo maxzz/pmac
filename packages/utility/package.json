@@ -9,7 +9,8 @@
         "dev": "tsc -w",
         "build": "rm -rf dist && tsc",
         "copy": "xcopy pmac.exe \"./../..\" /Y",
-        "makebin": "del pmac.exe && yarn build && pkg -t host -o pmac dist/index.js && yarn copy"
+        "makebin_old": "del pmac.exe && yarn build && pkg -t host -o pmac dist/index.js && yarn copy",
+        "makebin": "del pmac.exe && yarn build && pkg -t host -o ../../pmac dist/index.js"
     },
     "dependencies": {
         "@pmac/shared-types": "1.0.0",
@@ -24,6 +25,7 @@
         "@types/minimist": "^1.2.2",
         "@types/node": "18.7.14",
         "@types/prompts": "^2.4.1",
-        "@types/rimraf": "^3.0.0"
+        "@types/rimraf": "^3.0.0",
+        "jszip": "^3.10.1"
     }
 }
