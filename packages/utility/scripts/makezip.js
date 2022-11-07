@@ -1,26 +1,28 @@
 const fs = require('fs');
 const JSZip = require('jszip');
 
-//console.log('start', JSZip);
-console.log('start');
+function main() {
+    console.log('pmac.exe zipping');
 
-const zip = new JSZip();
+    try {
+        const zip = new JSZip();
 
-zip.file("Hello.txt", "Hello World\n");
+        try {
+            const exe = fs.readFileSync('pmac.exe');
+            zip.file("pmac.exe", exe);
+        } catch (error) {
+            throw new Error('Cannot read pmac.exe')    
+        }
+       
+        zip.generateAsync({ type: "uint8array" }).then(function (content) {
+            fs.writeFileSync('pmac.zip', content);
+        });
 
-// const img = zip.folder("images");
-// img.file("smile.gif", imgData, {base64: true});
+        console.log('Created pmac.zip');
+    } catch (error) {
+        console.log(error.message);
+        process.exit(-1);
+    }
+}
 
-zip.generateAsync({ type: "uint8array" }).then(function (content) {
-    console.log('33', content);
-    fs.writeFileSync('pmac-zip.zip', content);
-    // see FileSaver.js
-    //saveAs(content, "example.zip");
-});
-
-/*
-Results in a zip containing
-Hello.txt
-images/
-    smile.gif
-*/
+main();
