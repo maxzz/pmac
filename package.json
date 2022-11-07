@@ -20,7 +20,8 @@
         "template": "yarn workspace @pmac/template template",
         "makebin": "yarn workspace @pmac/utility makebin",
         "makezip": "node ./packages/utility/scripts/makezip.js",
-        "build": "del pmac.exe && del pmac.zip && yarn maketypes && yarn template && yarn makebin & yarn makezip",
+        "build": "del pmac.exe && del pmac.zip.txt && yarn maketypes && yarn template && yarn makebin & yarn makezip",
+        
         "predeploy": "yarn workspace @pmac/template predeploy",
         "deploy": "gh-pages -d ./packages/template/dist-gh"
     },

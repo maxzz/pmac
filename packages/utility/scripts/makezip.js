@@ -15,10 +15,10 @@ function main() {
         }
        
         zip.generateAsync({ type: "uint8array" }).then(function (content) {
-            fs.writeFileSync('pmac.zip', content);
+            fs.writeFileSync('pmac.zip.txt', content);
         });
 
-        console.log('Created pmac.zip');
+        console.log('Created pmac.zip.txt');
     } catch (error) {
         console.log(error.message);
         process.exit(-1);
