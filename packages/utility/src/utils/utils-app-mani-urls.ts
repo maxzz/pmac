@@ -1,7 +1,7 @@
 import { ReportFormUrls } from "@pmac/shared-types";
 import { FileMeta, FormUrls, TargetGroup } from "../app-types";
 import { Matching, Meta } from "../manifest";
-import { tmurl } from "../manifest/url";
+import { tmurl } from "../manifest";
 
 function getFormUrls(form: Meta.Form | undefined): FormUrls {
     const rv: FormUrls = {};
