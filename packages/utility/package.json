@@ -11,7 +11,7 @@
         "fast-xml-parser": "^4.0.9",
         "minimist": "^1.2.5",
         "picocolors": "^1.0.0",
-        "pm-manifest": "^1.0.4",
+        "pm-manifest": "1.0.4",
         "prompts": "^2.4.2",
         "rimraf": "^3.0.2"
     },
@@ -25,8 +25,9 @@
     "scripts": {
         "dev": "tsc -w",
         "build": "rm -rf dist && tsc",
-        "copy": "xcopy pmac.exe \"./../..\" /Y",
-        "makebin_old": "del pmac.exe && pnpm build && pkg -t host -o pmac dist/index.js && pnpm copy",
-        "makebin": "del pmac.exe && pnpm build && pkg -t host -o ../../pmac dist/index.js"
+
+        "_copy": "xcopy pmac.exe \"./../..\" /Y",
+        "_makebin_old": "del pmac.exe && pnpm build && pkg -t host -o pmac dist/index.js && pnpm copy",
+        "_makebin": "del pmac.exe && pnpm build && pkg -t host -o ../../pmac dist/index.js"
     }
 }
