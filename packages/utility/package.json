@@ -28,6 +28,7 @@
 
         "_copy": "xcopy pmac.exe \"./../..\" /Y",
         "_makebin_old": "del pmac.exe && pnpm build && pkg -t host -o pmac dist/index.js && pnpm copy",
-        "_makebin": "del pmac.exe && pnpm build && pkg -t host -o ../../pmac dist/index.js"
+        "_makebin_0": "del pmac.exe && pnpm build && pkg -t host -o ../../pmac dist/index.js",
+        "_makebin": "del pmac.exe && pnpm build && pkg -t node-14-win-x64 -o ../../pmac dist/index.js"
     }
 }
