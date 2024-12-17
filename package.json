@@ -11,7 +11,7 @@
         "javascript",
         "typescript"
     ],
-    "workspaces": [
+    "workspaces_not_anymore": [
         "packages/*"
     ],
     "resolutions": {
