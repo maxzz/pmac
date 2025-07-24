@@ -7,6 +7,14 @@ import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./step-mak
 import { step3_4_MakeTargetGroupReport, step4_MakeReportToAllGroups } from "./step-make-report";
 import { numberOfDomCreds } from "../../utils/utils-app-report-template";
 
+export function executeTaskDc(rootGroups: RootGroup[]) {
+    const targetGroups = rootGroups.map(processRootGroup);
+    step4_MakeReportToAllGroups(targetGroups);
+    notes.addProcessed(color.green('All done'));
+}
+
+/* Step 2, 3 */
+
 function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
         const byDomains = splitByKey(files, (fileMeta) => {
@@ -61,10 +69,4 @@ function processRootGroup(rootGroup: RootGroup): TargetGroup {
     gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
 
     return targetGroup;
-}
-
-export function executeTaskDc(rootGroups: RootGroup[]) {
-    const targetGroups = rootGroups.map(processRootGroup);
-    step4_MakeReportToAllGroups(targetGroups);
-    notes.addProcessed(color.green('All done'));
 }

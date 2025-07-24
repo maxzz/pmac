@@ -5,6 +5,26 @@ import { type RootGroup, type TargetGroup } from "../../app-types";
 import { buildManiMetaForms, parseXMLFile, uuid } from "../../manifest";
 import { getFormUrlsArray, reportFormUrlsArray, toUnix } from "../../utils";
 
+/* Step 1 */
+
+export function step1_LoadManifests(rootGroup: RootGroup): TargetGroup {
+    const targetGroup = loadManifests(rootGroup); //printLoaded(targetGroup);
+
+    targetGroup.report.inputs = { // fill out directory of all loaded files for report refs
+        input: targetGroup.files.map((fileMeta, idx) => {
+            return {
+                id: fileMeta.id,
+                idx,
+                urls: reportFormUrlsArray(fileMeta),
+                title: fileMeta.forms[0]?.mani?.options?.choosename || '',
+                short: toUnix(fileMeta.short),
+            };
+        }),
+    };
+
+    return targetGroup;
+}
+
 function loadManifests(rootGroup: RootGroup): TargetGroup {
     const rv: TargetGroup = {
         root: rootGroup.root,
@@ -41,22 +61,4 @@ function loadManifests(rootGroup: RootGroup): TargetGroup {
     }
 
     return rv;
-}
-
-export function step1_LoadManifests(rootGroup: RootGroup): TargetGroup {
-    const targetGroup = loadManifests(rootGroup); //printLoaded(targetGroup);
-
-    targetGroup.report.inputs = { // fill out directory of all loaded files for report refs
-        input: targetGroup.files.map((fileMeta, idx) => {
-            return {
-                id: fileMeta.id,
-                idx,
-                urls: reportFormUrlsArray(fileMeta),
-                title: fileMeta.forms[0]?.mani?.options?.choosename || '',
-                short: toUnix(fileMeta.short),
-            };
-        }),
-    };
-
-    return targetGroup;
 }

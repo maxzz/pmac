@@ -1,21 +1,37 @@
-import { FileMeta, RootGroup, TargetGroup } from "../../app-types";
+import fs from "fs";
+import path from "path";
+import { type RootGroup, type TargetGroup } from "../../app-types";
 import { appOptions, notes } from "../app-env";
 import { color, filterFilesByDomain } from "../../utils";
 import { addNoteIfEmptyAfterFilter, step1_LoadManifests } from "../task-common";
-import path from "path";
-import fs from "fs";
 
-function getAutoName(prefix: string, domain: string): { ourAutoName: boolean; ending: string; } {
-    const mOur = prefix.match(new RegExp(`^${domain}___(.*)`, 'i'));
-    return {
-        ourAutoName: !!mOur,
-        ending: mOur ? mOur[1] : prefix,
-    };
+export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
+    console.log(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));
+    rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
+    notes.addProcessed(color.white(`\nAll done`));
 }
 
-const constWinApp = 'winapp';
-const reWinApp = new RegExp(`${constWinApp}___`);
-const reGuidMath = /(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/;
+function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
+    const targetGroup = step1_LoadManifests(rootGroup);
+    const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
+    const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
+    targetGroup.files = filteredOut;
+
+    const detailedOutput = true;
+    const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);
+
+    renamePairs.forEach(({oldName, newName}) => {
+        fs.renameSync(oldName, newName);
+    });
+
+    detailedOutput && renamePairs.forEach(({ oldName, newName }) => {
+        const name = color[newName.match(reWinApp) ? 'yellow' : 'green'](newName);
+        notes.addProcessed(`{\n    ${oldName}\n    ${name}\n}`);
+    });
+
+    notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${renamePairs.length}`);
+    gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
+}
 
 type RenamePair = {
     oldName: string;
@@ -72,30 +88,14 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
     return renamePairs;
 }
 
-function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
-    const targetGroup = step1_LoadManifests(rootGroup);
-    const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
-    const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
-    targetGroup.files = filteredOut;
+const constWinApp = 'winapp';
+const reWinApp = new RegExp(`${constWinApp}___`);
+const reGuidMath = /(.*)({[a-zA-Z0-9]{8,8}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{4,4}-[a-zA-Z0-9]{12,12}})(.*)\.dpm/;
 
-    const detailedOutput = true;
-    const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);
-
-    renamePairs.forEach(({oldName, newName}) => {
-        fs.renameSync(oldName, newName);
-    });
-
-    detailedOutput && renamePairs.forEach(({ oldName, newName }) => {
-        const name = color[newName.match(reWinApp) ? 'yellow' : 'green'](newName);
-        notes.addProcessed(`{\n    ${oldName}\n    ${name}\n}`);
-    });
-
-    notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${renamePairs.length}`);
-    gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
-}
-
-export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
-    console.log(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));
-    rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
-    notes.addProcessed(color.white(`\nAll done`));
+function getAutoName(prefix: string, domain: string): { ourAutoName: boolean; ending: string; } {
+    const mOur = prefix.match(new RegExp(`^${domain}___(.*)`, 'i'));
+    return {
+        ourAutoName: !!mOur,
+        ending: mOur ? mOur[1] : prefix,
+    };
 }

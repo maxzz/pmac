@@ -2,12 +2,29 @@ import path from "path";
 import fs from "fs";
 import { Report } from "@pmac/shared-types";
 import { color, templateStr, toUnix } from "../../utils";
-import { TargetGroup } from "../../app-types";
+import { type TargetGroup } from "../../app-types";
 import { appOptions } from "../app-env";
 import { numberOfDomCreds } from "../../utils/utils-app-report-template";
 
+/* Step 3 */
+
+export function step3_4_MakeTargetGroupReport(targetGroup: TargetGroup): void {
+    if (numberOfDomCreds(targetGroup)) {
+        const reportStr = JSON.stringify([targetGroupToReport(targetGroup)], null, 4);
+        const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
+        const fname = path.join(targetGroup.backup, 'report.html');
+        fs.writeFileSync(fname, cnt);
+    }
+}
+
 function targetGroupToReport(targetGroup: TargetGroup): Report {
     return { ...targetGroup.report, root: toUnix(targetGroup.root) };
+}
+
+/* Step 4 */
+
+export function step4_MakeReportToAllGroups(targetGroups: TargetGroup[]): void {
+    createJsonForDebugging(targetGroups);
 }
 
 function createJsonForDebugging(targetGroups: TargetGroup[]) {
@@ -22,17 +39,4 @@ function createJsonForDebugging(targetGroups: TargetGroup[]) {
             fs.writeFileSync(jsonFilename, reportStr); //console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
         }
     }
-}
-
-export function step3_4_MakeTargetGroupReport(targetGroup: TargetGroup): void {
-    if (numberOfDomCreds(targetGroup)) {
-        const reportStr = JSON.stringify([targetGroupToReport(targetGroup)], null, 4);
-        const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
-        const fname = path.join(targetGroup.backup, 'report.html');
-        fs.writeFileSync(fname, cnt);
-    }
-}
-
-export function step4_MakeReportToAllGroups(targetGroups: TargetGroup[]): void {
-    createJsonForDebugging(targetGroups);
 }
