@@ -6,6 +6,10 @@
     "description": "Shared types for Password manager domain credential switch utility",
     "license": "MIT",
     "scripts": {
+        "tsc": "tsc -w",
         "build": "tsc -d"
+    },
+    "devDependencies": {
+        "typescript": "^5.8.3"
     }
 }

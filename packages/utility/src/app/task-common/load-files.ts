@@ -21,7 +21,7 @@ function loadManifests(rootGroup: RootGroup): TargetGroup {
         try {
             const cnt = fs.readFileSync(fname).toString();
             const { mani } = parseXMLFile(cnt);
-            const forms = buildManiMetaForms(mani);
+            const forms = buildManiMetaForms(mani?.forms);
 
             if (mani && forms.length) {
                 rv.files.push({
