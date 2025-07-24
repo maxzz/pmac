@@ -1,5 +1,5 @@
-import { ItemError } from '@pmac/shared-types';
-import { AppOptions, FileMeta, SameDc, TargetGroup } from '../../app-types';
+import { type ItemError } from '@pmac/shared-types';
+import { type AppOptions, type FileMeta, type SameDc, type TargetGroup } from '../../app-types';
 import { notes } from '../app-env';
 
 export { step1_LoadManifests } from './load-files';

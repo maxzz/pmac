@@ -1,5 +1,4 @@
 export { ensureNameUnique, exist, nowDayTime, toUnix } from "./unique-names";
-export { uuid } from "./uuid";
 export { OsStuff } from "./utils-os";
 export { splitByKey } from "./utils";
 export { getFormUrlsArray, filterFilesByDomain, reportFormUrlsArray } from "./utils-app-mani-urls";
