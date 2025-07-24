@@ -3,7 +3,7 @@ import fs from "fs";
 import { OsStuff } from "../../utils";
 import { FileMeta, TargetGroup } from "../../app-types";
 import { addError, flatDcActive } from "../task-common";
-import { makeXML, Mani, Matching } from "../../manifest";
+import { convertToXmlString, FileMani, type Mani, Matching, toManiFileFormat } from "../../manifest";
 import { updateToRegexUrlsArray } from "../../utils/utils-app-mani-urls";
 
 export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
@@ -36,7 +36,7 @@ export function step3_2_Modify(targetGroup: TargetGroup): void {
             const newUrls = updateToRegexUrlsArray(fileMeta);
             fileMeta.mani?.forms?.forEach((form: Mani.Form, idx: number) => {
                 newUrls[idx] && (form.detection.web_murl = newUrls[idx]);
-            })
+            });
             return {
                 id: fileMeta.id, //TODO: add more to report
                 urls: newUrls,
@@ -54,4 +54,20 @@ export function step3_3_Save(targetGroup: TargetGroup): void {
             fs.writeFileSync(newFname, xml);
         }
     });
+}
+
+function makeXML(newMani: Mani.Manifest): string | undefined {
+    try {
+        const root: FileMani.Manifest = toManiFileFormat(newMani);
+        const res = convertToXmlString({ mani: root });
+
+        const { xml, error } = res;
+        if (error || !xml) {
+            console.error('Error converting to xml', error);
+            return;
+        }
+        return xml;
+    } catch (error) {
+        return undefined;
+    }
 }

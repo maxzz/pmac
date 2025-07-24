@@ -1,4 +1,4 @@
-import { FileMeta, SameDc, RootGroup, TargetGroup, AppOptions } from "../../app-types";
+import { type FileMeta, type SameDc, type RootGroup, type TargetGroup } from "../../app-types";
 import { color, ensureNameUnique, filterFilesByDomain, nowDayTime, splitByKey } from "../../utils";
 import { Matching } from "../../manifest";
 import { appOptions, notes } from "../app-env";
@@ -11,8 +11,8 @@ function step2_FindSameDc(targetGroup: TargetGroup) {
     function getSameDc(files: FileMeta[]): SameDc[] {
         const byDomains = splitByKey(files, (fileMeta) => {
             const loginForm = fileMeta.urls?.[0];
-            const loginStyle = loginForm?.mData?.style;
-            const makeSenseToProcces = loginStyle === Matching.Style.undef || loginStyle === Matching.Style.makeDomainMatch;
+            const loginStyle = loginForm?.mData?.how;
+            const makeSenseToProcces = loginStyle === Matching.How.undef || loginStyle === Matching.How.makeDomainMatch;
             return makeSenseToProcces ? loginForm?.oParts?.domain : undefined;
         });
 

@@ -1,5 +1,5 @@
 import { ReportFormUrls } from "@pmac/shared-types";
-import { FileMeta, FormUrls, TargetGroup } from "../app-types";
+import { FileMeta, FormUrls } from "../app-types";
 import { Matching, Meta } from "../manifest";
 import { tmurl } from "../manifest";
 
@@ -19,8 +19,8 @@ function getFormUrls(form: Meta.Form | undefined): FormUrls {
             };
         }
         if (rv.m) {
-            rv.mData = Matching.getMatchRawData(rv.m.toLowerCase()); // TODO: lowerCase maybe not good for regex
-            if (rv.mData.style === Matching.Style.makeDomainMatch) { // i.e. string match 
+            rv.mData = Matching.parseRawMatchData(rv.m.toLowerCase()); // TODO: lowerCase maybe not good for regex
+            if (rv.mData.how === Matching.How.makeDomainMatch) { // i.e. string match 
                 const org = rv.mData.url;
                 const u = tmurl.url(org);
                 rv.mParts = {
@@ -70,7 +70,7 @@ export function filterFilesByDomain(files: FileMeta[], domain?: string): FileMet
 export function updateToRegexUrlsArray(fileMeta: FileMeta): string[] {
 
     function modifyUrl(url: string | undefined): string | undefined {
-        return url && Matching.makeRawMatchData({ style: Matching.Style.regex, opt: Matching.Options.pmacSet, url }, '');
+        return url && Matching.stringifyRawMatchData({ how: Matching.How.regex, opt: Matching.Options.pmacSet, url }, '');
     }
 
     return [modifyUrl(fileMeta.urls?.[0].m), modifyUrl(fileMeta.urls?.[1].m),].filter(Boolean);

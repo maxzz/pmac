@@ -60,8 +60,8 @@ importers:
         specifier: ^1.0.0
         version: 1.1.1
       pm-manifest:
-        specifier: 1.5.12
-        version: 1.5.12
+        specifier: 1.5.30
+        version: 1.5.30
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
@@ -560,8 +560,8 @@ packages:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
 
-  pm-manifest@1.5.12:
-    resolution: {integrity: sha512-sZPey8KQDX6tMYG8RZM1+ZsLeoxfCJMr/cy7A2xUFeiqEh1atzm32thz1VtTU8dXbO80Dxam6z2oQjEuMYyTSQ==}
+  pm-manifest@1.5.30:
+    resolution: {integrity: sha512-bNshvuU3Xe07xEg8N8BCR2e8zfiPzx2OL7fM+QjmtE1l9R3SebnqBn0ZbXDLmFXXwO4aV6HyBfMqywVBVHLTcQ==}
 
   postcss-import@14.1.0:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -1168,7 +1168,7 @@ snapshots:
 
   pify@2.3.0: {}
 
-  pm-manifest@1.5.12:
+  pm-manifest@1.5.30:
     dependencies:
       '@types/uuid': 10.0.0
       fast-xml-parser: 5.2.3

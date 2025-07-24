@@ -11,7 +11,7 @@
         "fast-xml-parser": "^5.2.5",
         "minimist": "^1.2.5",
         "picocolors": "^1.0.0",
-        "pm-manifest": "1.5.12",
+        "pm-manifest": "1.5.30",
         "prompts": "^2.4.2",
         "rimraf": "^6.0.1"
     },
