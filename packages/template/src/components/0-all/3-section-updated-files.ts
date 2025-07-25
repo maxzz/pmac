@@ -62,7 +62,7 @@ function ManiInfo(maniItem: InputSameDcItem) {
     } //TODO: min-w-0 break-words
 }
 
-export function Section3_UpdatedFiles_Events(fragment: DocumentFragment) {
+export function AddClickListeners_UpdatedFiles(fragment: DocumentFragment) {
     function addRowClick(el: HTMLElement) {
         el.addEventListener('click',
             () => {
@@ -77,10 +77,10 @@ export function Section3_UpdatedFiles_Events(fragment: DocumentFragment) {
                     const elId = el.dataset.id;
                     const maniItem = elId && ReportData.allItemsById[elId];
                     if (maniItem) {
-                        const newEl = document.createElement('div');
-                        newEl.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
-                        newEl.innerHTML = ManiInfo(maniItem);
-                        el.parentElement?.insertBefore(newEl, el.nextElementSibling);
+                        const div = document.createElement('div');
+                        div.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
+                        div.innerHTML = ManiInfo(maniItem);
+                        el.parentElement?.insertBefore(div, el.nextElementSibling);
                     }
                 }
             }

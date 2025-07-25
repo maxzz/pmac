@@ -1,14 +1,14 @@
-import { AllSectionsTemplate, Section3_UpdatedFiles_Events, Section5_Footer_Events } from "./components";
+import { AllSectionsTemplate, AddClickListeners_UpdatedFiles, AddClickListeners_Footer, toggleItems } from "./components";
 import "../index.css";
 
 function createAppFragment() {
     const allSectionsHtml = AllSectionsTemplate();
     
     const rv = document.createDocumentFragment();
-    const appDiv = document.createElement('div');
-    appDiv.id = 'app';
-    appDiv.innerHTML = allSectionsHtml;
-    rv.append(appDiv);
+    const div = document.createElement('div');
+    div.id = 'app';
+    div.innerHTML = allSectionsHtml;
+    rv.append(div);
 
     return rv;
 }
@@ -23,15 +23,21 @@ function main() {
     };
 
     const appFragment = createAppFragment();
-    Section3_UpdatedFiles_Events(appFragment);
-    Section5_Footer_Events(appFragment, appState);
+    
+    AddClickListeners_UpdatedFiles(appFragment);
+    AddClickListeners_Footer(appFragment, appState);
 
     document.querySelector<HTMLDivElement>('#app')!.replaceWith(appFragment);
 
     if (process.env.NODE_ENV !== 'production') {
-        document.querySelector<HTMLDivElement>('#app')!.classList.add('debug-screens');
+        //To debug tailwind screens:
+        //document.querySelector<HTMLDivElement>('#app')!.classList.add('debug-screens');
+
+        //To debug expand all at start:
         //document.getElementById('toggle-general-info')?.click();
-        //appState.expanded = true, toggleItems({ setOpen: true });
+        
+        //To debug start toggled:
+        appState.expanded = true, toggleItems({ setOpen: true });
     }
 }
 
