@@ -6,7 +6,7 @@ import { Section5_Footer } from "./5-section-footer";
 
 export function AllSectionsTemplate() {
     return `
-    <div class="h-full grid grid-rows-[auto_minmax(0,1fr)_auto] text-sky-800">
+    <div class="h-full text-sm text-sky-800 grid grid-rows-[auto_minmax(0,1fr)_auto]">
         ${Section1_Header()}
         <div class="w-full h-full overflow-auto">
             <div class="mx-auto md:w-max h-full grid grid-rows-[auto_1fr]">
