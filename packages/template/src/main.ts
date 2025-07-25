@@ -1,8 +1,4 @@
-import { Section1_Header } from "./components/section1-header";
-import { Section2_About } from "./components/section2-about";
-import { Section3_UpdatedFiles, Section3_UpdatedFiles_Events } from "./components/section3-updated-files";
-import { Section4_GeneralInfo } from "./components/section4-general-info";
-import { Section5_Footer, Section5_Footer_Events } from "./components/section5-footer";
+import { Section1_Header, Section2_About, Section3_UpdatedFiles, Section3_UpdatedFiles_Events, Section4_GeneralInfo, Section5_Footer, Section5_Footer_Events } from "./components";
 import "../index.css";
 
 function App() {

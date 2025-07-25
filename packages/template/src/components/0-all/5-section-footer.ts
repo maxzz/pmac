@@ -1,5 +1,5 @@
-import { AppState } from "../main";
-import { toggleItems } from "./section3-updated-files";
+import { AppState } from "../../main";
+import { toggleItems } from "./3-section-updated-files";
 
 export function Section5_Footer() {
     return `

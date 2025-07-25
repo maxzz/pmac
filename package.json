@@ -18,7 +18,7 @@
         "postcss": "^8.4.16"
     },
     "scripts": {
-        "tsc": "pnpm -r --parallel tsc",
+        "tsc": "pnpm -r --parallel --agregate-output tsc",
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
         "maketypes": "pnpm workspace @pmac/shared-types build",
         "template": "pnpm workspace @pmac/template template",
