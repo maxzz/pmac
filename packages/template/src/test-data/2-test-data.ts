@@ -1,4 +1,4 @@
-import { ReportRecords } from "@pmac/shared-types";
+import { type ReportRecords } from "@pmac/shared-types";
 import jsonData from "./test-data-private.json";
 
 if (process.env.NODE_ENV !== 'production') {
