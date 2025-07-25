@@ -1,9 +1,9 @@
-import { Section1_Header } from './components/section1-header';
-import { Section2_About } from './components/section2-about';
-import { Section3_UpdatedFiles, Section3_UpdatedFiles_Events } from './components/section3-updated-files';
-import { Section4_GeneralInfo } from './components/section4-general-info';
-import { Section5_Footer, Section5_Footer_Events } from './components/section5-footer';
-import '../index.css';
+import { Section1_Header } from "./components/section1-header";
+import { Section2_About } from "./components/section2-about";
+import { Section3_UpdatedFiles, Section3_UpdatedFiles_Events } from "./components/section3-updated-files";
+import { Section4_GeneralInfo } from "./components/section4-general-info";
+import { Section5_Footer, Section5_Footer_Events } from "./components/section5-footer";
+import "../index.css";
 
 function App() {
     return `

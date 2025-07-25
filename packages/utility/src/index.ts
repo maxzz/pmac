@@ -1,9 +1,9 @@
-import { color, exitProcess } from './utils';
-import { notes } from './app/app-env/app-notes';
-import { help } from './app/app-env/app-help';
-import { getAndCheckTargets } from './app/app-env/app-arguments';
-import { executeTaskDc } from './app/task-dc';
-import { executeTaskRename } from './app/task-rename';
+import { color, exitProcess } from "./utils";
+import { notes } from "./app/app-env/app-notes";
+import { help } from "./app/app-env/app-help";
+import { getAndCheckTargets } from "./app/app-env/app-arguments";
+import { executeTaskDc } from "./app/task-dc";
+import { executeTaskRename } from "./app/task-rename";
 
 async function main() {
     const appArgs = await getAndCheckTargets();

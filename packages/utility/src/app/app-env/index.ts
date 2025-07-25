@@ -1,4 +1,4 @@
-export { getMinimistArgs, help, programVersion, strDoneNothing, strDoNothingExit } from './app-help';
+export { getMinimistArgs, help, programVersion, strDoneNothing, strDoNothingExit } from "./app-help";
 
 export { appOptions } from "./app-arguments";
 

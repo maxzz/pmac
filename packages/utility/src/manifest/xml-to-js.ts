@@ -1,11 +1,11 @@
 import path from "path";
 /*
-import { FileUs } from '../store-types';
-import { XMLParser } from 'fast-xml-parser';
-import { J2xParser } from '@/utils/json2xml';
-import { fileDownload } from '@/utils/file-download';
-import { parseOptions } from './mani-i';
-import { manifestToJsonForXml } from './mani-o';
+import { FileUs } from "../store-types";
+import { XMLParser } from "fast-xml-parser";
+import { J2xParser } from "@/utils/json2xml";
+import { fileDownload } from "@/utils/file-download";
+import { parseOptions } from "./mani-i";
+import { manifestToJsonForXml } from "./mani-o";
 
 export function convertToXml(fileUs: FileUs): { error: string; xml?: undefined; } | { xml: string; error?: undefined; } {
     if (!fileUs.raw) {

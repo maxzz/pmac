@@ -1,6 +1,6 @@
-import { color } from '../../utils';
-import minimist from 'minimist';
-let config = require('../../../../../package.json');
+import { color } from "../../utils";
+import minimist from "minimist";
+let config = require("../../../../../package.json");
 
 export const programName = config.name; //config.name.split('/')[0].substring(1);
 export const programVersion = config.version;
