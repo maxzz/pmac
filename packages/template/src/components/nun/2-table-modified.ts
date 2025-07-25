@@ -1,7 +1,7 @@
 import { ItemInputFile, ReportRecords } from "@pmac/shared-types";
 import { FolderInputSameDcItem, InputSameDcItem, ReportData } from "../../utils/report-data";
 import { splitByKey } from "../../utils/utils";
-import { H1 } from "./components";
+import { H1 } from "./8-components";
 
 function ManiForm({ item, idx }: { item: InputSameDcItem, idx: number; }) {
     const formName = !idx ? 'Login' : 'Password change';
