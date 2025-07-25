@@ -13,7 +13,7 @@ export type ItemError = {
 // Types of report item for addToReport()
 
 export type Report_InputFiles = {
-    input?: ItemInputFile[];
+    input?: ItemInputFile[]; // input files, but it is generated somewhere, so check it where before rename it.
 };
 
 export type Report_Duplicates = {
@@ -22,7 +22,7 @@ export type Report_Duplicates = {
 
 export type ReportAddParams = Report_InputFiles | Report_Duplicates;
 
-export type Report = {
+export type ReportFileFormat = {
     root: string;
     inputs?: Report_InputFiles;
     domcreds?: Report_Duplicates;
@@ -32,4 +32,4 @@ export type Report = {
     date: number;           // Time when report was generated
 };
 
-export type ReportRecords = Report[]; // root folder -> ReportRecord
+export type ReportsByFolder = ReportFileFormat[]; // root folder -> ReportRecord

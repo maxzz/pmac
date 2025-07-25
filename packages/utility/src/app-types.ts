@@ -1,5 +1,5 @@
 import { Mani, Matching, Meta } from "./manifest";
-import { Report } from "@pmac/shared-types";
+import { ReportFileFormat } from "@pmac/shared-types";
 
 // Arguments
 
@@ -68,5 +68,5 @@ export type TargetGroup = {
     failed: string[];           // filename list of failed to load files
     backup: string;             // folder for backup
     sameDc: SameDc[];           // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
-    report: Report;             // report for this group
+    report: ReportFileFormat;   // report for this group
 };

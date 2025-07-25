@@ -1,4 +1,4 @@
-import { type ItemDuplicate, type ItemInputFile, type Report, type ReportRecords } from "@pmac/shared-types";
+import { type ItemDuplicate, type ItemInputFile, type ReportFileFormat, type ReportsByFolder } from "@pmac/shared-types";
 import { reports as rawRepopts } from "./2-test-data";
 
 export type InputSameDcItem = {
@@ -32,7 +32,7 @@ export namespace ReportData {
 
 } //namespace ReportData
 
-function folderInputSameDcItem(reportRecords: ReportRecords): FolderInputSameDcItem[] {
+function folderInputSameDcItem(reportRecords: ReportsByFolder): FolderInputSameDcItem[] {
     const rv = reportRecords.map(
         (report) => {
             const sameDcItems = getSameDc(report);
@@ -44,7 +44,7 @@ function folderInputSameDcItem(reportRecords: ReportRecords): FolderInputSameDcI
     );
     return rv;
 
-    function getSameDc(report: Report): InputSameDcItem[] {
+    function getSameDc(report: ReportFileFormat): InputSameDcItem[] {
         const inputs = getInputs(report);
         const rv = report.domcreds?.multiple?.map(
             (item) => ({ dup: item, src: inputs[item.id], } as InputSameDcItem)
@@ -52,7 +52,7 @@ function folderInputSameDcItem(reportRecords: ReportRecords): FolderInputSameDcI
         return rv;
     }
 
-    function getInputs(report: Report): Record<string, ItemInputFile> {
+    function getInputs(report: ReportFileFormat): Record<string, ItemInputFile> {
         const inputs = report.inputs?.input?.reduce<Record<string, ItemInputFile>>((acc, val) => {
             acc[val.id] = val;
             return acc;
@@ -72,7 +72,7 @@ function getAllById(): Record<ItemId, InputSameDcItem> {
     ));
     return rv;
 
-    function getAllInputItems(reportRecords: ReportRecords): Record<ItemId, ItemInputFile> {
+    function getAllInputItems(reportRecords: ReportsByFolder): Record<ItemId, ItemInputFile> {
         const rv: Record<ItemId, ItemInputFile> = {};
         const items = reportRecords.map(
             (report) => {
@@ -82,7 +82,7 @@ function getAllById(): Record<ItemId, InputSameDcItem> {
         return rv;
     }
 
-    function getAllDcsItems(reportRecords: ReportRecords): Record<ItemId, ItemDuplicate> {
+    function getAllDcsItems(reportRecords: ReportsByFolder): Record<ItemId, ItemDuplicate> {
         const rv: Record<ItemId, ItemDuplicate> = {};
         const items = reportRecords.map(
             (report) => {

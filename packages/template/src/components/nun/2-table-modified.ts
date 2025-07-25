@@ -1,9 +1,9 @@
-import { type ItemInputFile, type ReportRecords } from "@pmac/shared-types";
+import { type ItemInputFile, type ReportsByFolder } from "@pmac/shared-types";
 import { type FolderInputSameDcItem, type InputSameDcItem, ReportData } from "../../test-data";
 import { splitByKey } from "../../utils/utils";
 import { H1 } from "./8-components";
 
-export function TableModified(reportRecords: ReportRecords) {
+export function TableModified(reportRecords: ReportsByFolder) {
     const Folders = ReportData.folderInputSameDcItems.map(
         (folder) => Folder({ sameDcs: folder })
     ).join('');
