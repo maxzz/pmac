@@ -1,5 +1,5 @@
 import { color, exitProcess } from "../../utils";
-import { programName } from "./app-help";
+import { programName } from "./3-help-text";
 
 export namespace notes {
 

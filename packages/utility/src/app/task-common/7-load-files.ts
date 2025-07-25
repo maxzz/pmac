@@ -1,9 +1,9 @@
-import fs from "fs";
 import path from "path";
+import fs from "fs";
 import { programVersion } from "../app-env";
+import { getFormUrlsArray, reportFormUrlsArray, toUnix } from "../../utils";
 import { type RootGroup, type TargetGroup } from "../../app-types";
 import { buildManiMetaForms, parseXMLFile, uuid } from "../../manifest";
-import { getFormUrlsArray, reportFormUrlsArray, toUnix } from "../../utils";
 
 /* Step 1 */
 

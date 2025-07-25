@@ -1,7 +1,7 @@
 import { color, exitProcess } from "./utils";
-import { notes } from "./app/app-env/app-notes";
-import { help } from "./app/app-env/app-help";
-import { getAndCheckTargets } from "./app/app-env/app-arguments";
+import { notes } from "./app/app-env/4-app-notes";
+import { help } from "./app/app-env";
+import { getAndCheckTargets } from "./app/app-env/1-get-verified-args";
 import { executeTaskDc } from "./app/task-dc";
 import { executeTaskRename } from "./app/task-rename";
 

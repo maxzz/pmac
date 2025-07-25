@@ -1,1 +1,1 @@
-export { executeTaskDc } from "./task-dc-steps";
+export * from "./1-task-dc-steps";

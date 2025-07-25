@@ -1,1 +1,1 @@
-export { executeTaskRename } from "./task-rename-files";
+export * from "./1-task-rename-files";

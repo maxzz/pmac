@@ -2,8 +2,9 @@ import path from "path";
 import prompts from "prompts";
 import { exist, exitProcess, newErrorArgs, OsStuff } from "../../utils";
 import { type AppArgs, type AppOptions, type RootGroup, type ArgTarget } from "../../app-types";
-import { getMinimistArgs, help, strDoneNothing, strDoNothingExit } from "./app-help";
-import { notes } from "./app-notes";
+import { getMinimistArgs, strDoneNothing, strDoNothingExit } from "./2-get-minimist-args";
+import { notes } from "./4-app-notes";
+import { help } from "./3-help-text";
 
 export let appOptions: AppOptions = {};
 
