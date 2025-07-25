@@ -2,8 +2,7 @@ import { type InputSameDcItem, ReportData } from "../../test-data";
 import { splitByKey } from "../../utils/utils";
 
 export function Section3_UpdatedFiles() {
-    const sameDcItems = ReportData.folderInputSameDcItems;
-    const flatItems = sameDcItems.map(({ root, dcs }) => dcs).flat();
+    const flatItems = ReportData.folderInputSameDcItems.map(({ root, dcs }) => dcs).flat();
 
     const byDomain = Object.entries(splitByKey(flatItems, (item) => item.src.urls[0].domain || ''));
     const maniRows = !byDomain.length
@@ -28,7 +27,7 @@ function ManiRow({ item }: { item: InputSameDcItem; }) {
         <div class="text-sm">${item.src.title}</div>
     </div>
     `;
-    
+
     function IconArrow() {
         return `
         <svg class="p-1 pb-0 w-6 h-6 stroke-current stroke-[.6rem] fill-transparent data-state-open:rotate-90 transition-transform" viewBox="0 0 100 100">

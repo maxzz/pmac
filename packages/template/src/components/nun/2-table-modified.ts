@@ -4,8 +4,7 @@ import { splitByKey } from "../../utils/utils";
 import { H1 } from "./8-components";
 
 export function TableModified(reportRecords: ReportRecords) {
-    const sameDcs = ReportData.folderInputSameDcItems;
-    const Folders = sameDcs.map(
+    const Folders = ReportData.folderInputSameDcItems.map(
         (folder) => Folder({ sameDcs: folder })
     ).join('');
 
