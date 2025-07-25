@@ -1,6 +1,6 @@
 import { ItemDuplicate, ItemInputFile, Report, ReportRecords } from "@pmac/shared-types";
-import { reports as rawRepopts } from "./test-data";
-import { splitByKey } from "./utils";
+import { reports as rawRepopts } from "./2-test-data";
+import { splitByKey } from "../utils/utils";
 
 function getInputs(report: Report): Record<string, ItemInputFile> {
     const inputs = report.inputs?.input?.reduce<Record<string, ItemInputFile>>((acc, val) => {

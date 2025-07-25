@@ -1,5 +1,5 @@
 import { type ItemInputFile, type ReportRecords } from "@pmac/shared-types";
-import { type FolderInputSameDcItem, type InputSameDcItem, ReportData } from "../../utils/report-data";
+import { type FolderInputSameDcItem, type InputSameDcItem, ReportData } from "../../test-data";
 import { splitByKey } from "../../utils/utils";
 import { H1 } from "./8-components";
 

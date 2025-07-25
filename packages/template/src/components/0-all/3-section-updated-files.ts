@@ -1,4 +1,4 @@
-import { InputSameDcItem, ReportData } from "../../utils/report-data";
+import { type InputSameDcItem, ReportData } from "../../test-data";
 import { splitByKey } from "../../utils/utils";
 
 function IconArrow() {

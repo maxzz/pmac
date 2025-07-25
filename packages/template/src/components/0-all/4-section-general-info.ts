@@ -1,4 +1,4 @@
-import { ReportData } from "../../utils/report-data";
+import { ReportData } from "../../test-data";
 
 function urlScheme() {
     return `
