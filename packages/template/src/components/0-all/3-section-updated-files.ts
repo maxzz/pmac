@@ -23,18 +23,18 @@ export function Section3_UpdatedFiles() {
 
 function ManiRow({ item }: { item: InputSameDcItem; }) {
     return `
-    <div class="mani-row flex items-center select-none cursor-pointer" data-id="${item.src.id}">
+    <div class="${maniRowClass} flex items-center select-none cursor-pointer" data-id="${item.src.id}">
         <div class="flex-none text-primary-600">${IconArrow()}</div>
         <div class="text-sm">${item.src.title}</div>
     </div>
     `;
-}
-
-function IconArrow() {
-    return `
+    
+    function IconArrow() {
+        return `
         <svg class="p-1 pb-0 w-6 h-6 stroke-current stroke-[.6rem] fill-transparent data-state-open:rotate-90 transition-transform" viewBox="0 0 100 100">
             <path d="M 50 13 L 80 43 L 50 72"></path>
         </svg>`;
+    }
 }
 
 function ManiInfo(maniItem: InputSameDcItem) {
@@ -78,7 +78,7 @@ export function AddClickListeners_UpdatedFiles(fragment: DocumentFragment) {
                     const maniItem = elId && ReportData.allItemsById[elId];
                     if (maniItem) {
                         const div = document.createElement('div');
-                        div.classList.add('mani-info', 'col-span-2', 'animate-toast-slide-in-right');
+                        div.classList.add(`${maniInfoClass}`, 'col-span-2', 'animate-toast-slide-in-right');
                         div.innerHTML = ManiInfo(maniItem);
                         el.parentElement?.insertBefore(div, el.nextElementSibling);
                     }
@@ -87,24 +87,29 @@ export function AddClickListeners_UpdatedFiles(fragment: DocumentFragment) {
         );
     }
 
-    [...fragment.querySelectorAll<HTMLElement>('.mani-row')].forEach(addRowClick);
+    [...fragment.querySelectorAll<HTMLElement>(`.${maniRowClass}`)].forEach(addRowClick);
+}
+
+export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean; justToggle?: boolean; }) {
+    const allRows = [...document.querySelectorAll<HTMLElement>(`.${maniRowClass}`)];
+    allRows.forEach(
+        (el) => {
+            if (justToggle) {
+                el.click();
+            } else {
+                const maniInfoEl = getManiInfoEl(el);
+                if ((setOpen && !maniInfoEl) || (!setOpen && maniInfoEl)) {
+                    el.click();
+                }
+            }
+        }
+    );
 }
 
 function getManiInfoEl(el: HTMLElement): HTMLElement | undefined {
     const cardOrNext = el.nextElementSibling as HTMLElement;
-    return cardOrNext?.classList.contains('mani-info') ? cardOrNext : undefined;
+    return cardOrNext?.classList.contains(`${maniInfoClass}`) ? cardOrNext : undefined;
 }
 
-export function toggleItems({ setOpen, justToggle = false }: { setOpen: boolean; justToggle?: boolean; }) {
-    const allRows = [...document.querySelectorAll<HTMLElement>('.mani-row')];
-    allRows.forEach((el) => {
-        if (justToggle) {
-            el.click();
-        } else {
-            const maniInfoEl = getManiInfoEl(el);
-            if ((setOpen && !maniInfoEl) || (!setOpen && maniInfoEl)) {
-                el.click();
-            }
-        }
-    });
-}
+const maniRowClass = "mani-row";
+const maniInfoClass = "mani-info";
