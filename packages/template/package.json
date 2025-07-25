@@ -24,8 +24,8 @@
         "make-template": "gluehtml ./dist/index.html --nofav",
         "pack-template": "node ./scripts/pack-template.js",
         "build-gh": "node ./scripts/make-github-build.js",
-        "template": "yarn build && yarn make-template && yarn pack-template && yarn build-gh",
-        "predeploy": "yarn template",
+        "build-template": "pnpm build && pnpm make-template && pnpm pack-template && pnpm build-gh",
+        "predeploy": "pnpm build-template",
         "deploy": "gh-pages -d dist-gh"
     }
 }

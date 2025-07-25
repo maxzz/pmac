@@ -20,11 +20,10 @@
     "scripts": {
         "tsc": "pnpm -r --parallel --agregate-output tsc",
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
-        "maketypes": "pnpm workspace @pmac/shared-types build",
-        "template": "pnpm workspace @pmac/template template",
+        "build-template": "pnpm workspace @pmac/template build-template",
         "makebin": "pnpm workspace @pmac/utility _makebin",
         "makezip": "node ./packages/utility/scripts/makezip.js",
-        "build": "del pmac.exe && del pmac.zip.txt && pnpm maketypes && pnpm template && pnpm makebin & pnpm makezip",
+        "build": "del pmac.exe && del pmac.zip.txt && pnpm build-template && pnpm makebin & pnpm makezip",
         "predeploy": "pnpm workspace @pmac/template predeploy",
         "deploy": "gh-pages -d ./packages/template/dist-gh"
     }

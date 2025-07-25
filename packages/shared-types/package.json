@@ -6,11 +6,10 @@
     "license": "MIT",
     "main": "./src/index.ts",
     "type": "module",
-    "scripts": {
-        "tsc": "tsc -w",
-        "build": "tsc -d"
-    },
     "devDependencies": {
         "typescript": "^5.8.3"
+    },
+    "scripts": {
+        "tsc": "tsc -w"
     }
 }
