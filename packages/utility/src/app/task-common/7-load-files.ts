@@ -32,7 +32,7 @@ function loadManifests(rootGroup: RootGroup): TargetGroup {
         empty: [],
         failed: [],
         backup: path.join(rootGroup.root, 'temp'),  // later it will be replaced by a more suitable one
-        sameDc: [],
+        sameDomaincreds: [],
         report: { root: '', version: programVersion, date: Date.now()},
     };
 

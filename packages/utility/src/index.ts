@@ -2,7 +2,7 @@ import { color, exitProcess } from "./utils";
 import { Notes } from "./app/app-env/4-app-notes";
 import { help } from "./app/app-env";
 import { getAndCheckTargets } from "./app/app-env/1-get-verified-args";
-import { executeTaskDc } from "./app/task-dc";
+import { executeTaskDc } from "./app/task-domain-creds";
 import { executeTaskRename } from "./app/task-rename";
 
 async function main() {

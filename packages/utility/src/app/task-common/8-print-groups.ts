@@ -1,7 +1,7 @@
 import path from "path";
 import { color } from "../../utils";
 import { Notes } from "../app-env";
-import { type SameDc, type TargetGroup } from "../9-types";
+import { type SameDomainCreds, type TargetGroup } from "../9-types";
 
 // Local console log reports
 
@@ -25,7 +25,7 @@ export function printLoaded(targetGroup: TargetGroup) {
     });
 }
 
-export function printDcActive(sameDC: SameDc[]) {
+export function printDcActive(sameDC: SameDomainCreds[]) {
     const entries = sameDC.map(({ domain, files }) => {
         const items = files.map((item) => `\n    ${item.urls[0]?.oParts?.woParms}`).join('');
         return color.red(`${domain} ${files.length}${items}`);

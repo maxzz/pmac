@@ -10,8 +10,10 @@ import { numberOfDomCreds } from "../../utils/1-app-utils-app-report-template";
 export function step3_4_MakeTargetGroupReport(targetGroup: TargetGroup): void {
     if (numberOfDomCreds(targetGroup)) {
         const reportStr = JSON.stringify([targetGroupToReport(targetGroup)], null, 4);
+
         const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
         const fname = path.join(targetGroup.backup, 'report.html');
+        
         fs.writeFileSync(fname, cnt);
     }
 }

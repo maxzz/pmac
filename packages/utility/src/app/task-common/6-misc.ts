@@ -1,11 +1,13 @@
 import { type ItemError } from "@pmac/shared-types";
-import { type AppOptions, type FileMeta, type SameDc, type TargetGroup } from "../9-types";
+import { type AppOptions, type FileMeta, type SameDomainCreds, type TargetGroup } from "../9-types";
 import { Notes } from "../app-env";
 
 // Flat manifest
 
-export function flatDcActive(sameDC: SameDc[]): FileMeta[] {
-    const files: FileMeta[] = sameDC.map(({ domain, files }) => files).flat();
+export function flatDomainCredsActive(sameDC: SameDomainCreds[]): FileMeta[] {
+    const files: FileMeta[] = sameDC.map(
+        ({ domain, files }) => files
+    ).flat();
     return files;
 }
 

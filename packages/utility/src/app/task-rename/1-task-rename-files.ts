@@ -20,14 +20,18 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
     const detailedOutput = true;
     const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);
 
-    renamePairs.forEach(({oldName, newName}) => {
-        fs.renameSync(oldName, newName);
-    });
+    renamePairs.forEach(
+        ({ oldName, newName }) => {
+            fs.renameSync(oldName, newName);
+        }
+    );
 
-    detailedOutput && renamePairs.forEach(({ oldName, newName }) => {
-        const name = color[newName.match(reWinApp) ? 'yellow' : 'green'](newName);
-        Notes.addProcessed(`{\n    ${oldName}\n    ${name}\n}`);
-    });
+    detailedOutput && renamePairs.forEach(
+        ({ oldName, newName }) => {
+            const name = color[newName.match(reWinApp) ? 'yellow' : 'green'](newName);
+            Notes.addProcessed(`{\n    ${oldName}\n    ${name}\n}`);
+        }
+    );
 
     Notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${renamePairs.length}`);
     gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
