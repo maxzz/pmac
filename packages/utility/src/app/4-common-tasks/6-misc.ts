@@ -1,10 +1,10 @@
 import { type ItemError } from "@pmac/shared-types";
-import { type AppOptions, type FileCnt, type SameDomainCreds, type SingleFolder } from "../9-types";
+import { type AppOptions, type FileCnt, type DuplFileCnts, type SingleFolder } from "../9-types";
 import { Notes } from "../8-app-env";
 
 // Flat manifest
 
-export function flatDomainCredsActive(sameDC: SameDomainCreds[]): FileCnt[] {
+export function duplFileCntsToFileCnts(sameDC: DuplFileCnts[]): FileCnt[] {
     const fileCnt: FileCnt[] = sameDC.map(
         ({ domain, fileCnts }) => fileCnts
     ).flat();

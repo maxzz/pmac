@@ -7,7 +7,7 @@ import { step3_4_MakeTargetGroupReport } from "./5-step-3-4-make-report-target";
 /* Step 3 */
 
 export function step3_SaveResult(singleFolder: SingleFolder): void {
-    if (singleFolder.sameDomaincreds.length) {
+    if (singleFolder.duplFileCnts.length) {
         try {
             singleFolder.backupFolder = ensureNameUnique(`${singleFolder.rootFolder}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
 

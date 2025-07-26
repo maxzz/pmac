@@ -3,12 +3,12 @@ import fs from "fs";
 import { OsStuff } from "../../utils";
 import { type FileCnt, type SingleFolder } from "../9-types";
 import { type FileMani, type Mani, convertToXmlString, toManiFileFormat } from "../../manifest";
-import { addError, flatDomainCredsActive, updateToRegexUrlsArray } from "../4-common-tasks";
+import { addError, duplFileCntsToFileCnts, updateToRegexUrlsArray } from "../4-common-tasks";
 
 
 export function step3_1_MakeBackupCopy(singleFolder: SingleFolder): void {
     try {
-        const fileCnts: FileCnt[] = flatDomainCredsActive(singleFolder.sameDomaincreds);
+        const fileCnts: FileCnt[] = duplFileCntsToFileCnts(singleFolder.duplFileCnts);
         makeBackupCopy(fileCnts, singleFolder.backupFolder);
     } catch (error) {
         addError(singleFolder, {
@@ -33,16 +33,16 @@ export function step3_1_MakeBackupCopy(singleFolder: SingleFolder): void {
 
 export function step3_2_Modify(singleFolder: SingleFolder): void {
     singleFolder.report.domcreds = {
-        multiple: flatDomainCredsActive(singleFolder.sameDomaincreds).map(
-            (fileMeta) => {
-                const newUrls = updateToRegexUrlsArray(fileMeta);
-                fileMeta.mani?.forms?.forEach(
+        multiple: duplFileCntsToFileCnts(singleFolder.duplFileCnts).map(
+            (fileCnt) => {
+                const newUrls = updateToRegexUrlsArray(fileCnt);
+                fileCnt.mani?.forms?.forEach(
                     (form: Mani.Form, idx: number) => {
                         newUrls[idx] && (form.detection.web_murl = newUrls[idx]);
                     }
                 );
                 return {
-                    id: fileMeta.id, //TODO: add more to report
+                    id: fileCnt.id, //TODO: add more to report
                     urls: newUrls,
                 };
             }
@@ -51,12 +51,12 @@ export function step3_2_Modify(singleFolder: SingleFolder): void {
 }
 
 export function step3_3_Save(singleFolder: SingleFolder): void {
-    const fileCnts: FileCnt[] = flatDomainCredsActive(singleFolder.sameDomaincreds);
+    const fileCnts: FileCnt[] = duplFileCntsToFileCnts(singleFolder.duplFileCnts);
     fileCnts.forEach(
-        (fileMeta) => {
-            const xml = makeXML(fileMeta.mani);
+        (fileCnt) => {
+            const xml = makeXML(fileCnt.mani);
             if (xml) {
-                const newFname = path.join(singleFolder.rootFolder, fileMeta.relativeFname);
+                const newFname = path.join(singleFolder.rootFolder, fileCnt.relativeFname);
                 fs.writeFileSync(newFname, xml);
             }
         }

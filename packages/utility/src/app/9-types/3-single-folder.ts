@@ -7,11 +7,11 @@ export type SingleFolder = {             // Single folder as a target Group
     fnamesEmpty: string[];               // Filenames of empty files
     fnamesFailed: string[];              // Filenames of failed to load files
     backupFolder: string;                // Folder for backup
-    sameDomaincreds: SameDomainCreds[];  // Duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
+    duplFileCnts: DuplFileCnts[];        // Duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
     report: ReportFileFormat;            // Report for this group
 };
 
-export type SameDomainCreds = {          // Domain Credentials (Dc) Duplicates; use the same creadential for the whole domain
+export type DuplFileCnts = {             // Domain Credentials (Dc) Duplicates; they use the same domain creadential for the whole domain
     domain: string;
     fileCnts: FileCnt[];
 };

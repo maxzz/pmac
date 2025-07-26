@@ -33,7 +33,7 @@ function loadManifests(rootGroup: RootGroup): SingleFolder {
         fnamesEmpty: [],
         fnamesFailed: [],
         backupFolder: path.join(rootGroup.root, 'temp'),  // later it will be replaced by a more suitable one
-        sameDomaincreds: [],
+        duplFileCnts: [],
         report: { root: '', version: programVersion, date: Date.now()},
     };
 

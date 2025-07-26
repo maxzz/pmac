@@ -1,14 +1,14 @@
-import { type FileCnt, type SameDomainCreds, type SingleFolder } from "../9-types";
+import { type FileCnt, type DuplFileCnts, type SingleFolder } from "../9-types";
 import { splitByKey } from "../../utils";
 import { Matching } from "../../manifest";
 
 /* Step 2 */
 
 export function step2_FindSameDomainCreds(singleFolder: SingleFolder) {
-    singleFolder.sameDomaincreds = getSameDomainCreds(singleFolder.fileCnts);
+    singleFolder.duplFileCnts = getDuplFileCnts(singleFolder.fileCnts);
 }
 
-function getSameDomainCreds(fileCnts: FileCnt[]): SameDomainCreds[] {
+function getDuplFileCnts(fileCnts: FileCnt[]): DuplFileCnts[] {
     const byDomains = splitByKey(fileCnts,
         (fileMeta) => {
             const loginForm = fileMeta.urls?.[0];
