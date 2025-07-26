@@ -57,7 +57,7 @@ function prepareFilePairs(singleFolder: SingleFolder, addOrRemove: boolean, deta
         }
 
         const [, prefixRaw, guid, suffix] = m;
-        const domain = fileCnt.urls?.[0].oUrlSplit?.domain || constWinApp;
+        const domain = fileCnt.metaForms[0]?.urls.oUrlSplit?.domain || constWinApp;
         const { ourAutoName, ending } = getAutoName(prefixRaw, domain);
 
         let newShortName = '';

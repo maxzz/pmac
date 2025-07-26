@@ -7,7 +7,7 @@ export function printLoaded(singleFolder: SingleFolder) {
 
     singleFolder.fileCnts.forEach(
         (file) => {
-            const [a, b] = [file.urls[0]?.oUrlSplit?.woParms, file.urls[1]?.oUrlSplit?.woParms];
+            const [a, b] = [file.metaForms[0]?.urls.oUrlSplit?.woParms, file.metaForms[1]?.urls.oUrlSplit?.woParms];
             if (a || b) {
                 Notes.add('--------------------------------');
                 a && Notes.add(`    0: ${color.green(a)}`);
@@ -17,14 +17,14 @@ export function printLoaded(singleFolder: SingleFolder) {
     );
 
     singleFolder.fnamesEmpty.forEach(
-        (file) => {
-            Notes.add(color.bgBlue(color.green(`empty --------------------------------${path.basename(file)}`)));
+        (filename) => {
+            Notes.add(color.bgBlue(color.green(`empty --------------------------------${path.basename(filename)}`)));
         }
     );
 
     singleFolder.fnamesFailed.forEach(
-        (file) => {
-            Notes.add(color.bgBlue(color.green(`failed --------------------------------${path.basename(file)}`)));
+        (filename) => {
+            Notes.add(color.bgBlue(color.green(`failed --------------------------------${path.basename(filename)}`)));
         }
     );
 }
@@ -33,7 +33,7 @@ export function printDcActive(duplFileCnts: DuplFileCnts[]) {
     const entries = duplFileCnts.map(
         ({ domain, fileCnts }) => {
             const items = fileCnts.map(
-                (fileCnt) => `\n    ${fileCnt.urls[0]?.oUrlSplit?.woParms}`
+                (fileCnt) => `\n    ${fileCnt.metaForms[0]?.urls.oUrlSplit?.woParms}`
             ).join('');
             return color.red(`${domain} ${fileCnts.length}${items}`);
         }

@@ -10,8 +10,8 @@ export function step2_FindSameDomainCreds(singleFolder: SingleFolder) {
 
 function getDuplFileCnts(fileCnts: FileCnt[]): DuplFileCnts[] {
     const byDomains = splitByKey(fileCnts,
-        (fileMeta) => {
-            const loginForm = fileMeta.urls?.[0];
+        (fileCnt) => {
+            const loginForm = fileCnt.metaForms[0]?.urls;
             const loginStyle = loginForm?.mData?.how;
             
             const makeSenseToProcces = loginStyle === Matching.How.undef || loginStyle === Matching.How.makeDomainMatch;
