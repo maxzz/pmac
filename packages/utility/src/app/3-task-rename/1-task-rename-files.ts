@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { type RootGroup, type TargetGroup } from "../9-types";
+import { type RootGroup, type SingleFolder } from "../9-types";
 import { appOptions, Notes } from "../8-app-env";
-import { color, filterFilesByDomain } from "../../utils";
-import { addNoteIfEmptyAfterFilter, step1_LoadManifests } from "../4-common-tasks";
+import { color } from "../../utils";
+import { addNoteIfEmptyAfterFilter, filterFilesByDomain, step1_LoadManifests } from "../4-common-tasks";
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
     console.log(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));
@@ -33,7 +33,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         }
     );
 
-    Notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${renamePairs.length}`);
+    Notes.addProcessed(`Source "${targetGroup.rootFolder}" has been processed. Updated manifests: ${renamePairs.length}`);
     gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
 }
 
@@ -42,22 +42,22 @@ type RenamePair = {
     newName: string;
 };
 
-function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detailedOutput: boolean): RenamePair[] {
+function prepareFilePairs(singleFolder: SingleFolder, addOrRemove: boolean, detailedOutput: boolean): RenamePair[] {
     const renamePairs: RenamePair[] = [];
     const removeAny = appOptions.removeAny;
 
-    targetGroup.files.forEach((fileMeta) => {
-        const dirname = path.dirname(fileMeta.short);
-        const filename = path.basename(fileMeta.short);
+    singleFolder.files.forEach((fileMeta) => {
+        const dirname = path.dirname(fileMeta.relativeFname);
+        const filename = path.basename(fileMeta.relativeFname);
 
         const m = filename.match(reGuidMath);
         if (!m) {
-            Notes.addProcessed(color.red(`${fileMeta.short} has no guid filename match`));
+            Notes.addProcessed(color.red(`${fileMeta.relativeFname} has no guid filename match`));
             return;
         }
 
         const [, prefixRaw, guid, suffix] = m;
-        const domain = fileMeta.urls?.[0].oParts?.domain || constWinApp;
+        const domain = fileMeta.urls?.[0].oUrlSplit?.domain || constWinApp;
         const { ourAutoName, ending } = getAutoName(prefixRaw, domain);
 
         let newShortName = '';
@@ -76,7 +76,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
             newShortName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
         }
 
-        const newFullName = path.join(targetGroup.root, dirname, newShortName);
+        const newFullName = path.join(singleFolder.rootFolder, dirname, newShortName);
 
         if (newFullName.length > 254) {
             Notes.addProcessed(`The new name is too long (${newFullName.length}) for ${newFullName}`);
@@ -84,7 +84,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
         }
 
         renamePairs.push({
-            oldName: path.join(targetGroup.root, fileMeta.short),
+            oldName: path.join(singleFolder.rootFolder, fileMeta.relativeFname),
             newName: newFullName,
         });
     });

@@ -1,11 +1,11 @@
-import { type FileMeta, type SameDomainCreds, type TargetGroup } from "../9-types";
+import { type FileMeta, type SameDomainCreds, type SingleFolder } from "../9-types";
 import { splitByKey } from "../../utils";
 import { Matching } from "../../manifest";
 
 /* Step 2 */
 
-export function step2_FindSameDomainCreds(targetGroup: TargetGroup) {
-    targetGroup.sameDomaincreds = getSameDomainCreds(targetGroup.files);
+export function step2_FindSameDomainCreds(singleFolder: SingleFolder) {
+    singleFolder.sameDomaincreds = getSameDomainCreds(singleFolder.files);
 }
 
 function getSameDomainCreds(files: FileMeta[]): SameDomainCreds[] {
@@ -15,7 +15,7 @@ function getSameDomainCreds(files: FileMeta[]): SameDomainCreds[] {
             const loginStyle = loginForm?.mData?.how;
             
             const makeSenseToProcces = loginStyle === Matching.How.undef || loginStyle === Matching.How.makeDomainMatch;
-            return makeSenseToProcces ? loginForm?.oParts?.domain : undefined;
+            return makeSenseToProcces ? loginForm?.oUrlSplit?.domain : undefined;
         }
     );
 

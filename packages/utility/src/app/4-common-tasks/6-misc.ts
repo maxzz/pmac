@@ -1,5 +1,5 @@
 import { type ItemError } from "@pmac/shared-types";
-import { type AppOptions, type FileMeta, type SameDomainCreds, type TargetGroup } from "../9-types";
+import { type AppOptions, type FileMeta, type SameDomainCreds, type SingleFolder } from "../9-types";
 import { Notes } from "../8-app-env";
 
 // Flat manifest
@@ -13,8 +13,8 @@ export function flatDomainCredsActive(sameDC: SameDomainCreds[]): FileMeta[] {
 
 // Errors
 
-export function addError(targetGroup: TargetGroup, msg: ItemError | string) {
-    const errors = targetGroup.report.errors || (targetGroup.report.errors = []);
+export function addError(singleFolder: SingleFolder, msg: ItemError | string) {
+    const errors = singleFolder.report.errors || (singleFolder.report.errors = []);
     errors.push(typeof msg === 'string' ? { text: msg } : msg);
 }
 

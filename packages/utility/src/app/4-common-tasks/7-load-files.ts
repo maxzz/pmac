@@ -1,13 +1,14 @@
 import path from "path";
 import fs from "fs";
 import { programVersion } from "../8-app-env";
-import { getFormUrlsArray, reportFormUrlsArray, toUnix } from "../../utils";
-import { type RootGroup, type TargetGroup } from "../9-types";
+import { toUnix } from "../../utils";
+import { type RootGroup, type SingleFolder } from "../9-types";
 import { buildManiMetaForms, parseXMLFile, uuid } from "../../manifest";
+import { getFormUrlsArray, reportFormUrlsArray } from "./1-app-utils-app-mani-urls";
 
 /* Step 1 */
 
-export function step1_LoadManifests(rootGroup: RootGroup): TargetGroup {
+export function step1_LoadManifests(rootGroup: RootGroup): SingleFolder {
     const targetGroup = loadManifests(rootGroup); //printLoaded(targetGroup);
 
     targetGroup.report.inputs = { // fill out directory of all loaded files for report refs
@@ -17,7 +18,7 @@ export function step1_LoadManifests(rootGroup: RootGroup): TargetGroup {
                 idx,
                 urls: reportFormUrlsArray(fileMeta),
                 title: fileMeta.forms[0]?.mani?.options?.choosename || '',
-                short: toUnix(fileMeta.short),
+                short: toUnix(fileMeta.relativeFname),
             };
         }),
     };
@@ -25,22 +26,22 @@ export function step1_LoadManifests(rootGroup: RootGroup): TargetGroup {
     return targetGroup;
 }
 
-function loadManifests(rootGroup: RootGroup): TargetGroup {
-    const rv: TargetGroup = {
-        root: rootGroup.root,
+function loadManifests(rootGroup: RootGroup): SingleFolder {
+    const rv: SingleFolder = {
+        rootFolder: rootGroup.root,
         files: [],
-        empty: [],
-        failed: [],
-        backup: path.join(rootGroup.root, 'temp'),  // later it will be replaced by a more suitable one
+        fnamesEmpty: [],
+        fnamesFailed: [],
+        backupFolder: path.join(rootGroup.root, 'temp'),  // later it will be replaced by a more suitable one
         sameDomaincreds: [],
         report: { root: '', version: programVersion, date: Date.now()},
     };
 
-    for (const file of rootGroup.fnames) {
-        const fname = path.join(rootGroup.root, file);
+    for (const relativeFname of rootGroup.fnames) {
+        const fname = path.join(rootGroup.root, relativeFname);
         try {
-            const cnt = fs.readFileSync(fname).toString();
-            const { mani } = parseXMLFile(cnt);
+            const rawFileContent = fs.readFileSync(fname).toString();
+            const { mani } = parseXMLFile(rawFileContent);
             const forms = buildManiMetaForms(mani?.forms);
 
             if (mani && forms.length) {
@@ -49,14 +50,14 @@ function loadManifests(rootGroup: RootGroup): TargetGroup {
                     mani,
                     forms,
                     urls: getFormUrlsArray(forms),
-                    raw: cnt,
-                    short: file,
+                    rawFileContent,
+                    relativeFname,
                 });
             } else {
-                rv.empty.push(fname);
+                rv.fnamesEmpty.push(fname);
             }
         } catch (error) {
-            rv.failed.push(fname);
+            rv.fnamesFailed.push(fname);
         }
     }
 

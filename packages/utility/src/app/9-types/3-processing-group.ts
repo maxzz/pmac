@@ -6,12 +6,12 @@ export type SameDomainCreds = {          // Domain Credentials (Dc) Duplicates; 
     files: FileMeta[];
 };
 
-export type TargetGroup = {
-    root: string;                        // this group root source folder
-    files: FileMeta[];                   // loaded meaninfull files, i.e. wo/ empty and failed
-    empty: string[];                     // filename list of empty files
-    failed: string[];                    // filename list of failed to load files
-    backup: string;                      // folder for backup
-    sameDomaincreds: SameDomainCreds[];  // duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
-    report: ReportFileFormat;            // report for this group
+export type SingleFolder = {             // Single folder as a target Group
+    rootFolder: string;                  // This group root source folder
+    files: FileMeta[];                   // Loaded meaninfull files, i.e. wo/ empty and failed
+    fnamesEmpty: string[];               // Filenames of empty files
+    fnamesFailed: string[];              // Filenames of failed to load files
+    backupFolder: string;                // Folder for backup
+    sameDomaincreds: SameDomainCreds[];  // Duplicates: multiple files with the same domain credentials; i.e. where domain creds are active
+    report: ReportFileFormat;            // Report for this group
 };

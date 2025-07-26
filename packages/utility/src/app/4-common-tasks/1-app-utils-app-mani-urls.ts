@@ -1,16 +1,15 @@
-import { ReportFormUrls } from "@pmac/shared-types";
-import { FileMeta, FormUrls } from "../app/9-types";
-import { Matching, Meta } from "../manifest";
-import { tmurl } from "../manifest";
+import { type ReportFormUrls } from "@pmac/shared-types";
+import { type Meta, Matching, tmurl } from "../../manifest";
+import { type FileMeta, type UrlsFromForm } from "../../app/9-types";
 
-export function getFormUrlsArray(forms: Meta.Form[]): FormUrls[] {
+export function getFormUrlsArray(forms: Meta.Form[]): UrlsFromForm[] {
     return [
         getFormUrls(forms[0]),
         getFormUrls(forms[1]),
     ];
 
-    function getFormUrls(form: Meta.Form | undefined): FormUrls {
-        const rv: FormUrls = {};
+    function getFormUrls(form: Meta.Form | undefined): UrlsFromForm {
+        const rv: UrlsFromForm = {};
         const detection = form?.mani?.detection;
         if (detection) {
             rv.o = detection.web_ourl;
@@ -18,7 +17,7 @@ export function getFormUrlsArray(forms: Meta.Form[]): FormUrls[] {
             if (rv.o) {
                 const org = rv.o.toLowerCase();
                 const u = tmurl.url(org);
-                rv.oParts = {
+                rv.oUrlSplit = {
                     domain: u.domain || u.hostname || u.path || '',
                     woParms: (org || '').split('?')[0].split('#')[0].split('!')[0],
                     urlPath: u.path,
@@ -29,7 +28,7 @@ export function getFormUrlsArray(forms: Meta.Form[]): FormUrls[] {
                 if (rv.mData.how === Matching.How.makeDomainMatch) { // i.e. string match 
                     const org = rv.mData.url;
                     const u = tmurl.url(org);
-                    rv.mParts = {
+                    rv.mUrlSplit = {
                         domain: u.domain || u.hostname || u.path || '',
                         woParms: (org || '').split('?')[0].split('#')[0].split('!')[0],
                         urlPath: u.path,
@@ -49,13 +48,13 @@ export function reportFormUrlsArray(fileMeta: FileMeta): ReportFormUrls[] {
 
     function reportFormUrls(fileMeta: FileMeta, idx: number): ReportFormUrls | undefined {
         const parts = fileMeta.urls[idx];
-        const oWoP = parts?.o?.toLowerCase() === parts?.oParts?.woParms?.toLowerCase() ? undefined : parts?.oParts?.woParms;
+        const oWoP = parts?.o?.toLowerCase() === parts?.oUrlSplit?.woParms?.toLowerCase() ? undefined : parts?.oUrlSplit?.woParms;
         // if (oWoP) {
         //     console.log(`${color.green('ourl')} ${parts?.o}`);
         //     console.log(`${color.gray('oWoP')} ${oWoP}`);
         // }
         return parts?.o ? {
-            domain: parts?.oParts?.domain,
+            domain: parts?.oUrlSplit?.domain,
             ourl: parts?.o,
             ...(oWoP && { oWoP }),
             ...(parts?.o !== parts?.m && { murl: parts?.m }),
@@ -70,7 +69,7 @@ export function filterFilesByDomain(files: FileMeta[], domain?: string): FileMet
 
     function matchedDomain(fileMeta: FileMeta): boolean {
         return fileMeta.urls.some(
-            (formUrls) => formUrls.oParts?.domain === domain
+            (formUrls) => formUrls.oUrlSplit?.domain === domain
         ); // I'm not sure if we need here false positive matches w/ regex.
     }
 }

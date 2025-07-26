@@ -1,18 +1,18 @@
 import path from "path";
 import fs from "fs";
 import { OsStuff } from "../../utils";
-import { type FileMeta, type TargetGroup } from "../9-types";
+import { type FileMeta, type SingleFolder } from "../9-types";
 import { type FileMani, type Mani, convertToXmlString, toManiFileFormat } from "../../manifest";
-import { addError, flatDomainCredsActive } from "../4-common-tasks";
-import { updateToRegexUrlsArray } from "../../utils/1-app-utils-app-mani-urls";
+import { addError, flatDomainCredsActive, updateToRegexUrlsArray } from "../4-common-tasks";
 
-export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
+
+export function step3_1_MakeBackupCopy(singleFolder: SingleFolder): void {
     try {
-        const files: FileMeta[] = flatDomainCredsActive(targetGroup.sameDomaincreds);
-        makeBackupCopy(files, targetGroup.backup);
+        const files: FileMeta[] = flatDomainCredsActive(singleFolder.sameDomaincreds);
+        makeBackupCopy(files, singleFolder.backupFolder);
     } catch (error) {
-        addError(targetGroup, {
-            text: `Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${targetGroup.root}`,
+        addError(singleFolder, {
+            text: `Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${singleFolder.rootFolder}`,
             isError: true,
         });
         throw error;
@@ -22,18 +22,18 @@ export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
         OsStuff.mkdirSync(destFolder);
         files.forEach(
             (f) => {
-                const fname = path.join(destFolder, f.short);
+                const fname = path.join(destFolder, f.relativeFname);
                 const maybeSubFolder = path.dirname(fname);
                 OsStuff.mkdirSync(maybeSubFolder);
-                fs.writeFileSync(fname, f.raw);
+                fs.writeFileSync(fname, f.rawFileContent);
             }
         );
     }
 }
 
-export function step3_2_Modify(targetGroup: TargetGroup): void {
-    targetGroup.report.domcreds = {
-        multiple: flatDomainCredsActive(targetGroup.sameDomaincreds).map(
+export function step3_2_Modify(singleFolder: SingleFolder): void {
+    singleFolder.report.domcreds = {
+        multiple: flatDomainCredsActive(singleFolder.sameDomaincreds).map(
             (fileMeta) => {
                 const newUrls = updateToRegexUrlsArray(fileMeta);
                 fileMeta.mani?.forms?.forEach(
@@ -50,13 +50,13 @@ export function step3_2_Modify(targetGroup: TargetGroup): void {
     };
 }
 
-export function step3_3_Save(targetGroup: TargetGroup): void {
-    const files: FileMeta[] = flatDomainCredsActive(targetGroup.sameDomaincreds);
+export function step3_3_Save(singleFolder: SingleFolder): void {
+    const files: FileMeta[] = flatDomainCredsActive(singleFolder.sameDomaincreds);
     files.forEach(
         (fileMeta) => {
             const xml = makeXML(fileMeta.mani);
             if (xml) {
-                const newFname = path.join(targetGroup.root, fileMeta.short);
+                const newFname = path.join(singleFolder.rootFolder, fileMeta.relativeFname);
                 fs.writeFileSync(newFname, xml);
             }
         }

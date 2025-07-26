@@ -1,32 +1,32 @@
-import { type RootGroup, type TargetGroup } from "../9-types";
-import { color, filterFilesByDomain } from "../../utils";
+import { type RootGroup, type SingleFolder } from "../9-types";
+import { color} from "../../utils";
 import { appOptions, Notes } from "../8-app-env";
-import { addNoteIfEmptyAfterFilter, step1_LoadManifests } from "../4-common-tasks";
+import { addNoteIfEmptyAfterFilter, filterFilesByDomain, step1_LoadManifests } from "../4-common-tasks";
 import { step2_FindSameDomainCreds } from "./2-step-2-find-same-domain-creds";
 import { step3_SaveResult } from "./3-step-3-save-result";
 import { step4_MakeReportToAllGroups } from "./6-step-4-make-report-all";
-import { numberOfDomCreds } from "../../utils/1-app-utils-app-report-template";
+import { numberOfDomCreds } from "../4-common-tasks";
 
 export function executeTaskDc(rootGroups: RootGroup[]) {
-    const targetGroups = rootGroups.map(processRootGroup);
+    const targetGroups = rootGroups.map(processSingleFolderRoot);
 
     step4_MakeReportToAllGroups(targetGroups);
     
     Notes.addProcessed(color.green('All done'));
 }
 
-function processRootGroup(rootGroup: RootGroup): TargetGroup {
-    const targetGroup = step1_LoadManifests(rootGroup);
-    const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
+function processSingleFolderRoot(rootGroup: RootGroup): SingleFolder {
+    const singleFolder = step1_LoadManifests(rootGroup);
+    const filesByDomain = filterFilesByDomain(singleFolder.files, appOptions.domain);
 
-    const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
-    targetGroup.files = filteredOut;
+    const gotEmptySet = !filesByDomain.length && singleFolder.files.length && appOptions.domain;
+    singleFolder.files = filesByDomain;
 
-    step2_FindSameDomainCreds(targetGroup);
-    step3_SaveResult(targetGroup);
+    step2_FindSameDomainCreds(singleFolder);
+    step3_SaveResult(singleFolder);
 
-    Notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${numberOfDomCreds(targetGroup)}`);
+    Notes.addProcessed(`Source "${singleFolder.rootFolder}" has been processed. Updated manifests: ${numberOfDomCreds(singleFolder)}`);
     gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
 
-    return targetGroup;
+    return singleFolder;
 }

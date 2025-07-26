@@ -1,26 +1,26 @@
 import path from "path";
 import fs from "fs";
-import { templateStr, toUnix } from "../../utils";
+import { toUnix } from "../../utils";
 import { type ReportFileFormat } from "@pmac/shared-types";
-import { type TargetGroup } from "../9-types";
-import { numberOfDomCreds } from "../../utils/1-app-utils-app-report-template";
+import { type SingleFolder } from "../9-types";
+import { numberOfDomCreds, templateStr } from "../4-common-tasks";
 
 /* Step 3 */
 
-export function step3_4_MakeTargetGroupReport(targetGroup: TargetGroup): void {
-    if (numberOfDomCreds(targetGroup)) {
-        const reportStr = JSON.stringify([targetGroupToReport(targetGroup)], null, 4);
+export function step3_4_MakeTargetGroupReport(singleFolder: SingleFolder): void {
+    if (numberOfDomCreds(singleFolder)) {
+        const reportStr = JSON.stringify([targetGroupToReport(singleFolder)], null, 4);
 
         const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
-        const fname = path.join(targetGroup.backup, 'report.html');
+        const fname = path.join(singleFolder.backupFolder, 'report.html');
         
         fs.writeFileSync(fname, cnt);
     }
 }
 
-export function targetGroupToReport(targetGroup: TargetGroup): ReportFileFormat {
+export function targetGroupToReport(singleFolder: SingleFolder): ReportFileFormat {
     return {
-        ...targetGroup.report,
-        root: toUnix(targetGroup.root),
+        ...singleFolder.report,
+        root: toUnix(singleFolder.rootFolder),
     };
 }
