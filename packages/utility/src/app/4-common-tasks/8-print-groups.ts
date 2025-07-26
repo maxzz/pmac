@@ -1,6 +1,6 @@
 import path from "path";
 import { color } from "../../utils";
-import { Notes } from "../app-env";
+import { Notes } from "../8-app-env";
 import { type SameDomainCreds, type TargetGroup } from "../9-types";
 
 // Local console log reports

@@ -1,6 +1,6 @@
 import { type ItemError } from "@pmac/shared-types";
 import { type AppOptions, type FileMeta, type SameDomainCreds, type TargetGroup } from "../9-types";
-import { Notes } from "../app-env";
+import { Notes } from "../8-app-env";
 
 // Flat manifest
 

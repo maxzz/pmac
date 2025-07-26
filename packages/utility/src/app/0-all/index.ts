@@ -1,6 +1,6 @@
-import { getAndCheckTargets, Notes } from './../app-env';
-import { executeTaskDc } from './../task-domain-creds';
-import { executeTaskRename } from './../task-rename';
+import { getAndCheckTargets, Notes } from '../8-app-env';
+import { executeTaskDc } from '../2-task-domain-creds';
+import { executeTaskRename } from '../3-task-rename';
 
 export async function main() {
     const appArgs = await getAndCheckTargets();

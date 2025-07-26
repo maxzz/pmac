@@ -1,5 +1,5 @@
 import { main } from './app/0-all';
-import { help, Notes } from './app/app-env';
+import { help, Notes } from './app/8-app-env';
 import { color, exitProcess } from './utils';
 
 main().catch(async (error) => {

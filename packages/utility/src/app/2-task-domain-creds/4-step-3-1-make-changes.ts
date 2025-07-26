@@ -3,7 +3,7 @@ import fs from "fs";
 import { OsStuff } from "../../utils";
 import { type FileMeta, type TargetGroup } from "../9-types";
 import { type FileMani, type Mani, convertToXmlString, toManiFileFormat } from "../../manifest";
-import { addError, flatDomainCredsActive } from "../task-common";
+import { addError, flatDomainCredsActive } from "../4-common-tasks";
 import { updateToRegexUrlsArray } from "../../utils/1-app-utils-app-mani-urls";
 
 export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {

@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
 import { type RootGroup, type TargetGroup } from "../9-types";
-import { appOptions, Notes } from "../app-env";
+import { appOptions, Notes } from "../8-app-env";
 import { color, filterFilesByDomain } from "../../utils";
-import { addNoteIfEmptyAfterFilter, step1_LoadManifests } from "../task-common";
+import { addNoteIfEmptyAfterFilter, step1_LoadManifests } from "../4-common-tasks";
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
     console.log(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));

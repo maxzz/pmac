@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import { type ReportFileFormat } from "@pmac/shared-types";
 import { type TargetGroup } from "../9-types";
-import { appOptions } from "../app-env";
+import { appOptions } from "../8-app-env";
 import { targetGroupToReport } from "./5-step-3-4-make-report-target";
 
 /* Step 4 */
