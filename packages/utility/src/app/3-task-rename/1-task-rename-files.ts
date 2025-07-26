@@ -1,18 +1,18 @@
 import fs from "fs";
 import path from "path";
-import { type RootGroup, type SingleFolder } from "../9-types";
+import { type ArgsFolder, type SingleFolder } from "../9-types";
 import { appOptions, Notes } from "../8-app-env";
 import { color } from "../../utils";
 import { addNoteIfEmptyAfterFilter, filterFilesByDomain, step1_LoadManifests } from "../4-common-tasks";
 
-export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
+export function executeTaskRename(argsFolders: ArgsFolder[], addOrRemove: boolean) {
     console.log(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));
-    rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
+    argsFolders.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
     Notes.addProcessed(color.white(`\nAll done`));
 }
 
-function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
-    const singleFolder = step1_LoadManifests(rootGroup);
+function processRootGroup(argsFolder: ArgsFolder, addOrRemove: boolean) {
+    const singleFolder = step1_LoadManifests(argsFolder);
     const filteredOut = filterFilesByDomain(singleFolder.fileCnts, appOptions.domain);
     const gotEmptySet = !filteredOut.length && singleFolder.fileCnts.length && appOptions.domain;
     singleFolder.fileCnts = filteredOut;

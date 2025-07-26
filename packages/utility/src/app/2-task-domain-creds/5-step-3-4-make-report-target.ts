@@ -7,18 +7,18 @@ import { numberOfDomCreds, templateStr } from "../4-common-tasks";
 
 /* Step 3 */
 
-export function step3_4_MakeTargetGroupReport(singleFolder: SingleFolder): void {
+export function step3_4_MakeSingleFolderReport(singleFolder: SingleFolder): void {
     if (numberOfDomCreds(singleFolder)) {
-        const reportStr = JSON.stringify([targetGroupToReport(singleFolder)], null, 4);
-
+        const reportStr = JSON.stringify([singleFolderToReport(singleFolder)], null, 4);
         const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
+
         const fname = path.join(singleFolder.backupFolder, 'report.html');
         
         fs.writeFileSync(fname, cnt);
     }
 }
 
-export function targetGroupToReport(singleFolder: SingleFolder): ReportFileFormat {
+export function singleFolderToReport(singleFolder: SingleFolder): ReportFileFormat {
     return {
         ...singleFolder.report,
         root: toUnix(singleFolder.rootFolder),

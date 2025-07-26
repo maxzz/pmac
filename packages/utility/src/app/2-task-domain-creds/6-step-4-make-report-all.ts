@@ -3,11 +3,11 @@ import fs from "fs";
 import { type ReportFileFormat } from "@pmac/shared-types";
 import { type SingleFolder } from "../9-types";
 import { appOptions } from "../8-app-env";
-import { targetGroupToReport } from "./5-step-3-4-make-report-target";
+import { singleFolderToReport } from "./5-step-3-4-make-report-target";
 
 /* Step 4 */
 
-export function step4_MakeReportToAllGroups(singleFolders: SingleFolder[]): void {
+export function step4_MakeReportToAllSingleFolders(singleFolders: SingleFolder[]): void {
     createJsonForDebugging(singleFolders);
 }
 
@@ -26,7 +26,7 @@ function createJsonForDebugging(singleFolders: SingleFolder[]): void {
 
     if (isRunningDebug) {
         const jsonFilename = path.join(jsonFilePath, 'test-data-private.json');
-        const reportStr = JSON.stringify(singleFolders.map<ReportFileFormat>(targetGroupToReport), null, 4);
+        const reportStr = JSON.stringify(singleFolders.map<ReportFileFormat>(singleFolderToReport), null, 4);
 
         fs.writeFileSync(jsonFilename, reportStr); //console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
     }

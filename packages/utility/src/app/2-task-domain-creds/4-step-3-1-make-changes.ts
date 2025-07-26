@@ -5,7 +5,6 @@ import { type FileCnt, type SingleFolder } from "../9-types";
 import { type FileMani, type Mani, convertToXmlString, toManiFileFormat } from "../../manifest";
 import { addError, duplFileCntsToFileCnts, updateToRegexUrlsArray } from "../4-common-tasks";
 
-
 export function step3_1_MakeBackupCopy(singleFolder: SingleFolder): void {
     try {
         const fileCnts: FileCnt[] = duplFileCntsToFileCnts(singleFolder.duplFileCnts);
@@ -21,11 +20,11 @@ export function step3_1_MakeBackupCopy(singleFolder: SingleFolder): void {
     function makeBackupCopy(fileCnts: FileCnt[], destFolder: string): void {
         OsStuff.mkdirSync(destFolder);
         fileCnts.forEach(
-            (f) => {
-                const fname = path.join(destFolder, f.relativeFname);
+            (fileCnt) => {
+                const fname = path.join(destFolder, fileCnt.relativeFname);
                 const maybeSubFolder = path.dirname(fname);
                 OsStuff.mkdirSync(maybeSubFolder);
-                fs.writeFileSync(fname, f.rawFileContent);
+                fs.writeFileSync(fname, fileCnt.rawFileContent);
             }
         );
     }

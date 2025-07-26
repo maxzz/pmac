@@ -1,11 +1,10 @@
-export type ArgTarget = {
-    files: string[];
-    dirs: string[];
-};
+import { type ArgsFolder } from "./3-args-folder";
 
-export type RootGroup = {
-    root: string;               // this group root folder
-    fnames: string[];           // fnames relative to the root wo/ the root but w/ possible sub-folders: A(InUse), B(NotInUse), and C(NotInUseTest).
+export type AppArgs = AppOptions & {
+    dc: boolean;                // task: domain credentials (Dc)
+    addPrefix: boolean;         // task: add prefix
+    removePrefix: boolean;      // task: remove prefix
+    argsFolders: ArgsFolder[];
 };
 
 export type AppOptions = {
@@ -17,9 +16,9 @@ export type AppOptions = {
     domain?: string;             // scope of task: all files or with a specific domain only; it can be just part of domain wo/ dot character, so use regex match
 }
 
-export type AppArgs = AppOptions & {
-    dc: boolean;                // task: domain credentials (Dc)
-    addPrefix: boolean;         // task: add prefix
-    removePrefix: boolean;      // task: remove prefix
-    rootGroups: RootGroup[];
+// This is just to parse command line arguments
+
+export type ArgTarget = {
+    files: string[];
+    dirs: string[];
 };

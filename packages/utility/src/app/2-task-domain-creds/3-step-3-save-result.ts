@@ -2,7 +2,7 @@ import { type SingleFolder } from "../9-types";
 import { ensureNameUnique, nowDayTime } from "../../utils";
 import { appOptions } from "../8-app-env";
 import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./4-step-3-1-make-changes";
-import { step3_4_MakeTargetGroupReport } from "./5-step-3-4-make-report-target";
+import { step3_4_MakeSingleFolderReport } from "./5-step-3-4-make-report-target";
 
 /* Step 3 */
 
@@ -21,7 +21,7 @@ export function step3_SaveResult(singleFolder: SingleFolder): void {
             }
 
             if (appOptions.needReport && appOptions.needBackup) { //TODO: appOptions.needBackup check is here to make sure folder for report exist
-                step3_4_MakeTargetGroupReport(singleFolder);
+                step3_4_MakeSingleFolderReport(singleFolder);
             }
         } catch (error) {
             console.error(error);

@@ -1,7 +1,7 @@
 import path from "path";
 import prompts from "prompts";
 import { exist, exitProcess, newErrorArgs, OsStuff } from "../../utils";
-import { type AppArgs, type AppOptions, type RootGroup, type ArgTarget } from "../9-types";
+import { type AppArgs, type AppOptions, type ArgsFolder, type ArgTarget } from "../9-types";
 import { getMinimistArgs } from "./2-get-minimist-args";
 import { Notes } from "./4-app-notes";
 import { help } from "./3-help-text";
@@ -38,7 +38,7 @@ export async function getAndCheckTargets(): Promise<AppArgs> {
     const rootGroups = getRootGroups(unnamed);
 
     // 2. Then complete with task to accomplish
-    const appArgs: AppArgs = { dc, addPrefix, removePrefix, needBackup, needReport, needUpdate, removeAny, rootGroups: rootGroups, domain, };
+    const appArgs: AppArgs = { dc, addPrefix, removePrefix, needBackup, needReport, needUpdate, removeAny, argsFolders: rootGroups, domain, };
     await checkOmittedArgs(appArgs);
     //console.log('appArgs', appArgs);
 
@@ -135,7 +135,7 @@ async function checkTaskTodo(appArgs: AppArgs) {
         },
     ];
     const response = await prompts(questions);
-    response.job && (appArgs[response.job as keyof Omit<AppArgs, 'rootGroups' | 'domain'>] = true);
+    response.job && (appArgs[response.job as keyof Omit<AppArgs, 'argsFolders' | 'domain'>] = true);
 }
 
 function getArgTarget(unnamed: string[] = []): ArgTarget {
@@ -156,8 +156,8 @@ function getArgTarget(unnamed: string[] = []): ArgTarget {
     return rv;
 }
 
-function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): RootGroup[] {
-    const rv: RootGroup[] = [];
+function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): ArgsFolder[] {
+    const rv: ArgsFolder[] = [];
 
     if (files.length && dirs.length) {
         throw newErrorArgs(`${strDoneNothing}. Specify the folder name or file names, but not both.`);
@@ -179,7 +179,7 @@ function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): RootGroup[] {
         }
 
         const shortFnames = ourFiles.map((fname) => path.basename(fname));
-        rv.push({ root, fnames: shortFnames });
+        rv.push({ rootFolder: root, fnames: shortFnames });
     }
     else if (dirs.length) {
         for (let root of dirs) {
@@ -194,7 +194,7 @@ function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): RootGroup[] {
 
             const fnames = OsStuff.filterByExtension(files.map((item) => item.short), '.dpm');
             if (fnames.length) {
-                fnames.length && rv.push({ root, fnames });
+                fnames.length && rv.push({ rootFolder: root, fnames });
             } else {
                 Notes.addProcessed(`Source "${root}" has no mainfest files.`);
             }
@@ -207,7 +207,7 @@ function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): RootGroup[] {
 }
 
 function getRootGroups(unnamed: string[]) {
-    let rootGroups: RootGroup[] = [];
+    let rootGroups: ArgsFolder[] = [];
     try {
         const argTarget = getArgTarget(unnamed);
         rootGroups = getVerifiedFoldersWManifests(argTarget);

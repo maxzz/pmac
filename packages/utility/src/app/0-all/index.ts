@@ -6,10 +6,10 @@ export async function main() {
     const appArgs = await getAndCheckTargets();
 
     if (appArgs.dc) {
-        executeTaskDc(appArgs.rootGroups);
+        executeTaskDc(appArgs.argsFolders);
     }
     else if (appArgs.addPrefix || appArgs.removePrefix) {
-        executeTaskRename(appArgs.rootGroups, appArgs.addPrefix);
+        executeTaskRename(appArgs.argsFolders, appArgs.addPrefix);
     }
 
     Notes.showAndExit();

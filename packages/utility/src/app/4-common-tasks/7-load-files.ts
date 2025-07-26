@@ -2,45 +2,36 @@ import path from "path";
 import fs from "fs";
 import { programVersion } from "../8-app-env";
 import { toUnix } from "../../utils";
-import { type RootGroup, type SingleFolder } from "../9-types";
+import { type ItemInputFile } from "@pmac/shared-types";
+import { type ArgsFolder, type SingleFolder } from "../9-types";
 import { buildManiMetaForms, parseXMLFile, uuid } from "../../manifest";
 import { getFormUrls, reportFormUrlsArray } from "./1-app-utils-app-mani-urls";
 
 /* Step 1 */
 
-export function step1_LoadManifests(rootGroup: RootGroup): SingleFolder {
-    const singleFolder = loadManifests(rootGroup); //printLoaded(targetGroup);
+export function step1_LoadManifests(argsFolder: ArgsFolder): SingleFolder {
+    const singleFolder = loadManifests(argsFolder); //printLoaded(targetGroup);
 
-    singleFolder.report.inputs = { // fill out directory of all loaded files for report refs
-        input: singleFolder.fileCnts.map(
-            (fileCnt, idx) => {
-                return {
-                    id: fileCnt.id,
-                    idx,
-                    urls: reportFormUrlsArray(fileCnt),
-                    title: fileCnt.metaForms[0]?.mani?.options?.choosename || '',
-                    short: toUnix(fileCnt.relativeFname),
-                };
-            }
-        ),
+    singleFolder.report.inputs = { 
+        input: buildReportInputs(singleFolder),
     };
 
     return singleFolder;
 }
 
-function loadManifests(rootGroup: RootGroup): SingleFolder {
+function loadManifests(argsFolder: ArgsFolder): SingleFolder {
     const rv: SingleFolder = {
-        rootFolder: rootGroup.root,
+        rootFolder: argsFolder.rootFolder,
         fileCnts: [],
         fnamesEmpty: [],
         fnamesFailed: [],
-        backupFolder: path.join(rootGroup.root, 'temp'),  // later it will be replaced by a more suitable one
+        backupFolder: path.join(argsFolder.rootFolder, 'temp'),  // later it will be replaced by a more suitable one
         duplFileCnts: [],
         report: { root: '', version: programVersion, date: Date.now() },
     };
 
-    for (const relativeFname of rootGroup.fnames) {
-        const fname = path.join(rootGroup.root, relativeFname);
+    for (const relativeFname of argsFolder.fnames) {
+        const fname = path.join(argsFolder.rootFolder, relativeFname);
         try {
             const rawFileContent = fs.readFileSync(fname).toString();
             const { mani } = parseXMLFile(rawFileContent);
@@ -63,5 +54,20 @@ function loadManifests(rootGroup: RootGroup): SingleFolder {
         }
     }
 
+    return rv;
+}
+
+function buildReportInputs(singleFolder: SingleFolder): ItemInputFile[] {
+    const rv = singleFolder.fileCnts.map( // fill out directory of all loaded files for report refs
+        (fileCnt, idx) => {
+            return {
+                id: fileCnt.id,
+                idx,
+                urls: reportFormUrlsArray(fileCnt),
+                title: fileCnt.metaForms[0]?.mani?.options?.choosename || '',
+                short: toUnix(fileCnt.relativeFname),
+            };
+        }
+    );
     return rv;
 }
