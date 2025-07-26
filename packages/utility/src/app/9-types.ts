@@ -1,4 +1,4 @@
-import { Mani, Matching, Meta } from "./manifest";
+import { Mani, Matching, Meta } from "../manifest";
 import { ReportFileFormat } from "@pmac/shared-types";
 
 // Arguments

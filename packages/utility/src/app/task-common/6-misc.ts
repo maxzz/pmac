@@ -1,6 +1,6 @@
 import { type ItemError } from "@pmac/shared-types";
-import { type AppOptions, type FileMeta, type SameDc, type TargetGroup } from "../../app-types";
-import { notes } from "../app-env";
+import { type AppOptions, type FileMeta, type SameDc, type TargetGroup } from "../9-types";
+import { Notes } from "../app-env";
 
 // Flat manifest
 
@@ -19,5 +19,5 @@ export function addError(targetGroup: TargetGroup, msg: ItemError | string) {
 // Notes
 
 export function addNoteIfEmptyAfterFilter(prefix: string, appOptions: AppOptions) {
-    notes.addProcessed(`${prefix}No manifests found matching the filter "${appOptions.domain}".`);
+    Notes.addProcessed(`${prefix}No manifests found matching the filter "${appOptions.domain}".`);
 }

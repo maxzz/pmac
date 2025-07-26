@@ -1,5 +1,5 @@
 import { color, exitProcess } from "./utils";
-import { notes } from "./app/app-env/4-app-notes";
+import { Notes } from "./app/app-env/4-app-notes";
 import { help } from "./app/app-env";
 import { getAndCheckTargets } from "./app/app-env/1-get-verified-args";
 import { executeTaskDc } from "./app/task-dc";
@@ -14,13 +14,13 @@ async function main() {
         executeTaskRename(appArgs.rootGroups, appArgs.addPrefix);
     }
 
-    notes.showAndExit();
+    Notes.showAndExit();
 }
 
 main().catch(async (error) => {
     error.args && help();
     const msg = color[error.args ? 'yellow' : 'red'](error.message);
-    const note = notes.buildMessage();
+    const note = Notes.buildMessage();
     await exitProcess(1, ['', msg, note].join('\n'));
 });
 

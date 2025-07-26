@@ -1,11 +1,9 @@
-export * from "./8-unique-names";
-export { OsStuff } from "./utils-os";
-export { splitByKey } from "./utils";
-export { getFormUrlsArray, filterFilesByDomain, reportFormUrlsArray } from "./utils-app-mani-urls";
-
-export { exitProcess, newErrorArgs } from "./utils-errors";
-
-export { templateStr } from "./utils-app-report-template";
+export * from "./1-app-utils";
+export * from "./1-app-utils-app-mani-urls";
+export * from "./1-app-utils-app-report-template";
+export * from "./utils-errors";
+export * from "./unique-names";
+export * from "./utils-os";
 
 import picocolors from "picocolors";
 export const color = picocolors;

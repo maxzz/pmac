@@ -1,4 +1,4 @@
-import { type TargetGroup } from "../../app-types";
+import { type TargetGroup } from "../9-types";
 import { ensureNameUnique, nowDayTime } from "../../utils";
 import { appOptions } from "../app-env";
 import { step3_1_MakeBackupCopy, step3_2_Modify, step3_3_Save } from "./4-step-3-1-make-changes";

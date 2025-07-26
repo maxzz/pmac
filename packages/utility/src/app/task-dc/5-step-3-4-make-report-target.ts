@@ -2,8 +2,8 @@ import path from "path";
 import fs from "fs";
 import { templateStr, toUnix } from "../../utils";
 import { type ReportFileFormat } from "@pmac/shared-types";
-import { type TargetGroup } from "../../app-types";
-import { numberOfDomCreds } from "../../utils/utils-app-report-template";
+import { type TargetGroup } from "../9-types";
+import { numberOfDomCreds } from "../../utils/1-app-utils-app-report-template";
 
 /* Step 3 */
 

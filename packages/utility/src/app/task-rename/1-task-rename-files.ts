@@ -1,14 +1,14 @@
 import fs from "fs";
 import path from "path";
-import { type RootGroup, type TargetGroup } from "../../app-types";
-import { appOptions, notes } from "../app-env";
+import { type RootGroup, type TargetGroup } from "../9-types";
+import { appOptions, Notes } from "../app-env";
 import { color, filterFilesByDomain } from "../../utils";
 import { addNoteIfEmptyAfterFilter, step1_LoadManifests } from "../task-common";
 
 export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean) {
     console.log(color.cyan(`Command <${addOrRemove ? 'add-prefixes' : 'remove-prefixes'}>:`));
     rootGroups.forEach((rootGroup) => processRootGroup(rootGroup, addOrRemove));
-    notes.addProcessed(color.white(`\nAll done`));
+    Notes.addProcessed(color.white(`\nAll done`));
 }
 
 function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
@@ -26,10 +26,10 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
 
     detailedOutput && renamePairs.forEach(({ oldName, newName }) => {
         const name = color[newName.match(reWinApp) ? 'yellow' : 'green'](newName);
-        notes.addProcessed(`{\n    ${oldName}\n    ${name}\n}`);
+        Notes.addProcessed(`{\n    ${oldName}\n    ${name}\n}`);
     });
 
-    notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${renamePairs.length}`);
+    Notes.addProcessed(`Source "${targetGroup.root}" has been processed. Updated manifests: ${renamePairs.length}`);
     gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
 }
 
@@ -48,7 +48,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
 
         const m = filename.match(reGuidMath);
         if (!m) {
-            notes.addProcessed(color.red(`${fileMeta.short} has no guid filename match`));
+            Notes.addProcessed(color.red(`${fileMeta.short} has no guid filename match`));
             return;
         }
 
@@ -60,13 +60,13 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
 
         if (addOrRemove) {
             if (ourAutoName) {
-                detailedOutput && notes.addProcessed(color.green(`${filename} - already have a prefix`));
+                detailedOutput && Notes.addProcessed(color.green(`${filename} - already have a prefix`));
                 return;
             }
             newShortName = `${domain}___${ending}${guid}${suffix}.dpm`;
         } else {
             if (!removeAny && !ourAutoName) {
-                detailedOutput && notes.addProcessed(color.green(`${filename} - has no generated prefix`));
+                detailedOutput && Notes.addProcessed(color.green(`${filename} - has no generated prefix`));
                 return;
             }
             newShortName = `${removeAny ? '' : ending}${guid}${suffix}.dpm`;
@@ -75,7 +75,7 @@ function prepareFilePairs(targetGroup: TargetGroup, addOrRemove: boolean, detail
         const newFullName = path.join(targetGroup.root, dirname, newShortName);
 
         if (newFullName.length > 254) {
-            notes.addProcessed(`The new name is too long (${newFullName.length}) for ${newFullName}`);
+            Notes.addProcessed(`The new name is too long (${newFullName.length}) for ${newFullName}`);
             return;
         }
 

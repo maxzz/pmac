@@ -1,7 +1,7 @@
 import path from "path";
 import { color } from "../../utils";
-import { notes } from "../app-env";
-import { type SameDc, type TargetGroup } from "../../app-types";
+import { Notes } from "../app-env";
+import { type SameDc, type TargetGroup } from "../9-types";
 
 // Local console log reports
 
@@ -10,18 +10,18 @@ export function printLoaded(targetGroup: TargetGroup) {
     targetGroup.files.forEach((file) => {
         const [a, b] = [file.urls[0]?.oParts?.woParms, file.urls[1]?.oParts?.woParms];
         if (a || b) {
-            notes.add('--------------------------------');
-            a && notes.add(`    0: ${color.green(a)}`);
-            b && notes.add(`    1: ${color.green(b)}`);
+            Notes.add('--------------------------------');
+            a && Notes.add(`    0: ${color.green(a)}`);
+            b && Notes.add(`    1: ${color.green(b)}`);
         }
     });
 
     targetGroup.empty.forEach((file) => {
-        notes.add(color.bgBlue(color.green(`empty --------------------------------${path.basename(file)}`)));
+        Notes.add(color.bgBlue(color.green(`empty --------------------------------${path.basename(file)}`)));
     });
 
     targetGroup.failed.forEach((file) => {
-        notes.add(color.bgBlue(color.green(`failed --------------------------------${path.basename(file)}`)));
+        Notes.add(color.bgBlue(color.green(`failed --------------------------------${path.basename(file)}`)));
     });
 }
 

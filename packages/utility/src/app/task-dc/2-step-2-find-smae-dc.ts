@@ -1,4 +1,4 @@
-import { type FileMeta, type SameDc, type TargetGroup } from "../../app-types";
+import { type FileMeta, type SameDc, type TargetGroup } from "../9-types";
 import { splitByKey } from "../../utils";
 import { Matching } from "../../manifest";
 

@@ -1,10 +1,10 @@
 import path from "path";
 import fs from "fs";
 import { OsStuff } from "../../utils";
-import { type FileMeta, type TargetGroup } from "../../app-types";
+import { type FileMeta, type TargetGroup } from "../9-types";
 import { type FileMani, type Mani, convertToXmlString, toManiFileFormat } from "../../manifest";
 import { addError, flatDcActive } from "../task-common";
-import { updateToRegexUrlsArray } from "../../utils/utils-app-mani-urls";
+import { updateToRegexUrlsArray } from "../../utils/1-app-utils-app-mani-urls";
 
 export function step3_1_MakeBackupCopy(targetGroup: TargetGroup): void {
 

@@ -1,26 +1,5 @@
 import minimist from "minimist";
 
-export const strDoneNothing = 'Nothing has been done';
-export const strDoNothingExit = 'Chosen to do nothing, just exit.';
-
-export type MinimistArgs = {
-    'dc': boolean;
-    'add-prefix': boolean;
-    'remove-prefix': boolean;
-    'help': boolean;
-    'need-backup': boolean;
-    'need-report': boolean;
-    'need-update': boolean;
-    'remove-any': boolean;
-    'generate-json': boolean; // private: generate local json file for template debugging
-    'c': boolean;
-    'a': boolean;
-    'r': boolean;
-    'h': boolean;
-    'domain': string;
-    _: string[];
-};
-
 export function getMinimistArgs(): MinimistArgs {
     let args: MinimistArgs = minimist<MinimistArgs>(process.argv.slice(2), {
         boolean: ['dc', 'add-prefix', 'remove-prefix', 'help', 'need-backup', 'need-report', 'need-update', 'remove-any', 'generate-json',],
@@ -40,6 +19,24 @@ export function getMinimistArgs(): MinimistArgs {
     });
     return args;
 }
+
+type MinimistArgs = {
+    'dc': boolean;
+    'add-prefix': boolean;
+    'remove-prefix': boolean;
+    'help': boolean;
+    'need-backup': boolean;
+    'need-report': boolean;
+    'need-update': boolean;
+    'remove-any': boolean;
+    'generate-json': boolean; // private: generate local json file for template debugging
+    'c': boolean;
+    'a': boolean;
+    'r': boolean;
+    'h': boolean;
+    'domain': string;
+    _: string[];
+};
 
 /*
 (*) this will not modify content of manifest files, just change filenames as result there is no backup files.

@@ -5,7 +5,12 @@ let config = require("../../../../../package.json");
 export const programName = config.name; //config.name.split('/')[0].substring(1);
 export const programVersion = config.version;
 
-function helpHeader() {
+export function help(showAdvanced: boolean = false) {
+    const msg = `${helpMainBody()}${showAdvanced ? `\n${helpAdvancedOption()}\n${helpExamples()}` : ''}`;
+    console.log(msg);
+}
+
+function helpMainBody() {
     let msg = `
 The ${color.gray(`${programName}`)} (password manager administrator commands) utility version ${programVersion}.
 
@@ -64,9 +69,4 @@ examples
         This command will look in the "c:/manifests" folder and will rename
         manifests file names "mybank.com.{guid}.dpm" to "{guid}.dpm".`;
     return msg;
-}
-
-export function help(showAdvanced: boolean = false) {
-    const msg = `${helpHeader()}${showAdvanced ? `\n${helpAdvancedOption()}\n${helpExamples()}` : ''}`;
-    console.log(msg);
 }

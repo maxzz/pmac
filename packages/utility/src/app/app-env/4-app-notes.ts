@@ -1,7 +1,7 @@
 import { color, exitProcess } from "../../utils";
 import { programName } from "./3-help-text";
 
-export namespace notes {
+export namespace Notes {
 
     const messages: string[] = []; // messages will be shown if any warnings happen.
     const processed: string[] = []; // processed will be shown if ${programName} processed more then one folder.
@@ -28,4 +28,4 @@ export namespace notes {
         }
     }
 
-} //namespace notes
+} //namespace Notes

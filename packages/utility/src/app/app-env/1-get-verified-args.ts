@@ -1,9 +1,9 @@
 import path from "path";
 import prompts from "prompts";
 import { exist, exitProcess, newErrorArgs, OsStuff } from "../../utils";
-import { type AppArgs, type AppOptions, type RootGroup, type ArgTarget } from "../../app-types";
-import { getMinimistArgs, strDoneNothing, strDoNothingExit } from "./2-get-minimist-args";
-import { notes } from "./4-app-notes";
+import { type AppArgs, type AppOptions, type RootGroup, type ArgTarget } from "../9-types";
+import { getMinimistArgs } from "./2-get-minimist-args";
+import { Notes } from "./4-app-notes";
 import { help } from "./3-help-text";
 
 export let appOptions: AppOptions = {};
@@ -196,7 +196,7 @@ function getVerifiedFoldersWManifests({ files, dirs }: ArgTarget): RootGroup[] {
             if (fnames.length) {
                 fnames.length && rv.push({ root, fnames });
             } else {
-                notes.addProcessed(`Source "${root}" has no mainfest files.`);
+                Notes.addProcessed(`Source "${root}" has no mainfest files.`);
             }
         }
     } else {
@@ -238,3 +238,6 @@ async function queryBoolean(message: string, current: boolean | undefined, initi
     const { value } = await prompts(question);
     return value;
 }
+
+const strDoneNothing = 'Nothing has been done';
+const strDoNothingExit = 'Chosen to do nothing, just exit.';
