@@ -1,5 +1,5 @@
 import { type ReportFileFormat } from "@pmac/shared-types";
-import { type FileCnt } from "./2-mani-loading";
+import { type FileCnt } from "./1-file-cnt";
 
 export type SingleFolder = {             // Single folder as a target Group
     rootFolder: string;                  // This group root source folder

@@ -18,7 +18,7 @@ export type AppOptions = {
 }
 
 export type AppArgs = AppOptions & {
-    dc: boolean;                // task: domain credentials
+    dc: boolean;                // task: domain credentials (Dc)
     addPrefix: boolean;         // task: add prefix
     removePrefix: boolean;      // task: remove prefix
     rootGroups: RootGroup[];
