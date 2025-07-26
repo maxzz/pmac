@@ -1,24 +1,10 @@
-import { color, exitProcess } from "./utils";
-import { Notes } from "./app/app-env/4-app-notes";
-import { help } from "./app/app-env";
-import { getAndCheckTargets } from "./app/app-env/1-get-verified-args";
-import { executeTaskDc } from "./app/task-domain-creds";
-import { executeTaskRename } from "./app/task-rename";
-
-async function main() {
-    const appArgs = await getAndCheckTargets();
-
-    if (appArgs.dc) {
-        executeTaskDc(appArgs.rootGroups);
-    } else if (appArgs.addPrefix || appArgs.removePrefix) {
-        executeTaskRename(appArgs.rootGroups, appArgs.addPrefix);
-    }
-
-    Notes.showAndExit();
-}
+import { main } from './app/0-all';
+import { help, Notes } from './app/app-env';
+import { color, exitProcess } from './utils';
 
 main().catch(async (error) => {
     error.args && help();
+
     const msg = color[error.args ? 'yellow' : 'red'](error.message);
     const note = Notes.buildMessage();
     await exitProcess(1, ['', msg, note].join('\n'));
@@ -52,12 +38,12 @@ main().catch(async (error) => {
 //TODO: ask do adv options
 
 //task-dc:
-    //TODO: place modified files into original folder - will not do
+//TODO: place modified files into original folder - will not do
 
 //task-rename-files:
-    //throw new Error('Not implemented yet');
-    //TODO: ___mm_: ___cx_ ___cc_ ___ix_ ___mx_
-    //TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix; remove-existing
-    //TODO: interactive mode
-    
-    //TODO: '--remove-prefix' with '--remove-any' option may need to have backup as separate folder with a single html file
+//throw new Error('Not implemented yet');
+//TODO: ___mm_: ___cx_ ___cc_ ___ix_ ___mx_
+//TODO: remove any filename prefixes not only ours: for add-prefix and remove-prefix; remove-existing
+//TODO: interactive mode
+
+//TODO: '--remove-prefix' with '--remove-any' option may need to have backup as separate folder with a single html file
