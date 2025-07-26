@@ -5,7 +5,7 @@ import { Matching } from "../../manifest";
 /* Step 2 */
 
 export function step2_FindSameDomainCreds(singleFolder: SingleFolder) {
-    singleFolder.sameDomaincreds = getSameDomainCreds(singleFolder.files);
+    singleFolder.sameDomaincreds = getSameDomainCreds(singleFolder.fileCnts);
 }
 
 function getSameDomainCreds(fileCnts: FileCnt[]): SameDomainCreds[] {
@@ -20,11 +20,11 @@ function getSameDomainCreds(fileCnts: FileCnt[]): SameDomainCreds[] {
     );
 
     const haveSameDc = Object.entries(byDomains).filter(
-        ([domain, files]) => files.length > 1
+        ([domain, fileCnts]) => fileCnts.length > 1
     );
 
     const rv = haveSameDc.map(
-        ([domain, files]) => ({ domain, files })
+        ([domain, fileCnts]) => ({ domain, fileCnts })
     );
 
     return rv;

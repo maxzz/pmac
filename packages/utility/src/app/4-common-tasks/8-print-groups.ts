@@ -7,7 +7,7 @@ import { type SameDomainCreds, type SingleFolder } from "../9-types";
 
 export function printLoaded(singleFolder: SingleFolder) {
 
-    singleFolder.files.forEach((file) => {
+    singleFolder.fileCnts.forEach((file) => {
         const [a, b] = [file.urls[0]?.oUrlSplit?.woParms, file.urls[1]?.oUrlSplit?.woParms];
         if (a || b) {
             Notes.add('--------------------------------');
@@ -26,9 +26,9 @@ export function printLoaded(singleFolder: SingleFolder) {
 }
 
 export function printDcActive(sameDC: SameDomainCreds[]) {
-    const entries = sameDC.map(({ domain, files }) => {
-        const items = files.map((item) => `\n    ${item.urls[0]?.oUrlSplit?.woParms}`).join('');
-        return color.red(`${domain} ${files.length}${items}`);
+    const entries = sameDC.map(({ domain, fileCnts }) => {
+        const items = fileCnts.map((item) => `\n    ${item.urls[0]?.oUrlSplit?.woParms}`).join('');
+        return color.red(`${domain} ${fileCnts.length}${items}`);
     });
 
     entries.forEach((item) => {

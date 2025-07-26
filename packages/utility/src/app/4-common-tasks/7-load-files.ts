@@ -12,7 +12,7 @@ export function step1_LoadManifests(rootGroup: RootGroup): SingleFolder {
     const targetGroup = loadManifests(rootGroup); //printLoaded(targetGroup);
 
     targetGroup.report.inputs = { // fill out directory of all loaded files for report refs
-        input: targetGroup.files.map((fileMeta, idx) => {
+        input: targetGroup.fileCnts.map((fileMeta, idx) => {
             return {
                 id: fileMeta.id,
                 idx,
@@ -29,7 +29,7 @@ export function step1_LoadManifests(rootGroup: RootGroup): SingleFolder {
 function loadManifests(rootGroup: RootGroup): SingleFolder {
     const rv: SingleFolder = {
         rootFolder: rootGroup.root,
-        files: [],
+        fileCnts: [],
         fnamesEmpty: [],
         fnamesFailed: [],
         backupFolder: path.join(rootGroup.root, 'temp'),  // later it will be replaced by a more suitable one
@@ -45,7 +45,7 @@ function loadManifests(rootGroup: RootGroup): SingleFolder {
             const forms = buildManiMetaForms(mani?.forms);
 
             if (mani && forms.length) {
-                rv.files.push({
+                rv.fileCnts.push({
                     id: uuid(),
                     mani,
                     forms,

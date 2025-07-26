@@ -6,7 +6,7 @@ import { Notes } from "../8-app-env";
 
 export function flatDomainCredsActive(sameDC: SameDomainCreds[]): FileCnt[] {
     const fileCnt: FileCnt[] = sameDC.map(
-        ({ domain, files }) => files
+        ({ domain, fileCnts }) => fileCnts
     ).flat();
     return fileCnt;
 }

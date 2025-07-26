@@ -3,7 +3,7 @@ import { type FileCnt } from "./2-mani-loading";
 
 export type SingleFolder = {             // Single folder as a target Group
     rootFolder: string;                  // This group root source folder
-    files: FileCnt[];                   // Loaded meaninfull files, i.e. wo/ empty and failed
+    fileCnts: FileCnt[];                 // Loaded meaninfull files, i.e. wo/ empty and failed
     fnamesEmpty: string[];               // Filenames of empty files
     fnamesFailed: string[];              // Filenames of failed to load files
     backupFolder: string;                // Folder for backup
@@ -13,5 +13,5 @@ export type SingleFolder = {             // Single folder as a target Group
 
 export type SameDomainCreds = {          // Domain Credentials (Dc) Duplicates; use the same creadential for the whole domain
     domain: string;
-    files: FileCnt[];
+    fileCnts: FileCnt[];
 };

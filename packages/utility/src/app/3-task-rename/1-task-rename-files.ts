@@ -12,13 +12,13 @@ export function executeTaskRename(rootGroups: RootGroup[], addOrRemove: boolean)
 }
 
 function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
-    const targetGroup = step1_LoadManifests(rootGroup);
-    const filteredOut = filterFilesByDomain(targetGroup.files, appOptions.domain);
-    const gotEmptySet = !filteredOut.length && targetGroup.files.length && appOptions.domain;
-    targetGroup.files = filteredOut;
+    const singleFolder = step1_LoadManifests(rootGroup);
+    const filteredOut = filterFilesByDomain(singleFolder.fileCnts, appOptions.domain);
+    const gotEmptySet = !filteredOut.length && singleFolder.fileCnts.length && appOptions.domain;
+    singleFolder.fileCnts = filteredOut;
 
     const detailedOutput = true;
-    const renamePairs = prepareFilePairs(targetGroup, addOrRemove, detailedOutput);
+    const renamePairs = prepareFilePairs(singleFolder, addOrRemove, detailedOutput);
 
     renamePairs.forEach(
         ({ oldName, newName }) => {
@@ -33,7 +33,7 @@ function processRootGroup(rootGroup: RootGroup, addOrRemove: boolean) {
         }
     );
 
-    Notes.addProcessed(`Source "${targetGroup.rootFolder}" has been processed. Updated manifests: ${renamePairs.length}`);
+    Notes.addProcessed(`Source "${singleFolder.rootFolder}" has been processed. Updated manifests: ${renamePairs.length}`);
     gotEmptySet && addNoteIfEmptyAfterFilter('       ', appOptions);
 }
 
@@ -46,18 +46,18 @@ function prepareFilePairs(singleFolder: SingleFolder, addOrRemove: boolean, deta
     const renamePairs: RenamePair[] = [];
     const removeAny = appOptions.removeAny;
 
-    singleFolder.files.forEach((fileMeta) => {
-        const dirname = path.dirname(fileMeta.relativeFname);
-        const filename = path.basename(fileMeta.relativeFname);
+    singleFolder.fileCnts.forEach((fileCnt) => {
+        const dirname = path.dirname(fileCnt.relativeFname);
+        const filename = path.basename(fileCnt.relativeFname);
 
         const m = filename.match(reGuidMath);
         if (!m) {
-            Notes.addProcessed(color.red(`${fileMeta.relativeFname} has no guid filename match`));
+            Notes.addProcessed(color.red(`${fileCnt.relativeFname} has no guid filename match`));
             return;
         }
 
         const [, prefixRaw, guid, suffix] = m;
-        const domain = fileMeta.urls?.[0].oUrlSplit?.domain || constWinApp;
+        const domain = fileCnt.urls?.[0].oUrlSplit?.domain || constWinApp;
         const { ourAutoName, ending } = getAutoName(prefixRaw, domain);
 
         let newShortName = '';
@@ -84,7 +84,7 @@ function prepareFilePairs(singleFolder: SingleFolder, addOrRemove: boolean, deta
         }
 
         renamePairs.push({
-            oldName: path.join(singleFolder.rootFolder, fileMeta.relativeFname),
+            oldName: path.join(singleFolder.rootFolder, fileCnt.relativeFname),
             newName: newFullName,
         });
     });

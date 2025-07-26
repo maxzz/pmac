@@ -17,10 +17,10 @@ export function executeTaskDc(rootGroups: RootGroup[]) {
 
 function processSingleFolderRoot(rootGroup: RootGroup): SingleFolder {
     const singleFolder = step1_LoadManifests(rootGroup);
-    const filesByDomain = filterFilesByDomain(singleFolder.files, appOptions.domain);
+    const filesByDomain = filterFilesByDomain(singleFolder.fileCnts, appOptions.domain);
 
-    const gotEmptySet = !filesByDomain.length && singleFolder.files.length && appOptions.domain;
-    singleFolder.files = filesByDomain;
+    const gotEmptySet = !filesByDomain.length && singleFolder.fileCnts.length && appOptions.domain;
+    singleFolder.fileCnts = filesByDomain;
 
     step2_FindSameDomainCreds(singleFolder);
     step3_SaveResult(singleFolder);
