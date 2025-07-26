@@ -1,15 +1,15 @@
 import path from "path";
 import fs from "fs";
 import { OsStuff } from "../../utils";
-import { type FileMeta, type SingleFolder } from "../9-types";
+import { type FileCnt, type SingleFolder } from "../9-types";
 import { type FileMani, type Mani, convertToXmlString, toManiFileFormat } from "../../manifest";
 import { addError, flatDomainCredsActive, updateToRegexUrlsArray } from "../4-common-tasks";
 
 
 export function step3_1_MakeBackupCopy(singleFolder: SingleFolder): void {
     try {
-        const files: FileMeta[] = flatDomainCredsActive(singleFolder.sameDomaincreds);
-        makeBackupCopy(files, singleFolder.backupFolder);
+        const fileCnts: FileCnt[] = flatDomainCredsActive(singleFolder.sameDomaincreds);
+        makeBackupCopy(fileCnts, singleFolder.backupFolder);
     } catch (error) {
         addError(singleFolder, {
             text: `Nothing done:\nCannot create backup: the destination path is too long or there is not enough permissions.\nFolder:\n${singleFolder.rootFolder}`,
@@ -18,9 +18,9 @@ export function step3_1_MakeBackupCopy(singleFolder: SingleFolder): void {
         throw error;
     }
 
-    function makeBackupCopy(files: FileMeta[], destFolder: string): void {
+    function makeBackupCopy(fileCnts: FileCnt[], destFolder: string): void {
         OsStuff.mkdirSync(destFolder);
-        files.forEach(
+        fileCnts.forEach(
             (f) => {
                 const fname = path.join(destFolder, f.relativeFname);
                 const maybeSubFolder = path.dirname(fname);
@@ -51,8 +51,8 @@ export function step3_2_Modify(singleFolder: SingleFolder): void {
 }
 
 export function step3_3_Save(singleFolder: SingleFolder): void {
-    const files: FileMeta[] = flatDomainCredsActive(singleFolder.sameDomaincreds);
-    files.forEach(
+    const fileCnts: FileCnt[] = flatDomainCredsActive(singleFolder.sameDomaincreds);
+    fileCnts.forEach(
         (fileMeta) => {
             const xml = makeXML(fileMeta.mani);
             if (xml) {

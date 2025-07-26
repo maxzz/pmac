@@ -1,6 +1,6 @@
 import { type ReportFormUrls } from "@pmac/shared-types";
 import { type Meta, Matching, tmurl } from "../../manifest";
-import { type FileMeta, type UrlsFromForm } from "../../app/9-types";
+import { type FileCnt, type UrlsFromForm } from "../../app/9-types";
 
 export function getFormUrlsArray(forms: Meta.Form[]): UrlsFromForm[] {
     return [
@@ -40,14 +40,14 @@ export function getFormUrlsArray(forms: Meta.Form[]): UrlsFromForm[] {
     }
 }
 
-export function reportFormUrlsArray(fileMeta: FileMeta): ReportFormUrls[] {
+export function reportFormUrlsArray(fileCnt: FileCnt): ReportFormUrls[] {
     return [
-        reportFormUrls(fileMeta, 0),
-        reportFormUrls(fileMeta, 1),
+        reportFormUrls(fileCnt, 0),
+        reportFormUrls(fileCnt, 1),
     ].filter(Boolean);
 
-    function reportFormUrls(fileMeta: FileMeta, idx: number): ReportFormUrls | undefined {
-        const parts = fileMeta.urls[idx];
+    function reportFormUrls(fileCnt: FileCnt, idx: number): ReportFormUrls | undefined {
+        const parts = fileCnt.urls[idx];
         const oWoP = parts?.o?.toLowerCase() === parts?.oUrlSplit?.woParms?.toLowerCase() ? undefined : parts?.oUrlSplit?.woParms;
         // if (oWoP) {
         //     console.log(`${color.green('ourl')} ${parts?.o}`);
@@ -64,24 +64,24 @@ export function reportFormUrlsArray(fileMeta: FileMeta): ReportFormUrls[] {
 
 // Filter by domain
 
-export function filterFilesByDomain(files: FileMeta[], domain?: string): FileMeta[] {
-    return domain ? files.filter(matchedDomain) : files;
+export function filterFilesByDomain(fileCnts: FileCnt[], domain?: string): FileCnt[] {
+    return domain ? fileCnts.filter(matchedDomain) : fileCnts;
 
-    function matchedDomain(fileMeta: FileMeta): boolean {
-        return fileMeta.urls.some(
+    function matchedDomain(fileCnt: FileCnt): boolean {
+        return fileCnt.urls.some(
             (formUrls) => formUrls.oUrlSplit?.domain === domain
         ); // I'm not sure if we need here false positive matches w/ regex.
     }
 }
 
-export function updateToRegexUrlsArray(fileMeta: FileMeta): string[] {
+export function updateToRegexUrlsArray(fileCnt: FileCnt): string[] {
 
     function modifyUrl(url: string | undefined): string | undefined {
         return url && Matching.stringifyRawMatchData({ how: Matching.How.regex, opt: Matching.Options.pmacSet, url }, '');
     }
 
     return [
-        modifyUrl(fileMeta.urls?.[0].m), 
-        modifyUrl(fileMeta.urls?.[1].m),
+        modifyUrl(fileCnt.urls?.[0].m), 
+        modifyUrl(fileCnt.urls?.[1].m),
     ].filter(Boolean);
 }

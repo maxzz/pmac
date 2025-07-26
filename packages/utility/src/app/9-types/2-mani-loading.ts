@@ -2,7 +2,7 @@ import { type Mani, type Meta, type Matching } from "../../manifest";
 
 // Manifest loading
 
-export type FileMeta = {
+export type FileCnt = {
     id: string;                         // File this run unique ID
     mani: Mani.Manifest;                // Parsed manifest
     forms: Meta.Form[];                 // Each form meta data
