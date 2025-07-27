@@ -20,12 +20,14 @@
         "@types/node": "24.1.0",
         "@types/prompts": "^2.4.1",
         "jszip": "^3.10.1",
+        "tsup": "^8.5.0",
         "typescript": "^5.8.3"
     },
     "scripts": {
         "tsc": "tsc -w",
         "dev": "tsc -w",
-        "build": "rm -rf dist && tsc",
+        "build": "rm -rf dist && tsup ./src/index.ts",
+        "_build-old": "rm -rf dist && tsc",
         "_copy": "xcopy pmac.exe \"./../..\" /Y",
         "_makebin_old": "del pmac.exe && pnpm build && pkg -t host -o pmac dist/index.js && pnpm copy",
         "_makebin_0": "del pmac.exe && pnpm build && pkg -t host -o ../../pmac dist/index.js",
