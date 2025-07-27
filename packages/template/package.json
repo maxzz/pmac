@@ -18,13 +18,17 @@
     },
     "scripts": {
         "tsc": "tsc -w",
-        "dev": "pnpm --parallel build && vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "make-template": "gluehtml ./dist/index.html --nofav",
-        "pack-template": "node ./scripts/pack-template.js",
-        "build-gh": "node ./scripts/make-github-build.js",
-        "build-template": "pnpm build && pnpm make-template && pnpm pack-template && pnpm build-gh",
+        "------------------------------------------------build and run dev server": "",
+        "dev": "pnpm --parallel build && vite",
+        "------------------------------------------------build parts:": "",
+        "1-make-template": "gluehtml ./dist/index.html --nofav",
+        "2-pack-template": "node ./scripts/pack-template.js",
+        "3-build-gh": "node ./scripts/make-github-build.js",
+        "------------------------------------------------build all": "",
+        "build-template": "pnpm build && pnpm 1-make-template && pnpm 2-pack-template && pnpm 3-build-gh",
+        "------------------------------------------------deploy": "",
         "predeploy": "pnpm build-template",
         "deploy": "gh-pages -d dist-gh"
     }
