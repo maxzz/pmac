@@ -5,17 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "test-template",
+            "name": "test-web-template",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}"
         },
-        
-        
-
         {
-            "name": "Script",
+            "name": "run script-make-zip",
             "program": "${workspaceFolder}/packages/utility/scripts/makezip.js",
             "request": "launch",
             "skipFiles": [
@@ -24,9 +21,9 @@
             "type": "node"
         },
         {
+            "name": "test-utility",
             "type": "node",
             "request": "launch",
-            "name": "Utility Launch",
             "skipFiles": [
                 "<node_internals>/**"
             ],
