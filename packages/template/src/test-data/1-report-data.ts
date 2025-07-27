@@ -33,7 +33,7 @@ export namespace ReportData {
 } //namespace ReportData
 
 function folderInputSameDcItem(reportRecords: ReportsByFolder): FolderInputSameDcItem[] {
-    const rv = reportRecords.map(
+    const rv = reportRecords?.map(
         (report) => {
             const sameDcItems = getSameDc(report);
             return {
