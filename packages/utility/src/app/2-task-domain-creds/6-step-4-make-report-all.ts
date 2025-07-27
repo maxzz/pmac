@@ -21,7 +21,7 @@ function createJsonForDebugging(singleFolders: SingleFolder[]): void {
 
     const scriptFilename = process.argv[1];
 
-    const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/utils/');
+    const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/test-data/'); // "packages/template/src/test-data/test-data-private.json"
     const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
 
     if (isRunningDebug) {

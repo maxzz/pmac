@@ -13,7 +13,7 @@ export const reports: ReportsByFolder = getReports();
 
 function getReports(): ReportsByFolder {
     let rv = (window as any)['tmReport'] as ReportsByFolder;
-    if (typeof rv === 'string') { // there is no rawRepopts from window.tmReport and rv is "__INJECTED__DATA__"
+    if (typeof rv === 'string') { // there is no rawRepopts from window.tmReport and rv is "...INJECTED__DATA..." (not a real string to avoid collision with real data)
         rv = [];
     }
     return rv;
