@@ -28,9 +28,9 @@
         "tsc": "tsc -w",
         "dev": "tsc -w",
 
-        "build-tsup": "rm -rf dist && tsup --entry.pmac ./src/index.ts --no-external 'pm-manifest'",
+        "build-tsup": "rm -rf dist && tsup --no-external node_modules/pm-manifest --entry.pmac ./src/index.ts",
 
-        
+
         "packbin": "rm -rf dist && build-tsup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
         
         "_packbin": "rm -rf dist && build-roolup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
