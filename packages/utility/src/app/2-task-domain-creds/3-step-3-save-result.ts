@@ -7,24 +7,26 @@ import { step3_4_MakeSingleFolderReport } from "./5-step-3-4-make-report-target"
 /* Step 3 */
 
 export function step3_SaveResult(singleFolder: SingleFolder): void {
-    if (singleFolder.duplFileCnts.length) {
-        try {
-            singleFolder.backupFolder = ensureNameUnique(`${singleFolder.rootFolder}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
+    if (!singleFolder.duplFileCnts.length) {
+        return;
+    }
+    
+    try {
+        singleFolder.backupFolder = ensureNameUnique(`${singleFolder.rootFolder}/backup-${nowDayTime().replace(/ /g, '-')}`, false);
 
-            if (appOptions.needBackup) {
-                step3_1_MakeBackupCopy(singleFolder);
-            }
-
-            if (appOptions.needUpdate) {
-                step3_2_Modify(singleFolder);
-                step3_3_Save(singleFolder);
-            }
-
-            if (appOptions.needReport && appOptions.needBackup) { //TODO: appOptions.needBackup check is here to make sure folder for report exist
-                step3_4_MakeSingleFolderReport(singleFolder);
-            }
-        } catch (error) {
-            console.error(error);
+        if (appOptions.needBackup) {
+            step3_1_MakeBackupCopy(singleFolder);
         }
+
+        if (appOptions.needUpdate) {
+            step3_2_Modify(singleFolder);
+            step3_3_Save(singleFolder);
+        }
+
+        if (appOptions.needReport && appOptions.needBackup) { //TODO: appOptions.needBackup check is here to make sure folder for report exist
+            step3_4_MakeSingleFolderReport(singleFolder);
+        }
+    } catch (error) {
+        console.error(error);
     }
 }

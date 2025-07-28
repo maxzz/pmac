@@ -9,17 +9,17 @@ export function step2_FindSameDomainCreds(singleFolder: SingleFolder) {
 }
 
 function getDuplFileCnts(fileCnts: FileCnt[]): DuplFileCnts[] {
-    const byDomains = splitByKey(fileCnts,
+    const domainToFileCtns = splitByKey(fileCnts,
         (fileCnt) => {
-            const loginForm = fileCnt.metaForms[0]?.urls;
-            const loginStyle = loginForm?.mData?.how;
+            const loginUrls = fileCnt.metaForms[0]?.urls;
+            const loginHow = loginUrls?.mData?.how;
             
-            const makeSenseToProcces = loginStyle === Matching.How.undef || loginStyle === Matching.How.makeDomainMatch;
-            return makeSenseToProcces ? loginForm?.oUrlSplit?.domain : undefined;
+            const makeSenseToProcces = loginHow === Matching.How.undef || loginHow === Matching.How.makeDomainMatch;
+            return makeSenseToProcces ? loginUrls?.oUrlSplit?.domain : undefined;
         }
     );
 
-    const haveSameDc = Object.entries(byDomains).filter(
+    const haveSameDc = Object.entries(domainToFileCtns).filter(
         ([domain, fileCnts]) => fileCnts.length > 1
     );
 
