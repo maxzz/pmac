@@ -1,15 +1,16 @@
-import { type Mani } from "../../manifest";
-import { type SingleFolder } from "../9-types";
+import { type Mani, Matching } from "../../manifest";
+import { type FileCnt, type SingleFolder } from "../9-types";
 import { type ItemDuplicate } from "@pmac/shared-types";
-import { getFileCntsFromDuplfileCnts, updateToRegexUrlsArray } from "../4-common-tasks";
+import { getFileCntsFromDuplfileCnts } from "../4-common-tasks";
 
 export function step3_2_Modify(singleFolder: SingleFolder): void {
     const domCreds: ItemDuplicate[] = getFileCntsFromDuplfileCnts(singleFolder.duplFileCnts).map(
         (fileCnt) => {
             const newUrls = updateToRegexUrlsArray(fileCnt);
+
             fileCnt.mani?.forms?.forEach(
-                (form: Mani.Form, idx: number) => {
-                    newUrls[idx] && (form.detection.web_murl = newUrls[idx]);
+                (form: Mani.Form, formIdx: number) => {
+                    newUrls[formIdx] && (form.detection.web_murl = newUrls[formIdx]);
                 }
             );
             return {
@@ -22,4 +23,23 @@ export function step3_2_Modify(singleFolder: SingleFolder): void {
     singleFolder.report.domcreds = {
         multiple: domCreds,
     };
+}
+
+function updateToRegexUrlsArray(fileCnt: FileCnt): string[] {
+
+    function markAsModifyedUrl(url: string | undefined): string | undefined {
+        return url && Matching.stringifyRawMatchData(
+            {
+                how: Matching.How.regex,
+                opt: Matching.Options.pmacSet,
+                url,
+            },
+            ''
+        );
+    }
+
+    return [
+        markAsModifyedUrl(fileCnt.metaForms[0]?.urls?.m),
+        markAsModifyedUrl(fileCnt.metaForms[1]?.urls?.m),
+    ].filter(Boolean);
 }

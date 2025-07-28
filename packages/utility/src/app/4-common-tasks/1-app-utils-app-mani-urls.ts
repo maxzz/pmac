@@ -66,22 +66,3 @@ export function filterFilesByDomain(fileCnts: FileCnt[], domain?: string): FileC
         ); // I'm not sure if we need here false positive matches w/ regex.
     }
 }
-
-export function updateToRegexUrlsArray(fileCnt: FileCnt): string[] {
-
-    function markAsModifyedUrl(url: string | undefined): string | undefined {
-        return url && Matching.stringifyRawMatchData(
-            {
-                how: Matching.How.regex,
-                opt: Matching.Options.pmacSet,
-                url,
-            },
-            ''
-        );
-    }
-
-    return [
-        markAsModifyedUrl(fileCnt.metaForms[0]?.urls?.m),
-        markAsModifyedUrl(fileCnt.metaForms[1]?.urls?.m),
-    ].filter(Boolean);
-}
