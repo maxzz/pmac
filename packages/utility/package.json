@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "author": "Max Zakharzhevskiy",
     "description": "Password manager domain credential switch utility",
-    "main": "index.js",
     "license": "MIT",
+    "main": "index.js",
     "dependencies": {
         "@pmac/shared-types": "workspace:^",
         "@pmac/template": "workspace:^",
@@ -16,11 +16,16 @@
         "rimraf": "^6.0.1"
     },
     "devDependencies": {
+        "@rollup/plugin-commonjs": "^28.0.6",
+        "@rollup/plugin-node-resolve": "^16.0.1",
+        "@rollup/plugin-typescript": "^12.1.4",
         "@types/minimist": "^1.2.2",
         "@types/node": "24.1.0",
         "@types/prompts": "^2.4.1",
         "jszip": "^3.10.1",
         "pkg": "^5.8.1",
+        "rollup": "^4.46.0",
+        "tslib": "^2.8.1",
         "tsup": "^8.5.0",
         "typescript": "^5.8.3"
     },
@@ -28,7 +33,11 @@
         "tsc": "tsc -w",
         "dev": "tsc -w",
         "build": "rm -rf dist && tsup --entry.pmac ./src/index.ts",
-        "packbin": "rm -rf dist && tsup --cjsInterop --entry.pmac ./src/index.ts && pkg -t node18-win-x64 -o pmac2 dist/pmac.js",
+        "build-roolup": "rm -rf dist && rollup --config rollup.config.mjs",
+        "build-tsup": "rm -rf dist && tsup --entry.pmac ./src/index.ts",
+
+        "packbin": "rm -rf dist && build-roolup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
+        "_packbin-tsup": "rm -rf dist && tsup --cjsInterop --entry.pmac ./src/index.ts && pkg -t node18-win-x64 -o pmac2 dist/pmac.js",
         "_build-old": "rm -rf dist && tsc",
         "_copy": "xcopy pmac.exe \"./../..\" /Y",
         "_makebin_old": "del pmac.exe && pnpm build && pkg -t host -o pmac dist/index.js && pnpm copy",
