@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "author": "Max Zakharzhevskiy",
     "description": "Password manager domain credential switch utility",
-    "main": "index.js",
     "license": "MIT",
+    "main": "index.js",
     "dependencies": {
         "@pmac/shared-types": "workspace:^",
         "@pmac/template": "workspace:^",
@@ -29,24 +29,7 @@
         "dev": "tsc -w",
 
         "build-tsup": "rm -rf dist && tsup",
-
-
-        "packbin": "rm -rf dist && pnpm build-tsup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
-        
-        "_packbin": "rm -rf dist && build-roolup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
-        "_packbin-tsup": "rm -rf dist && tsup --cjsInterop --entry.pmac ./src/index.ts && pkg -t node18-win-x64 -o pmac2 dist/pmac.js",
-
-
-        "build": "rm -rf dist && tsup --entry.pmac ./src/index.ts",
-        "__packbin": "rm -rf dist && tsup --cjsInterop --entry.pmac ./src/index.ts && pkg -t node18-win-x64 -o pmac2 dist/pmac.js",
-
-
-
-
-        "_build-old": "rm -rf dist && tsc",
-        "_copy": "xcopy pmac.exe \"./../..\" /Y",
-        "_makebin_old": "del pmac.exe && pnpm build && pkg -t host -o pmac dist/index.js && pnpm copy",
-        "_makebin_0": "del pmac.exe && pnpm build && pkg -t host -o ../../pmac dist/index.js",
-        "_makebin": "del pmac.exe && pnpm build && pkg -t node-14-win-x64 -o ../../pmac dist/index.js"
+        "packbin": "rm -rf dist && pnpm build-tsup && pkg -t node18-win-x64 -o pmac dist/pmac.js && pnpm copy && del pmac.exe",
+        "copy": "xcopy pmac.exe \"./../..\" /Y"
     }
 }
