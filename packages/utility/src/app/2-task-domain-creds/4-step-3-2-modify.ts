@@ -1,5 +1,5 @@
 import { type Mani, Matching } from "../../manifest";
-import { type FileCnt, type SingleFolder } from "../9-types";
+import { type SingleFolder } from "../9-types";
 import { type ItemDuplicate } from "@pmac/shared-types";
 import { getFileCntsFromDuplfileCnts } from "../4-common-tasks";
 

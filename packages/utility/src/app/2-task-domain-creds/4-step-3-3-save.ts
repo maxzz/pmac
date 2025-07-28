@@ -6,6 +6,7 @@ import { getFileCntsFromDuplfileCnts } from "../4-common-tasks";
 
 export function step3_3_Save(singleFolder: SingleFolder): void {
     const fileCnts: FileCnt[] = getFileCntsFromDuplfileCnts(singleFolder.duplFileCnts);
+
     fileCnts.forEach(
         (fileCnt) => {
             const xml = makeXML(fileCnt.mani);
@@ -29,6 +30,7 @@ function makeXML(newMani: Mani.Manifest): string | undefined {
         }
         return xml;
     } catch (error) {
+        console.error('Error converting to xml', error);
         return undefined;
     }
 }
