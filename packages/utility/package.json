@@ -24,11 +24,21 @@
         "tsup": "^8.5.0",
         "typescript": "^5.8.3"
     },
+    "_tsup": {
+        "entry": {
+            "pmac": [
+                "./src/index.ts"
+            ]
+        },
+        "noExternal": [
+            "pm-manifest"
+        ]
+    },
     "scripts": {
         "tsc": "tsc -w",
         "dev": "tsc -w",
 
-        "build-tsup": "rm -rf dist && tsup --no-external node_modules/pm-manifest --entry.pmac ./src/index.ts",
+        "_build-tsup": "rm -rf dist && tsup --no-external node_modules/pm-manifest --entry.pmac ./src/index.ts",
 
 
         "packbin": "rm -rf dist && build-tsup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
