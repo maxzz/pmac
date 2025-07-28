@@ -20,11 +20,9 @@ export function step4_MakeReportToAllSingleFolders(singleFolders: SingleFolder[]
  */
 function createJsonForDebugging(singleFolders: SingleFolder[]): void {
     const scriptFilename = process.argv[1];
-
     const jsonFilePath = path.resolve(scriptFilename, testDataPath);
-
-    const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
-    if (!isRunningDebug) {
+    
+    if (!isRunningDebug(scriptFilename, jsonFilePath)) {
         return;
     }
 
@@ -32,6 +30,11 @@ function createJsonForDebugging(singleFolders: SingleFolder[]): void {
     const reportStr = JSON.stringify(singleFolders.map<ReportFileFormat>(singleFolderToReport), null, 4);
 
     fs.writeFileSync(jsonFilename, reportStr); //console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
+}
+
+function isRunningDebug(scriptFilename: string, jsonFilePath: string): boolean | null {
+    const rv = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
+    return rv;
 }
 
 const testDataPath = "../../../template/src/test-data/"; // "packages/template/src/test-data/test-data-private.json"
