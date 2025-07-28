@@ -19,6 +19,7 @@ export function step3_1_MakeFilesBackupCopy(singleFolder: SingleFolder): void {
 
 function makeFilesBackupCopy(fileCnts: FileCnt[], destFolder: string): void {
     OsStuff.mkdirSync(destFolder);
+    
     fileCnts.forEach(
         (fileCnt) => {
             const fname = path.join(destFolder, fileCnt.relativeFname);
