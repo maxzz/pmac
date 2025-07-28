@@ -4,7 +4,7 @@ import { Notes } from "../8-app-env";
 
 // Flat manifest
 
-export function duplFileCntsToFileCnts(sameDC: DuplFileCnts[]): FileCnt[] {
+export function getFileCntsFromDuplfileCnts(sameDC: DuplFileCnts[]): FileCnt[] {
     const fileCnt: FileCnt[] = sameDC.map(
         ({ domain, fileCnts }) => fileCnts
     ).flat();

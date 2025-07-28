@@ -2,10 +2,10 @@ import path from "path";
 import fs from "fs";
 import { type FileCnt, type SingleFolder } from "../9-types";
 import { type FileMani, type Mani, convertToXmlString, toManiFileFormat } from "../../manifest";
-import { duplFileCntsToFileCnts } from "../4-common-tasks";
+import { getFileCntsFromDuplfileCnts } from "../4-common-tasks";
 
 export function step3_3_Save(singleFolder: SingleFolder): void {
-    const fileCnts: FileCnt[] = duplFileCntsToFileCnts(singleFolder.duplFileCnts);
+    const fileCnts: FileCnt[] = getFileCntsFromDuplfileCnts(singleFolder.duplFileCnts);
     fileCnts.forEach(
         (fileCnt) => {
             const xml = makeXML(fileCnt.mani);
