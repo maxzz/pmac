@@ -8,6 +8,10 @@ import { singleFolderToReport } from "./5-step-3-4-make-report-report";
 /* Step 4 */
 
 export function step4_MakeReportToAllSingleFolders(singleFolders: SingleFolder[]): void {
+    if (!appOptions.generateJson) {
+        return;
+    }
+
     createJsonForDebugging(singleFolders);
 }
 
@@ -15,19 +19,19 @@ export function step4_MakeReportToAllSingleFolders(singleFolders: SingleFolder[]
  * This combined report is for debugging multiple targets, the html file has a single report.
  */
 function createJsonForDebugging(singleFolders: SingleFolder[]): void {
-    if (!appOptions.generateJson) {
+    const scriptFilename = process.argv[1];
+
+    const jsonFilePath = path.resolve(scriptFilename, testDataPath);
+
+    const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
+    if (!isRunningDebug) {
         return;
     }
 
-    const scriptFilename = process.argv[1];
+    const jsonFilename = path.join(jsonFilePath, 'test-data-private.json');
+    const reportStr = JSON.stringify(singleFolders.map<ReportFileFormat>(singleFolderToReport), null, 4);
 
-    const jsonFilePath = path.resolve(scriptFilename, '../../../template/src/test-data/'); // "packages/template/src/test-data/test-data-private.json"
-    const isRunningDebug = scriptFilename.match(/pmac\\packages\\utility\\dist\\index.js$/) && fs.existsSync(jsonFilePath);
-
-    if (isRunningDebug) {
-        const jsonFilename = path.join(jsonFilePath, 'test-data-private.json');
-        const reportStr = JSON.stringify(singleFolders.map<ReportFileFormat>(singleFolderToReport), null, 4);
-
-        fs.writeFileSync(jsonFilename, reportStr); //console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
-    }
+    fs.writeFileSync(jsonFilename, reportStr); //console.log(`generateJson:\n${color.blue(jsonFilename)}\n${reportStr}`);
 }
+
+const testDataPath = "../../../template/src/test-data/"; // "packages/template/src/test-data/test-data-private.json"
