@@ -3,7 +3,7 @@ import fs from "fs";
 import { type ReportFileFormat } from "@pmac/shared-types";
 import { type SingleFolder } from "../9-types";
 import { appOptions } from "../8-app-env";
-import { singleFolderToReport } from "./5-step-3-4-make-report-target";
+import { singleFolderToReport } from "./5-step-3-4-make-report-report";
 
 /* Step 4 */
 
