@@ -6,6 +6,6 @@ export default defineConfig([
             pmac: 'src/index.ts',
         },
         format: ['cjs'],
-        noExternal: ['pm-manifest'],
+        noExternal: ['pm-manifest', '@pmac/template', 'fast-xml-parser'],
     },
 ]);

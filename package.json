@@ -20,8 +20,10 @@
     "scripts": {
         "tsc": "pnpm -r --parallel --agregate-output tsc",
         "dev": "tsc -w -p ./packages/utility/tsconfig.json",
+        
         "build-template": "pnpm workspace @pmac/template build-template",
-        "makebin": "pnpm workspace @pmac/utility _makebin",
+        "makebin": "pnpm workspace @pmac/utility packbin",
+        "_makebin": "pnpm workspace @pmac/utility _makebin",
         "makezip": "node ./packages/utility/scripts/makezip.js",
         "build": "del pmac.exe && del pmac.zip.txt && pnpm build-template && pnpm makebin & pnpm makezip",
         "predeploy": "pnpm workspace @pmac/template predeploy",

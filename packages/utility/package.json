@@ -24,24 +24,14 @@
         "tsup": "^8.5.0",
         "typescript": "^5.8.3"
     },
-    "_tsup": {
-        "entry": {
-            "pmac": [
-                "./src/index.ts"
-            ]
-        },
-        "noExternal": [
-            "pm-manifest"
-        ]
-    },
     "scripts": {
         "tsc": "tsc -w",
         "dev": "tsc -w",
 
-        "_build-tsup": "rm -rf dist && tsup --no-external node_modules/pm-manifest --entry.pmac ./src/index.ts",
+        "build-tsup": "rm -rf dist && tsup",
 
 
-        "packbin": "rm -rf dist && build-tsup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
+        "packbin": "rm -rf dist && pnpm build-tsup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
         
         "_packbin": "rm -rf dist && build-roolup && pkg -t node18-win-x64 -o pmac dist/pmac.js",
         "_packbin-tsup": "rm -rf dist && tsup --cjsInterop --entry.pmac ./src/index.ts && pkg -t node18-win-x64 -o pmac2 dist/pmac.js",
