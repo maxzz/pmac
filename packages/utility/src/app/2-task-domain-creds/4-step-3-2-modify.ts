@@ -26,20 +26,19 @@ export function step3_2_Modify(singleFolder: SingleFolder): void {
 }
 
 function updateToRegexUrlsArray(fileCnt: FileCnt): string[] {
-
-    function markAsModifyedUrl(url: string | undefined): string | undefined {
-        return url && Matching.stringifyRawMatchData(
-            {
-                how: Matching.How.regex,
-                opt: Matching.Options.pmacSet,
-                url,
-            },
-            ''
-        );
-    }
-
     return [
         markAsModifyedUrl(fileCnt.metaForms[0]?.urls?.m),
         markAsModifyedUrl(fileCnt.metaForms[1]?.urls?.m),
     ].filter(Boolean);
+}
+
+function markAsModifyedUrl(url: string | undefined): string | undefined {
+    return url && Matching.stringifyRawMatchData(
+        {
+            how: Matching.How.regex,
+            opt: Matching.Options.pmacSet,
+            url,
+        },
+        '' // TODO: should it be original url?
+    );
 }
