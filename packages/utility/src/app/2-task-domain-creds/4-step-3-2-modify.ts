@@ -6,9 +6,10 @@ import { getFileCntsFromDuplfileCnts } from "../4-common-tasks";
 export function step3_2_Modify(singleFolder: SingleFolder): void {
     const domCreds: ItemDuplicate[] = getFileCntsFromDuplfileCnts(singleFolder.duplFileCnts).map(
         (fileCnt) => {
+            const metaForms = fileCnt.metaForms;
             const newUrls = [
-                markAsModifyedUrl(fileCnt.metaForms[0]?.urls?.m),
-                markAsModifyedUrl(fileCnt.metaForms[1]?.urls?.m),
+                markAsModifyedUrl(metaForms[0]?.urls?.m),
+                markAsModifyedUrl(metaForms[1]?.urls?.m),
             ].filter(Boolean);
 
             fileCnt.mani?.forms?.forEach(
