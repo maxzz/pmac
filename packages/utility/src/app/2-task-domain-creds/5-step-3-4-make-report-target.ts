@@ -10,18 +10,8 @@ import { numberOfDomCreds, templateStr } from "../4-common-tasks";
 export function step3_4_MakeSingleFolderReport(singleFolder: SingleFolder): void {
     if (numberOfDomCreds(singleFolder)) {
         const report = singleFolderToReport(singleFolder);
-        writeToFile(report, singleFolder.backupFolder);
+        embedReportAndWriteToFile(report, singleFolder.backupFolder);
     }
-}
-
-function writeToFile(report: ReportFileFormat, backupFolder: string) {
-    const reportStr = JSON.stringify([report], null, 4);
-
-    const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
-
-    const fname = path.join(backupFolder, 'report.html');
-
-    fs.writeFileSync(fname, cnt);
 }
 
 export function singleFolderToReport(singleFolder: SingleFolder): ReportFileFormat {
@@ -29,4 +19,14 @@ export function singleFolderToReport(singleFolder: SingleFolder): ReportFileForm
         ...singleFolder.report,
         root: toUnix(singleFolder.rootFolder),
     };
+}
+
+function embedReportAndWriteToFile(report: ReportFileFormat, backupFolder: string) {
+    const reportStr = JSON.stringify([report], null, 4);
+
+    const cnt = templateStr.replace('"__INJECTED__DATA__"', reportStr);
+
+    const fname = path.join(backupFolder, 'report.html');
+
+    fs.writeFileSync(fname, cnt);
 }
